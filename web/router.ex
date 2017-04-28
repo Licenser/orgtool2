@@ -17,10 +17,24 @@ defmodule OrgtoolDb.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+
+
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", OrgtoolDb do
-  #   pipe_through :api
-  # end
+  scope "/api", OrgtoolDb do
+    pipe_through :api
+    resources "/units", UnitController, except: [:new, :edit]
+    resources "/item_types", ItemTypeController, except: [:new, :edit]
+    resources "/items", ItemController, except: [:new, :edit]
+    resources "/members", MemberController, except: [:new, :edit]
+    resources "/handles", HandleController, except: [:new, :edit]
+    resources "/props", PropController, except: [:new, :edit]
+    resources "/rewards", RewardController, except: [:new, :edit]
+    resources "/unit_types", UnitTypeController, except: [:new, :edit]
+    resources "/reward_types", RewardTypesController, except: [:new, :edit]
+    resources "/member_units", MemberUnitsController, except: [:new, :edit]
+    resources "/item_props", ItemPropsController, except: [:new, :edit]
+
+  end
 end
