@@ -6,13 +6,13 @@ defmodule OrgtoolDb.Item do
     field :description, :string
     field :hidden, :boolean, default: false
     field :img, :string
-    field :member, :integer
     field :name, :string
-    field :unit, :integer
 
-    belongs_to :item, OrgtoolDb.Item, foreign_key: :parent
-    belongs_to :item_types, OrgtoolDb.ItemType, foreign_key: :type
-    has_many :items, OrgtoolDb.Item, foreign_key: :parent
+    belongs_to :member, OrgtoolDb.Member
+    belongs_to :unit, OrgtoolDb.Unit
+    belongs_to :item, OrgtoolDb.Item
+    belongs_to :item_type, OrgtoolDb.ItemType
+    has_many :items, OrgtoolDb.Item
 
     timestamps()
   end
@@ -22,7 +22,7 @@ defmodule OrgtoolDb.Item do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:available, :description, :hidden, :img, :member, :name, :parent, :type, :unit])
-    |> validate_required([:available, :description, :hidden, :img, :member, :name, :parent, :type, :unit])
+    |> cast(params, [:available, :description, :hidden, :img, :member_id, :name, :item_id, :item_type_id, :unit_id])
+    |> validate_required([:available, :description, :hidden, :img, :member_id, :name, :item_id, :item_type_id, :unit_id])
   end
 end

@@ -7,7 +7,7 @@ defmodule OrgtoolDb.Member do
     field :logs, :string
     field :timezone, :integer
 
-    has_many :handles, OrgtoolDb.Handle, foreign_key: :member
+    has_many :handles, OrgtoolDb.Handle
 
     timestamps()
   end

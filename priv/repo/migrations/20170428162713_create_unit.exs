@@ -7,8 +7,8 @@ defmodule OrgtoolDb.Repo.Migrations.CreateUnit do
       add :description, :text
       add :color, :string
       add :img, :string
-      add :type, :integer
-      add :parent, :integer
+      add :unit_type_id, :integer
+      add :unit_id, :integer
 
       timestamps()
     end

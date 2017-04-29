@@ -7,9 +7,9 @@ defmodule OrgtoolDb.Unit do
     field :color, :string
     field :img, :string
 
-    belongs_to :unit_type, OrgtoolDb.UnitType, foreign_key: :type
-    belongs_to :unit, OrgtoolDb.Unit, foreign_key: :parent
-    has_many :units, OrgtoolDb.Unit, foreign_key: :parent
+    belongs_to :unit_type, OrgtoolDb.UnitType
+    belongs_to :unit, OrgtoolDb.Unit
+    has_many :units, OrgtoolDb.Unit
 
     timestamps()
   end
@@ -19,7 +19,7 @@ defmodule OrgtoolDb.Unit do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :description, :color, :img, :type, :parent])
-    |> validate_required([:name, :description, :color, :img, :type, :parent])
+    |> cast(params, [:name, :description, :color, :img, :unit_type_id, :unit_id])
+    |> validate_required([:name, :description, :color, :img, :unit_type_id, :unit_id])
   end
 end

@@ -7,8 +7,8 @@ defmodule OrgtoolDb.Repo.Migrations.CreateHandle do
       add :handle, :string
       add :img, :string
       add :login, :string
-      add :member, :integer
       add :type, :string
+      add :member_id, :integer
 
       timestamps()
     end

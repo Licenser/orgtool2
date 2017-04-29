@@ -8,7 +8,7 @@ defmodule OrgtoolDb.Handle do
     field :login, :string
     field :type, :string
 
-    belongs_to :members, OrgtoolDb.Member, foreign_key: :member
+    belongs_to :member, OrgtoolDb.Member
 
     timestamps()
   end
@@ -18,7 +18,7 @@ defmodule OrgtoolDb.Handle do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :handle, :img, :login, :member])
-    |> validate_required([:name, :handle, :img, :login, :member])
+    |> cast(params, [:name, :handle, :img, :login, :member_id])
+    |> validate_required([:name, :handle, :img, :login, :member_id])
   end
 end

@@ -20,19 +20,19 @@ alias OrgtoolDb.Member
 alias OrgtoolDb.Handle
 
 Repo.insert! %ItemType{
-  typeName: "manufacturer",
+  type_name: "manufacturer",
   name: "Manufacturer",
   permissions: 0
 }
 
 Repo.insert! %ItemType{
-  typeName: "shipModel",
+  type_name: "shipModel",
   name: "Ship Model",
   permissions: 0
 }
 
 Repo.insert! %ItemType{
-  typeName: "ship",
+  type_name: "ship",
   name: "Ship",
   permissions: 1
 }
@@ -40,7 +40,7 @@ Repo.insert! %ItemType{
 
 Repo.insert! %Item{
   name: "RSI",
-  type: 1,
+  item_type_id: 1,
   img: "https://robertsspaceindustries.com/media/tb6ui8j38wwscr/icon/RSI.png"
 
 }
@@ -48,65 +48,65 @@ Repo.insert! %Item{
 Repo.insert! %Item{
   name: "Aurora ES",
   img: "https://robertsspaceindustries.com/media/9u8061zhf29fir/store_large/Rsi_aurora_es_storefront_visual.jpg",
-  type: 2,
-  parent: 1,
+  item_type_id: 2,
+  item_id: 1,
 }
 
 Repo.insert! %Item{
   name: "Aurora LX",
   img: "https://robertsspaceindustries.com/media/xfq27owiysn6ar/store_large/Aurora-LX_Ortho.jpg",
-  type: 2,
-  parent: 1,
+  item_type_id: 2,
+  item_id: 1,
 }
 
 
 Repo.insert! %Reward{
-  type: 1,
+  reward_type_id: 1,
   name: "General",
   level: 1
 }
 Repo.insert! %Reward{
-  type: 1,
+  reward_type_id: 1,
   name: "Officer",
   level: 2
 }
 
 Repo.insert! %Reward{
-  type: 1,
+  reward_type_id: 1,
   name: "Deputy Officer",
   level: 3
 }
 Repo.insert! %Reward{
-  type: 1,
+  reward_type_id: 1,
   name: "Member",
   level: 4
 }
 Repo.insert! %Reward{
-  type: 1,
+  reward_type_id: 1,
   name: "Node Officer",
   description: "Node officer for Black Desert Online",
   level: 3
 }
 Repo.insert! %Reward{
-  type: 2,
+  reward_type_id: 2,
   name: "Leader",
   level: 1
 }
 
 Repo.insert! %Reward{
-  type: 2,
+  reward_type_id: 2,
   name: "Member",
   level: 2
 }
 
 Repo.insert! %Reward{
-  type: 2,
+  reward_type_id: 2,
   name: "Applicant",
   level: 3
 }
 
 Repo.insert! %Reward{
-  type: 3,
+  reward_type_id: 3,
   name: "Command",
   level: 1
 }
@@ -160,7 +160,7 @@ Repo.insert! %Unit{
   name: "Oddysee",
   description: "",
   img: "https://www.oddysee.org/wp-content/plugins/orgtool-wordpress-plugin/orgtool/dist/oddysee-logo-glow.png",
-  type: 1,
+  unit_type_id: 1,
 }
 
 Repo.insert! %Unit{
@@ -168,8 +168,8 @@ Repo.insert! %Unit{
   description: "BDSSE",
   color: "#0000cc",
   img: "https://upload.wikimedia.org/wikipedia/en/9/91/Star_Citizen_logo.png",
-  type: 2,
-  parent: 1
+  unit_type_id: 2,
+  unit_id: 1
 }
 
 Repo.insert! %Member{
@@ -183,5 +183,5 @@ Repo.insert! %Handle{
   name: "Alasmon Necrithious",
   handle: "Cykhat",
   img: "https://robertsspaceindustries.com/media/xgf6b8j2ji9l9r/avatar/SC.jpg",
-  member: 1
+  member_id: 1
 }

@@ -1,11 +1,9 @@
-defmodule OrgtoolDb.MemberUnits do
+defmodule OrgtoolDb.MemberReward do
   use OrgtoolDb.Web, :model
 
-  schema "member_units" do
-    field :log, :string
+  schema "member_rewards" do
 
     belongs_to :member, OrgtoolDb.Member
-    belongs_to :unit, OrgtoolDb.Unit
     belongs_to :reward, OrgtoolDb.Reward
 
     timestamps()
@@ -16,7 +14,7 @@ defmodule OrgtoolDb.MemberUnits do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:log, :member_id, :reward_id, :unit_id])
-    |> validate_required([:log, :member_id, :reward_id, :unit_id])
+    |> cast(params, [:reward_id, :member_id])
+    |> validate_required([:reward_id, :member_id])
   end
 end

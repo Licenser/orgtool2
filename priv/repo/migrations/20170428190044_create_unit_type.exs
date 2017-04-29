@@ -3,9 +3,9 @@ defmodule OrgtoolDb.Repo.Migrations.CreateUnitType do
 
   def change do
     create table(:unit_types) do
+      add :name, :string
       add :description, :text
       add :img, :string
-      add :name, :string
       add :ordering, :integer
 
       timestamps()

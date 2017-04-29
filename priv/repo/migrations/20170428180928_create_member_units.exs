@@ -3,10 +3,9 @@ defmodule OrgtoolDb.Repo.Migrations.CreateMemberUnits do
 
   def change do
     create table(:member_units) do
-      add :log, :text
-      add :member, :integer
-      add :reward, :integer
-      add :unit, :integer
+      add :member_id, :integer
+      add :reward_id, :integer
+      add :unit_id, :integer
 
       timestamps()
     end

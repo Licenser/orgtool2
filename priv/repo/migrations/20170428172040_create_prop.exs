@@ -7,9 +7,9 @@ defmodule OrgtoolDb.Repo.Migrations.CreateProp do
       add :value, :string
       add :description, :text
       add :img, :string
-      add :item, :integer
-      add :type, :integer
-      add :unit, :integer
+      add :item_id, :integer
+      add :prop_type_id, :integer
+      add :unit_id, :integer
 
       timestamps()
     end

@@ -3,12 +3,12 @@ defmodule OrgtoolDb.ItemType do
 
   schema "item_types" do
     field :name, :string
-    field :typeName, :string
+    field :type_name, :string
     field :description, :string
     field :img, :string
     field :permissions, :integer
 
-    has_many :items, OrgtoolDb.Item, foreign_key: :type
+    has_many :items, OrgtoolDb.Item
 
     timestamps()
   end

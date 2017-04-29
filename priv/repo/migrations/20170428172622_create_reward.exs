@@ -3,11 +3,11 @@ defmodule OrgtoolDb.Repo.Migrations.CreateReward do
 
   def change do
     create table(:rewards) do
+      add :name, :string
       add :description, :text
       add :img, :string
       add :level, :integer
-      add :name, :string
-      add :type, :integer
+      add :reward_type_id, :integer
 
       timestamps()
     end

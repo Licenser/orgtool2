@@ -7,9 +7,9 @@ defmodule OrgtoolDb.Prop do
     field :description, :string
     field :img, :string
 
-    belongs_to :units, OrgtoolDb.Unit, foreign_key: :unit
-    belongs_to :items, OrgtoolDb.Item, foreign_key: :item
-    belongs_to :types, OrgtoolDb.Type, foreign_key: :type
+    belongs_to :unit, OrgtoolDb.Unit
+    belongs_to :item, OrgtoolDb.Item
+    belongs_to :prop_type, OrgtoolDb.PropType
 
     timestamps()
   end
@@ -19,7 +19,7 @@ defmodule OrgtoolDb.Prop do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :value, :description, :img, :item, :type, :unit])
-    |> validate_required([:name, :value, :description, :img, :item, :type, :unit])
+    |> cast(params, [:name, :value, :description, :img, :item_id, :prop_type_id, :unit_id])
+    |> validate_required([:name, :value, :description, :img, :item_id, :prop_type_id, :unit_id])
   end
 end

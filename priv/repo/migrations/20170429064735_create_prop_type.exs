@@ -1,13 +1,12 @@
-defmodule OrgtoolDb.Repo.Migrations.CreateItemType do
+defmodule OrgtoolDb.Repo.Migrations.CreatePropType do
   use Ecto.Migration
 
   def change do
-    create table(:item_types) do
+    create table(:prop_types) do
       add :name, :string
       add :type_name, :string
-      add :description, :text
       add :img, :string
-      add :permissions, :integer
+      add :description, :text
 
       timestamps()
     end

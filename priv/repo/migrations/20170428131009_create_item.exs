@@ -3,15 +3,16 @@ defmodule OrgtoolDb.Repo.Migrations.CreateItem do
 
   def change do
     create table(:items) do
-      add :available, :boolean, default: false, null: false
-      add :description, :text
-      add :hidden, :boolean, default: false, null: false
-      add :img, :string
-      add :member, :integer
       add :name, :string
-      add :parent, :integer
-      add :type, :integer
-      add :unit, :integer
+      add :description, :text
+      add :img, :string
+      add :hidden, :boolean, default: false, null: false
+      add :available, :boolean, default: false, null: false
+
+      add :member_id, :integer
+      add :item_id, :integer
+      add :item_type_id, :integer
+      add :unit_id, :integer
 
       timestamps()
     end

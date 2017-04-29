@@ -2,8 +2,10 @@ defmodule OrgtoolDb.ItemProps do
   use OrgtoolDb.Web, :model
 
   schema "item_props" do
-    field :item, :integer
-    field :prop, :integer
+
+    belongs_to :item, OrgtoolDb.Item
+    belongs_to :prop, OrgtoolDb.Prop
+
 
     timestamps()
   end
@@ -13,7 +15,7 @@ defmodule OrgtoolDb.ItemProps do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:item, :prop])
-    |> validate_required([:item, :prop])
+    |> cast(params, [:item_id, :prop_id])
+    |> validate_required([:item_id, :prop_id])
   end
 end
