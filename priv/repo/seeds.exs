@@ -11,85 +11,12 @@
 # and so on) as they will fail if something goes wrong.
 
 alias OrgtoolDb.Repo
-alias OrgtoolDb.Item
-alias OrgtoolDb.Reward
-alias OrgtoolDb.Unit
 alias OrgtoolDb.Member
 alias OrgtoolDb.Handle
-alias OrgtoolDb.PropType
 
-
-Repo.insert! %Reward{
-  reward_type_id: 1,
-  name: "General",
-  level: 1
-}
-Repo.insert! %Reward{
-  reward_type_id: 1,
-  name: "Officer",
-  level: 2
-}
-
-Repo.insert! %Reward{
-  reward_type_id: 1,
-  name: "Deputy Officer",
-  level: 3
-}
-Repo.insert! %Reward{
-  reward_type_id: 1,
-  name: "Member",
-  level: 4
-}
-Repo.insert! %Reward{
-  reward_type_id: 1,
-  name: "Node Officer",
-  description: "Node officer for Black Desert Online",
-  level: 3
-}
-
-Repo.insert! %Reward{
-  reward_type_id: 2,
-  name: "Leader",
-  level: 1
-}
-
-Repo.insert! %Reward{
-  reward_type_id: 2,
-  name: "Member",
-  level: 2
-}
-
-Repo.insert! %Reward{
-  reward_type_id: 2,
-  name: "Applicant",
-  level: 3
-}
-
-Repo.insert! %Reward{
-  reward_type_id: 3,
-  name: "Command",
-  level: 1
-}
-
-# Initial main org and game
-Repo.insert! %Unit{
-  name: "Some Org",
-  description: "",
-  img: "",
-  unit_type_id: 1,
-}
-
-Repo.insert! %Unit{
-  name: "Star Citizen",
-  description: "BDSSE",
-  color: "#0000cc",
-  img: "https://upload.wikimedia.org/wikipedia/en/9/91/Star_Citizen_logo.png",
-  unit_type_id: 2,
-  unit_id: 1
-}
 
 # Initial member
-Repo.insert! %Member{
+admin = Repo.insert! %Member{
   name: "Admin",
   avatar: "",
   timezone: 0
@@ -100,12 +27,5 @@ Repo.insert! %Handle{
   name: "Administrator",
   handle: "admin",
   img: "",
-  member_id: 1
+  member: admin
 }
-
-Repo.insert! %PropType{
-  name: "",
-  type_name: "stats"
-}
-
-

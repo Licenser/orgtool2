@@ -24,6 +24,6 @@ defmodule OrgtoolDb.Item do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:available, :description, :hidden, :img, :member_id, :name, :item_id, :item_type_id, :unit_id])
-    |> validate_required([:available, :description, :hidden, :img, :member_id, :name, :item_id, :item_type_id, :unit_id])
+    |> validate_required([:available, :hidden, :img, :name, :item_id, :item_type_id])
   end
 end

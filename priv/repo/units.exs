@@ -1,13 +1,15 @@
 alias OrgtoolDb.Repo
 alias OrgtoolDb.UnitType
+alias OrgtoolDb.Unit
 
-Repo.insert! %UnitType{
+org = Repo.insert! %UnitType{
   name: "org",
   description: "Org",
   img: "",
   ordering: 1
 }
-Repo.insert! %UnitType{
+
+game = Repo.insert! %UnitType{
   name: "game",
   description: "Games",
   img: "",
@@ -42,4 +44,20 @@ Repo.insert! %UnitType{
   description: "Squadron",
   img: "",
   ordering: 7
+}
+
+
+# Initial main org and game
+some_org = Repo.insert! %Unit{
+  name: "Some Org",
+  unit_type: org,
+}
+
+Repo.insert! %Unit{
+  name: "Star Citizen",
+  description: "BDSSE",
+  color: "#0000cc",
+  img: "https://upload.wikimedia.org/wikipedia/en/9/91/Star_Citizen_logo.png",
+  unit_type: game,
+  unit: some_org
 }

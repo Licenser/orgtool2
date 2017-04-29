@@ -1,21 +1,21 @@
-defmodule OrgtoolDb.RewardTypesController do
+defmodule OrgtoolDb.RewardTypeController do
   use OrgtoolDb.Web, :controller
 
-  alias OrgtoolDb.RewardTypes
+  alias OrgtoolDb.RewardType
 
   def index(conn, _params) do
-    reward_types = Repo.all(RewardTypes)
+    reward_types = Repo.all(RewardType)
     render(conn, "index.json", reward_types: reward_types)
   end
 
   def create(conn, %{"reward_types" => reward_types_params}) do
-    changeset = RewardTypes.changeset(%RewardTypes{}, reward_types_params)
+    changeset = RewardType.changeset(%RewardType{}, reward_types_params)
 
     case Repo.insert(changeset) do
       {:ok, reward_types} ->
         conn
         |> put_status(:created)
-        |> put_resp_header("location", reward_types_path(conn, :show, reward_types))
+        |> put_resp_header("location", reward_type_path(conn, :show, reward_types))
         |> render("show.json", reward_types: reward_types)
       {:error, changeset} ->
         conn
@@ -25,13 +25,13 @@ defmodule OrgtoolDb.RewardTypesController do
   end
 
   def show(conn, %{"id" => id}) do
-    reward_types = Repo.get!(RewardTypes, id)
+    reward_types = Repo.get!(RewardType, id)
     render(conn, "show.json", reward_types: reward_types)
   end
 
   def update(conn, %{"id" => id, "reward_types" => reward_types_params}) do
-    reward_types = Repo.get!(RewardTypes, id)
-    changeset = RewardTypes.changeset(reward_types, reward_types_params)
+    reward_types = Repo.get!(RewardType, id)
+    changeset = RewardType.changeset(reward_types, reward_types_params)
 
     case Repo.update(changeset) do
       {:ok, reward_types} ->
@@ -44,7 +44,7 @@ defmodule OrgtoolDb.RewardTypesController do
   end
 
   def delete(conn, %{"id" => id}) do
-    reward_types = Repo.get!(RewardTypes, id)
+    reward_types = Repo.get!(RewardType, id)
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).

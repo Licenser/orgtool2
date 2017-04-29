@@ -8,7 +8,12 @@ defmodule OrgtoolDb.UnitController do
     render(conn, "index.json", units: units)
   end
 
-  def create(conn, %{"unit" => unit_params}) do
+  def create(conn, %{"unit" => unit_params = %{"type" => unit_type_id,
+                                               "parent" => unit_id}}) do
+    unit_params = unit_params
+    |> Map.put("unit_type_id",  unit_type_id)
+    |> Map.put("unit_id",  unit_id)
+
     changeset = Unit.changeset(%Unit{}, unit_params)
 
     case Repo.insert(changeset) do
@@ -29,7 +34,14 @@ defmodule OrgtoolDb.UnitController do
     render(conn, "show.json", unit: unit)
   end
 
-  def update(conn, %{"id" => id, "unit" => unit_params}) do
+  def update(conn, unit_params = %{
+      "id" => id,
+      "type" => unit_type_id,
+      "parent" => unit_id}) do
+    unit_params = unit_params
+    |> Map.put("unit_type_id",  unit_type_id)
+    |> Map.put("unit_id",  unit_id)
+
     unit = Repo.get!(Unit, id)
     changeset = Unit.changeset(unit, unit_params)
 

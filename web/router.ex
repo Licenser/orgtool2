@@ -26,6 +26,7 @@ defmodule OrgtoolDb.Router do
     pipe_through :api
     resources "/sessions", SessionController, except: [:edit, :show]
     resources "/units", UnitController, except: [:new, :edit]
+    resources "/units/:id", UnitController, except: [:new, :edit]
     resources "/item_types", ItemTypeController, except: [:new, :edit]
     resources "/items", ItemController, except: [:new, :edit]
     resources "/members", MemberController, except: [:new, :edit]
@@ -36,8 +37,8 @@ defmodule OrgtoolDb.Router do
     resources "/prop_types", PropTypeController, except: [:new, :edit]
     resources "/rewards", RewardController, except: [:new, :edit]
     resources "/unit_types", UnitTypeController, except: [:new, :edit]
-    resources "/reward_types", RewardTypesController, except: [:new, :edit]
+    resources "/reward_types", RewardTypeController, except: [:new, :edit]
     resources "/member_rewards", MemberRewardController, except: [:new, :edit]
-    resources "/member_units", MemberUnitsController, except: [:new, :edit]
+    resources "/member_units", MemberUnitController, except: [:new, :edit]\
   end
 end

@@ -1,4 +1,4 @@
-defmodule OrgtoolDb.RewardTypes do
+defmodule OrgtoolDb.RewardType do
   use OrgtoolDb.Web, :model
 
   schema "reward_types" do

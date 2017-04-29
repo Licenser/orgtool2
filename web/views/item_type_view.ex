@@ -23,6 +23,7 @@ defmodule OrgtoolDb.ItemTypeView do
       description: item_type.description,
       img: item_type.img,
       permissions: item_type.permissions,
+      parent: item_type.item_type_id,
       items: items
     }
   end

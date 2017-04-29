@@ -1,4 +1,4 @@
-defmodule OrgtoolDb.MemberUnits do
+defmodule OrgtoolDb.MemberUnit do
   use OrgtoolDb.Web, :model
 
   schema "member_units" do
@@ -15,7 +15,7 @@ defmodule OrgtoolDb.MemberUnits do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:log, :member_id, :reward_id, :unit_id])
-    |> validate_required([:log, :member_id, :reward_id, :unit_id])
+    |> cast(params, [:member_id, :reward_id, :unit_id])
+    |> validate_required([:member_id, :reward_id, :unit_id])
   end
 end
