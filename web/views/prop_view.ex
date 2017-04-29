@@ -15,8 +15,8 @@ defmodule OrgtoolDb.PropView do
       value: prop.value,
       description: prop.description,
       img: prop.img,
-      item: prop.item,
-      type: prop.type,
-      unit: prop.unit}
+      item: prop.item_id,
+      type: prop.type_id,
+      unit: prop.unit_id}
   end
 end

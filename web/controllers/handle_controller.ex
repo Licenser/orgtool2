@@ -8,7 +8,8 @@ defmodule OrgtoolDb.HandleController do
     render(conn, "index.json", handles: handles)
   end
 
-  def create(conn, %{"handle" => handle_params}) do
+  def create(conn, %{"handle" => handle_params = %{"member" => member_id}}) do
+    handle_params = Map.put(handle_params, "member_id",  member_id)
     changeset = Handle.changeset(%Handle{}, handle_params)
 
     case Repo.insert(changeset) do
@@ -29,7 +30,7 @@ defmodule OrgtoolDb.HandleController do
     render(conn, "show.json", handle: handle)
   end
 
-  def update(conn, %{"id" => id, "handle" => handle_params}) do
+  def update(conn, %{"id" => id} = handle_params) do
     handle = Repo.get!(Handle, id)
     changeset = Handle.changeset(handle, handle_params)
 

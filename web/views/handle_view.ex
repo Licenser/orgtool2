@@ -15,6 +15,6 @@ defmodule OrgtoolDb.HandleView do
       handle: handle.handle,
       img: handle.img,
       login: handle.login,
-      member: handle.member}
+      member: handle.member_id}
   end
 end

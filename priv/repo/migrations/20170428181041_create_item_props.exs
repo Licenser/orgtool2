@@ -3,8 +3,8 @@ defmodule OrgtoolDb.Repo.Migrations.CreateItemProps do
 
   def change do
     create table(:item_props) do
-      add :item, :integer
-      add :prop, :integer
+      add :item_id, :integer
+      add :prop_id, :integer
 
       timestamps()
     end

@@ -24,11 +24,14 @@ defmodule OrgtoolDb.Router do
   # Other scopes may use custom stacks.
   scope "/api", OrgtoolDb do
     pipe_through :api
+    resources "/sessions", SessionController, except: [:edit, :show]
     resources "/units", UnitController, except: [:new, :edit]
     resources "/item_types", ItemTypeController, except: [:new, :edit]
     resources "/items", ItemController, except: [:new, :edit]
     resources "/members", MemberController, except: [:new, :edit]
+    resources "/members/:id", MemberController, except: [:new, :edit]
     resources "/handles", HandleController, except: [:new, :edit]
+    resources "/handles/:id", HandleController, except: [:new, :edit]
     resources "/props", PropController, except: [:new, :edit]
     resources "/prop_types", PropTypeController, except: [:new, :edit]
     resources "/rewards", RewardController, except: [:new, :edit]

@@ -19,6 +19,6 @@ defmodule OrgtoolDb.Handle do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:name, :handle, :img, :login, :member_id])
-    |> validate_required([:name, :handle, :img, :login, :member_id])
+    |> validate_required([:name, :handle, :img, :member_id])
   end
 end

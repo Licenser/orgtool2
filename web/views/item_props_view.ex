@@ -11,7 +11,7 @@ defmodule OrgtoolDb.ItemPropsView do
 
   def render("item_props.json", %{item_props: item_props}) do
     %{id: item_props.id,
-      item: item_props.item,
-      prop: item_props.prop}
+      item: item_props.item_id,
+      prop: item_props.prop_id}
   end
 end

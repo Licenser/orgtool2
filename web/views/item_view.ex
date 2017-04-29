@@ -22,11 +22,11 @@ defmodule OrgtoolDb.ItemView do
       description: item.description,
       hidden: item.hidden,
       img: item.img,
-      member: item.member,
       name: item.name,
-      parent: item.parent,
-      type: item.type,
-      unit: item.unit,
+      member: item.member_id,
+      parent: item.item_id,
+      type: item.item_type_id,
+      unit: item.unit_id,
       items: items
     }
   end

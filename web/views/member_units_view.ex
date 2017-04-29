@@ -11,9 +11,8 @@ defmodule OrgtoolDb.MemberUnitsView do
 
   def render("member_units.json", %{member_units: member_units}) do
     %{id: member_units.id,
-      log: member_units.log,
-      member: member_units.member,
-      reward: member_units.reward,
-      unit: member_units.unit}
+      member: member_units.member_id,
+      reward: member_units.reward_id,
+      unit: member_units.unit_id}
   end
 end

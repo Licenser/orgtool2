@@ -19,7 +19,7 @@ defmodule OrgtoolDb.ItemTypeView do
     %{
       id: item_type.id,
       name: item_type.name,
-      typeName: item_type.typeName,
+      typeName: item_type.type_name,
       description: item_type.description,
       img: item_type.img,
       permissions: item_type.permissions,

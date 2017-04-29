@@ -8,7 +8,7 @@ defmodule OrgtoolDb.MemberController do
     render(conn, "index.json", members: members)
   end
 
-  def create(conn, %{"member" => member_params}) do
+  def create(conn, member_params) do
     changeset = Member.changeset(%Member{}, member_params)
 
     case Repo.insert(changeset) do
@@ -29,7 +29,7 @@ defmodule OrgtoolDb.MemberController do
     render(conn, "show.json", member: member)
   end
 
-  def update(conn, %{"id" => id, "member" => member_params}) do
+  def update(conn, %{"id" => id} = member_params) do
     member = Repo.get!(Member, id)
     changeset = Member.changeset(member, member_params)
 

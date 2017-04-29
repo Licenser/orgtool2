@@ -18,6 +18,6 @@ defmodule OrgtoolDb.Member do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:name, :avatar, :logs, :timezone])
-    |> validate_required([:name, :avatar, :logs, :timezone])
+    |> validate_required([:name, :avatar, :timezone])
   end
 end

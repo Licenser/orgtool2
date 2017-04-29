@@ -2,7 +2,6 @@ defmodule OrgtoolDb.MemberUnits do
   use OrgtoolDb.Web, :model
 
   schema "member_units" do
-    field :log, :string
 
     belongs_to :member, OrgtoolDb.Member
     belongs_to :unit, OrgtoolDb.Unit

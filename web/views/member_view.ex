@@ -14,7 +14,6 @@ defmodule OrgtoolDb.MemberView do
       name: member.name,
       avatar: member.avatar,
       logs: member.logs,
-      timezone: member.timezone,
-      updated_at: member.updated_at}
+      timezone: member.timezone}
   end
 end
