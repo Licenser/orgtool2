@@ -18,27 +18,6 @@ alias OrgtoolDb.Member
 alias OrgtoolDb.Handle
 alias OrgtoolDb.PropType
 
-Repo.insert! %Item{
-  name: "RSI",
-  item_type_id: 1,
-  img: "https://robertsspaceindustries.com/media/tb6ui8j38wwscr/icon/RSI.png"
-
-}
-
-Repo.insert! %Item{
-  name: "Aurora ES",
-  img: "https://robertsspaceindustries.com/media/9u8061zhf29fir/store_large/Rsi_aurora_es_storefront_visual.jpg",
-  item_type_id: 2,
-  item_id: 1,
-}
-
-Repo.insert! %Item{
-  name: "Aurora LX",
-  img: "https://robertsspaceindustries.com/media/xfq27owiysn6ar/store_large/Aurora-LX_Ortho.jpg",
-  item_type_id: 2,
-  item_id: 1,
-}
-
 
 Repo.insert! %Reward{
   reward_type_id: 1,

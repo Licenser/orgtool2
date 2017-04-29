@@ -39,7 +39,5 @@ defmodule OrgtoolDb.Router do
     resources "/reward_types", RewardTypesController, except: [:new, :edit]
     resources "/member_rewards", MemberRewardController, except: [:new, :edit]
     resources "/member_units", MemberUnitsController, except: [:new, :edit]
-    resources "/item_props", ItemPropsController, except: [:new, :edit]
-
   end
 end

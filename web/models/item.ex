@@ -13,6 +13,7 @@ defmodule OrgtoolDb.Item do
     belongs_to :item, OrgtoolDb.Item
     belongs_to :item_type, OrgtoolDb.ItemType
     has_many :items, OrgtoolDb.Item
+    has_many :props, OrgtoolDb.Prop
 
     timestamps()
   end

@@ -19,7 +19,7 @@ defmodule OrgtoolDb.Mixfile do
   def application do
     [mod: {OrgtoolDb, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex]]
+                    :phoenix_ecto, :postgrex, :httpotion, :sweet_xml]]
   end
 
   # Specifies which paths to compile per environment.
@@ -38,6 +38,8 @@ defmodule OrgtoolDb.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.11"},
      {:cors_plug, "~> 1.2"},
+     {:httpotion, "~> 3.0.2"},
+     {:sweet_xml, "~> 0.6.5"},
      {:cowboy, "~> 1.0"}]
   end
 

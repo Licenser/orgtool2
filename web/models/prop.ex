@@ -7,7 +7,6 @@ defmodule OrgtoolDb.Prop do
     field :description, :string
     field :img, :string
 
-    belongs_to :unit, OrgtoolDb.Unit
     belongs_to :item, OrgtoolDb.Item
     belongs_to :prop_type, OrgtoolDb.PropType
 
