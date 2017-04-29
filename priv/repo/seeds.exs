@@ -11,32 +11,12 @@
 # and so on) as they will fail if something goes wrong.
 
 alias OrgtoolDb.Repo
-alias OrgtoolDb.ItemType
 alias OrgtoolDb.Item
 alias OrgtoolDb.Reward
 alias OrgtoolDb.Unit
-alias OrgtoolDb.UnitType
 alias OrgtoolDb.Member
 alias OrgtoolDb.Handle
-
-Repo.insert! %ItemType{
-  type_name: "manufacturer",
-  name: "Manufacturer",
-  permissions: 0
-}
-
-Repo.insert! %ItemType{
-  type_name: "shipModel",
-  name: "Ship Model",
-  permissions: 0
-}
-
-Repo.insert! %ItemType{
-  type_name: "ship",
-  name: "Ship",
-  permissions: 1
-}
-
+alias OrgtoolDb.PropType
 
 Repo.insert! %Item{
   name: "RSI",
@@ -87,6 +67,7 @@ Repo.insert! %Reward{
   description: "Node officer for Black Desert Online",
   level: 3
 }
+
 Repo.insert! %Reward{
   reward_type_id: 2,
   name: "Leader",
@@ -111,55 +92,11 @@ Repo.insert! %Reward{
   level: 1
 }
 
-
-Repo.insert! %UnitType{
-  name: "org",
-  description: "Org",
-  img: "",
-  ordering: 1
-}
-Repo.insert! %UnitType{
-  name: "game",
-  description: "Games",
-  img: "",
-  ordering: 2
-}
-Repo.insert! %UnitType{
-  name: "division",
-  description: "Devision",
-  img: "",
-  ordering: 3
-}
-Repo.insert! %UnitType{
-  name: "branch",
-  description: "Games",
-  img: "",
-  ordering: 4,
-}
-Repo.insert! %UnitType{
-  name: "fleet",
-  description: "Games",
-  img: "",
-  ordering: 5,
-}
-Repo.insert! %UnitType{
-  name: "unit",
-  description: "Unit",
-  img: "",
-  ordering: 7
-}
-Repo.insert! %UnitType{
-  name: "squadron",
-  description: "Squadron",
-  img: "",
-  ordering: 7
-
-}
-
+# Initial main org and game
 Repo.insert! %Unit{
-  name: "Oddysee",
+  name: "Some Org",
   description: "",
-  img: "https://www.oddysee.org/wp-content/plugins/orgtool-wordpress-plugin/orgtool/dist/oddysee-logo-glow.png",
+  img: "",
   unit_type_id: 1,
 }
 
@@ -172,16 +109,24 @@ Repo.insert! %Unit{
   unit_id: 1
 }
 
+# Initial member
 Repo.insert! %Member{
-  name: "Alasmon Necrithious",
-  avatar: "https://robertsspaceindustries.com/media/xgf6b8j2ji9l9r/avatar/SC.jpg",
-  timezone: 10
+  name: "Admin",
+  avatar: "",
+  timezone: 0
 }
 
 Repo.insert! %Handle{
   type: "rsi",
-  name: "Alasmon Necrithious",
-  handle: "Cykhat",
-  img: "https://robertsspaceindustries.com/media/xgf6b8j2ji9l9r/avatar/SC.jpg",
+  name: "Administrator",
+  handle: "admin",
+  img: "",
   member_id: 1
 }
+
+Repo.insert! %PropType{
+  name: "",
+  type_name: "stats"
+}
+
+
