@@ -22,6 +22,12 @@ defmodule OrgtoolDb.ItemController do
                       parent = Repo.get!(Item, item_id)
                       Map.put(item_params, "img", parent.img)
                   end
+    item_params = case item_params do
+                    %{ "member" => member_id } ->
+                      Map.put(item_params, "member_id", member_id);
+                    _ ->
+                      item_params
+                  end
     changeset = Item.changeset(%Item{}, item_params)
 
     case Repo.insert(changeset) do
@@ -51,6 +57,13 @@ defmodule OrgtoolDb.ItemController do
     item_params = item_params
     |> Map.put("item_type_id",  item_type_id)
     |> Map.put("item_id",  item_id)
+
+    item_params = case item_params do
+                    %{ "member" => member_id } ->
+                      Map.put(item_params, "member_id", member_id);
+                    _ ->
+                      item_params
+                  end
 
     item = Repo.get!(Item, id)
     changeset = Item.changeset(item, item_params)
