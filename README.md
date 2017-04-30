@@ -19,3 +19,60 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
   * Docs: https://hexdocs.pm/phoenix
   * Mailing list: http://groups.google.com/group/phoenix-talk
   * Source: https://github.com/phoenixframework/phoenix
+
+
+
+# Installation
+## Install dependencies
+```
+wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb
+sudo dpkg -i erlang-solutions_1.0_all.deb
+sudo apt update
+sudo apt install esl-erlang
+sudo apt install elixir
+sudo apt install postgresql-9.5
+
+curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
+
+sudo apt install nodejs
+sudo apt install npm
+sudo npm install -g yarn
+```
+
+
+## Add Orgtool user
+```
+sudo useradd -m orgtool
+sudo su - org tool
+```
+
+
+## Enable postgres
+```
+systemctl enable postgresql
+echo 'CREATE USER orgtool WITH CREATEDB CREATEROLE CREATEUSER' | sudo -u postgres psql
+```
+
+
+## Install orgtool
+```
+git clone https://github.com/Licenser/orgtool_db
+cd  orgtool_db
+mix deps.get
+npm install
+```
+
+## Setup the DB
+
+```
+./reseed-db.sh
+```
+
+## Getting the ui
+```
+git submodule update --init
+cd priv/orgtool
+yarn
+node_modules/ember-cli/bin/ember build --prod
+```
+
