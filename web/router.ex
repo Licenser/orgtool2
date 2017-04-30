@@ -21,13 +21,6 @@ defmodule OrgtoolDb.Router do
 
   end
 
-  scope "/auth", OrgtoolDb do
-    pipe_through :browser # Use the default browser stack
-
-    get "/:provider", AuthController, :index
-    get "/:provider/callback", AuthController, :callback
-  end
-
   # Other scopes may use custom stacks.
   scope "/api", OrgtoolDb do
     pipe_through :api
@@ -48,5 +41,4 @@ defmodule OrgtoolDb.Router do
     resources "/member_rewards", MemberRewardController, except: [:new, :edit]
     resources "/member_units", MemberUnitController, except: [:new, :edit]\
   end
- 
 end
