@@ -45,7 +45,8 @@ config :guardian_db, GuardianDb,
 
 config :ueberauth, Ueberauth,
   providers: [
-    google: {Ueberauth.Strategy.Google, []}
+    google: {Ueberauth.Strategy.Google, []},
+    identity: {Ueberauth.Strategy.Identity, [callback_methods: ["POST"]]},
   ]
 
 config :ueberauth, Ueberauth.Strategy.Google.OAuth,

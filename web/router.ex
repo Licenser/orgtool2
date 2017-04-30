@@ -1,26 +1,13 @@
 defmodule OrgtoolDb.Router do
   use OrgtoolDb.Web, :router
 
-  pipeline :browser do
+ pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
-
-  pipeline :api do
-    plug :accepts, ["json"]
-  end
-
-  # This pipeline if intended for API requests and looks for the JWT in the "Authorization" header
-  # In this case, it should be prefixed with "Bearer" so that it's looking for
-  # Authorization: Bearer <jwt>
-  pipeline :api_auth do
-    plug Guardian.Plug.VerifyHeader, realm: "Bearer"
-    plug Guardian.Plug.LoadResource
-  end
-
 
   # This plug will look for a Guardian token in the session in the default location
   # Then it will attempt to load the resource found in the JWT.
@@ -48,6 +35,20 @@ defmodule OrgtoolDb.Router do
     plug Guardian.Plug.VerifySession, key: :admin
   end
 
+  pipeline :api do
+    ## For ui using the auth
+    plug :fetch_session
+    plug :accepts, ["json"]
+  end
+
+  # This pipeline if intended for API requests and looks for the JWT in the "Authorization" header
+  # In this case, it should be prefixed with "Bearer" so that it's looking for
+  # Authorization: Bearer <jwt>
+  pipeline :api_auth do
+#    plug Guardian.Plug.VerifyHeader, realm: "Bearer"
+    plug Guardian.Plug.VerifySession
+    plug Guardian.Plug.LoadResource
+  end
 
   scope "/", OrgtoolDb do
     # We pipe this through the browser_auth to fetch logged in people
@@ -55,13 +56,12 @@ defmodule OrgtoolDb.Router do
     # We don't just pipe it through admin_browser_auth because that also loads the resource
     pipe_through [:browser, :browser_auth, :impersonation_browser_auth]
 
-    get    "/", PageController, :index
+    get "/", PageController, :index
     delete "/logout", AuthController, :logout
 
     resources "/users", UserController
     resources "/authorizations", AuthorizationController
     resources "/tokens", TokenController
-
 
   end
 

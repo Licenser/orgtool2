@@ -1,23 +1,42 @@
 defmodule OrgtoolDb.SessionController do
   use OrgtoolDb.Web, :controller
-
+  alias OrgtoolDb.User
   # alias OrgtoolDb.Session
 
   def dummy() do
     %{
-      is_admin: true,
+      is_admin: false,
       is_user: false,
       user_id: 1,
       fancy_bg: true
     }
   end
-  def index(conn, _params, _current_user, _claums) do
-    session = dummy()
+
+  def index(conn, _params, nil, _claums) do
+    ## TODO redirect
+  end
+
+  def index(conn, _params, %User{is_admin: is_admin, id: user_id, name: name, email: email}, _claums) do
+    session = %{
+      id: user_id,
+      is_admin: is_admin,
+      name: name,
+      email: email
+    }
     render(conn, "show.json", session: session)
   end
 
-  def create(conn, _params, _current_user, _claums) do
-    session = dummy()
+  def create(conn, _params, nil, _claums) do
+    ## TODO redirect
+  end
+
+  def create(conn, _params, %User{is_admin: is_admin, id: user_id, name: name, email: email}, _claums) do
+    session = %{
+      id: user_id,
+      is_admin: is_admin,
+      name: name,
+      email: email
+    }
     render(conn, "show.json", session: session)
   end
 end

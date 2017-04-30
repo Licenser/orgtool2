@@ -18,9 +18,10 @@ defmodule OrgtoolDb.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {OrgtoolDb, []},
-     applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :httpotion, :sweet_xml, :ueberauth,
-                    :ueberauth_google, :oauth2, :comeonin]]
+     applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :phoenix_ecto,
+                    :cowboy, :logger, :gettext, :postgrex, :httpotion, :sweet_xml,
+                    :ueberauth, :ueberauth_google, :ueberauth_identity,
+                    :oauth2, :comeonin]]
   end
 
   # Specifies which paths to compile per environment.
@@ -49,7 +50,8 @@ defmodule OrgtoolDb.Mixfile do
      {:guardian, "~> 0.12.0"},
 
      {:ueberauth, "~> 0.4"},
-     {:ueberauth_google, "~> 0.5"}
+     {:ueberauth_google, "~> 0.5"},
+     {:ueberauth_identity, "~>0.2.3"},
     ]
   end
 
