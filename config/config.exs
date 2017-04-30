@@ -39,7 +39,7 @@ config :guardian, Guardian,
   }
 
 config :guardian_db, GuardianDb,
-  repo: PhoenixGuardian.Repo,
+  repo: OrgtoolDb.Repo,
   sweep_interval: 60 # 60 minutes
 
 

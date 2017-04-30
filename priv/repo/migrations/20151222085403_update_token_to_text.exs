@@ -1,4 +1,4 @@
-defmodule PhoenixGuardian.Repo.Migrations.UpdateTokenToText do
+defmodule OrgtoolDb.Repo.Migrations.UpdateTokenToText do
   use Ecto.Migration
 
   def change do

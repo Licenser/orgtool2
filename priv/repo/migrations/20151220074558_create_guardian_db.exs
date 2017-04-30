@@ -1,4 +1,4 @@
-defmodule PhoenixGuardian.Repo.Migrations.CreateGuardianDb do
+defmodule OrgtoolDb.Repo.Migrations.CreateGuardianDb do
   use Ecto.Migration
 
   def change do

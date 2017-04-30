@@ -1,4 +1,4 @@
-defmodule PhoenixGuardian.Repo.Migrations.AddTypeFieldToGuardianTokens do
+defmodule OrgtoolDb.Repo.Migrations.AddTypeFieldToGuardianTokens do
   use Ecto.Migration
 
   def change do

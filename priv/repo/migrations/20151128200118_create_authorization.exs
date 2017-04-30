@@ -1,4 +1,4 @@
-defmodule PhoenixGuardian.Repo.Migrations.CreateAuthorization do
+defmodule OrgtoolDb.Repo.Migrations.CreateAuthorization do
   use Ecto.Migration
 
   def change do

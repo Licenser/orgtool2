@@ -1,4 +1,4 @@
-defmodule PhoenixGuardian.Repo.Migrations.CreateUser do
+defmodule OrgtoolDb.Repo.Migrations.CreateUser do
   use Ecto.Migration
 
   def change do

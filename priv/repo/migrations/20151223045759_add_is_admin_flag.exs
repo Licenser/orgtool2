@@ -1,4 +1,4 @@
-defmodule PhoenixGuardian.Repo.Migrations.AddIsAdminFlag do
+defmodule OrgtoolDb.Repo.Migrations.AddIsAdminFlag do
   use Ecto.Migration
 
   def change do
