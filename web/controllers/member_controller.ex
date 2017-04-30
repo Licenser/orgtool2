@@ -3,12 +3,12 @@ defmodule OrgtoolDb.MemberController do
 
   alias OrgtoolDb.Member
 
-  def index(conn, _params) do
+  def index(conn, _params, _current_user, _claums) do
     members = Repo.all(Member)
     render(conn, "index.json", members: members)
   end
 
-  def create(conn, %{"member" => member_params}) do
+  def create(conn, %{"member" => member_params}, _current_user, _claums) do
     changeset = Member.changeset(%Member{}, member_params)
 
     case Repo.insert(changeset) do
@@ -24,12 +24,12 @@ defmodule OrgtoolDb.MemberController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
+  def show(conn, %{"id" => id}, _current_user, _claums) do
     member = Repo.get!(Member, id)
     render(conn, "show.json", member: member)
   end
 
-  def update(conn, %{"id" => id} = member_params) do
+  def update(conn, %{"id" => id} = member_params, _current_user, _claums) do
     member = Repo.get!(Member, id)
     changeset = Member.changeset(member, member_params)
 
@@ -43,7 +43,7 @@ defmodule OrgtoolDb.MemberController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
+  def delete(conn, %{"id" => id}, _current_user, _claums) do
     member = Repo.get!(Member, id)
 
     # Here we use delete! (with a bang) because we expect

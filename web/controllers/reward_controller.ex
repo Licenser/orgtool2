@@ -3,12 +3,12 @@ defmodule OrgtoolDb.RewardController do
 
   alias OrgtoolDb.Reward
 
-  def index(conn, _params) do
+  def index(conn, _params, _current_user, _claums) do
     rewards = Repo.all(Reward)
     render(conn, "index.json", rewards: rewards)
   end
 
-  def create(conn, %{"reward" => reward_params}) do
+  def create(conn, %{"reward" => reward_params}, _current_user, _claums) do
     changeset = Reward.changeset(%Reward{}, reward_params)
 
     case Repo.insert(changeset) do
@@ -24,12 +24,12 @@ defmodule OrgtoolDb.RewardController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
+  def show(conn, %{"id" => id}, _current_user, _claums) do
     reward = Repo.get!(Reward, id)
     render(conn, "show.json", reward: reward)
   end
 
-  def update(conn, %{"id" => id, "reward" => reward_params}) do
+  def update(conn, %{"id" => id, "reward" => reward_params}, _current_user, _claums) do
     reward = Repo.get!(Reward, id)
     changeset = Reward.changeset(reward, reward_params)
 
@@ -43,7 +43,7 @@ defmodule OrgtoolDb.RewardController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
+  def delete(conn, %{"id" => id}, _current_user, _claums) do
     reward = Repo.get!(Reward, id)
 
     # Here we use delete! (with a bang) because we expect

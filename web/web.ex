@@ -20,22 +20,42 @@ defmodule OrgtoolDb.Web do
     quote do
       use Ecto.Schema
 
-      import Ecto
       import Ecto.Changeset
-      import Ecto.Query
+      import Ecto.Query, only: [from: 1, from: 2]
+    end
+  end
+
+  def admin_controller do
+    quote do
+      use Phoenix.Controller, namespace: OrgtoolDb.Admin
+      use Guardian.Phoenix.Controller, key: :admin
+
+      alias OrgtoolDb.Repo
+      alias Guardian.Plug.EnsureAuthenticated
+      alias Guardian.Plug.EnsurePermissions
+
+      import Ecto.Schema
+      import Ecto.Query, only: [from: 1, from: 2]
+
+      import OrgtoolDb.Router.Helpers
+      import OrgtoolDb.Controller.Helpers
     end
   end
 
   def controller do
     quote do
       use Phoenix.Controller
+      use Guardian.Phoenix.Controller
 
       alias OrgtoolDb.Repo
-      import Ecto
-      import Ecto.Query
+      alias Guardian.Plug.EnsureAuthenticated
+      alias Guardian.Plug.EnsurePermissions
+
+      import Ecto.Schema
+      import Ecto.Query, only: [from: 1, from: 2]
 
       import OrgtoolDb.Router.Helpers
-      import OrgtoolDb.Gettext
+      import OrgtoolDb.Controller.Helpers
     end
   end
 
@@ -52,6 +72,7 @@ defmodule OrgtoolDb.Web do
       import OrgtoolDb.Router.Helpers
       import OrgtoolDb.ErrorHelpers
       import OrgtoolDb.Gettext
+      import OrgtoolDb.ViewHelpers
     end
   end
 
@@ -66,9 +87,8 @@ defmodule OrgtoolDb.Web do
       use Phoenix.Channel
 
       alias OrgtoolDb.Repo
-      import Ecto
-      import Ecto.Query
-      import OrgtoolDb.Gettext
+      import Ecto.Schema
+      import Ecto.Query, only: [from: 1, from: 2]
     end
   end
 

@@ -11,12 +11,12 @@ defmodule OrgtoolDb.SessionController do
       fancy_bg: true
     }
   end
-  def index(conn, _params) do
+  def index(conn, _params, _current_user, _claums) do
     session = dummy()
     render(conn, "show.json", session: session)
   end
 
-  def create(conn, _params) do
+  def create(conn, _params, _current_user, _claums) do
     session = dummy()
     render(conn, "show.json", session: session)
   end

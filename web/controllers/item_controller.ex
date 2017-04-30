@@ -3,13 +3,14 @@ defmodule OrgtoolDb.ItemController do
 
   alias OrgtoolDb.Item
 
-  def index(conn, _params) do
+  def index(conn, _params, _current_user, _claums) do
     items = Repo.all(Item) |> Repo.preload(:items)
     render(conn, "index.json", items: items)
   end
 
   def create(conn, %{"item" => item_params = %{"type" => item_type_id,
-                                               "parent" => item_id}}) do
+                                               "parent" => item_id}},
+        _current_user, _claums) do
     item_params = item_params
     |> Map.put("item_type_id",  item_type_id)
     |> Map.put("item_id",  item_id)
@@ -44,7 +45,7 @@ defmodule OrgtoolDb.ItemController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
+  def show(conn, %{"id" => id}, _current_user, _claums) do
 
     item = Repo.get!(Item, id) |> Repo.preload(:items)
 
@@ -53,7 +54,8 @@ defmodule OrgtoolDb.ItemController do
 
   def update(conn, item_params = %{"id" => id,
                                    "type" => item_type_id,
-                                   "parent" => item_id}) do
+                                   "parent" => item_id},
+        _current_user, _claums) do
     item_params = item_params
     |> Map.put("item_type_id",  item_type_id)
     |> Map.put("item_id",  item_id)
@@ -79,7 +81,7 @@ defmodule OrgtoolDb.ItemController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
+  def delete(conn, %{"id" => id}, _current_user, _claums) do
     item = Repo.get!(Item, id)
 
     # Here we use delete! (with a bang) because we expect

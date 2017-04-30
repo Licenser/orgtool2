@@ -19,7 +19,8 @@ defmodule OrgtoolDb.Mixfile do
   def application do
     [mod: {OrgtoolDb, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :httpotion, :sweet_xml]]
+                    :phoenix_ecto, :postgrex, :httpotion, :sweet_xml, :ueberauth,
+                    :ueberauth_google, :oauth2, :comeonin]]
   end
 
   # Specifies which paths to compile per environment.
@@ -40,7 +41,16 @@ defmodule OrgtoolDb.Mixfile do
      {:cors_plug, "~> 1.2"},
      {:httpotion, "~> 3.0.2"},
      {:sweet_xml, "~> 0.6.5"},
-     {:cowboy, "~> 1.0"}]
+     {:cowboy, "~> 1.0"},
+
+     {:comeonin, "~> 3.0"},
+
+     {:guardian_db, "~> 0.7"},
+     {:guardian, "~> 0.12.0"},
+
+     {:ueberauth, "~> 0.4"},
+     {:ueberauth_google, "~> 0.5"}
+    ]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

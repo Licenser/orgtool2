@@ -3,12 +3,12 @@ defmodule OrgtoolDb.UnitTypeController do
 
   alias OrgtoolDb.UnitType
 
-  def index(conn, _params) do
+  def index(conn, _params, _current_user, _claums) do
     unit_types = Repo.all(UnitType)
     render(conn, "index.json", unit_types: unit_types)
   end
 
-  def create(conn, %{"unit_type" => unit_type_params}) do
+  def create(conn, %{"unit_type" => unit_type_params}, _current_user, _claums) do
     changeset = UnitType.changeset(%UnitType{}, unit_type_params)
 
     case Repo.insert(changeset) do
@@ -24,12 +24,12 @@ defmodule OrgtoolDb.UnitTypeController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
+  def show(conn, %{"id" => id}, _current_user, _claums) do
     unit_type = Repo.get!(UnitType, id)
     render(conn, "show.json", unit_type: unit_type)
   end
 
-  def update(conn, %{"id" => id, "unit_type" => unit_type_params}) do
+  def update(conn, %{"id" => id, "unit_type" => unit_type_params}, _current_user, _claums) do
     unit_type = Repo.get!(UnitType, id)
     changeset = UnitType.changeset(unit_type, unit_type_params)
 
@@ -43,7 +43,7 @@ defmodule OrgtoolDb.UnitTypeController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
+  def delete(conn, %{"id" => id}, _current_user, _claums) do
     unit_type = Repo.get!(UnitType, id)
 
     # Here we use delete! (with a bang) because we expect

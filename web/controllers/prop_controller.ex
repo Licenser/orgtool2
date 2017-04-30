@@ -3,12 +3,12 @@ defmodule OrgtoolDb.PropController do
 
   alias OrgtoolDb.Prop
 
-  def index(conn, _params) do
+  def index(conn, _params, _current_user, _claums) do
     props = Repo.all(Prop)
     render(conn, "index.json", props: props)
   end
 
-  def create(conn, %{"prop" => prop_params}) do
+  def create(conn, %{"prop" => prop_params}, _current_user, _claums) do
     changeset = Prop.changeset(%Prop{}, prop_params)
 
     case Repo.insert(changeset) do
@@ -24,12 +24,12 @@ defmodule OrgtoolDb.PropController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
+  def show(conn, %{"id" => id}, _current_user, _claums) do
     prop = Repo.get!(Prop, id)
     render(conn, "show.json", prop: prop)
   end
 
-  def update(conn, %{"id" => id, "prop" => prop_params}) do
+  def update(conn, %{"id" => id, "prop" => prop_params}, _current_user, _claums) do
     prop = Repo.get!(Prop, id)
     changeset = Prop.changeset(prop, prop_params)
 
@@ -43,7 +43,7 @@ defmodule OrgtoolDb.PropController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
+  def delete(conn, %{"id" => id}, _current_user, _claums) do
     prop = Repo.get!(Prop, id)
 
     # Here we use delete! (with a bang) because we expect

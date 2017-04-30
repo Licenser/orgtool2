@@ -3,13 +3,14 @@ defmodule OrgtoolDb.UnitController do
 
   alias OrgtoolDb.Unit
 
-  def index(conn, _params) do
+  def index(conn, _params, _current_user, _claums) do
     units = Repo.all(Unit)
     render(conn, "index.json", units: units)
   end
 
   def create(conn, %{"unit" => unit_params = %{"type" => unit_type_id,
-                                               "parent" => unit_id}}) do
+                                               "parent" => unit_id}},
+        _current_user, _claums) do
     unit_params = unit_params
     |> Map.put("unit_type_id",  unit_type_id)
     |> Map.put("unit_id",  unit_id)
@@ -29,7 +30,7 @@ defmodule OrgtoolDb.UnitController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
+  def show(conn, %{"id" => id}, _current_user, _claums) do
     unit = Repo.get!(Unit, id)
     render(conn, "show.json", unit: unit)
   end
@@ -37,7 +38,7 @@ defmodule OrgtoolDb.UnitController do
   def update(conn, unit_params = %{
       "id" => id,
       "type" => unit_type_id,
-      "parent" => unit_id}) do
+      "parent" => unit_id}, _current_user, _claums) do
     unit_params = unit_params
     |> Map.put("unit_type_id",  unit_type_id)
     |> Map.put("unit_id",  unit_id)
@@ -55,7 +56,7 @@ defmodule OrgtoolDb.UnitController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
+  def delete(conn, %{"id" => id}, _current_user, _claums) do
     unit = Repo.get!(Unit, id)
 
     # Here we use delete! (with a bang) because we expect

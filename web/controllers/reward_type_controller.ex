@@ -3,12 +3,12 @@ defmodule OrgtoolDb.RewardTypeController do
 
   alias OrgtoolDb.RewardType
 
-  def index(conn, _params) do
+  def index(conn, _params, _current_user, _claums) do
     reward_types = Repo.all(RewardType)
     render(conn, "index.json", reward_types: reward_types)
   end
 
-  def create(conn, %{"reward_types" => reward_types_params}) do
+  def create(conn, %{"reward_types" => reward_types_params}, _current_user, _claums) do
     changeset = RewardType.changeset(%RewardType{}, reward_types_params)
 
     case Repo.insert(changeset) do
@@ -24,12 +24,13 @@ defmodule OrgtoolDb.RewardTypeController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
+  def show(conn, %{"id" => id}, _current_user, _claums) do
     reward_types = Repo.get!(RewardType, id)
     render(conn, "show.json", reward_types: reward_types)
   end
 
-  def update(conn, %{"id" => id, "reward_types" => reward_types_params}) do
+  def update(conn, %{"id" => id, "reward_types" => reward_types_params},
+        _current_user, _claums) do
     reward_types = Repo.get!(RewardType, id)
     changeset = RewardType.changeset(reward_types, reward_types_params)
 
@@ -43,7 +44,7 @@ defmodule OrgtoolDb.RewardTypeController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
+  def delete(conn, %{"id" => id}, _current_user, _claums) do
     reward_types = Repo.get!(RewardType, id)
 
     # Here we use delete! (with a bang) because we expect

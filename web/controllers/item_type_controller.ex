@@ -3,12 +3,12 @@ defmodule OrgtoolDb.ItemTypeController do
 
   alias OrgtoolDb.ItemType
 
-  def index(conn, _params) do
+  def index(conn, _params, _current_user, _claums) do
     item_types = Repo.all(ItemType) |> Repo.preload(:items)
     render(conn, "index.json", item_types: item_types)
   end
 
-  def create(conn, %{"item_type" => item_type_params}) do
+  def create(conn, %{"item_type" => item_type_params}, _current_user, _claums) do
     changeset = ItemType.changeset(%ItemType{}, item_type_params)
 
     case Repo.insert(changeset) do
@@ -24,12 +24,12 @@ defmodule OrgtoolDb.ItemTypeController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
+  def show(conn, %{"id" => id}, _current_user, _claums) do
     item_type = Repo.get!(ItemType, id) |> Repo.preload(:items)
     render(conn, "show.json", item_type: item_type)
   end
 
-  def update(conn, %{"id" => id, "item_type" => item_type_params}) do
+  def update(conn, %{"id" => id, "item_type" => item_type_params}, _current_user, _claums) do
     item_type = Repo.get!(ItemType, id)
     changeset = ItemType.changeset(item_type, item_type_params)
 
@@ -43,7 +43,7 @@ defmodule OrgtoolDb.ItemTypeController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
+  def delete(conn, %{"id" => id}, _current_user, _claums) do
     item_type = Repo.get!(ItemType, id)
 
     # Here we use delete! (with a bang) because we expect
