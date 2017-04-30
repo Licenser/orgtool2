@@ -74,5 +74,12 @@ git submodule update --init
 cd priv/orgtool
 yarn
 node_modules/ember-cli/bin/ember build --prod
+cd -
 ```
 
+
+## start the server
+
+```
+mix phoenix.server
+```
