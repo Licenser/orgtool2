@@ -83,3 +83,10 @@ cd -
 ```
 mix phoenix.server
 ```
+
+
+## redirect port 80
+```
+sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 4000
+sudo iptables -t nat -I OUTPUT -p tcp -d 127.0.0.1 --dport 80 -j REDIRECT --to-ports 4000
+```
