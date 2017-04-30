@@ -1,7 +1,8 @@
 defmodule OrgtoolDb.PropController do
   use OrgtoolDb.Web, :controller
-
   alias OrgtoolDb.Prop
+
+  plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
 
   def index(conn, _params, _current_user, _claums) do
     props = Repo.all(Prop)

@@ -3,6 +3,8 @@ defmodule OrgtoolDb.SessionController do
   alias OrgtoolDb.User
   # alias OrgtoolDb.Session
 
+  plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
+
   def dummy() do
     %{
       is_admin: false,
@@ -39,4 +41,11 @@ defmodule OrgtoolDb.SessionController do
     }
     render(conn, "show.json", session: session)
   end
+
+  def unauthenticated(conn, _params) do
+    conn
+    |> put_flash(:error, "Authentication required")
+    |> redirect(to: auth_path(conn, :login, :identity))
+  end
+
 end

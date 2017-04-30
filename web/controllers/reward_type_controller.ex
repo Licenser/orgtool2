@@ -1,7 +1,8 @@
 defmodule OrgtoolDb.RewardTypeController do
   use OrgtoolDb.Web, :controller
-
   alias OrgtoolDb.RewardType
+
+  plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
 
   def index(conn, _params, _current_user, _claums) do
     reward_types = Repo.all(RewardType)

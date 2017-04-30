@@ -1,7 +1,8 @@
 defmodule OrgtoolDb.ItemController do
   use OrgtoolDb.Web, :controller
-
   alias OrgtoolDb.Item
+
+  plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
 
   def index(conn, _params, _current_user, _claums) do
     items = Repo.all(Item) |> Repo.preload(:items)

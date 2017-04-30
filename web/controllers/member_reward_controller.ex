@@ -1,7 +1,8 @@
 defmodule OrgtoolDb.MemberRewardController do
   use OrgtoolDb.Web, :controller
-
   alias OrgtoolDb.MemberReward
+
+  plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
 
   def index(conn, _params) do
     member_rewards = Repo.all(MemberReward)
