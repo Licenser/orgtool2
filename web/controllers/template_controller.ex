@@ -1,26 +1,26 @@
-defmodule OrgtoolDb.ModelPropController do
+defmodule OrgtoolDb.TemplateController do
   use OrgtoolDb.Web, :controller
 
-  alias OrgtoolDb.ModelProp
+  alias OrgtoolDb.Template
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
   end
 
   def index(conn, _params, _current_user, _claums) do
-    model_props = Repo.all(ModelProp)
-    render(conn, "index.json", model_props: model_props)
+    templates = Repo.all(Template)
+    render(conn, "index.json", templates: templates)
   end
 
-  def create(conn, %{"model_prop" => model_prop_params}, _current_user, _claums) do
-    changeset = ModelProp.changeset(%ModelProp{}, model_prop_params)
+  def create(conn, %{"template" => template_params}, _current_user, _claums) do
+    changeset = Template.changeset(%Template{}, template_params)
 
     case Repo.insert(changeset) do
-      {:ok, model_prop} ->
+      {:ok, template} ->
         conn
         |> put_status(:created)
-        |> put_resp_header("location", model_prop_path(conn, :show, model_prop))
-        |> render("show.json", model_prop: model_prop)
+        |> put_resp_header("location", template_path(conn, :show, template))
+        |> render("show.json", template: template)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -29,17 +29,17 @@ defmodule OrgtoolDb.ModelPropController do
   end
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
-    model_prop = Repo.get!(ModelProp, id)
-    render(conn, "show.json", model_prop: model_prop)
+    template = Repo.get!(Template, id)
+    render(conn, "show.json", template: template)
   end
 
-  def update(conn, %{"id" => id, "model_prop" => model_prop_params}) do
-    model_prop = Repo.get!(ModelProp, id)
-    changeset = ModelProp.changeset(model_prop, model_prop_params)
+  def update(conn, %{"id" => id, "template" => template_params}, _current_user, _claums) do
+    template = Repo.get!(Template, id)
+    changeset = Template.changeset(template, template_params)
 
     case Repo.update(changeset) do
-      {:ok, model_prop} ->
-        render(conn, "show.json", model_prop: model_prop)
+      {:ok, template} ->
+        render(conn, "show.json", template: template)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -48,11 +48,11 @@ defmodule OrgtoolDb.ModelPropController do
   end
 
   def delete(conn, %{"id" => id}, _current_user, _claums) do
-    model_prop = Repo.get!(ModelProp, id)
+    template = Repo.get!(Template, id)
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
-    Repo.delete!(model_prop)
+    Repo.delete!(template)
 
     send_resp(conn, :no_content, "")
   end

@@ -1,5 +1,5 @@
 defmodule OrgtoolDb.Authorization do
-  use OrgtoolDb.Web, :model
+  use OrgtoolDb.Web, :template
 
   schema "authorizations" do
     field :provider, :string
@@ -19,13 +19,13 @@ defmodule OrgtoolDb.Authorization do
   @optional_fields ~w(refresh_token expires_at)a
 
   @doc """
-  Creates a changeset based on the `model` and `params`.
+  Creates a changeset based on the `template` and `params`.
 
   If no params are provided, an invalid changeset is returned
   with no validation performed.
   """
-  def changeset(model, params \\ :empty) do
-    model
+  def changeset(template, params \\ :empty) do
+    template
     |> cast(params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
     |> foreign_key_constraint(:user_id)

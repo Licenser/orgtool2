@@ -1,5 +1,5 @@
 defmodule OrgtoolDb.User do
-  use OrgtoolDb.Web, :model
+  use OrgtoolDb.Web, :template
 
   alias OrgtoolDb.Repo
 
@@ -17,20 +17,20 @@ defmodule OrgtoolDb.User do
   @required_fields ~w(email name)a
   @optional_fields ~w(is_admin member)a
 
-  def registration_changeset(model, params \\ :empty) do
-    model
+  def registration_changeset(template, params \\ :empty) do
+    template
     |>cast(params, ~w(email name)a)
     |> validate_required(@required_fields)
   end
 
   @doc """
-  Creates a changeset based on the `model` and `params`.
+  Creates a changeset based on the `template` and `params`.
 
   If no params are provided, an invalid changeset is returned
   with no validation performed.
   """
-  def changeset(model, params \\ :empty) do
-    model
+  def changeset(template, params \\ :empty) do
+    template
     |> cast(params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
     |> validate_format(:email, ~r/@/)

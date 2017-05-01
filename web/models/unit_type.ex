@@ -1,5 +1,5 @@
 defmodule OrgtoolDb.UnitType do
-  use OrgtoolDb.Web, :model
+  use OrgtoolDb.Web, :template
 
   schema "unit_types" do
     field :description, :string

@@ -1,5 +1,5 @@
 defmodule OrgtoolDb.CategoryTest do
-  use OrgtoolDb.ModelCase
+  use OrgtoolDb.TemplateCase
 
   alias OrgtoolDb.Category
 

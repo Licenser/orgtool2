@@ -1,9 +1,9 @@
-defmodule OrgtoolDb.Repo.Migrations.AddModelPropToModels do
+defmodule OrgtoolDb.Repo.Migrations.AddTemplatePropToTemplates do
   use Ecto.Migration
 
   def change do
-    alter table(:models) do
-      add :_id, references(:models)
+    alter table(:templates) do
+      add :_id, references(:templates)
     end
 
   end

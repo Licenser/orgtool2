@@ -1,5 +1,5 @@
 defmodule OrgtoolDb.PropTest do
-  use OrgtoolDb.ModelCase
+  use OrgtoolDb.TemplateCase
 
   alias OrgtoolDb.Prop
 

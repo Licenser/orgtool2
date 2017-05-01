@@ -1,18 +1,18 @@
-defmodule OrgtoolDb.ModelPropTest do
-  use OrgtoolDb.ModelCase
+defmodule OrgtoolDb.TemplatePropTest do
+  use OrgtoolDb.TemplateCase
 
-  alias OrgtoolDb.ModelProp
+  alias OrgtoolDb.TemplateProp
 
-  @valid_attrs %{model_id: 42, name: "some content", value: "some content"}
+  @valid_attrs %{template_id: 42, name: "some content", value: "some content"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
-    changeset = ModelProp.changeset(%ModelProp{}, @valid_attrs)
+    changeset = TemplateProp.changeset(%TemplateProp{}, @valid_attrs)
     assert changeset.valid?
   end
 
   test "changeset with invalid attributes" do
-    changeset = ModelProp.changeset(%ModelProp{}, @invalid_attrs)
+    changeset = TemplateProp.changeset(%TemplateProp{}, @invalid_attrs)
     refute changeset.valid?
   end
 end

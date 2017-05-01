@@ -1,5 +1,5 @@
 defmodule OrgtoolDb.MemberTest do
-  use OrgtoolDb.ModelCase
+  use OrgtoolDb.TemplateCase
 
   alias OrgtoolDb.Member
 

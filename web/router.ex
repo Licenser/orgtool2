@@ -111,8 +111,8 @@ defmodule OrgtoolDb.Router do
     resources "/member_units", MemberUnitController, except: [:new, :edit]
 
     resources "/categorys", CategoryController, except: [:new, :edit]
-    resources "/models", ModelController, except: [:new, :edit]
+    resources "/templates", TemplateController, except: [:new, :edit]
 
-    resources "/model_props", ModelPropController, except: [:new, :edit]
+    resources "/template_props", TemplatePropController, except: [:new, :edit]
   end
 end

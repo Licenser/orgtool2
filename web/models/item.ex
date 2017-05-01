@@ -1,5 +1,5 @@
 defmodule OrgtoolDb.Item do
-  use OrgtoolDb.Web, :model
+  use OrgtoolDb.Web, :template
 
   schema "items" do
     field :available, :boolean, default: false
@@ -10,7 +10,7 @@ defmodule OrgtoolDb.Item do
 
     belongs_to :member, OrgtoolDb.Member
     belongs_to :unit, OrgtoolDb.Unit
-    belongs_to :model, OrgtoolDb.Model
+    belongs_to :template, OrgtoolDb.Template
 
     has_many :props, OrgtoolDb.Prop
 
@@ -22,7 +22,7 @@ defmodule OrgtoolDb.Item do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:available, :description, :hidden, :img, :member_id, :name, :model_id, :unit_id])
-    |> validate_required([:available, :hidden, :img, :name_id, :model_id])
+    |> cast(params, [:available, :description, :hidden, :img, :member_id, :name, :template_id, :unit_id])
+    |> validate_required([:available, :hidden, :img, :name_id, :template_id])
   end
 end

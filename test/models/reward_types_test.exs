@@ -1,5 +1,5 @@
 defmodule OrgtoolDb.RewardTypeTest do
-  use OrgtoolDb.ModelCase
+  use OrgtoolDb.TemplateCase
 
   alias OrgtoolDb.RewardType
 

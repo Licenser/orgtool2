@@ -5,7 +5,7 @@ defmodule OrgtoolDb.Repo.Migrations.RemoveItemType do
     alter table(:items) do
       remove :item_id
       remove :item_type_id
-      add :model_id, references(:models)
+      add :template_id, references(:templates)
     end
     drop table(:item_types)
   end

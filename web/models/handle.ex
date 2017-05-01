@@ -1,5 +1,5 @@
 defmodule OrgtoolDb.Handle do
-  use OrgtoolDb.Web, :model
+  use OrgtoolDb.Web, :template
 
   schema "handles" do
     field :name, :string

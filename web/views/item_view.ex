@@ -24,7 +24,7 @@ defmodule OrgtoolDb.ItemView do
       img: item.img,
       name: item.name,
       member_id: item.member_id,
-      model_id: item.model_id,
+      template_id: item.template_id,
       unit_id: item.unit_id,
     }
   end

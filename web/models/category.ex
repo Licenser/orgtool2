@@ -1,5 +1,5 @@
 defmodule OrgtoolDb.Category do
-  use OrgtoolDb.Web, :model
+  use OrgtoolDb.Web, :template
 
   schema "categorys" do
     field :name, :string

@@ -1,8 +1,8 @@
-defmodule OrgtoolDb.Repo.Migrations.CreateModel do
+defmodule OrgtoolDb.Repo.Migrations.CreateTemplate do
   use Ecto.Migration
 
   def change do
-    create table(:models) do
+    create table(:templates) do
       add :name, :string
       add :img, :string
       add :description, :text

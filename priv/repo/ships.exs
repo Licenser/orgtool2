@@ -1,7 +1,7 @@
 alias OrgtoolDb.Repo
 alias OrgtoolDb.Category
-alias OrgtoolDb.Model
-alias OrgtoolDb.ModelProp
+alias OrgtoolDb.Template
+alias OrgtoolDb.TemplateProp
 require Logger
 require Ecto.Query
 
@@ -50,32 +50,32 @@ for %{
              parent ->
                parent
            end
-  Repo.insert! %Model{
+  Repo.insert! %Template{
     name: "#{name}",
     img: "#{img_pfx}#{img}",
     category: parent,
-    model_props: [
-      %ModelProp{
+    template_props: [
+      %TemplateProp{
         name: "ship_id",
         value: ship_id
       },
-      %ModelProp{
+      %TemplateProp{
         name: "name",
         value: name
       },
-      %ModelProp{
+      %TemplateProp{
         name: "class",
         value: class
       },
-      %ModelProp{
+      %TemplateProp{
         name: "crew",
         value: crew
       },
-      %ModelProp{
+      %TemplateProp{
         name: "length",
         value: length
       },
-      %ModelProp{
+      %TemplateProp{
         name: "mass",
         value: mass
       }

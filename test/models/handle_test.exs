@@ -1,5 +1,5 @@
 defmodule OrgtoolDb.HandleTest do
-  use OrgtoolDb.ModelCase
+  use OrgtoolDb.TemplateCase
 
   alias OrgtoolDb.Handle
 

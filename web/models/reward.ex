@@ -1,5 +1,5 @@
 defmodule OrgtoolDb.Reward do
-  use OrgtoolDb.Web, :model
+  use OrgtoolDb.Web, :template
 
   schema "rewards" do
     field :description, :string

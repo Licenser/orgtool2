@@ -1,7 +1,7 @@
-defmodule OrgtoolDb.ModelControllerTest do
+defmodule OrgtoolDb.TemplateControllerTest do
   use OrgtoolDb.ConnCase
 
-  alias OrgtoolDb.Model
+  alias OrgtoolDb.Template
   @valid_attrs %{description: "some content", img: "some content", category_id: 42, name: "some content"}
   @invalid_attrs %{}
 
@@ -10,54 +10,54 @@ defmodule OrgtoolDb.ModelControllerTest do
   end
 
   test "lists all entries on index", %{conn: conn} do
-    conn = get conn, model_path(conn, :index)
+    conn = get conn, template_path(conn, :index)
     assert json_response(conn, 200)["data"] == []
   end
 
   test "shows chosen resource", %{conn: conn} do
-    model = Repo.insert! %Model{}
-    conn = get conn, model_path(conn, :show, model)
-    assert json_response(conn, 200)["data"] == %{"id" => model.id,
-      "name" => model.name,
-      "img" => model.img,
-      "description" => model.description,
-      "category_id" => model.category_id}
+    template = Repo.insert! %Template{}
+    conn = get conn, template_path(conn, :show, template)
+    assert json_response(conn, 200)["data"] == %{"id" => template.id,
+      "name" => template.name,
+      "img" => template.img,
+      "description" => template.description,
+      "category_id" => template.category_id}
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
     assert_error_sent 404, fn ->
-      get conn, model_path(conn, :show, -1)
+      get conn, template_path(conn, :show, -1)
     end
   end
 
   test "creates and renders resource when data is valid", %{conn: conn} do
-    conn = post conn, model_path(conn, :create), model: @valid_attrs
+    conn = post conn, template_path(conn, :create), template: @valid_attrs
     assert json_response(conn, 201)["data"]["id"]
-    assert Repo.get_by(Model, @valid_attrs)
+    assert Repo.get_by(Template, @valid_attrs)
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
-    conn = post conn, model_path(conn, :create), model: @invalid_attrs
+    conn = post conn, template_path(conn, :create), template: @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
   end
 
   test "updates and renders chosen resource when data is valid", %{conn: conn} do
-    model = Repo.insert! %Model{}
-    conn = put conn, model_path(conn, :update, model), model: @valid_attrs
+    template = Repo.insert! %Template{}
+    conn = put conn, template_path(conn, :update, template), template: @valid_attrs
     assert json_response(conn, 200)["data"]["id"]
-    assert Repo.get_by(Model, @valid_attrs)
+    assert Repo.get_by(Template, @valid_attrs)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
-    model = Repo.insert! %Model{}
-    conn = put conn, model_path(conn, :update, model), model: @invalid_attrs
+    template = Repo.insert! %Template{}
+    conn = put conn, template_path(conn, :update, template), template: @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
   end
 
   test "deletes chosen resource", %{conn: conn} do
-    model = Repo.insert! %Model{}
-    conn = delete conn, model_path(conn, :delete, model)
+    template = Repo.insert! %Template{}
+    conn = delete conn, template_path(conn, :delete, template)
     assert response(conn, 204)
-    refute Repo.get(Model, model.id)
+    refute Repo.get(Template, template.id)
   end
 end

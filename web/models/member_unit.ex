@@ -1,5 +1,5 @@
 defmodule OrgtoolDb.MemberUnit do
-  use OrgtoolDb.Web, :model
+  use OrgtoolDb.Web, :template
 
   schema "member_units" do
 

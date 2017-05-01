@@ -1,5 +1,5 @@
 defmodule OrgtoolDb.Member do
-  use OrgtoolDb.Web, :model
+  use OrgtoolDb.Web, :template
 
   schema "members" do
     field :name, :string

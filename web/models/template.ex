@@ -1,14 +1,14 @@
-defmodule OrgtoolDb.Model do
-  use OrgtoolDb.Web, :model
+defmodule OrgtoolDb.Template do
+  use OrgtoolDb.Web, :template
 
-  schema "models" do
+  schema "templates" do
     field :name, :string
     field :img, :string
     field :description, :string
 
     belongs_to :category, OrgtoolDb.Category
 
-    has_many :model_props, OrgtoolDb.ModelProp
+    has_many :template_props, OrgtoolDb.TemplateProp
     has_many :props, OrgtoolDb.Prop
 
     timestamps()

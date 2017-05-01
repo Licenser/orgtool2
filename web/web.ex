@@ -16,7 +16,7 @@ defmodule OrgtoolDb.Web do
   below.
   """
 
-  def model do
+  def template do
     quote do
       use Ecto.Schema
 

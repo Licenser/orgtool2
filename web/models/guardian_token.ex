@@ -1,5 +1,5 @@
 defmodule OrgtoolDb.GuardianToken do
-  use OrgtoolDb.Web, :model
+  use OrgtoolDb.Web, :template
 
   alias OrgtoolDb.Repo
   alias OrgtoolDb.GuardianSerializer

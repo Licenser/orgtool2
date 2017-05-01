@@ -1,5 +1,5 @@
 defmodule OrgtoolDb.PropType do
-  use OrgtoolDb.Web, :model
+  use OrgtoolDb.Web, :template
 
   schema "prop_types" do
     field :name, :string

@@ -1,5 +1,5 @@
 defmodule OrgtoolDb.ItemTest do
-  use OrgtoolDb.ModelCase
+  use OrgtoolDb.TemplateCase
 
   alias OrgtoolDb.Item
 

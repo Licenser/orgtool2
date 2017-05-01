@@ -1,11 +1,11 @@
-defmodule OrgtoolDb.Repo.Migrations.CreateModelProp do
+defmodule OrgtoolDb.Repo.Migrations.CreateTemplateProp do
   use Ecto.Migration
 
   def change do
-    create table(:model_props) do
+    create table(:template_props) do
       add :name, :string
       add :value, :string
-      add :model_id, references(:models)
+      add :template_id, references(:templates)
 
       timestamps()
     end
