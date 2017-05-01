@@ -2,7 +2,9 @@ defmodule OrgtoolDb.MemberController do
   use OrgtoolDb.Web, :controller
   alias OrgtoolDb.Member
 
-  plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
+  if System.get_env("NO_AUTH") != "true" do
+    plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
+  end
 
   def index(conn, _params, _current_user, _claums) do
     members = Repo.all(Member)

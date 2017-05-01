@@ -1,10 +1,11 @@
 defmodule OrgtoolDb.SessionController do
   use OrgtoolDb.Web, :controller
+
   alias OrgtoolDb.User
-  # alias OrgtoolDb.Session
 
-
-  plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController
+  if System.get_env("NO_AUTH") != "true" do
+    plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
+  end
 
   def dummy() do
     %{
@@ -29,17 +30,27 @@ defmodule OrgtoolDb.SessionController do
     render(conn, "show.json", session: session)
   end
 
-  def create(_conn, _params, nil, _claums) do
+  def create(conn, _params, nil, _claums) do
     ## TODO redirect
+    if System.get_env("NO_AUTH") == "true" do
+      session = %{
+        id: 0,
+        is_admin: true,
+        name: "dev",
+        email: "dev@dev.dev"
+      }
+      render(conn, "show.json", session: session)
+    end
   end
 
   def create(conn, _params, %User{is_admin: is_admin, id: user_id, name: name, email: email}, _claums) do
     session = %{
-      id: user_id,
-      is_admin: is_admin,
-      name: name,
-      email: email
-    }
+        id: user_id,
+        is_admin: is_admin,
+        name: name,
+        email: email
+      }
+
     render(conn, "show.json", session: session)
   end
 

@@ -3,7 +3,9 @@ defmodule OrgtoolDb.ItemController do
 
   alias OrgtoolDb.Item
 
-  plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
+  if System.get_env("NO_AUTH") != "true" do
+    plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
+  end
 
   def index(conn, _params, _current_user, _claums) do
     items = Repo.all(Item) |> Repo.preload(:items)
