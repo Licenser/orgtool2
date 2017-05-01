@@ -12,12 +12,8 @@ defmodule OrgtoolDb.ItemController do
     render(conn, "index.json", items: items)
   end
 
-  def create(conn, %{"item" => item_params = %{"type" => item_type_id,
-                                               "parent" => item_id}},
+  def create(conn, %{"item" => item_params},
         _current_user, _claums) do
-    item_params = item_params
-    |> Map.put("item_type_id",  item_type_id)
-    |> Map.put("item_id",  item_id)
 
     item_params = case item_params do
                     %{ "img" => img } when img != <<>> ->
@@ -26,12 +22,6 @@ defmodule OrgtoolDb.ItemController do
                     _ ->
                       parent = Repo.get!(Item, item_id)
                       Map.put(item_params, "img", parent.img)
-                  end
-    item_params = case item_params do
-                    %{ "member" => member_id } ->
-                      Map.put(item_params, "member_id", member_id);
-                    _ ->
-                      item_params
                   end
     changeset = Item.changeset(%Item{}, item_params)
 
@@ -56,20 +46,7 @@ defmodule OrgtoolDb.ItemController do
     render(conn, "show.json", item: item)
   end
 
-  def update(conn, item_params = %{"id" => id,
-                                   "type" => item_type_id,
-                                   "parent" => item_id},
-        _current_user, _claums) do
-    item_params = item_params
-    |> Map.put("item_type_id",  item_type_id)
-    |> Map.put("item_id",  item_id)
-
-    item_params = case item_params do
-                    %{ "member" => member_id } ->
-                      Map.put(item_params, "member_id", member_id);
-                    _ ->
-                      item_params
-                  end
+  def update(conn, item_params, _current_user, _claums) do
 
     item = Repo.get!(Item, id)
     changeset = Item.changeset(item, item_params)

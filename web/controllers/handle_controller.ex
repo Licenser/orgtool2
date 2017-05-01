@@ -12,8 +12,7 @@ defmodule OrgtoolDb.HandleController do
     render(conn, "index.json", handles: handles)
   end
 
-  def create(conn, %{"handle" => handle_params = %{"member" => member_id}}, _current_user, _claums) do
-    handle_params = Map.put(handle_params, "member_id",  member_id)
+  def create(conn, %{"handle" => handle_params}, _current_user, _claums) do
     changeset = Handle.changeset(%Handle{}, handle_params)
 
     case Repo.insert(changeset) do
