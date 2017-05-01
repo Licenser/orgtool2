@@ -10,12 +10,14 @@ defmodule OrgtoolDb.UnitView do
   end
 
   def render("unit.json", %{unit: unit}) do
-    %{id: unit.id,
+    %{
+      id: unit.id,
       name: unit.name,
       description: unit.description,
       color: unit.color,
       img: unit.img,
-      type: unit.unit_type_id,
-      parent: unit.unit_id}
+      type_id: unit.unit_type_id,
+      unit_id: unit.unit_id
+    }
   end
 end

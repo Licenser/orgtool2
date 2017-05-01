@@ -10,10 +10,12 @@ defmodule OrgtoolDb.MemberView do
   end
 
   def render("member.json", %{member: member}) do
-    %{id: member.id,
+    %{
+      id: member.id,
       name: member.name,
       avatar: member.avatar,
       logs: member.logs,
-      timezone: member.timezone}
+      timezone: member.timezone
+    }
   end
 end

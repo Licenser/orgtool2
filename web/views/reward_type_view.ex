@@ -10,10 +10,12 @@ defmodule OrgtoolDb.RewardTypeView do
   end
 
   def render("reward_type.json", %{reward_type: reward_type}) do
-    %{id: reward_type.id,
+    %{
+      id: reward_type.id,
       name: reward_type.name,
       description: reward_type.description,
       img: reward_type.img,
-      level: reward_type.level}
+      level: reward_type.level
+    }
   end
 end

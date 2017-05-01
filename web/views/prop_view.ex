@@ -10,12 +10,14 @@ defmodule OrgtoolDb.PropView do
   end
 
   def render("prop.json", %{prop: prop}) do
-    %{id: prop.id,
+    %{
+      id: prop.id,
       name: prop.name,
       value: prop.value,
       description: prop.description,
       img: prop.img,
-      item: prop.item_id,
-      type: prop.prop_type_id}
+      item_id: prop.item_id,
+      type_id: prop.prop_type_id
+    }
   end
 end
