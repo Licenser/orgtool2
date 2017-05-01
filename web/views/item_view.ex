@@ -23,11 +23,9 @@ defmodule OrgtoolDb.ItemView do
       hidden: item.hidden,
       img: item.img,
       name: item.name,
-      member: item.member_id,
-      parent: item.item_id,
-      type: item.item_type_id,
-      unit: item.unit_id,
-      items: items
+      member_id: item.member_id,
+      model_id: item.model_id,
+      unit_id: item.unit_id,
     }
   end
 end

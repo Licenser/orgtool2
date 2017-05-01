@@ -10,9 +10,8 @@ defmodule OrgtoolDb.Item do
 
     belongs_to :member, OrgtoolDb.Member
     belongs_to :unit, OrgtoolDb.Unit
-    belongs_to :item, OrgtoolDb.Item
-    belongs_to :item_type, OrgtoolDb.ItemType
-    has_many :items, OrgtoolDb.Item
+    belongs_to :model, OrgtoolDb.Model
+
     has_many :props, OrgtoolDb.Prop
 
     timestamps()
@@ -23,7 +22,7 @@ defmodule OrgtoolDb.Item do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:available, :description, :hidden, :img, :member_id, :name, :item_id, :item_type_id, :unit_id])
-    |> validate_required([:available, :hidden, :img, :name, :item_id, :item_type_id])
+    |> cast(params, [:available, :description, :hidden, :img, :member_id, :name, :model_id, :unit_id])
+    |> validate_required([:available, :hidden, :img, :name_id, :model_id])
   end
 end

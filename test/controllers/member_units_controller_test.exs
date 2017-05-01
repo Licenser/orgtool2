@@ -1,7 +1,7 @@
-defmodule OrgtoolDb.MemberUnitsControllerTest do
+defmodule OrgtoolDb.MemberUnitControllerTest do
   use OrgtoolDb.ConnCase
 
-  alias OrgtoolDb.MemberUnits
+  alias OrgtoolDb.MemberUnit
   @valid_attrs %{log: "some content", member: 42, reward: 42, unit: 42}
   @invalid_attrs %{}
 
@@ -10,54 +10,54 @@ defmodule OrgtoolDb.MemberUnitsControllerTest do
   end
 
   test "lists all entries on index", %{conn: conn} do
-    conn = get conn, member_units_path(conn, :index)
+    conn = get conn, member_unit_path(conn, :index)
     assert json_response(conn, 200)["data"] == []
   end
 
   test "shows chosen resource", %{conn: conn} do
-    member_units = Repo.insert! %MemberUnits{}
-    conn = get conn, member_units_path(conn, :show, member_units)
-    assert json_response(conn, 200)["data"] == %{"id" => member_units.id,
-      "log" => member_units.log,
-      "member" => member_units.member,
-      "reward" => member_units.reward,
-      "unit" => member_units.unit}
+    member_unit = Repo.insert! %MemberUnit{}
+    conn = get conn, member_unit_path(conn, :show, member_unit)
+    assert json_response(conn, 200)["data"] == %{"id" => member_unit.id,
+      "log" => member_unit.log,
+      "member" => member_unit.member,
+      "reward" => member_unit.reward,
+      "unit" => member_unit.unit}
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
     assert_error_sent 404, fn ->
-      get conn, member_units_path(conn, :show, -1)
+      get conn, member_unit_path(conn, :show, -1)
     end
   end
 
   test "creates and renders resource when data is valid", %{conn: conn} do
-    conn = post conn, member_units_path(conn, :create), member_units: @valid_attrs
+    conn = post conn, member_unit_path(conn, :create), member_unit: @valid_attrs
     assert json_response(conn, 201)["data"]["id"]
-    assert Repo.get_by(MemberUnits, @valid_attrs)
+    assert Repo.get_by(MemberUnit, @valid_attrs)
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
-    conn = post conn, member_units_path(conn, :create), member_units: @invalid_attrs
+    conn = post conn, member_unit_path(conn, :create), member_unit: @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
   end
 
   test "updates and renders chosen resource when data is valid", %{conn: conn} do
-    member_units = Repo.insert! %MemberUnits{}
-    conn = put conn, member_units_path(conn, :update, member_units), member_units: @valid_attrs
+    member_unit = Repo.insert! %MemberUnit{}
+    conn = put conn, member_unit_path(conn, :update, member_unit), member_unit: @valid_attrs
     assert json_response(conn, 200)["data"]["id"]
-    assert Repo.get_by(MemberUnits, @valid_attrs)
+    assert Repo.get_by(MemberUnit, @valid_attrs)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
-    member_units = Repo.insert! %MemberUnits{}
-    conn = put conn, member_units_path(conn, :update, member_units), member_units: @invalid_attrs
+    member_unit = Repo.insert! %MemberUnit{}
+    conn = put conn, member_unit_path(conn, :update, member_unit), member_unit: @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
   end
 
   test "deletes chosen resource", %{conn: conn} do
-    member_units = Repo.insert! %MemberUnits{}
-    conn = delete conn, member_units_path(conn, :delete, member_units)
+    member_unit = Repo.insert! %MemberUnit{}
+    conn = delete conn, member_unit_path(conn, :delete, member_unit)
     assert response(conn, 204)
-    refute Repo.get(MemberUnits, member_units.id)
+    refute Repo.get(MemberUnit, member_unit.id)
   end
 end

@@ -1,7 +1,7 @@
-defmodule OrgtoolDb.RewardTypesControllerTest do
+defmodule OrgtoolDb.RewardTypeControllerTest do
   use OrgtoolDb.ConnCase
 
-  alias OrgtoolDb.RewardTypes
+  alias OrgtoolDb.RewardType
   @valid_attrs %{description: "some content", img: "some content", level: 42, name: "some content"}
   @invalid_attrs %{}
 
@@ -10,54 +10,54 @@ defmodule OrgtoolDb.RewardTypesControllerTest do
   end
 
   test "lists all entries on index", %{conn: conn} do
-    conn = get conn, reward_types_path(conn, :index)
+    conn = get conn, reward_type_path(conn, :index)
     assert json_response(conn, 200)["data"] == []
   end
 
   test "shows chosen resource", %{conn: conn} do
-    reward_types = Repo.insert! %RewardTypes{}
-    conn = get conn, reward_types_path(conn, :show, reward_types)
-    assert json_response(conn, 200)["data"] == %{"id" => reward_types.id,
-      "name" => reward_types.name,
-      "description" => reward_types.description,
-      "img" => reward_types.img,
-      "level" => reward_types.level}
+    reward_type = Repo.insert! %RewardType{}
+    conn = get conn, reward_type_path(conn, :show, reward_type)
+    assert json_response(conn, 200)["data"] == %{"id" => reward_type.id,
+      "name" => reward_type.name,
+      "description" => reward_type.description,
+      "img" => reward_type.img,
+      "level" => reward_type.level}
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
     assert_error_sent 404, fn ->
-      get conn, reward_types_path(conn, :show, -1)
+      get conn, reward_type_path(conn, :show, -1)
     end
   end
 
   test "creates and renders resource when data is valid", %{conn: conn} do
-    conn = post conn, reward_types_path(conn, :create), reward_types: @valid_attrs
+    conn = post conn, reward_type_path(conn, :create), reward_type: @valid_attrs
     assert json_response(conn, 201)["data"]["id"]
-    assert Repo.get_by(RewardTypes, @valid_attrs)
+    assert Repo.get_by(RewardType, @valid_attrs)
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
-    conn = post conn, reward_types_path(conn, :create), reward_types: @invalid_attrs
+    conn = post conn, reward_type_path(conn, :create), reward_type: @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
   end
 
   test "updates and renders chosen resource when data is valid", %{conn: conn} do
-    reward_types = Repo.insert! %RewardTypes{}
-    conn = put conn, reward_types_path(conn, :update, reward_types), reward_types: @valid_attrs
+    reward_type = Repo.insert! %RewardType{}
+    conn = put conn, reward_type_path(conn, :update, reward_type), reward_type: @valid_attrs
     assert json_response(conn, 200)["data"]["id"]
-    assert Repo.get_by(RewardTypes, @valid_attrs)
+    assert Repo.get_by(RewardType, @valid_attrs)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
-    reward_types = Repo.insert! %RewardTypes{}
-    conn = put conn, reward_types_path(conn, :update, reward_types), reward_types: @invalid_attrs
+    reward_type = Repo.insert! %RewardType{}
+    conn = put conn, reward_type_path(conn, :update, reward_type), reward_type: @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
   end
 
   test "deletes chosen resource", %{conn: conn} do
-    reward_types = Repo.insert! %RewardTypes{}
-    conn = delete conn, reward_types_path(conn, :delete, reward_types)
+    reward_type = Repo.insert! %RewardType{}
+    conn = delete conn, reward_type_path(conn, :delete, reward_type)
     assert response(conn, 204)
-    refute Repo.get(RewardTypes, reward_types.id)
+    refute Repo.get(RewardType, reward_type.id)
   end
 end

@@ -1,8 +1,7 @@
 alias OrgtoolDb.Repo
-alias OrgtoolDb.ItemType
-alias OrgtoolDb.Item
-alias OrgtoolDb.PropType
-alias OrgtoolDb.Prop
+alias OrgtoolDb.Manufacturer
+alias OrgtoolDb.Model
+alias OrgtoolDb.ModelProp
 require Logger
 require Ecto.Query
 
@@ -29,30 +28,6 @@ element = html |> xpath(~x'//li[@class="ship-item"]'l,
   mass: ~x"./div[last()]/span[@class='mass spec']/span/text()"s
 )
 
-it_manufacturer = Repo.insert! %ItemType{
-  type_name: "manufacturer",
-  name: "Manufacturer",
-  permissions: 0,
-
-}
-it_ship_model = Repo.insert! %ItemType{
-  type_name: "shipModel",
-  name: "Ship Model",
-  permissions: 0,
-  item_type: it_manufacturer
-}
-
-Repo.insert! %ItemType{
-  type_name: "ship",
-  name: "Ship",
-  permissions: 1,
-  item_type: it_ship_model
-}
-
-stats = Repo.insert! %PropType{
-  name: "",
-  type_name: "stats"
-}
 
 img_pfx = "https://robertsspaceindustries.com"
 
@@ -67,53 +42,40 @@ for %{
       length: length,
       mass: mass
 }  <- element do
-  parent = case Repo.one(Ecto.Query.from(item in Item, where: item.name == ^manufacturer and item.item_type_id == ^it_manufacturer.id , limit: 1)) do
+  parent = case Repo.one(Ecto.Query.from(m in Manufacturer, where: m.name == ^manufacturer, limit: 1)) do
              nil ->
-               Repo.insert! %Item{
+               Repo.insert! %Manufacturer{
                  name: manufacturer,
-                 item_type: it_manufacturer,
-                 img: "#{img_pfx}/#{manufacturer_img}"}
+                 img: "#{img_pfx}#{manufacturer_img}"}
              parent ->
                parent
            end
-  Repo.insert! %Item{
+  Repo.insert! %Model{
     name: "#{name}",
-    img: "#{img_pfx}/#{img}",
-    item_type: it_ship_model,
-    item: parent,
-    props: [
-      %Prop{
-        prop_type: stats,
+    img: "#{img_pfx}#{img}",
+    manufacturer: parent,
+    model_props: [
+      %ModelProp{
         name: "ship_id",
         value: ship_id
       },
-      %Prop{
-        prop_type: stats,
+      %ModelProp{
         name: "name",
         value: name
       },
-      %Prop{
-        prop_type: stats,
+      %ModelProp{
         name: "class",
         value: class
       },
-      %Prop{
-        prop_type: stats,
-        name: "manufacturer",
-        value: manufacturer
-      },
-      %Prop{
-        prop_type: stats,
+      %ModelProp{
         name: "crew",
         value: crew
       },
-      %Prop{
-        prop_type: stats,
+      %ModelProp{
         name: "length",
         value: length
       },
-      %Prop{
-        prop_type: stats,
+      %ModelProp{
         name: "mass",
         value: mass
       }

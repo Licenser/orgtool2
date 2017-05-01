@@ -1,18 +1,18 @@
-defmodule OrgtoolDb.RewardTypesTest do
+defmodule OrgtoolDb.RewardTypeTest do
   use OrgtoolDb.ModelCase
 
-  alias OrgtoolDb.RewardTypes
+  alias OrgtoolDb.RewardType
 
   @valid_attrs %{description: "some content", img: "some content", level: 42, name: "some content"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
-    changeset = RewardTypes.changeset(%RewardTypes{}, @valid_attrs)
+    changeset = RewardType.changeset(%RewardType{}, @valid_attrs)
     assert changeset.valid?
   end
 
   test "changeset with invalid attributes" do
-    changeset = RewardTypes.changeset(%RewardTypes{}, @invalid_attrs)
+    changeset = RewardType.changeset(%RewardType{}, @invalid_attrs)
     refute changeset.valid?
   end
 end
