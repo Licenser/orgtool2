@@ -8,6 +8,8 @@ defmodule OrgtoolDb.Member do
     field :timezone, :integer
 
     has_many :handles, OrgtoolDb.Handle
+    has_one :user, OrgtoolDb.User
+    many_to_many :rewards, OrgtoolDb.Reward, join_through: OrgtoolDb.MemberReward, on_replace: :delete
 
     timestamps()
   end
@@ -18,6 +20,6 @@ defmodule OrgtoolDb.Member do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:name, :avatar, :logs, :timezone])
-    |> validate_required([:name, :avatar, :timezone])
+    |> validate_required([:name, :timezone])
   end
 end

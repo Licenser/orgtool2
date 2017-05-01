@@ -9,23 +9,3 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
-
-alias OrgtoolDb.Repo
-alias OrgtoolDb.Member
-alias OrgtoolDb.Handle
-
-
-# Initial member
-admin = Repo.insert! %Member{
-  name: "Admin",
-  avatar: "",
-  timezone: 0
-}
-
-Repo.insert! %Handle{
-  type: "rsi",
-  name: "Administrator",
-  handle: "admin",
-  img: "",
-  member: admin
-}

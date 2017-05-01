@@ -9,12 +9,13 @@ defmodule OrgtoolDb.User do
     field :is_admin, :boolean
 
     has_many :authorizations, OrgtoolDb.Authorization
+    belongs_to :member, OrgtoolDb.Member
 
     timestamps()
   end
 
   @required_fields ~w(email name)a
-  @optional_fields ~w(is_admin)a
+  @optional_fields ~w(is_admin member)a
 
   def registration_changeset(model, params \\ :empty) do
     model

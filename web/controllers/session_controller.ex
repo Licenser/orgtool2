@@ -3,7 +3,8 @@ defmodule OrgtoolDb.SessionController do
   alias OrgtoolDb.User
   # alias OrgtoolDb.Session
 
-  plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
+
+  plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController
 
   def dummy() do
     %{
@@ -14,7 +15,7 @@ defmodule OrgtoolDb.SessionController do
     }
   end
 
-  def index(conn, _params, nil, _claums) do
+  def index(_conn, _params, nil, _claums) do
     ## TODO redirect
   end
 
@@ -28,7 +29,7 @@ defmodule OrgtoolDb.SessionController do
     render(conn, "show.json", session: session)
   end
 
-  def create(conn, _params, nil, _claums) do
+  def create(_conn, _params, nil, _claums) do
     ## TODO redirect
   end
 
@@ -44,8 +45,8 @@ defmodule OrgtoolDb.SessionController do
 
   def unauthenticated(conn, _params) do
     conn
-    |> put_flash(:error, "Authentication required")
-    |> redirect(to: auth_path(conn, :login, :identity))
+    |> send_resp(401, "{'error': 'not authenticated'}")
+    |> halt
   end
 
 end

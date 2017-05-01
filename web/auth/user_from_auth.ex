@@ -1,6 +1,10 @@
 defmodule OrgtoolDb.UserFromAuth do
   alias OrgtoolDb.User
+  alias OrgtoolDb.Member
   alias OrgtoolDb.Authorization
+  alias OrgtoolDb.Reward
+  require Ecto.Query
+
   alias Ueberauth.Auth
 
   def get_or_insert(auth, current_user, repo) do
@@ -60,7 +64,7 @@ defmodule OrgtoolDb.UserFromAuth do
           {:ok, response} -> response
           {:error, reason} -> {:error, reason}
         end
-      {:error, reason} -> {:error, reason}
+  {:error, reason} -> {:error, reason}
     end
   end
 
@@ -70,16 +74,16 @@ defmodule OrgtoolDb.UserFromAuth do
         case user_from_authorization(authorization, current_user, repo) do
           {:ok, user} ->
             case repo.transaction(fn ->
-              repo.delete(authorization)
-              authorization_from_auth(user, auth, repo)
-              user
-            end) do
+                  repo.delete(authorization)
+                  authorization_from_auth(user, auth, repo)
+                  user
+                end) do
               {:ok, user} -> {:ok, user}
               {:error, reason} -> {:error, reason}
             end
-          {:error, reason} -> {:error, reason}
+  {:error, reason} -> {:error, reason}
         end
-      {:error, reason} -> {:error, reason}
+  {:error, reason} -> {:error, reason}
     end
   end
 
@@ -96,9 +100,16 @@ defmodule OrgtoolDb.UserFromAuth do
   end
 
   defp create_user_from_auth(auth, current_user, repo) do
-    user = current_user
-    if !user, do: user = repo.get_by(User, email: auth.info.email)
-    if !user, do: user = create_user(auth, repo)
+    user = if current_user do
+      current_user
+    else
+      repo.get_by(User, email: auth.info.email)
+    end
+    user = if !user do
+      create_user(auth, repo)
+    else
+      user
+    end
     authorization_from_auth(user, auth, repo)
     {:ok, user}
   end
@@ -108,7 +119,26 @@ defmodule OrgtoolDb.UserFromAuth do
     result = User.registration_changeset(%User{}, scrub(%{email: auth.info.email, name: name}))
     |> repo.insert
     case result do
-      {:ok, user} -> user
+      {:ok, user} ->
+        reward = repo.one!(Ecto.Query.from(r in Reward, where: r.name == "Applicant", limit: 1))
+
+        member = repo.insert!(%Member{timezone: 0, name: name})
+        |> repo.preload(:rewards)
+        |> Ecto.Changeset.change()
+        |> Ecto.Changeset.put_assoc(:rewards, [reward])
+        |> repo.update!
+
+        user = user
+        |> repo.preload(:member)
+        |> Ecto.Changeset.change()
+        |> Ecto.Changeset.put_assoc(:member, member)
+        |> repo.update!
+        ## Make our first user admin
+        if user.id == 1 do
+          User.make_admin!(user)
+        else
+          user
+        end
       {:error, reason} -> repo.rollback(reason)
     end
   end

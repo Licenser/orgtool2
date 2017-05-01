@@ -45,7 +45,7 @@ defmodule OrgtoolDb.Router do
   # In this case, it should be prefixed with "Bearer" so that it's looking for
   # Authorization: Bearer <jwt>
   pipeline :api_auth do
-#    plug Guardian.Plug.VerifyHeader, realm: "Bearer"
+    # plug Guardian.Plug.VerifyHeader, realm: "Bearer"
     plug Guardian.Plug.VerifySession
     plug Guardian.Plug.LoadResource
   end
@@ -94,14 +94,15 @@ defmodule OrgtoolDb.Router do
   scope "/api", OrgtoolDb do
     pipe_through [:api, :api_auth]
     resources "/sessions", SessionController, except: [:edit, :show]
+    #resources "/units/:id", UnitController, except: [:new, :edit]
     resources "/units", UnitController, except: [:new, :edit]
-    resources "/units/:id", UnitController, except: [:new, :edit]
     resources "/item_types", ItemTypeController, except: [:new, :edit]
     resources "/items", ItemController, except: [:new, :edit]
+    #resources "/members/:id", MemberController, except: [:new, :edit]
     resources "/members", MemberController, except: [:new, :edit]
-    resources "/members/:id", MemberController, except: [:new, :edit]
+
     resources "/handles", HandleController, except: [:new, :edit]
-    resources "/handles/:id", HandleController, except: [:new, :edit]
+    #resources "/handles/:id", HandleController, except: [:new, :edit]
     resources "/props", PropController, except: [:new, :edit]
     resources "/prop_types", PropTypeController, except: [:new, :edit]
     resources "/rewards", RewardController, except: [:new, :edit]

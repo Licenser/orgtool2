@@ -7,7 +7,7 @@ defmodule OrgtoolDb.Repo.Migrations.CreateReward do
       add :description, :text
       add :img, :string
       add :level, :integer
-      add :reward_type_id, :integer
+      add :reward_type_id, references(:rewards)
 
       timestamps()
     end

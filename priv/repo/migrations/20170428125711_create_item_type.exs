@@ -8,7 +8,7 @@ defmodule OrgtoolDb.Repo.Migrations.CreateItemType do
       add :description, :text
       add :img, :string
       add :permissions, :integer
-      add :item_type_id, :integer
+      add :item_type_id, references(:item_types)
 
       timestamps()
     end

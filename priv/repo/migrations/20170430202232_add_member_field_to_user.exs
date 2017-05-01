@@ -3,7 +3,7 @@ defmodule OrgtoolDb.Repo.Migrations.AddMemberFieldToUser do
 
   def change do
     alter table(:users) do
-      add :member, :integer
+      add :member_id, references(:members)
     end
   end
 end

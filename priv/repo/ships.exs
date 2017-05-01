@@ -4,6 +4,7 @@ alias OrgtoolDb.Item
 alias OrgtoolDb.PropType
 alias OrgtoolDb.Prop
 require Logger
+require Ecto.Query
 
 import SweetXml
 
@@ -41,17 +42,11 @@ it_ship_model = Repo.insert! %ItemType{
   item_type: it_manufacturer
 }
 
-it_ship = Repo.insert! %ItemType{
+Repo.insert! %ItemType{
   type_name: "ship",
   name: "Ship",
   permissions: 1,
   item_type: it_ship_model
-}
-
-rsi = Repo.insert! %Item{
-  name: "RSI",
-  item_type: it_manufacturer,
-  img: "https://robertsspaceindustries.com/media/tb6ui8j38wwscr/icon/RSI.png"
 }
 
 stats = Repo.insert! %PropType{
@@ -59,6 +54,7 @@ stats = Repo.insert! %PropType{
   type_name: "stats"
 }
 
+img_pfx = "https://robertsspaceindustries.com"
 
 for %{
       name: name,
@@ -66,15 +62,25 @@ for %{
       ship_id: ship_id,
       class: class,
       mname: manufacturer,
+      ming: manufacturer_img,
       crew: crew,
       length: length,
       mass: mass
 }  <- element do
+  parent = case Repo.one(Ecto.Query.from(item in Item, where: item.name == ^manufacturer and item.item_type_id == ^it_manufacturer.id , limit: 1)) do
+             nil ->
+               Repo.insert! %Item{
+                 name: manufacturer,
+                 item_type: it_manufacturer,
+                 img: "#{img_pfx}/#{manufacturer_img}"}
+             parent ->
+               parent
+           end
   Repo.insert! %Item{
     name: "#{name}",
-    img: "https://robertsspaceindustries.com/#{img}",
+    img: "#{img_pfx}/#{img}",
     item_type: it_ship_model,
-    item: rsi,
+    item: parent,
     props: [
       %Prop{
         prop_type: stats,
@@ -114,10 +120,3 @@ for %{
     ]
   }
 end
-
-Repo.insert! %Item{
-  name: "Boaty McBoatface",
-  item_type: it_ship,
-  item_id: 0
-}
-    

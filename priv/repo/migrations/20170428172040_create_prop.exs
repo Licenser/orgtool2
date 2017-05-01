@@ -8,7 +8,7 @@ defmodule OrgtoolDb.Repo.Migrations.CreateProp do
       add :description, :text
       add :img, :string
       add :item_id, :integer
-      add :prop_type_id, :integer
+      add :prop_type_id, references(:prop_types)
 
       timestamps()
     end
