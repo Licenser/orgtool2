@@ -21,6 +21,14 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
   * Source: https://github.com/phoenixframework/phoenix
 
 
+# Testing
+You can use the docker file in `docker` for testing. The container disables authentication.
+
+```
+cd docker
+docker build -t orgtool .
+docker run -p 4000:4000 orgtool
+```
 
 # Installation
 ## Install dependencies
@@ -35,7 +43,6 @@ sudo apt install postgresql-9.5
 curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
 
 sudo apt install nodejs
-sudo apt install npm
 sudo npm install -g yarn
 ```
 
