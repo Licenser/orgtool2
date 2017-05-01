@@ -5,6 +5,8 @@ defmodule OrgtoolDb.Category do
     field :name, :string
     field :img, :string
 
+    has_many :templates, OrgtoolDb.Template
+
     timestamps()
   end
 

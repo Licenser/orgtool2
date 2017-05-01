@@ -2,24 +2,37 @@ defmodule OrgtoolDb.TemplateController do
   use OrgtoolDb.Web, :controller
 
   alias OrgtoolDb.Template
+  alias OrgtoolDb.Category
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
   end
 
-  def index(conn, _params, _current_user, _claums) do
+  def index(conn, %{"category_id" => category_id}, _current_user, _claums) do
+    category = Repo.get!(Category, category_id)
+    |> Repo.preload(:templates)
+    render(conn, "index.json", templates: category.templates)
+  end
+
+  def index(conn, params, _current_user, _claums) do
     templates = Repo.all(Template)
     render(conn, "index.json", templates: templates)
   end
 
-  def create(conn, %{"template" => template_params}, _current_user, _claums) do
+  def create(conn, %{"template" => template_params} = params, _current_user, _claums) do
+    template_params = case params do
+                        %{"category_id" => category_id} ->
+                          Map.put(template_params, "category_id", category_id);
+                        _ ->
+                          template_params
+                      end
     changeset = Template.changeset(%Template{}, template_params)
 
     case Repo.insert(changeset) do
       {:ok, template} ->
         conn
         |> put_status(:created)
-        |> put_resp_header("location", template_path(conn, :show, template))
+        |> put_resp_header("location", category_template_path(conn, :show, template))
         |> render("show.json", template: template)
       {:error, changeset} ->
         conn
