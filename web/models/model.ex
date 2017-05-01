@@ -6,7 +6,7 @@ defmodule OrgtoolDb.Model do
     field :img, :string
     field :description, :string
 
-    belongs_to :manufacturer, OrgtoolDb.Manufacturer
+    belongs_to :category, OrgtoolDb.Category
 
     has_many :model_props, OrgtoolDb.ModelProp
     has_many :props, OrgtoolDb.Prop
@@ -19,7 +19,7 @@ defmodule OrgtoolDb.Model do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :img, :description, :manufacturer_id])
-    |> validate_required([:name, :img, :manufacturer_id])
+    |> cast(params, [:name, :img, :description, :category_id])
+    |> validate_required([:name, :img, :category_id])
   end
 end

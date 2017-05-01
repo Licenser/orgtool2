@@ -3,7 +3,7 @@ defmodule OrgtoolDb.ModelTest do
 
   alias OrgtoolDb.Model
 
-  @valid_attrs %{description: "some content", img: "some content", manufacturer_id: 42, name: "some content"}
+  @valid_attrs %{description: "some content", img: "some content", category_id: 42, name: "some content"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

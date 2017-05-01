@@ -1,18 +1,18 @@
-defmodule OrgtoolDb.ManufacturerTest do
+defmodule OrgtoolDb.CategoryTest do
   use OrgtoolDb.ModelCase
 
-  alias OrgtoolDb.Manufacturer
+  alias OrgtoolDb.Category
 
   @valid_attrs %{img: "some content", name: "some content"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
-    changeset = Manufacturer.changeset(%Manufacturer{}, @valid_attrs)
+    changeset = Category.changeset(%Category{}, @valid_attrs)
     assert changeset.valid?
   end
 
   test "changeset with invalid attributes" do
-    changeset = Manufacturer.changeset(%Manufacturer{}, @invalid_attrs)
+    changeset = Category.changeset(%Category{}, @invalid_attrs)
     refute changeset.valid?
   end
 end

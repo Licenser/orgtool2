@@ -1,7 +1,7 @@
-defmodule OrgtoolDb.Manufacturer do
+defmodule OrgtoolDb.Category do
   use OrgtoolDb.Web, :model
 
-  schema "manufacturers" do
+  schema "categorys" do
     field :name, :string
     field :img, :string
 

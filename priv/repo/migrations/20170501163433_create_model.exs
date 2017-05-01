@@ -6,7 +6,7 @@ defmodule OrgtoolDb.Repo.Migrations.CreateModel do
       add :name, :string
       add :img, :string
       add :description, :text
-      add :manufacturer_id, references(:manufacturers)
+      add :category_id, references(:categorys)
 
       timestamps()
     end

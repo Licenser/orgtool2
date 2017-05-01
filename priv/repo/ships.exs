@@ -1,5 +1,5 @@
 alias OrgtoolDb.Repo
-alias OrgtoolDb.Manufacturer
+alias OrgtoolDb.Category
 alias OrgtoolDb.Model
 alias OrgtoolDb.ModelProp
 require Logger
@@ -36,24 +36,24 @@ for %{
       img: img,
       ship_id: ship_id,
       class: class,
-      mname: manufacturer,
-      ming: manufacturer_img,
+      mname: category,
+      ming: category_img,
       crew: crew,
       length: length,
       mass: mass
 }  <- element do
-  parent = case Repo.one(Ecto.Query.from(m in Manufacturer, where: m.name == ^manufacturer, limit: 1)) do
+  parent = case Repo.one(Ecto.Query.from(m in Category, where: m.name == ^category, limit: 1)) do
              nil ->
-               Repo.insert! %Manufacturer{
-                 name: manufacturer,
-                 img: "#{img_pfx}#{manufacturer_img}"}
+               Repo.insert! %Category{
+                 name: category,
+                 img: "#{img_pfx}#{category_img}"}
              parent ->
                parent
            end
   Repo.insert! %Model{
     name: "#{name}",
     img: "#{img_pfx}#{img}",
-    manufacturer: parent,
+    category: parent,
     model_props: [
       %ModelProp{
         name: "ship_id",

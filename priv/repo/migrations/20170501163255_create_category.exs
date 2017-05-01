@@ -1,8 +1,8 @@
-defmodule OrgtoolDb.Repo.Migrations.CreateManufacturer do
+defmodule OrgtoolDb.Repo.Migrations.CreateCategory do
   use Ecto.Migration
 
   def change do
-    create table(:manufacturers) do
+    create table(:categorys) do
       add :name, :string
       add :img, :string
 

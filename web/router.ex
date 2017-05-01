@@ -110,7 +110,7 @@ defmodule OrgtoolDb.Router do
     resources "/member_rewards", MemberRewardController, except: [:new, :edit]
     resources "/member_units", MemberUnitController, except: [:new, :edit]
 
-    resources "/manufacturers", ManufacturerController, except: [:new, :edit]
+    resources "/categorys", CategoryController, except: [:new, :edit]
     resources "/models", ModelController, except: [:new, :edit]
 
     resources "/model_props", ModelPropController, except: [:new, :edit]

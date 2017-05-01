@@ -2,7 +2,7 @@ defmodule OrgtoolDb.ModelControllerTest do
   use OrgtoolDb.ConnCase
 
   alias OrgtoolDb.Model
-  @valid_attrs %{description: "some content", img: "some content", manufacturer_id: 42, name: "some content"}
+  @valid_attrs %{description: "some content", img: "some content", category_id: 42, name: "some content"}
   @invalid_attrs %{}
 
   setup %{conn: conn} do
@@ -21,7 +21,7 @@ defmodule OrgtoolDb.ModelControllerTest do
       "name" => model.name,
       "img" => model.img,
       "description" => model.description,
-      "manufacturer_id" => model.manufacturer_id}
+      "category_id" => model.category_id}
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do

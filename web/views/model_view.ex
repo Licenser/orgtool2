@@ -14,6 +14,6 @@ defmodule OrgtoolDb.ModelView do
       name: model.name,
       img: model.img,
       description: model.description,
-      manufacturer_id: model.manufacturer_id}
+      category_id: model.category_id}
   end
 end
