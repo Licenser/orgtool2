@@ -10,12 +10,6 @@ defmodule OrgtoolDb.ItemView do
   end
 
   def render("item.json", %{item: item}) do
-    items = if item.items == nil do
-      []
-    else
-      for i <- item.items, do: i.id
-    end
-
     %{
       id: item.id,
       available: item.available,

@@ -1,7 +1,7 @@
-defmodule OrgtoolDb.PropController do
+defmodule OrgtoolDb.ItemPropController do
   use OrgtoolDb.Web, :controller
 
-  alias OrgtoolDb.Prop
+  alias OrgtoolDb.ItemProp
   alias OrgtoolDb.Item
 
   if System.get_env("NO_AUTH") != "true" do
@@ -11,23 +11,23 @@ defmodule OrgtoolDb.PropController do
   def index(conn, %{"item_id" => item_id}, _current_user, _claums) do
     item = Repo.get!(Item, item_id)
     |> Repo.preload(:props)
-    render(conn, "index.json", props: item.props)
+    render(conn, "index.json", item_props: item.props)
   end
 
   def index(conn, _params, _current_user, _claums) do
-    props = Repo.all(Prop)
-    render(conn, "index.json", props: props)
+    item_props = Repo.all(ItemProp)
+    render(conn, "index.json", item_props: item_props)
   end
 
-  def create(conn, %{"prop" => prop_params}, _current_user, _claums) do
-    changeset = Prop.changeset(%Prop{}, prop_params)
+  def create(conn, %{"item_prop" => prop_params}, _current_user, _claums) do
+    changeset = ItemProp.changeset(%ItemProp{}, prop_params)
 
     case Repo.insert(changeset) do
       {:ok, prop} ->
         conn
         |> put_status(:created)
-        |> put_resp_header("location", prop_path(conn, :show, prop))
-        |> render("show.json", prop: prop)
+        |> put_resp_header("location", item_prop_path(conn, :show, prop))
+        |> render("show.json", item_prop: prop)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -36,17 +36,17 @@ defmodule OrgtoolDb.PropController do
   end
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
-    prop = Repo.get!(Prop, id)
-    render(conn, "show.json", prop: prop)
+    prop = Repo.get!(ItemProp, id)
+    render(conn, "show.json", item_prop: prop)
   end
 
-  def update(conn, %{"id" => id, "prop" => prop_params}, _current_user, _claums) do
-    prop = Repo.get!(Prop, id)
-    changeset = Prop.changeset(prop, prop_params)
+  def update(conn, %{"id" => id, "item_prop" => prop_params}, _current_user, _claums) do
+    prop = Repo.get!(ItemProp, id)
+    changeset = ItemProp.changeset(prop, prop_params)
 
     case Repo.update(changeset) do
       {:ok, prop} ->
-        render(conn, "show.json", prop: prop)
+        render(conn, "show.json", item_prop: prop)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -55,7 +55,7 @@ defmodule OrgtoolDb.PropController do
   end
 
   def delete(conn, %{"id" => id}, _current_user, _claums) do
-    prop = Repo.get!(Prop, id)
+    prop = Repo.get!(ItemProp, id)
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).

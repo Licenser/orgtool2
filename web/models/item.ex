@@ -12,7 +12,7 @@ defmodule OrgtoolDb.Item do
     belongs_to :unit, OrgtoolDb.Unit
     belongs_to :template, OrgtoolDb.Template
 
-    has_many :props, OrgtoolDb.Prop
+    has_many :props, OrgtoolDb.ItemProp
 
     timestamps()
   end

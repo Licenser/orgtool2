@@ -8,8 +8,7 @@ defmodule OrgtoolDb.Template do
 
     belongs_to :category, OrgtoolDb.Category
 
-    has_many :template_props, OrgtoolDb.TemplateProp
-    has_many :props, OrgtoolDb.Prop
+    has_many :props, OrgtoolDb.TemplateProp
 
     timestamps()
   end

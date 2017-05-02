@@ -10,8 +10,8 @@ defmodule OrgtoolDb.TemplatePropController do
 
   def index(conn, %{"template_id" => template_id}, _current_user, _claums) do
     template = Repo.get!(Template, template_id)
-    |> Repo.preload(:template_props)
-    render(conn, "index.json", template_props: template.template_props)
+    |> Repo.preload(:props)
+    render(conn, "index.json", template_props: template.props)
   end
 
   def index(conn, _params, _current_user, _claums) do

@@ -54,7 +54,7 @@ for %{
     name: "#{name}",
     img: "#{img_pfx}#{img}",
     category: parent,
-    template_props: [
+    props: [
       %TemplateProp{
         name: "ship_id",
         value: ship_id
