@@ -96,13 +96,16 @@ defmodule OrgtoolDb.Router do
     resources "/sessions", SessionController, except: [:edit, :show]
     #resources "/units/:id", UnitController, except: [:new, :edit]
     resources "/units", UnitController, except: [:new, :edit]
-    resources "/items", ItemController, except: [:new, :edit]
+    resources "/items", ItemController, except: [:new, :edit] do
+      resources "/properties", PropController, except: [:new, :edit]
+    end
+    resources "/props", PropController, except: [:new, :edit]
+
     #resources "/members/:id", MemberController, except: [:new, :edit]
     resources "/members", MemberController, except: [:new, :edit]
 
     resources "/handles", HandleController, except: [:new, :edit]
     #resources "/handles/:id", HandleController, except: [:new, :edit]
-    resources "/props", PropController, except: [:new, :edit]
     resources "/prop_types", PropTypeController, except: [:new, :edit]
     resources "/rewards", RewardController, except: [:new, :edit]
     resources "/unit_types", UnitTypeController, except: [:new, :edit]
@@ -110,10 +113,13 @@ defmodule OrgtoolDb.Router do
     resources "/member_rewards", MemberRewardController, except: [:new, :edit]
     resources "/member_units", MemberUnitController, except: [:new, :edit]
 
-    resources "/categorys", CategoryController, except: [:new, :edit] do
+    resources "/categories", CategoryController, except: [:new, :edit] do
       resources "/templates", TemplateController, except: [:new, :edit]
     end
 
+    resources "/templates", TemplateController, except: [:new, :edit] do
+      resources "/properties", TemplatePropController, except: [:new, :edit]
+    end
 
     resources "/template_props", TemplatePropController, except: [:new, :edit]
   end

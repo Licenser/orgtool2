@@ -1,9 +1,17 @@
 defmodule OrgtoolDb.PropController do
   use OrgtoolDb.Web, :controller
+
   alias OrgtoolDb.Prop
+  alias OrgtoolDb.Item
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
+  end
+
+  def index(conn, %{"item_id" => item_id}, _current_user, _claums) do
+    item = Repo.get!(Item, item_id)
+    |> Repo.preload(:props)
+    render(conn, "index.json", props: item.props)
   end
 
   def index(conn, _params, _current_user, _claums) do
