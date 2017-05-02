@@ -3,7 +3,7 @@ defmodule OrgtoolDb.ItemTest do
 
   alias OrgtoolDb.Item
 
-  @valid_attrs %{available: true, description: "some content", hidden: true, img: "some content", member: 42, name: "some content", parent: 42, type: 42, unit: 42}
+  @valid_attrs %{available: true, description: "some content", hidden: true, img: "some content", member_id: 42, name: "some content", template_id: 42, item_type_id: 42, unit_id: 42}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

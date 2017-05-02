@@ -11,13 +11,13 @@ defmodule OrgtoolDb.CategoryControllerTest do
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, category_path(conn, :index)
-    assert json_response(conn, 200)["data"] == []
+    assert json_response(conn, 200)["categories"] == []
   end
 
   test "shows chosen resource", %{conn: conn} do
     category = Repo.insert! %Category{}
     conn = get conn, category_path(conn, :show, category)
-    assert json_response(conn, 200)["data"] == %{"id" => category.id,
+    assert json_response(conn, 200)["category"] == %{"id" => category.id,
       "name" => category.name,
       "img" => category.img}
   end
@@ -30,7 +30,7 @@ defmodule OrgtoolDb.CategoryControllerTest do
 
   test "creates and renders resource when data is valid", %{conn: conn} do
     conn = post conn, category_path(conn, :create), category: @valid_attrs
-    assert json_response(conn, 201)["data"]["id"]
+    assert json_response(conn, 201)["category"]["id"]
     assert Repo.get_by(Category, @valid_attrs)
   end
 
@@ -42,7 +42,7 @@ defmodule OrgtoolDb.CategoryControllerTest do
   test "updates and renders chosen resource when data is valid", %{conn: conn} do
     category = Repo.insert! %Category{}
     conn = put conn, category_path(conn, :update, category), category: @valid_attrs
-    assert json_response(conn, 200)["data"]["id"]
+    assert json_response(conn, 200)["category"]["id"]
     assert Repo.get_by(Category, @valid_attrs)
   end
 

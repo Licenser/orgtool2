@@ -97,8 +97,9 @@ defmodule OrgtoolDb.Router do
     #resources "/units/:id", UnitController, except: [:new, :edit]
     resources "/units", UnitController, except: [:new, :edit]
     resources "/items", ItemController, except: [:new, :edit] do
-      resources "/properties", PropController, except: [:new, :edit]
+      resources "/properties", ItemPropController, except: [:new, :edit]
     end
+
     resources "/item_props", ItemPropController, except: [:new, :edit]
 
     #resources "/members/:id", MemberController, except: [:new, :edit]

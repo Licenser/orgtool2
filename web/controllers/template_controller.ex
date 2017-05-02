@@ -32,7 +32,7 @@ defmodule OrgtoolDb.TemplateController do
       {:ok, template} ->
         conn
         |> put_status(:created)
-        |> put_resp_header("location", category_template_path(conn, :show, template))
+        |> put_resp_header("location", template_path(conn, :show, template))
         |> render("show.json", template: template)
       {:error, changeset} ->
         conn

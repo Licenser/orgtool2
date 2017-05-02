@@ -11,13 +11,13 @@ defmodule OrgtoolDb.RewardTypeControllerTest do
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, reward_type_path(conn, :index)
-    assert json_response(conn, 200)["data"] == []
+    assert json_response(conn, 200)["reward_types"] == []
   end
 
   test "shows chosen resource", %{conn: conn} do
     reward_type = Repo.insert! %RewardType{}
     conn = get conn, reward_type_path(conn, :show, reward_type)
-    assert json_response(conn, 200)["data"] == %{"id" => reward_type.id,
+    assert json_response(conn, 200)["reward_type"] == %{"id" => reward_type.id,
       "name" => reward_type.name,
       "description" => reward_type.description,
       "img" => reward_type.img,
@@ -32,7 +32,7 @@ defmodule OrgtoolDb.RewardTypeControllerTest do
 
   test "creates and renders resource when data is valid", %{conn: conn} do
     conn = post conn, reward_type_path(conn, :create), reward_type: @valid_attrs
-    assert json_response(conn, 201)["data"]["id"]
+    assert json_response(conn, 201)["reward_type"]["id"]
     assert Repo.get_by(RewardType, @valid_attrs)
   end
 
@@ -44,7 +44,7 @@ defmodule OrgtoolDb.RewardTypeControllerTest do
   test "updates and renders chosen resource when data is valid", %{conn: conn} do
     reward_type = Repo.insert! %RewardType{}
     conn = put conn, reward_type_path(conn, :update, reward_type), reward_type: @valid_attrs
-    assert json_response(conn, 200)["data"]["id"]
+    assert json_response(conn, 200)["reward_type"]["id"]
     assert Repo.get_by(RewardType, @valid_attrs)
   end
 

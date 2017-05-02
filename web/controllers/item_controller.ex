@@ -2,32 +2,50 @@ defmodule OrgtoolDb.ItemController do
   use OrgtoolDb.Web, :controller
 
   alias OrgtoolDb.Item
+  alias OrgtoolDb.Template
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
   end
 
   def index(conn, _params, _current_user, _claums) do
-    items = Repo.all(Item) |> Repo.preload(:items)
+    items = Repo.all(Item)
     render(conn, "index.json", items: items)
   end
 
-  def create(conn, %{"item" => item_params = %{"item_id" => item_id}},
+
+  def create(conn, %{"item" => item_params = %{"template_id" => template_id}},
         _current_user, _claums) do
 
     item_params = case item_params do
                     %{ "img" => img } when img != <<>> ->
-                      :io.format("img: ~p~n", [img])
                       item_params;
                     _ ->
-                      parent = Repo.get!(Item, item_id)
+                      parent = Repo.get!(Template, template_id)
                       Map.put(item_params, "img", parent.img)
                   end
     changeset = Item.changeset(%Item{}, item_params)
 
     case Repo.insert(changeset) do
       {:ok, item} ->
-        item = item |> Repo.preload(:items)
+        conn
+        |> put_status(:created)
+        |> put_resp_header("location", item_path(conn, :show, item))
+        |> render("show.json", item: item)
+      {:error, changeset} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> render(OrgtoolDb.ChangesetView, "error.json", changeset: changeset)
+    end
+  end
+
+  def create(conn, %{"item" => item_params},
+        _current_user, _claums) do
+
+    changeset = Item.changeset(%Item{}, item_params)
+
+    case Repo.insert(changeset) do
+      {:ok, item} ->
         conn
         |> put_status(:created)
         |> put_resp_header("location", item_path(conn, :show, item))
@@ -41,19 +59,18 @@ defmodule OrgtoolDb.ItemController do
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
 
-    item = Repo.get!(Item, id) |> Repo.preload(:items)
+    item = Repo.get!(Item, id)
 
     render(conn, "show.json", item: item)
   end
 
-  def update(conn, item_params = %{"id" => id}, _current_user, _claums) do
+  def update(conn, %{"id" => id, "item" => item_params}, _current_user, _claums) do
 
     item = Repo.get!(Item, id)
     changeset = Item.changeset(item, item_params)
 
     case Repo.update(changeset) do
       {:ok, item} ->
-        item = item |> Repo.preload(:items)
         render(conn, "show.json", item: item)
       {:error, changeset} ->
         conn

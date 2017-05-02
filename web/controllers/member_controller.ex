@@ -32,7 +32,7 @@ defmodule OrgtoolDb.MemberController do
     render(conn, "show.json", member: member)
   end
 
-  def update(conn, %{"id" => id} = member_params, _current_user, _claums) do
+  def update(conn, %{"id" => id, "member" => member_params}, _current_user, _claums) do
     member = Repo.get!(Member, id)
     changeset = Member.changeset(member, member_params)
 

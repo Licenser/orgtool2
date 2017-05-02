@@ -16,7 +16,7 @@ defmodule OrgtoolDb.UnitView do
       description: unit.description,
       color: unit.color,
       img: unit.img,
-      type_id: unit.unit_type_id,
+      unit_type_id: unit.unit_type_id,
       unit_id: unit.unit_id
     }
   end

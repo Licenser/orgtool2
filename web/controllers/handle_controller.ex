@@ -33,7 +33,7 @@ defmodule OrgtoolDb.HandleController do
     render(conn, "show.json", handle: handle)
   end
 
-  def update(conn, %{"id" => id} = handle_params, _current_user, _claums) do
+  def update(conn, %{"id" => id, "handle" => handle_params}, _current_user, _claums) do
     handle = Repo.get!(Handle, id)
     changeset = Handle.changeset(handle, handle_params)
 

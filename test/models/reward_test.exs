@@ -3,7 +3,7 @@ defmodule OrgtoolDb.RewardTest do
 
   alias OrgtoolDb.Reward
 
-  @valid_attrs %{description: "some content", img: "some content", level: 42, name: "some content", type: 42}
+  @valid_attrs %{description: "some content", img: "some content", level: 42, name: "some content", reward_type_id: 42}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

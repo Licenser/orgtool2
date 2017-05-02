@@ -3,7 +3,7 @@ defmodule OrgtoolDb.HandleTest do
 
   alias OrgtoolDb.Handle
 
-  @valid_attrs %{handle: "some content", img: "some content", login: "some content", member: 42, name: "some content"}
+  @valid_attrs %{handle: "some content", img: "some content", login: "some content", member_id: 42, name: "some content"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

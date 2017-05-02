@@ -3,7 +3,7 @@ defmodule OrgtoolDb.MemberUnitTest do
 
   alias OrgtoolDb.MemberUnit
 
-  @valid_attrs %{log: "some content", member: 42, reward: 42, unit: 42}
+  @valid_attrs %{log: "some content", member_id: 42, reward_id: 42, unit_id: 42}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

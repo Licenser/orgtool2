@@ -11,13 +11,13 @@ defmodule OrgtoolDb.UnitTypeControllerTest do
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, unit_type_path(conn, :index)
-    assert json_response(conn, 200)["data"] == []
+    assert json_response(conn, 200)["unit_types"] == []
   end
 
   test "shows chosen resource", %{conn: conn} do
     unit_type = Repo.insert! %UnitType{}
     conn = get conn, unit_type_path(conn, :show, unit_type)
-    assert json_response(conn, 200)["data"] == %{"id" => unit_type.id,
+    assert json_response(conn, 200)["unit_type"] == %{"id" => unit_type.id,
       "description" => unit_type.description,
       "img" => unit_type.img,
       "name" => unit_type.name,
@@ -32,7 +32,7 @@ defmodule OrgtoolDb.UnitTypeControllerTest do
 
   test "creates and renders resource when data is valid", %{conn: conn} do
     conn = post conn, unit_type_path(conn, :create), unit_type: @valid_attrs
-    assert json_response(conn, 201)["data"]["id"]
+    assert json_response(conn, 201)["unit_type"]["id"]
     assert Repo.get_by(UnitType, @valid_attrs)
   end
 
@@ -44,7 +44,7 @@ defmodule OrgtoolDb.UnitTypeControllerTest do
   test "updates and renders chosen resource when data is valid", %{conn: conn} do
     unit_type = Repo.insert! %UnitType{}
     conn = put conn, unit_type_path(conn, :update, unit_type), unit_type: @valid_attrs
-    assert json_response(conn, 200)["data"]["id"]
+    assert json_response(conn, 200)["unit_type"]["id"]
     assert Repo.get_by(UnitType, @valid_attrs)
   end
 

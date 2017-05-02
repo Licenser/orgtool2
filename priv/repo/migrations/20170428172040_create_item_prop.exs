@@ -5,7 +5,7 @@ defmodule OrgtoolDb.Repo.Migrations.CreateItemProp do
     create table(:item_props) do
       add :name, :string
       add :value, :string
-      add :item_id, :integer
+      add :item_id, references(:items)
 
       timestamps()
     end

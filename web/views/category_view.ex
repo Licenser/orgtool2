@@ -2,7 +2,7 @@ defmodule OrgtoolDb.CategoryView do
   use OrgtoolDb.Web, :view
 
   def render("index.json", %{categorys: categorys}) do
-    %{categorys: render_many(categorys, OrgtoolDb.CategoryView, "category.json")}
+    %{categories: render_many(categorys, OrgtoolDb.CategoryView, "category.json")}
   end
 
   def render("show.json", %{category: category}) do

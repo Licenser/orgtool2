@@ -40,7 +40,7 @@ defmodule OrgtoolDb.TemplatePropController do
     render(conn, "show.json", template_prop: template_prop)
   end
 
-  def update(conn, %{"id" => id, "template_prop" => template_prop_params}) do
+  def update(conn,  %{"id" => id, "template_prop" => template_prop_params} , _current_user, _claums) do
     template_prop = Repo.get!(TemplateProp, id)
     changeset = TemplateProp.changeset(template_prop, template_prop_params)
 

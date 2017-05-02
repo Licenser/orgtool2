@@ -7,12 +7,12 @@ defmodule OrgtoolDb.MemberRewardController do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
   end
 
-  def index(conn, _params) do
+  def index(conn, _params, _current_user, _claums) do
     member_rewards = Repo.all(MemberReward)
     render(conn, "index.json", member_rewards: member_rewards)
   end
 
-  def create(conn, %{"member_reward" => member_reward_params}) do
+  def create(conn, %{"member_reward" => member_reward_params}, _current_user, _claums) do
     changeset = MemberReward.changeset(%MemberReward{}, member_reward_params)
 
     case Repo.insert(changeset) do
@@ -28,12 +28,12 @@ defmodule OrgtoolDb.MemberRewardController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
+  def show(conn, %{"id" => id}, _current_user, _claums) do
     member_reward = Repo.get!(MemberReward, id)
     render(conn, "show.json", member_reward: member_reward)
   end
 
-  def update(conn, %{"id" => id, "member_reward" => member_reward_params}) do
+  def update(conn, %{"id" => id, "member_reward" => member_reward_params}, _current_user, _claums) do
     member_reward = Repo.get!(MemberReward, id)
     changeset = MemberReward.changeset(member_reward, member_reward_params)
 
@@ -47,7 +47,7 @@ defmodule OrgtoolDb.MemberRewardController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
+  def delete(conn, %{"id" => id}, _current_user, _claums) do
     member_reward = Repo.get!(MemberReward, id)
 
     # Here we use delete! (with a bang) because we expect

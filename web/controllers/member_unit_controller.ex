@@ -12,8 +12,7 @@ defmodule OrgtoolDb.MemberUnitController do
     render(conn, "index.json", member_units: member_units)
   end
 
-  def create(conn, %{"memberUnit" => %{"member" => member_id, "unit" => unit_id, "reward" => reward_id}}, _current_user, _claums) do
-    member_unit_params = %{member_id: member_id, unit_id: unit_id, reward_id: reward_id}
+  def create(conn, %{"member_unit" => member_unit_params}, _current_user, _claums) do
     changeset = MemberUnit.changeset(%MemberUnit{}, member_unit_params)
 
     case Repo.insert(changeset) do
@@ -34,8 +33,8 @@ defmodule OrgtoolDb.MemberUnitController do
     render(conn, "show.json", member_unit: member_unit)
   end
 
-  def update(conn, %{"id" => id, "member" => member_id, "unit" => unit_id, "reward" => reward_id}, _current_user, _claums) do
-    member_unit_params = %{member_id: member_id, unit_id: unit_id, reward_id: reward_id}
+  def update(conn, %{"id" => id, "member_unit" => member_unit_params}, _current_user, _claums) do
+
     member_unit = Repo.get!(MemberUnit, id)
     changeset = MemberUnit.changeset(member_unit, member_unit_params)
 

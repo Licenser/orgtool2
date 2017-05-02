@@ -16,7 +16,7 @@ defmodule OrgtoolDb.RewardView do
       img: reward.img,
       level: reward.level,
       name: reward.name,
-      type_id: reward.reward_type_id
+      reward_type_id: reward.reward_type_id
     }
   end
 end
