@@ -12,7 +12,7 @@ defmodule OrgtoolDb.ItemController do
     render(conn, "index.json", items: items)
   end
 
-  def create(conn, %{"item" => item_params},
+  def create(conn, %{"item" => item_params = %{"item_id" => item_id}},
         _current_user, _claums) do
 
     item_params = case item_params do
@@ -46,7 +46,7 @@ defmodule OrgtoolDb.ItemController do
     render(conn, "show.json", item: item)
   end
 
-  def update(conn, item_params, _current_user, _claums) do
+  def update(conn, item_params = %{"id" => id}, _current_user, _claums) do
 
     item = Repo.get!(Item, id)
     changeset = Item.changeset(item, item_params)

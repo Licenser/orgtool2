@@ -14,7 +14,7 @@ defmodule OrgtoolDb.TemplateController do
     render(conn, "index.json", templates: category.templates)
   end
 
-  def index(conn, params, _current_user, _claums) do
+  def index(conn, _params, _current_user, _claums) do
     templates = Repo.all(Template)
     render(conn, "index.json", templates: templates)
   end

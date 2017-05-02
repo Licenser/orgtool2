@@ -35,7 +35,7 @@ defmodule OrgtoolDb.UnitController do
     render(conn, "show.json", unit: unit)
   end
 
-  def update(conn, unit_params, _current_user, _claums) do
+  def update(conn, unit_params = %{"id" => id}, _current_user, _claums) do
 
     unit = Repo.get!(Unit, id)
     changeset = Unit.changeset(unit, unit_params)
