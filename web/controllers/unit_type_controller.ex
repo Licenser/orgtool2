@@ -9,7 +9,8 @@ defmodule OrgtoolDb.UnitTypeController do
 
   def index(conn, _params, _current_user, _claums) do
     unit_types = Repo.all(UnitType)
-    render(conn, "index.json", unit_types: unit_types)
+
+    render(conn, "index.json-api", data: unit_types)
   end
 
   def create(conn, %{"unit_type" => unit_type_params}, _current_user, _claums) do
@@ -20,17 +21,17 @@ defmodule OrgtoolDb.UnitTypeController do
         conn
         |> put_status(:created)
         |> put_resp_header("location", unit_type_path(conn, :show, unit_type))
-        |> render("show.json", unit_type: unit_type)
+        |> render("show.json-api", data: unit_type)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(OrgtoolDb.ChangesetView, "error.json", changeset: changeset)
+        |> render(OrgtoolDb.ChangesetView, "error.json-api", changeset: changeset)
     end
   end
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
     unit_type = Repo.get!(UnitType, id)
-    render(conn, "show.json", unit_type: unit_type)
+    render(conn, "show.json-api", data: unit_type)
   end
 
   def update(conn, %{"id" => id, "unit_type" => unit_type_params}, _current_user, _claums) do
@@ -39,11 +40,11 @@ defmodule OrgtoolDb.UnitTypeController do
 
     case Repo.update(changeset) do
       {:ok, unit_type} ->
-        render(conn, "show.json", unit_type: unit_type)
+        render(conn, "show.json-api", data: unit_type)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(OrgtoolDb.ChangesetView, "error.json", changeset: changeset)
+        |> render(OrgtoolDb.ChangesetView, "error.json-api", changeset: changeset)
     end
   end
 

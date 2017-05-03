@@ -5,7 +5,6 @@ defmodule OrgtoolDb.MemberUnit do
 
     belongs_to :member, OrgtoolDb.Member
     belongs_to :unit, OrgtoolDb.Unit
-    belongs_to :reward, OrgtoolDb.Reward
 
     timestamps()
   end

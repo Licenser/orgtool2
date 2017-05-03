@@ -1,19 +1,16 @@
 defmodule OrgtoolDb.TemplateView do
   use OrgtoolDb.Web, :view
+  use JaSerializer.PhoenixView
 
-  def render("index.json", %{templates: templates}) do
-    %{templates: render_many(templates, OrgtoolDb.TemplateView, "template.json")}
-  end
+  attributes [:name, :img, :description]
 
-  def render("show.json", %{template: template}) do
-    %{template: render_one(template, OrgtoolDb.TemplateView, "template.json")}
-  end
+  has_one :category,
+    serializer: OrgtoolDb.CategoryView,
+    include: false,
+    identifiers: :when_included
 
-  def render("template.json", %{template: template}) do
-    %{id: template.id,
-      name: template.name,
-      img: template.img,
-      description: template.description,
-      category_id: template.category_id}
-  end
+  has_one :template_props,
+    serializer: OrgtoolDb.TemplatePropView,
+    include: false,
+    identifiers: :when_included
 end

@@ -9,7 +9,7 @@ defmodule OrgtoolDb.RewardTypeController do
 
   def index(conn, _params, _current_user, _claums) do
     reward_types = Repo.all(RewardType)
-    render(conn, "index.json", reward_types: reward_types)
+    render(conn, "index.json-api", data: reward_types)
   end
 
   def create(conn, %{"reward_type" => reward_type_params}, _current_user, _claums) do
@@ -20,17 +20,17 @@ defmodule OrgtoolDb.RewardTypeController do
         conn
         |> put_status(:created)
         |> put_resp_header("location", reward_type_path(conn, :show, reward_type))
-        |> render("show.json", reward_type: reward_type)
+        |> render("show.json-api", data: reward_type)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(OrgtoolDb.ChangesetView, "error.json", changeset: changeset)
+        |> render(OrgtoolDb.ChangesetView, "error.json-api", changeset: changeset)
     end
   end
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
     reward_type = Repo.get!(RewardType, id)
-    render(conn, "show.json", reward_type: reward_type)
+    render(conn, "show.json-api", data: reward_type)
   end
 
   def update(conn, %{"id" => id, "reward_type" => reward_type_params},
@@ -40,11 +40,11 @@ defmodule OrgtoolDb.RewardTypeController do
 
     case Repo.update(changeset) do
       {:ok, reward_type} ->
-        render(conn, "show.json", reward_type: reward_type)
+        render(conn, "show.json-api", data: reward_type)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(OrgtoolDb.ChangesetView, "error.json", changeset: changeset)
+        |> render(OrgtoolDb.ChangesetView, "error.json-api", changeset: changeset)
     end
   end
 

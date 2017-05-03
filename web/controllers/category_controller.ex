@@ -9,7 +9,7 @@ defmodule OrgtoolDb.CategoryController do
 
   def index(conn, _params, _current_user, _claums) do
     categorys = Repo.all(Category)
-    render(conn, "index.json", categorys: categorys)
+    render(conn, "index.json-api", data: categorys)
   end
 
   def create(conn, %{"category" => category_params}, _current_user, _claums) do
@@ -20,17 +20,17 @@ defmodule OrgtoolDb.CategoryController do
         conn
         |> put_status(:created)
         |> put_resp_header("location", category_path(conn, :show, category))
-        |> render("show.json", category: category)
+        |> render("show.json-api", data: category)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(OrgtoolDb.ChangesetView, "error.json", changeset: changeset)
+        |> render(OrgtoolDb.ChangesetView, "error.json-api", changeset: changeset)
     end
   end
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
     category = Repo.get!(Category, id)
-    render(conn, "show.json", category: category)
+    render(conn, "show.json-api", data: category)
   end
 
   def update(conn, %{"id" => id, "category" => category_params}, _current_user, _claums) do
@@ -39,11 +39,11 @@ defmodule OrgtoolDb.CategoryController do
 
     case Repo.update(changeset) do
       {:ok, category} ->
-        render(conn, "show.json", category: category)
+        render(conn, "show.json-api", data: category)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(OrgtoolDb.ChangesetView, "error.json", changeset: changeset)
+        |> render(OrgtoolDb.ChangesetView, "error.json-api", changeset: changeset)
     end
   end
 

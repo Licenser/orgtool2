@@ -11,12 +11,12 @@ defmodule OrgtoolDb.ItemPropController do
   def index(conn, %{"item_id" => item_id}, _current_user, _claums) do
     item = Repo.get!(Item, item_id)
     |> Repo.preload(:props)
-    render(conn, "index.json", item_props: item.props)
+    render(conn, "index.json-api", data: item.props)
   end
 
   def index(conn, _params, _current_user, _claums) do
     item_props = Repo.all(ItemProp)
-    render(conn, "index.json", item_props: item_props)
+    render(conn, "index.json-api", data: item_props)
   end
 
   def create(conn, %{"item_prop" => prop_params}, _current_user, _claums) do
@@ -27,17 +27,17 @@ defmodule OrgtoolDb.ItemPropController do
         conn
         |> put_status(:created)
         |> put_resp_header("location", item_prop_path(conn, :show, prop))
-        |> render("show.json", item_prop: prop)
+        |> render("show.json-api", data: prop)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(OrgtoolDb.ChangesetView, "error.json", changeset: changeset)
+        |> render(OrgtoolDb.ChangesetView, "error.json-api", changeset: changeset)
     end
   end
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
     prop = Repo.get!(ItemProp, id)
-    render(conn, "show.json", item_prop: prop)
+    render(conn, "show.json-api", data: prop)
   end
 
   def update(conn, %{"id" => id, "item_prop" => prop_params}, _current_user, _claums) do
@@ -46,11 +46,11 @@ defmodule OrgtoolDb.ItemPropController do
 
     case Repo.update(changeset) do
       {:ok, prop} ->
-        render(conn, "show.json", item_prop: prop)
+        render(conn, "show.json-api", data: prop)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(OrgtoolDb.ChangesetView, "error.json", changeset: changeset)
+        |> render(OrgtoolDb.ChangesetView, "error.json-api", changeset: changeset)
     end
   end
 

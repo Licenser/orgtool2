@@ -38,7 +38,7 @@ defmodule OrgtoolDb.Router do
   pipeline :api do
     ## For ui using the auth
     plug :fetch_session
-    plug :accepts, ["json"]
+    plug :accepts, ["json", "json-api"]
   end
 
   # This pipeline if intended for API requests and looks for the JWT in the "Authorization" header
@@ -94,33 +94,28 @@ defmodule OrgtoolDb.Router do
   scope "/api", OrgtoolDb do
     pipe_through [:api, :api_auth]
     resources "/sessions", SessionController, except: [:edit, :show]
-    #resources "/units/:id", UnitController, except: [:new, :edit]
     resources "/units", UnitController, except: [:new, :edit]
-    resources "/items", ItemController, except: [:new, :edit] do
-      resources "/properties", ItemPropController, except: [:new, :edit]
-    end
-
-    resources "/item_props", ItemPropController, except: [:new, :edit]
-
-    #resources "/members/:id", MemberController, except: [:new, :edit]
+    resources "/unit-types", UnitTypeController, except: [:new, :edit]
     resources "/members", MemberController, except: [:new, :edit]
+    resources "/leader-units", LeaderUnitController, except: [:new, :edit]
+    resources "/applicant-units", ApplicantUnitController, except: [:new, :edit]
 
     resources "/handles", HandleController, except: [:new, :edit]
-    #resources "/handles/:id", HandleController, except: [:new, :edit]
     resources "/rewards", RewardController, except: [:new, :edit]
-    resources "/unit_types", UnitTypeController, except: [:new, :edit]
-    resources "/reward_types", RewardTypeController, except: [:new, :edit]
-    resources "/member_rewards", MemberRewardController, except: [:new, :edit]
-    resources "/member_units", MemberUnitController, except: [:new, :edit]
 
+    resources "/reward-types", RewardTypeController, except: [:new, :edit]
+    resources "/member-rewards", MemberRewardController, except: [:new, :edit]
+    resources "/member-units", MemberUnitController, except: [:new, :edit]
     resources "/categories", CategoryController, except: [:new, :edit] do
       resources "/templates", TemplateController, except: [:new, :edit]
     end
-
     resources "/templates", TemplateController, except: [:new, :edit] do
       resources "/properties", TemplatePropController, except: [:new, :edit]
     end
-
-    resources "/template_props", TemplatePropController, except: [:new, :edit]
+    resources "/template-props", TemplatePropController, except: [:new, :edit]
+    resources "/items", ItemController, except: [:new, :edit] do
+      resources "/properties", ItemPropController, except: [:new, :edit]
+    end
+    resources "/item-props", ItemPropController, except: [:new, :edit]
   end
 end

@@ -1,22 +1,16 @@
 defmodule OrgtoolDb.RewardView do
   use OrgtoolDb.Web, :view
+  use JaSerializer.PhoenixView
 
-  def render("index.json", %{rewards: rewards}) do
-    %{rewards: render_many(rewards, OrgtoolDb.RewardView, "reward.json")}
-  end
+  attributes [:name, :level, :img, :description]
 
-  def render("show.json", %{reward: reward}) do
-    %{reward: render_one(reward, OrgtoolDb.RewardView, "reward.json")}
-  end
+  has_many :members,
+    serializer: OrgtoolDb.MemberView,
+    include: false,
+    identifiers: :when_included
 
-  def render("reward.json", %{reward: reward}) do
-    %{
-      id: reward.id,
-      description: reward.description,
-      img: reward.img,
-      level: reward.level,
-      name: reward.name,
-      reward_type_id: reward.reward_type_id
-    }
-  end
+  has_one :reward_type,
+    serializer: OrgtoolDb.RewardTypeView,
+    include: false,
+    identifiers: :when_included
 end

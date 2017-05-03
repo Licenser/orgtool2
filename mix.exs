@@ -21,7 +21,7 @@ defmodule OrgtoolDb.Mixfile do
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :phoenix_ecto,
                     :cowboy, :logger, :gettext, :postgrex, :httpotion, :sweet_xml,
                     :ueberauth, :ueberauth_google, :ueberauth_identity,
-                    :oauth2, :comeonin]]
+                    :oauth2, :comeonin, :ja_serializer]]
   end
 
   # Specifies which paths to compile per environment.
@@ -43,6 +43,8 @@ defmodule OrgtoolDb.Mixfile do
      {:httpotion, "~> 3.0.2"},
      {:sweet_xml, "~> 0.6.5"},
      {:cowboy, "~> 1.0"},
+     {:ja_serializer, "~> 0.12.0"},
+
 
      {:comeonin, "~> 3.0"},
 

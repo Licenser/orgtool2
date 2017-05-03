@@ -1,25 +1,21 @@
 defmodule OrgtoolDb.ItemView do
   use OrgtoolDb.Web, :view
+  use JaSerializer.PhoenixView
 
-  def render("index.json", %{items: items}) do
-    %{items: render_many(items, OrgtoolDb.ItemView, "item.json")}
-  end
+  attributes [:available, :description, :hidden, :img, :name]
 
-  def render("show.json", %{item: item}) do
-    %{item: render_one(item, OrgtoolDb.ItemView, "item.json")}
-  end
+  has_one :member,
+    serializer: OrgtoolDb.MemberView,
+    include: false,
+    identifiers: :when_included
 
-  def render("item.json", %{item: item}) do
-    %{
-      id: item.id,
-      available: item.available,
-      description: item.description,
-      hidden: item.hidden,
-      img: item.img,
-      name: item.name,
-      member_id: item.member_id,
-      template_id: item.template_id,
-      unit_id: item.unit_id,
-    }
-  end
+  has_one :template,
+    serializer: OrgtoolDb.TemplateView,
+    include: false,
+    identifiers: :when_included
+
+  has_one :unit,
+    serializer: OrgtoolDb.UnitView,
+    include: false,
+    identifiers: :when_included
 end

@@ -1,23 +1,36 @@
 defmodule OrgtoolDb.UnitView do
   use OrgtoolDb.Web, :view
+  use JaSerializer.PhoenixView # Or use in web/web.ex
 
-  def render("index.json", %{units: units}) do
-    %{units: render_many(units, OrgtoolDb.UnitView, "unit.json")}
-  end
+  attributes [:name, :description, :color, :img]
 
-  def render("show.json", %{unit: unit}) do
-    %{unit: render_one(unit, OrgtoolDb.UnitView, "unit.json")}
-  end
+  has_many :units,
+    serializer: OrgtoolDb.UnitView,
+    include: false,
+    identifiers: :when_included
 
-  def render("unit.json", %{unit: unit}) do
-    %{
-      id: unit.id,
-      name: unit.name,
-      description: unit.description,
-      color: unit.color,
-      img: unit.img,
-      unit_type_id: unit.unit_type_id,
-      unit_id: unit.unit_id
-    }
-  end
+  has_many :members,
+    serializer: OrgtoolDb.MemberView,
+    include: false,
+    identifiers: :when_included
+
+  has_many :leaders,
+    serializer: OrgtoolDb.MemberView,
+    include: false,
+    identifiers: :when_included
+
+  has_many :applicants,
+    serializer: OrgtoolDb.MemberView,
+    include: false,
+    identifiers: :when_included
+
+  has_one :unit,
+    serializer: OrgtoolDb.UnitView,
+    include: false,
+    identifiers: :when_included
+
+  has_one :unit_type,
+    serializer: OrgtoolDb.UnitTypeView,
+    include: true,
+    identifiers: :when_included
 end

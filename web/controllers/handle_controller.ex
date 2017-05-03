@@ -9,7 +9,7 @@ defmodule OrgtoolDb.HandleController do
 
   def index(conn, _params, _current_user, _claums) do
     handles = Repo.all(Handle)
-    render(conn, "index.json", handles: handles)
+    render(conn, "index.json-api", data: handles)
   end
 
   def create(conn, %{"handle" => handle_params}, _current_user, _claums) do
@@ -20,17 +20,17 @@ defmodule OrgtoolDb.HandleController do
         conn
         |> put_status(:created)
         |> put_resp_header("location", handle_path(conn, :show, handle))
-        |> render("show.json", handle: handle)
+        |> render("show.json-api", data: handle)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(OrgtoolDb.ChangesetView, "error.json", changeset: changeset)
+        |> render(OrgtoolDb.ChangesetView, "error.json-api", changeset: changeset)
     end
   end
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
     handle = Repo.get!(Handle, id)
-    render(conn, "show.json", handle: handle)
+    render(conn, "show.json-api", data: handle)
   end
 
   def update(conn, %{"id" => id, "handle" => handle_params}, _current_user, _claums) do
@@ -39,11 +39,11 @@ defmodule OrgtoolDb.HandleController do
 
     case Repo.update(changeset) do
       {:ok, handle} ->
-        render(conn, "show.json", handle: handle)
+        render(conn, "show.json-api", data: handle)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(OrgtoolDb.ChangesetView, "error.json", changeset: changeset)
+        |> render(OrgtoolDb.ChangesetView, "error.json-api", changeset: changeset)
     end
   end
 

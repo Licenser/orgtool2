@@ -53,6 +53,15 @@ config :ueberauth, Ueberauth.Strategy.Google.OAuth,
   client_id: System.get_env("GOOGLE_CLIENT_ID"),
   client_secret: System.get_env("GOOGLE_CLIENT_SECRET")
 
+config :phoenix, :format_encoders,
+  "json-api": Poison
+
+config :mime, :types, %{
+  "application/vnd.api+json" => ["json-api"]
+}
+
+config :ja_serializer,
+  pluralize_types: true
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

@@ -1,20 +1,11 @@
 defmodule OrgtoolDb.HandleView do
   use OrgtoolDb.Web, :view
+  use JaSerializer.PhoenixView
 
-  def render("index.json", %{handles: handles}) do
-    %{handles: render_many(handles, OrgtoolDb.HandleView, "handle.json")}
-  end
+  attributes [:name, :handle, :img, :login]
 
-  def render("show.json", %{handle: handle}) do
-    %{handle: render_one(handle, OrgtoolDb.HandleView, "handle.json")}
-  end
-
-  def render("handle.json", %{handle: handle}) do
-    %{id: handle.id,
-      name: handle.name,
-      handle: handle.handle,
-      img: handle.img,
-      login: handle.login,
-      member_id: handle.member_id}
-  end
+  has_one :member,
+    serializer: OrgtoolDb.MemberView,
+    include: false,
+    identifiers: :when_included
 end

@@ -11,12 +11,12 @@ defmodule OrgtoolDb.TemplatePropController do
   def index(conn, %{"template_id" => template_id}, _current_user, _claums) do
     template = Repo.get!(Template, template_id)
     |> Repo.preload(:props)
-    render(conn, "index.json", template_props: template.props)
+    render(conn, "index.json-api", data: template.props)
   end
 
   def index(conn, _params, _current_user, _claums) do
     template_props = Repo.all(TemplateProp)
-    render(conn, "index.json", template_props: template_props)
+    render(conn, "index.json-api", data: template_props)
   end
 
   def create(conn, %{"template_prop" => template_prop_params}, _current_user, _claums) do
@@ -27,17 +27,17 @@ defmodule OrgtoolDb.TemplatePropController do
         conn
         |> put_status(:created)
         |> put_resp_header("location", template_prop_path(conn, :show, template_prop))
-        |> render("show.json", template_prop: template_prop)
+        |> render("show.json-api", data: template_prop)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(OrgtoolDb.ChangesetView, "error.json", changeset: changeset)
+        |> render(OrgtoolDb.ChangesetView, "error.json-api", changeset: changeset)
     end
   end
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
     template_prop = Repo.get!(TemplateProp, id)
-    render(conn, "show.json", template_prop: template_prop)
+    render(conn, "show.json-api", data: template_prop)
   end
 
   def update(conn,  %{"id" => id, "template_prop" => template_prop_params} , _current_user, _claums) do
@@ -46,11 +46,11 @@ defmodule OrgtoolDb.TemplatePropController do
 
     case Repo.update(changeset) do
       {:ok, template_prop} ->
-        render(conn, "show.json", template_prop: template_prop)
+        render(conn, "show.json-api", data: template_prop)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(OrgtoolDb.ChangesetView, "error.json", changeset: changeset)
+        |> render(OrgtoolDb.ChangesetView, "error.json-api", changeset: changeset)
     end
   end
 

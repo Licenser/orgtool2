@@ -11,12 +11,12 @@ defmodule OrgtoolDb.TemplateController do
   def index(conn, %{"category_id" => category_id}, _current_user, _claums) do
     category = Repo.get!(Category, category_id)
     |> Repo.preload(:templates)
-    render(conn, "index.json", templates: category.templates)
+    render(conn, "index.json-api", data: category.templates)
   end
 
   def index(conn, _params, _current_user, _claums) do
     templates = Repo.all(Template)
-    render(conn, "index.json", templates: templates)
+    render(conn, "index.json-api", data: templates)
   end
 
   def create(conn, %{"template" => template_params} = params, _current_user, _claums) do
@@ -33,17 +33,17 @@ defmodule OrgtoolDb.TemplateController do
         conn
         |> put_status(:created)
         |> put_resp_header("location", template_path(conn, :show, template))
-        |> render("show.json", template: template)
+        |> render("show.json-api", data: template)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(OrgtoolDb.ChangesetView, "error.json", changeset: changeset)
+        |> render(OrgtoolDb.ChangesetView, "error.json-api", changeset: changeset)
     end
   end
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
     template = Repo.get!(Template, id)
-    render(conn, "show.json", template: template)
+    render(conn, "show.json-api", data: template)
   end
 
   def update(conn, %{"id" => id, "template" => template_params}, _current_user, _claums) do
@@ -52,11 +52,11 @@ defmodule OrgtoolDb.TemplateController do
 
     case Repo.update(changeset) do
       {:ok, template} ->
-        render(conn, "show.json", template: template)
+        render(conn, "show.json-api", data: template)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(OrgtoolDb.ChangesetView, "error.json", changeset: changeset)
+        |> render(OrgtoolDb.ChangesetView, "error.json-api", changeset: changeset)
     end
   end
 

@@ -11,6 +11,10 @@ defmodule OrgtoolDb.Unit do
     belongs_to :unit, OrgtoolDb.Unit
     has_many :units, OrgtoolDb.Unit
 
+    many_to_many :members, OrgtoolDb.Member, join_through: OrgtoolDb.MemberUnit, on_replace: :delete
+    many_to_many :applicants, OrgtoolDb.Member, join_through: OrgtoolDb.ApplicantUnit, on_replace: :delete
+    many_to_many :leaders, OrgtoolDb.Member, join_through: OrgtoolDb.LeaderUnit, on_replace: :delete
+
     timestamps()
   end
 

@@ -9,7 +9,7 @@ defmodule OrgtoolDb.MemberRewardController do
 
   def index(conn, _params, _current_user, _claums) do
     member_rewards = Repo.all(MemberReward)
-    render(conn, "index.json", member_rewards: member_rewards)
+    render(conn, "index.json-api", data: member_rewards)
   end
 
   def create(conn, %{"member_reward" => member_reward_params}, _current_user, _claums) do
@@ -20,17 +20,17 @@ defmodule OrgtoolDb.MemberRewardController do
         conn
         |> put_status(:created)
         |> put_resp_header("location", member_reward_path(conn, :show, member_reward))
-        |> render("show.json", member_reward: member_reward)
+        |> render("show.json-api", data: member_reward)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(OrgtoolDb.ChangesetView, "error.json", changeset: changeset)
+        |> render(OrgtoolDb.ChangesetView, "error.json-api", changeset: changeset)
     end
   end
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
     member_reward = Repo.get!(MemberReward, id)
-    render(conn, "show.json", member_reward: member_reward)
+    render(conn, "show.json-api", data: member_reward)
   end
 
   def update(conn, %{"id" => id, "member_reward" => member_reward_params}, _current_user, _claums) do
@@ -39,11 +39,11 @@ defmodule OrgtoolDb.MemberRewardController do
 
     case Repo.update(changeset) do
       {:ok, member_reward} ->
-        render(conn, "show.json", member_reward: member_reward)
+        render(conn, "show.json-api", data: member_reward)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(OrgtoolDb.ChangesetView, "error.json", changeset: changeset)
+        |> render(OrgtoolDb.ChangesetView, "error.json-api", changeset: changeset)
     end
   end
 
