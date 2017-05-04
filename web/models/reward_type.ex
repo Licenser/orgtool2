@@ -7,6 +7,8 @@ defmodule OrgtoolDb.RewardType do
     field :img, :string
     field :level, :integer
 
+    has_many :rewards, OrgtoolDb.Reward
+
     timestamps()
   end
 
@@ -16,6 +18,7 @@ defmodule OrgtoolDb.RewardType do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:name, :description, :img, :level])
+    |> cast_assoc(:rewards)
     |> validate_required([:name, :description, :img, :level])
   end
 end

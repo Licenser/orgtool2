@@ -12,8 +12,9 @@ defmodule OrgtoolDb.RewardTypeController do
     render(conn, "index.json-api", data: reward_types)
   end
 
-  def create(conn, %{"reward_type" => reward_type_params}, _current_user, _claums) do
-    changeset = RewardType.changeset(%RewardType{}, reward_type_params)
+  def create(conn, %{"data" => data = %{"attributes" => params}}, _current_user, _claums) do
+    changeset = RewardType.changeset(%RewardType{}, params)
+    |> maybe_add_rels(data)
 
     case Repo.insert(changeset) do
       {:ok, reward_type} ->
@@ -30,13 +31,17 @@ defmodule OrgtoolDb.RewardTypeController do
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
     reward_type = Repo.get!(RewardType, id)
-    render(conn, "show.json-api", data: reward_type)
+    |> Repo.preload([:rewards])
+    render(conn, "show.json-api", data: reward_type, opts: [include: "rewards"])
   end
 
-  def update(conn, %{"id" => id, "reward_type" => reward_type_params},
+  def update(conn, %{"id" => id, "data" => data = %{"attributes" => params}},
         _current_user, _claums) do
     reward_type = Repo.get!(RewardType, id)
-    changeset = RewardType.changeset(reward_type, reward_type_params)
+    |> Repo.preload(:rewards)
+
+    changeset = RewardType.changeset(reward_type, params)
+    |> maybe_add_rels(data)
 
     case Repo.update(changeset) do
       {:ok, reward_type} ->
@@ -57,4 +62,14 @@ defmodule OrgtoolDb.RewardTypeController do
 
     send_resp(conn, :no_content, "")
   end
+
+  defp maybe_add_rels(changeset, %{"relationships" => relationships}) do
+    changeset
+    |> maybe_apply(Rewards, :rewards, relationships)
+  end
+
+  defp maybe_add_rels(changeset, _) do
+    changeset
+  end
+
 end
