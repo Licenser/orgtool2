@@ -15,7 +15,8 @@ defmodule OrgtoolDb.ItemProp do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :value, :item_id])
-    |> validate_required([:name, :value, :item_id])
+    |> cast(params, [:name, :value])
+    |> cast_assoc(:item)
+    |> validate_required([:name, :value])
   end
 end

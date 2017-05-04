@@ -10,10 +10,10 @@ defmodule OrgtoolDb.UnitControllerTest do
     {:ok, unit_type} = %UnitType{} |> Repo.insert
     {:ok, member} = %Member{} |> Repo.insert
     valid_data = %{
-      "attributes"    => @valid_attrs,
-      "relationships" => %{
-        "members" => %{"data" => [%{"id" => member.id, "type" => "member"}]},
-        "unit_type" => %{"data" => %{"id" => unit_type.id, "type" => "unit_type"}}}}
+      attributes:    @valid_attrs,
+      relationships: %{
+        members: %{data: [%{id: member.id, type: "member"}]},
+        unit_type: %{data: %{id: unit_type.id, type: "unit_type"}}}}
     {:ok, %{valid_data: valid_data, conn: put_req_header(conn, "accept", "application/json")}}
   end
 

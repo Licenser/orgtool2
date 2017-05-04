@@ -14,9 +14,9 @@ defmodule OrgtoolDb.UnitController do
     render(conn, "index.json-api", data: units)
   end
 
-  def create(conn, %{"data" => data = %{"attributes" => unit_params}}, _current_user, _claums) do
+  def create(conn, %{"data" => data = %{"attributes" => params}}, _current_user, _claums) do
 
-    changeset = Unit.changeset(%Unit{}, unit_params)
+    changeset = Unit.changeset(%Unit{}, params)
     |> maybe_add_rels(data)
 
     case Repo.insert(changeset) do
@@ -40,12 +40,12 @@ defmodule OrgtoolDb.UnitController do
 
   def update(conn, %{"id" => id,
                      "data" => data = %{
-                       "attributes" => unit_params}},
+                       "attributes" => params}},
         _current_user, _claums) do
     unit = Repo.get!(Unit, id)
     |> Repo.preload([:leaders, :members, :applicants, :unit_type])
 
-    changeset = Unit.changeset(unit, unit_params)
+    changeset = Unit.changeset(unit, params)
     |> maybe_add_rels(data)
 
     case Repo.update(changeset) do

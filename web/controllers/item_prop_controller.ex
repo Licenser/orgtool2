@@ -8,19 +8,14 @@ defmodule OrgtoolDb.ItemPropController do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
   end
 
-  def index(conn, %{"item_id" => item_id}, _current_user, _claums) do
-    item = Repo.get!(Item, item_id)
-    |> Repo.preload(:props)
-    render(conn, "index.json-api", data: item.props)
-  end
-
   def index(conn, _params, _current_user, _claums) do
     item_props = Repo.all(ItemProp)
     render(conn, "index.json-api", data: item_props)
   end
 
-  def create(conn, %{"item_prop" => prop_params}, _current_user, _claums) do
-    changeset = ItemProp.changeset(%ItemProp{}, prop_params)
+  def create(conn, %{"data" => data = %{"attributes" => params}}, _current_user, _claums) do
+    changeset = ItemProp.changeset(%ItemProp{}, params)
+    |> maybe_add_rels(data)
 
     case Repo.insert(changeset) do
       {:ok, prop} ->
@@ -40,9 +35,15 @@ defmodule OrgtoolDb.ItemPropController do
     render(conn, "show.json-api", data: prop)
   end
 
-  def update(conn, %{"id" => id, "item_prop" => prop_params}, _current_user, _claums) do
+  def update(conn, %{"id" => id,
+                     "data" => data = %{
+                       "attributes" => params}},
+        _current_user, _claums) do
     prop = Repo.get!(ItemProp, id)
-    changeset = ItemProp.changeset(prop, prop_params)
+    |> Repo.preload(:item)
+
+    changeset = ItemProp.changeset(prop, params)
+    |> maybe_add_rels(data)
 
     case Repo.update(changeset) do
       {:ok, prop} ->
@@ -62,5 +63,15 @@ defmodule OrgtoolDb.ItemPropController do
     Repo.delete!(prop)
 
     send_resp(conn, :no_content, "")
+  end
+
+  defp maybe_add_rels(changeset, %{"relationships" => relationships}) do
+
+    changeset
+    |> maybe_apply(Item, :item, relationships)
+  end
+
+  defp maybe_add_rels(changeset, _) do
+    changeset
   end
 end
