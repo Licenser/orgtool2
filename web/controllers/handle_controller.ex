@@ -4,6 +4,9 @@ defmodule OrgtoolDb.HandleController do
   alias OrgtoolDb.Handle
   alias OrgtoolDb.Member
 
+  @preload [:member]
+  @opts [include: "member"]
+
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
   end
@@ -19,10 +22,12 @@ defmodule OrgtoolDb.HandleController do
 
     case Repo.insert(changeset) do
       {:ok, handle} ->
+        handle = handle |> Repo.preload(:member)
+
         conn
         |> put_status(:created)
         |> put_resp_header("location", handle_path(conn, :show, handle))
-        |> render("show.json-api", data: handle)
+        |> render("show.json-api", data: handle, opts: @opts)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -32,7 +37,8 @@ defmodule OrgtoolDb.HandleController do
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
     handle = Repo.get!(Handle, id)
-    render(conn, "show.json-api", data: handle)
+    |> Repo.preload(@preload)
+    render(conn, "show.json-api", data: handle, opts: @opts)
   end
 
   def update(conn, %{"id" => id,
@@ -46,7 +52,8 @@ defmodule OrgtoolDb.HandleController do
 
     case Repo.update(changeset) do
       {:ok, handle} ->
-        render(conn, "show.json-api", data: handle)
+        handle = handle |> Repo.preload(:member)
+        render(conn, "show.json-api", data: handle, opts: @opts)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)

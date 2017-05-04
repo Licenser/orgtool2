@@ -62,9 +62,9 @@ defmodule OrgtoolDb.ItemControllerTest do
     conn = post conn, item_path(conn, :create), data: valid_data
     response = json_response(conn, 201)
     assert response["data"]["id"]
-    assert response["data"]["relationships"]["template"]["data"]
-    assert response["data"]["relationships"]["member"]["data"]
-    assert response["data"]["relationships"]["unit"]["data"]
+    assert response["data"]["relationships"]["template"]["data"]["id"]
+    assert response["data"]["relationships"]["member"]["data"]["id"]
+    assert response["data"]["relationships"]["unit"]["data"]["id"]
     assert Repo.get_by(Item, @valid_attrs)
   end
 
@@ -78,9 +78,9 @@ defmodule OrgtoolDb.ItemControllerTest do
     conn = put conn, item_path(conn, :update, item), id: item.id, data: valid_data
     response = json_response(conn, 200)
     assert response["data"]["id"]
-    assert response["data"]["relationships"]["template"]["data"]
-    assert response["data"]["relationships"]["member"]["data"]
-    assert response["data"]["relationships"]["unit"]["data"]
+    assert response["data"]["relationships"]["template"]["data"]["id"]
+    assert response["data"]["relationships"]["member"]["data"]["id"]
+    assert response["data"]["relationships"]["unit"]["data"]["id"]
     assert Repo.get_by(Item, @valid_attrs)
   end
 

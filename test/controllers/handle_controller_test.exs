@@ -51,7 +51,9 @@ defmodule OrgtoolDb.HandleControllerTest do
 
   test "creates and renders resource when data is valid", %{conn: conn, valid_data: valid_data} do
     conn = post conn, handle_path(conn, :create), data: valid_data
-    assert json_response(conn, 201)["data"]["id"]
+    response = json_response(conn, 201)
+    assert response["data"]["id"]
+    assert response["data"]["relationships"]["member"]["data"]["id"]
     assert Repo.get_by(Handle, @valid_attrs)
   end
 
@@ -63,7 +65,9 @@ defmodule OrgtoolDb.HandleControllerTest do
   test "updates and renders chosen resource when data is valid", %{conn: conn, valid_data: valid_data} do
     handle = Repo.insert! %Handle{}
     conn = put conn, handle_path(conn, :update, handle), id: handle.id, data: valid_data
-    assert json_response(conn, 200)["data"]["id"]
+    response = json_response(conn, 200)
+    assert response["data"]["id"]
+    assert response["data"]["relationships"]["member"]["data"]["id"]
     assert Repo.get_by(Handle, @valid_attrs)
   end
 

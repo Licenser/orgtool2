@@ -26,9 +26,8 @@ defmodule OrgtoolDb.ItemController do
 
     case Repo.insert(changeset) do
       {:ok, item} ->
-        item
+        item = item
         |> Repo.preload(:item_props)
-        :io.format("item_props: ~p~n", [item.item_props])
         conn
         |> put_status(:created)
         |> put_resp_header("location", item_path(conn, :show, item))
