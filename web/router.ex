@@ -104,18 +104,11 @@ defmodule OrgtoolDb.Router do
     resources "/rewards", RewardController, except: [:new, :edit]
 
     resources "/reward-types", RewardTypeController, except: [:new, :edit]
-    resources "/member-rewards", MemberRewardController, except: [:new, :edit]
-    resources "/member-units", MemberUnitController, except: [:new, :edit]
-    resources "/categories", CategoryController, except: [:new, :edit] do
-      resources "/templates", TemplateController, except: [:new, :edit]
-    end
-    resources "/templates", TemplateController, except: [:new, :edit] do
-      resources "/properties", TemplatePropController, except: [:new, :edit]
-    end
+
+    resources "/categories", CategoryController, except: [:new, :edit]
+    resources "/templates", TemplateController, except: [:new, :edit]
     resources "/template-props", TemplatePropController, except: [:new, :edit]
-    resources "/items", ItemController, except: [:new, :edit] do
-      resources "/properties", ItemPropController, except: [:new, :edit]
-    end
+    resources "/items", ItemController, except: [:new, :edit]
     resources "/item-props", ItemPropController, except: [:new, :edit]
   end
 end
