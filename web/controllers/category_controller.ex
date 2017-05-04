@@ -12,7 +12,8 @@ defmodule OrgtoolDb.CategoryController do
     render(conn, "index.json-api", data: categorys)
   end
 
-  def create(conn, %{"category" => category_params}, _current_user, _claums) do
+  def create(conn, %{"data" => %{
+                    "attributes" => category_params}}, _current_user, _claums) do
     changeset = Category.changeset(%Category{}, category_params)
 
     case Repo.insert(changeset) do
@@ -24,7 +25,7 @@ defmodule OrgtoolDb.CategoryController do
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(OrgtoolDb.ChangesetView, "error.json-api", changeset: changeset)
+        |> render("errors.json-api", data: changeset)
     end
   end
 
@@ -33,7 +34,9 @@ defmodule OrgtoolDb.CategoryController do
     render(conn, "show.json-api", data: category)
   end
 
-  def update(conn, %{"id" => id, "category" => category_params}, _current_user, _claums) do
+  def update(conn, %{"id" => id,
+                     "data" => %{
+                       "attributes" => category_params}}, _current_user, _claums) do
     category = Repo.get!(Category, id)
     changeset = Category.changeset(category, category_params)
 
@@ -43,7 +46,7 @@ defmodule OrgtoolDb.CategoryController do
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(OrgtoolDb.ChangesetView, "error.json-api", changeset: changeset)
+        |> render("errors.json-api", data: changeset)
     end
   end
 

@@ -5,8 +5,8 @@ defmodule OrgtoolDb.Web do
 
   This can be used in your application as:
 
-      use OrgtoolDb.Web, :controller
-      use OrgtoolDb.Web, :view
+  use OrgtoolDb.Web, :controller
+  use OrgtoolDb.Web, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -56,6 +56,30 @@ defmodule OrgtoolDb.Web do
 
       import OrgtoolDb.Router.Helpers
       import OrgtoolDb.Controller.Helpers
+
+      defp id_int(b) when is_binary(b) do
+        String.to_integer(b)
+      end
+
+      defp id_int(b) do
+        b
+      end
+
+      defp maybe_apply(changeset, model, key, relationships) do
+        name = Atom.to_string(key)
+        case Map.get(relationships, name) do
+          %{"data" => %{"type" => ^name, "id" => id}} ->
+            element = Repo.get!(model, id_int(id))
+            Ecto.Changeset.put_assoc(changeset, key, element)
+          %{"data" => elements} ->
+            elements = for %{"id" => id, "type" => ^name} <- elements do
+                Repo.get!(model, id_int(id))
+              end
+            Ecto.Changeset.put_assoc(changeset, key, elements)
+          nil ->
+            changeset
+        end
+      end
     end
   end
 

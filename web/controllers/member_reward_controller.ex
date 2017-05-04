@@ -24,7 +24,7 @@ defmodule OrgtoolDb.MemberRewardController do
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(OrgtoolDb.ChangesetView, "error.json-api", changeset: changeset)
+        |> render("errors.json-api", data: changeset)
     end
   end
 
@@ -43,7 +43,7 @@ defmodule OrgtoolDb.MemberRewardController do
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(OrgtoolDb.ChangesetView, "error.json-api", changeset: changeset)
+        |> render("errors.json-api", data: changeset)
     end
   end
 

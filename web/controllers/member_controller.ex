@@ -12,8 +12,10 @@ defmodule OrgtoolDb.MemberController do
     render(conn, "index.json-api", data: members)
   end
 
-  def create(conn, %{"member" => member_params}, _current_user, _claums) do
+  def create(conn, %{"data" => data = %{"attributes" => member_params}},
+                     _current_user, _claums) do
     changeset = Member.changeset(%Member{}, member_params)
+    |> maybe_add_rels(data)
 
     case Repo.insert(changeset) do
       {:ok, member} ->
@@ -24,7 +26,7 @@ defmodule OrgtoolDb.MemberController do
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(OrgtoolDb.ChangesetView, "error.json-api", changeset: changeset)
+        |> render("errors.json-api", data: changeset)
     end
   end
 
@@ -33,22 +35,15 @@ defmodule OrgtoolDb.MemberController do
     |> Repo.preload([:rewards, :user, :handles, :leaderships, :memberships, :applications])
       render(conn, "show.json-api", data: member, opts: [include: "user,rewards,handles,memberships,applications,leaderships"])
   end
-  
+
   def update(conn, %{"id" => id,
-                     "data" => %{
-                       "attributes" => member_params,
-                       "relationships" => relatioships}} = d, _current_user, _claums) do
-    :io.format("d: ~p~n", [d])
+                     "data" => data = %{"attributes" => member_params}},
+        _current_user, _claums) do
     member = Repo.get!(Member, id)
     |> Repo.preload([:leaderships, :memberships, :applications])
 
     changeset = Member.changeset(member, member_params)
-    |> apply_leaderships(relatioships)
-    |> apply_memberships(relatioships)
-    |> apply_applications(relatioships)
-    
-    :io.format("member: ~p~n", [member])
-    :io.format("changeset: ~p~n", [changeset])
+    |> maybe_add_rels(data)
 
     case Repo.update(changeset) do
       {:ok, member} ->
@@ -56,68 +51,9 @@ defmodule OrgtoolDb.MemberController do
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(OrgtoolDb.ChangesetView, "error.json-api", changeset: changeset)
+        |> render("errors.json-api", data: changeset)
     end
   end
-
-  def update(conn, %{"id" => id, "member" => member_params}, _current_user, _claums) do
-    member = Repo.get!(Member, id)
-    changeset = Member.changeset(member, member_params)
-
-    case Repo.update(changeset) do
-      {:ok, member} ->
-        render(conn, "show.json-api", data: member)
-      {:error, changeset} ->
-        conn
-        |> put_status(:unprocessable_entity)
-        |> render(OrgtoolDb.ChangesetView, "error.json-api", changeset: changeset)
-    end
-  end
-
-
-  def id_int(b) when is_binary(b) do
-    String.to_integer(b)
-  end
-
-  def id_int(b) do
-    b
-  end
-
-  # %{"leaderships" => %{"data" => [%{"id" => "2", "type" => "units"}}}, "type" => "members"}
-  def apply_leaderships(changeset, %{"leaderships" => %{"data" => units}}) do
-    :io.format("leaderships: ~p~n", [units])
-
-    units = for %{"id" => id, "type" => "units"} <- units do
-      Repo.get!(Unit, id_int(id))
-    end
-    Ecto.Changeset.put_assoc(changeset, :leaderships, units)
-  end
-  def apply_leaderships(changeset, _) do
-    changeset
-  end
-
-  def apply_memberships(changeset, %{"memberships" => %{"data" => units}}) do
-    :io.format("memberships: ~p~n", [units])
-    units = for %{"id" => id, "type" => "units"} <- units do
-      Repo.get!(Unit, id_int(id))
-    end
-    Ecto.Changeset.put_assoc(changeset, :memberships, units)
-  end
-  def apply_memberships(changeset, _) do
-    changeset
-  end
-
-    def apply_applications(changeset, %{"applications" => %{"data" => units}}) do
-    :io.format("applications: ~p~n", [units])
-    units = for %{"id" => id, "type" => "units"} <- units do
-      Repo.get!(Unit, id_int(id))
-    end
-    Ecto.Changeset.put_assoc(changeset, :applications, units)
-  end
-  def apply_applications(changeset, _) do
-    changeset
-  end
-
 
   def delete(conn, %{"id" => id}, _current_user, _claums) do
     member = Repo.get!(Member, id)
@@ -128,4 +64,16 @@ defmodule OrgtoolDb.MemberController do
 
     send_resp(conn, :no_content, "")
   end
+
+  defp maybe_add_rels(changeset, %{"relationships" => relationships}) do
+    changeset
+    |> maybe_apply(Unit, :leaderships, relationships)
+    |> maybe_apply(Unit, :memberships, relationships)
+    |> maybe_apply(Unit, :applications, relationships)
+  end
+
+  defp maybe_add_rels(changeset, _) do
+    changeset
+  end
+
 end

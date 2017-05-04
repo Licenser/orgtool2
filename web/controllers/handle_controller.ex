@@ -12,7 +12,8 @@ defmodule OrgtoolDb.HandleController do
     render(conn, "index.json-api", data: handles)
   end
 
-  def create(conn, %{"handle" => handle_params}, _current_user, _claums) do
+  def create(conn, %{"data" => %{
+                    "attributes" => handle_params}}, _current_user, _claums) do
     changeset = Handle.changeset(%Handle{}, handle_params)
 
     case Repo.insert(changeset) do
@@ -24,7 +25,7 @@ defmodule OrgtoolDb.HandleController do
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(OrgtoolDb.ChangesetView, "error.json-api", changeset: changeset)
+        |> render("errors.json-api", data: changeset)
     end
   end
 
@@ -33,7 +34,9 @@ defmodule OrgtoolDb.HandleController do
     render(conn, "show.json-api", data: handle)
   end
 
-  def update(conn, %{"id" => id, "handle" => handle_params}, _current_user, _claums) do
+  def update(conn, %{"id" => id,
+                     "data" => %{
+                       "attributes" => handle_params}}, _current_user, _claums) do
     handle = Repo.get!(Handle, id)
     changeset = Handle.changeset(handle, handle_params)
 
@@ -43,7 +46,7 @@ defmodule OrgtoolDb.HandleController do
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(OrgtoolDb.ChangesetView, "error.json-api", changeset: changeset)
+        |> render("errors.json-api", data: changeset)
     end
   end
 

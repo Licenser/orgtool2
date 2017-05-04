@@ -3,31 +3,45 @@ defmodule OrgtoolDb.UnitControllerTest do
 
   alias OrgtoolDb.Unit
   alias OrgtoolDb.UnitType
-  @valid_attrs %{color: "some content", description: "some content", img: "some content", name: "some content", unit_type_id: 42}
-  @invalid_attrs %{}
+  alias OrgtoolDb.Member
+  @valid_attrs %{color: "some content", description: "some content", img: "some content", name: "some content"}
 
   setup %{conn: conn} do
     {:ok, unit_type} = %UnitType{} |> Repo.insert
-    valid_attrs = Map.put(@valid_attrs, :unit_type_id, unit_type.id)
-    {:ok, %{valid_attrs: valid_attrs, conn: put_req_header(conn, "accept", "application/json")}}
+    {:ok, member} = %Member{} |> Repo.insert
+    valid_data = %{
+      "attributes"    => @valid_attrs,
+      "relationships" => %{
+        "members" => %{"data" => [%{"id" => member.id, "type" => "member"}]},
+        "unit_type" => %{"data" => %{"id" => unit_type.id, "type" => "unit_type"}}}}
+    {:ok, %{valid_data: valid_data, conn: put_req_header(conn, "accept", "application/json")}}
   end
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, unit_path(conn, :index)
-    assert json_response(conn, 200)["units"] == []
+    assert json_response(conn, 200)["data"] == []
   end
 
   test "shows chosen resource", %{conn: conn} do
     unit = Repo.insert! %Unit{}
     conn = get conn, unit_path(conn, :show, unit)
-    assert json_response(conn, 200)["unit"] == %{
-      "id" => unit.id,
-      "name" => unit.name,
-      "description" => unit.description,
-      "color" => unit.color,
-      "img" => unit.img,
-      "unit_type_id" => unit.unit_type_id,
-      "unit_id" => unit.unit_id}
+    assert json_response(conn, 200)["data"] == %{
+      "id" => Integer.to_string(unit.id),
+      "type" => "unit",
+      "attributes" => %{
+        "name" => unit.name,
+        "description" => unit.description,
+        "color" => unit.color,
+        "img" => unit.img
+      },
+      "relationships" => %{
+        "applicants" => %{"data" => []},
+        "leaders" => %{"data" => []},
+        "members" => %{"data" => []},
+        "unit" => %{"data" => nil},
+        "unit-type" => %{"data" => nil},
+        "units" => %{"data" => []}}
+    }
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
@@ -36,10 +50,10 @@ defmodule OrgtoolDb.UnitControllerTest do
     end
   end
 
-  test "creates and renders resource when data is valid", %{conn: conn, valid_attrs: valid_attrs} do
-    conn = post conn, unit_path(conn, :create), unit: valid_attrs
-    assert json_response(conn, 201)["unit"]["id"]
-    assert Repo.get_by(Unit, valid_attrs)
+  test "creates and renders resource when data is valid", %{conn: conn, valid_data: valid_data} do
+    conn = post conn, unit_path(conn, :create), data: valid_data
+    assert json_response(conn, 201)["data"]["id"]
+    assert Repo.get_by(Unit, @valid_attrs)
   end
 
   # test "does not create resource and renders errors when data is invalid", %{conn: conn} do
@@ -47,11 +61,11 @@ defmodule OrgtoolDb.UnitControllerTest do
   #   assert json_response(conn, 422)["errors"] != %{}
   # end
 
-  test "updates and renders chosen resource when data is valid", %{conn: conn, valid_attrs: valid_attrs} do
+  test "updates and renders chosen resource when data is valid", %{conn: conn, valid_data: valid_data} do
     unit = Repo.insert! %Unit{}
-    conn = put conn, unit_path(conn, :update, unit), unit: valid_attrs
-    assert json_response(conn, 200)["unit"]["id"]
-    assert Repo.get_by(Unit, valid_attrs)
+    conn = put conn, unit_path(conn, :update, unit), id: unit.id, data: valid_data
+    assert json_response(conn, 200)["data"]["id"]
+    assert Repo.get_by(Unit, @valid_attrs)
   end
 
   # test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do

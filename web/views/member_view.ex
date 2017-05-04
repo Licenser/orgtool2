@@ -2,7 +2,7 @@ defmodule OrgtoolDb.MemberView do
   use OrgtoolDb.Web, :view
   use JaSerializer.PhoenixView
 
-  attributes [:name, :avatar, :logo, :timezone]
+  attributes [:name, :avatar, :timezone]
 
   has_many :handles,
     serializer: OrgtoolDb.HandleView,
