@@ -16,7 +16,6 @@ defmodule OrgtoolDb.ItemPropControllerTest do
       }
     }
     {:ok, %{valid_data: valid_data,
-            invalid_data: %{attributes: @invalid_attrs},
             conn: put_req_header(conn, "accept", "application/json")}}
   end
 
@@ -48,7 +47,9 @@ defmodule OrgtoolDb.ItemPropControllerTest do
 
   test "creates and renders resource when data is valid", %{conn: conn, valid_data: valid_data} do
     conn = post conn, item_prop_path(conn, :create), data: valid_data
-    assert json_response(conn, 201)["data"]["id"]
+    response = json_response(conn, 201)
+    assert response["data"]["id"]
+    assert response["data"]["relationships"]["item"]["data"]["id"]
     assert Repo.get_by(ItemProp, @valid_attrs)
   end
 
@@ -60,7 +61,9 @@ defmodule OrgtoolDb.ItemPropControllerTest do
   test "updates and renders chosen resource when data is valid", %{conn: conn, valid_data: valid_data} do
     prop = Repo.insert! %ItemProp{}
     conn = put conn, item_prop_path(conn, :update, prop), id: prop.id, data: valid_data
-    assert json_response(conn, 200)["data"]["id"]
+    response = json_response(conn, 200)
+    assert response["data"]["id"]
+    assert response["data"]["relationships"]["item"]["data"]["id"]
     assert Repo.get_by(ItemProp, @valid_attrs)
   end
 

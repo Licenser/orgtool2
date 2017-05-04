@@ -4,7 +4,8 @@ defmodule OrgtoolDb.TemplateProp do
   schema "template_props" do
     field :name, :string
     field :value, :string
-    field :template_id, :integer
+
+    belongs_to :template, OrgtoolDb.Template
 
     timestamps()
   end
@@ -14,7 +15,8 @@ defmodule OrgtoolDb.TemplateProp do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :value, :template_id])
-    |> validate_required([:name, :value, :template_id])
+    |> cast(params, [:name, :value])
+    |> cast_assoc(:template)
+    |> validate_required([:name, :value])
   end
 end

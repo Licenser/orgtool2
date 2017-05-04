@@ -4,6 +4,9 @@ defmodule OrgtoolDb.ItemPropController do
   alias OrgtoolDb.ItemProp
   alias OrgtoolDb.Item
 
+  @preload [:item]
+  @opts [include: "item"]
+
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
   end
@@ -19,10 +22,11 @@ defmodule OrgtoolDb.ItemPropController do
 
     case Repo.insert(changeset) do
       {:ok, prop} ->
+        prop = prop |> Repo.preload(@preload)
         conn
         |> put_status(:created)
         |> put_resp_header("location", item_prop_path(conn, :show, prop))
-        |> render("show.json-api", data: prop)
+        |> render("show.json-api", data: prop, opts: @opts)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -31,24 +35,23 @@ defmodule OrgtoolDb.ItemPropController do
   end
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
-    prop = Repo.get!(ItemProp, id) |> Repo.preload(:item)
-    render(conn, "show.json-api", data: prop, opts: [include: "item"])
+    prop = Repo.get!(ItemProp, id)
+    |> Repo.preload(@preload)
+    render(conn, "show.json-api", data: prop, opts: @opts)
   end
 
-  def update(conn, %{"id" => id,
-                     "data" => data = %{
-                       "attributes" => params}},
+  def update(conn, %{"id" => id, "data" => data = %{"attributes" => params}},
         _current_user, _claums) do
     prop = Repo.get!(ItemProp, id)
-    |> Repo.preload(:item)
+    |> Repo.preload(@preload)
 
     changeset = ItemProp.changeset(prop, params)
     |> maybe_add_rels(data)
 
     case Repo.update(changeset) do
       {:ok, prop} ->
-        prop |> Repo.preload(:item)
-        render(conn, "show.json-api", data: prop, opts: [include: "item"])
+        prop = prop |> Repo.preload(@preload)
+        render(conn, "show.json-api", data: prop, opts: @opts)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -67,7 +70,6 @@ defmodule OrgtoolDb.ItemPropController do
   end
 
   defp maybe_add_rels(changeset, %{"relationships" => relationships}) do
-
     changeset
     |> maybe_apply(Item, :item, relationships)
   end
