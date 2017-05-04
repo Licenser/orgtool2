@@ -15,9 +15,9 @@ defmodule OrgtoolDb.MemberController do
     render(conn, "index.json-api", data: members)
   end
 
-  def create(conn, %{"data" => data = %{"attributes" => member_params}},
+  def create(conn, %{"data" => data = %{"attributes" => params}},
                      _current_user, _claums) do
-    changeset = Member.changeset(%Member{}, member_params)
+    changeset = Member.changeset(%Member{}, params)
     |> maybe_add_rels(data)
 
     case Repo.insert(changeset) do
@@ -40,12 +40,12 @@ defmodule OrgtoolDb.MemberController do
   end
 
   def update(conn, %{"id" => id,
-                     "data" => data = %{"attributes" => member_params}},
+                     "data" => data = %{"attributes" => params}},
         _current_user, _claums) do
     member = Repo.get!(Member, id)
     |> Repo.preload([:leaderships, :memberships, :applications, :handles, :user, :rewards])
 
-    changeset = Member.changeset(member, member_params)
+    changeset = Member.changeset(member, params)
     |> maybe_add_rels(data)
 
     case Repo.update(changeset) do

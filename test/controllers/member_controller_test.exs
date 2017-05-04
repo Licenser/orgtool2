@@ -23,7 +23,8 @@ defmodule OrgtoolDb.MemberControllerTest do
       "attributes" => %{
         "name" => member.name,
         "avatar" => member.avatar,
-        "timezone" => member.timezone},
+        "timezone" => member.timezone
+      },
       "relationships" => %{
         "applications" => %{"data" => []},
         "handles" => %{"data" => []},

@@ -2,6 +2,8 @@ defmodule OrgtoolDb.RewardController do
   use OrgtoolDb.Web, :controller
 
   alias OrgtoolDb.Reward
+  alias OrgtoolDb.RewardType
+  alias OrgtoolDb.Member
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
@@ -12,8 +14,10 @@ defmodule OrgtoolDb.RewardController do
     render(conn, "index.json-api", data: rewards)
   end
 
-  def create(conn, %{"reward" => reward_params}, _current_user, _claums) do
-    changeset = Reward.changeset(%Reward{}, reward_params)
+  def create(conn, %{"data" => data = %{"attributes" => params}},
+        _current_user, _claums) do
+    changeset = Reward.changeset(%Reward{}, params)
+    |> maybe_add_rels(data)
 
     case Repo.insert(changeset) do
       {:ok, reward} ->
@@ -30,12 +34,17 @@ defmodule OrgtoolDb.RewardController do
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
     reward = Repo.get!(Reward, id)
-    render(conn, "show.json-api", data: reward)
+    |> Repo.preload([:reward_type, :members])
+    render(conn, "show.json-api", data: reward, opts: [include: "reward_type,members"])
   end
 
-  def update(conn, %{"id" => id, "reward" => reward_params}, _current_user, _claums) do
+  def update(conn, %{"id" => id, "data" => data = %{"attributes" => params}},
+        _current_user, _claums) do
     reward = Repo.get!(Reward, id)
-    changeset = Reward.changeset(reward, reward_params)
+    |> Repo.preload([:members, :reward_type])
+
+    changeset = Reward.changeset(reward, params)
+    |> maybe_add_rels(data)
 
     case Repo.update(changeset) do
       {:ok, reward} ->
@@ -56,4 +65,15 @@ defmodule OrgtoolDb.RewardController do
 
     send_resp(conn, :no_content, "")
   end
+
+  defp maybe_add_rels(changeset, %{"relationships" => relationships}) do
+    changeset
+    |> maybe_apply(Member, :members, relationships)
+    |> maybe_apply(RewardType, :reward_type, relationships)
+  end
+
+  defp maybe_add_rels(changeset, _) do
+    changeset
+  end
+
 end

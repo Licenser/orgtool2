@@ -24,8 +24,9 @@ defmodule OrgtoolDb.Member do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:name, :avatar, :timezone])
-    |> cast_assoc(:handles)
     |> cast_assoc(:user)
+    |> cast_assoc(:handles)
+    |> cast_assoc(:rewards)
     |> cast_assoc(:applications)
     |> cast_assoc(:memberships)
     |> cast_assoc(:leaderships)

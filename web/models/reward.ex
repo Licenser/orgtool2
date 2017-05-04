@@ -8,6 +8,7 @@ defmodule OrgtoolDb.Reward do
     field :img, :string
 
     belongs_to :reward_type, OrgtoolDb.RewardType
+    many_to_many :members, OrgtoolDb.Member, join_through: OrgtoolDb.MemberReward, on_replace: :delete
 
     timestamps()
   end
@@ -17,7 +18,9 @@ defmodule OrgtoolDb.Reward do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:description, :img, :level, :name, :reward_type_id])
-    |> validate_required([:description, :img, :level, :name, :reward_type_id])
+    |> cast(params, [:description, :img, :level, :name])
+    |> cast_assoc(:reward_type)
+    |> cast_assoc(:members)
+    |> validate_required([:description, :img, :level, :name])
   end
 end
