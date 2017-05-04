@@ -2,6 +2,10 @@ defmodule OrgtoolDb.UnitTypeController do
   use OrgtoolDb.Web, :controller
 
   alias OrgtoolDb.UnitType
+  alias OrgtoolDb.Unit
+
+  @preload [:units]
+  @opts [include: "units"]
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
@@ -9,19 +13,20 @@ defmodule OrgtoolDb.UnitTypeController do
 
   def index(conn, _params, _current_user, _claums) do
     unit_types = Repo.all(UnitType)
-
     render(conn, "index.json-api", data: unit_types)
   end
 
-  def create(conn, %{"unit_type" => unit_type_params}, _current_user, _claums) do
-    changeset = UnitType.changeset(%UnitType{}, unit_type_params)
+  def create(conn, %{"data" => data = %{"attributes" => params}}, _current_user, _claums) do
+    changeset = UnitType.changeset(%UnitType{}, params)
+    |> maybe_add_rels(data)
 
     case Repo.insert(changeset) do
       {:ok, unit_type} ->
+        unit_type = unit_type |> Repo.preload(@preload)
         conn
         |> put_status(:created)
         |> put_resp_header("location", unit_type_path(conn, :show, unit_type))
-        |> render("show.json-api", data: unit_type)
+        |> render("show.json-api", data: unit_type, opts: @opts)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -31,16 +36,22 @@ defmodule OrgtoolDb.UnitTypeController do
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
     unit_type = Repo.get!(UnitType, id)
-    render(conn, "show.json-api", data: unit_type)
+    |> Repo.preload(@preload)
+    render(conn, "show.json-api", data: unit_type, opts: @opts)
   end
 
-  def update(conn, %{"id" => id, "unit_type" => unit_type_params}, _current_user, _claums) do
+  def update(conn, %{"id" => id, "data" => data = %{"attributes" => params}},
+        _current_user, _claums) do
     unit_type = Repo.get!(UnitType, id)
-    changeset = UnitType.changeset(unit_type, unit_type_params)
+    |> Repo.preload(@preload)
+
+    changeset = UnitType.changeset(unit_type, params)
+    |> maybe_add_rels(data)
 
     case Repo.update(changeset) do
       {:ok, unit_type} ->
-        render(conn, "show.json-api", data: unit_type)
+        unit_type = unit_type |> Repo.preload(@preload)
+        render(conn, "show.json-api", data: unit_type, opts: @opts)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -56,5 +67,14 @@ defmodule OrgtoolDb.UnitTypeController do
     Repo.delete!(unit_type)
 
     send_resp(conn, :no_content, "")
+  end
+
+  defp maybe_add_rels(changeset, %{"relationships" => relationships}) do
+    changeset
+    |> maybe_apply(Unit, :units, relationships)
+  end
+
+  defp maybe_add_rels(changeset, _) do
+    changeset
   end
 end

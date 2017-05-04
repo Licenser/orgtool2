@@ -7,6 +7,7 @@ defmodule OrgtoolDb.UnitType do
     field :name, :string
     field :ordering, :integer
 
+    has_many :units, OrgtoolDb.Unit
     timestamps()
   end
 

@@ -11,7 +11,6 @@ defmodule OrgtoolDb.RewardControllerTest do
 
   setup %{conn: conn} do
     {:ok, reward_type} = %RewardType{} |> Repo.insert
-    valid_attrs = Map.put(@valid_attrs, :reward_type_id, reward_type.id)
     valid_data = %{
       attributes:    @valid_attrs,
       relationships: %{
