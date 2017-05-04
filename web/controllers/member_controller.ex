@@ -2,6 +2,9 @@ defmodule OrgtoolDb.MemberController do
   use OrgtoolDb.Web, :controller
   alias OrgtoolDb.Member
   alias OrgtoolDb.Unit
+  alias OrgtoolDb.User
+  alias OrgtoolDb.Handle
+  alias OrgtoolDb.Reward
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
@@ -40,7 +43,7 @@ defmodule OrgtoolDb.MemberController do
                      "data" => data = %{"attributes" => member_params}},
         _current_user, _claums) do
     member = Repo.get!(Member, id)
-    |> Repo.preload([:leaderships, :memberships, :applications])
+    |> Repo.preload([:leaderships, :memberships, :applications, :handles, :user, :rewards])
 
     changeset = Member.changeset(member, member_params)
     |> maybe_add_rels(data)
@@ -67,6 +70,9 @@ defmodule OrgtoolDb.MemberController do
 
   defp maybe_add_rels(changeset, %{"relationships" => relationships}) do
     changeset
+    |> maybe_apply(User, :user, relationships)
+    |> maybe_apply(Reward, :rewards, relationships)
+    |> maybe_apply(Handle, :handles, relationships)
     |> maybe_apply(Unit, :leaderships, relationships)
     |> maybe_apply(Unit, :memberships, relationships)
     |> maybe_apply(Unit, :applications, relationships)

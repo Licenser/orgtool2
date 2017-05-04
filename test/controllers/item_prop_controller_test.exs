@@ -60,7 +60,7 @@ defmodule OrgtoolDb.ItemPropControllerTest do
   test "updates and renders chosen resource when data is valid", %{conn: conn, valid_data: valid_data} do
     prop = Repo.insert! %ItemProp{}
     conn = put conn, item_prop_path(conn, :update, prop), id: prop.id, data: valid_data
-    assert json_response(conn, 200)["data"]["id"]
+    assert json_response(conn, 200) == "bla"
     assert Repo.get_by(ItemProp, @valid_attrs)
   end
 

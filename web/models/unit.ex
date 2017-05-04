@@ -23,8 +23,12 @@ defmodule OrgtoolDb.Unit do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :description, :color, :img, :unit_type_id, :unit_id])
-    #|> validate_required([:unit_type_id])
+    |> cast(params, [:name, :description, :color, :img])
+    |> cast_assoc(:unit)
+    |> cast_assoc(:unit_type)
+    |> cast_assoc(:members)
+    |> cast_assoc(:applicants)
+    |> cast_assoc(:leaders)
     |> validate_required([])
   end
 end

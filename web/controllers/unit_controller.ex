@@ -43,7 +43,7 @@ defmodule OrgtoolDb.UnitController do
                        "attributes" => params}},
         _current_user, _claums) do
     unit = Repo.get!(Unit, id)
-    |> Repo.preload([:leaders, :members, :applicants, :unit_type])
+    |> Repo.preload([:leaders, :members, :applicants, :unit_type, :unit])
 
     changeset = Unit.changeset(unit, params)
     |> maybe_add_rels(data)

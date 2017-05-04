@@ -31,8 +31,8 @@ defmodule OrgtoolDb.ItemPropController do
   end
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
-    prop = Repo.get!(ItemProp, id)
-    render(conn, "show.json-api", data: prop)
+    prop = Repo.get!(ItemProp, id) |> Repo.preload(:item)
+    render(conn, "show.json-api", data: prop, opts: [include: "item"])
   end
 
   def update(conn, %{"id" => id,
@@ -45,9 +45,13 @@ defmodule OrgtoolDb.ItemPropController do
     changeset = ItemProp.changeset(prop, params)
     |> maybe_add_rels(data)
 
+    :io.format("changeset: ~p~n", [changeset])
+
     case Repo.update(changeset) do
       {:ok, prop} ->
-        render(conn, "show.json-api", data: prop)
+        :io.format("prop: ~p~n", [prop])
+        prop |> Repo.preload(:item)
+        render(conn, "show.json-api", data: prop, opts: [include: "item"])
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
