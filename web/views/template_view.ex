@@ -9,7 +9,7 @@ defmodule OrgtoolDb.TemplateView do
     include: false,
     identifiers: :when_included
 
-  has_one :template_props,
+  has_many :template_props,
     serializer: OrgtoolDb.TemplatePropView,
     include: false,
     identifiers: :when_included

@@ -8,7 +8,7 @@ defmodule OrgtoolDb.Template do
 
     belongs_to :category, OrgtoolDb.Category
 
-    has_many :props, OrgtoolDb.TemplateProp
+    has_many :template_props, OrgtoolDb.TemplateProp
 
     timestamps()
   end
@@ -18,7 +18,9 @@ defmodule OrgtoolDb.Template do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :img, :description, :category_id])
-    |> validate_required([:name, :img, :category_id])
+    |> cast(params, [:name, :img, :description])
+    |> cast_assoc(:category)
+    |> cast_assoc(:template_props)
+    |> validate_required([:name, :img])
   end
 end

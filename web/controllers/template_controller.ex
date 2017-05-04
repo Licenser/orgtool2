@@ -3,15 +3,13 @@ defmodule OrgtoolDb.TemplateController do
 
   alias OrgtoolDb.Template
   alias OrgtoolDb.Category
+  alias OrgtoolDb.TemplateProp
+
+  @opts [include: "category,template_props"]
+  @preload [:category, :template_props]
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
-  end
-
-  def index(conn, %{"category_id" => category_id}, _current_user, _claums) do
-    category = Repo.get!(Category, category_id)
-    |> Repo.preload(:templates)
-    render(conn, "index.json-api", data: category.templates)
   end
 
   def index(conn, _params, _current_user, _claums) do
@@ -19,21 +17,17 @@ defmodule OrgtoolDb.TemplateController do
     render(conn, "index.json-api", data: templates)
   end
 
-  def create(conn, %{"template" => template_params} = params, _current_user, _claums) do
-    template_params = case params do
-                        %{"category_id" => category_id} ->
-                          Map.put(template_params, "category_id", category_id);
-                        _ ->
-                          template_params
-                      end
-    changeset = Template.changeset(%Template{}, template_params)
+  def create(conn, %{"data" => data = %{"attributes" => params}}, _current_user, _claums) do
+    changeset = Template.changeset(%Template{}, params)
+    |> maybe_add_rels(data)
 
     case Repo.insert(changeset) do
       {:ok, template} ->
+        template = template |> Repo.preload(@preload)
         conn
         |> put_status(:created)
         |> put_resp_header("location", template_path(conn, :show, template))
-        |> render("show.json-api", data: template)
+        |> render("show.json-api", data: template, opts: @opts)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -43,16 +37,22 @@ defmodule OrgtoolDb.TemplateController do
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
     template = Repo.get!(Template, id)
-    render(conn, "show.json-api", data: template)
+    |> Repo.preload(@preload)
+    render(conn, "show.json-api", data: template, opts: @opts)
   end
 
-  def update(conn, %{"id" => id, "template" => template_params}, _current_user, _claums) do
+  def update(conn, %{"id" => id, "data" => data = %{"attributes" => params}},
+        _current_user, _claums) do
     template = Repo.get!(Template, id)
-    changeset = Template.changeset(template, template_params)
+    |> Repo.preload(@preload)
+    
+    changeset = Template.changeset(template, params)
+    |> maybe_add_rels(data)
 
     case Repo.update(changeset) do
       {:ok, template} ->
-        render(conn, "show.json-api", data: template)
+        template = template |> Repo.preload(@preload)
+        render(conn, "show.json-api", data: template, opts: @opts)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -68,5 +68,15 @@ defmodule OrgtoolDb.TemplateController do
     Repo.delete!(template)
 
     send_resp(conn, :no_content, "")
+  end
+
+  defp maybe_add_rels(changeset, %{"relationships" => relationships}) do
+    changeset
+    |> maybe_apply(Category, :category, relationships)
+    |> maybe_apply(TemplateProp, :template_props, relationships)
+  end
+
+  defp maybe_add_rels(changeset, _) do
+    changeset
   end
 end
