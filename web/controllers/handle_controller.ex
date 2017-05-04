@@ -40,7 +40,7 @@ defmodule OrgtoolDb.HandleController do
                        "attributes" => params}}, _current_user, _claums) do
     handle = Repo.get!(Handle, id)
     |> Repo.preload(:member)
-    
+
     changeset = Handle.changeset(handle, params)
     |> maybe_add_rels(data)
 

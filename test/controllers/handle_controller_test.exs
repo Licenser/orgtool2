@@ -14,7 +14,7 @@ defmodule OrgtoolDb.HandleControllerTest do
       relationships: %{
         member: %{
           data: %{
-            type: "members",
+            type: "member",
             id:   member.id
           }
         }
@@ -34,7 +34,7 @@ defmodule OrgtoolDb.HandleControllerTest do
     assert json_response(conn, 200)["data"] == %{
       "id"            => Integer.to_string(handle.id),
       "type"          => "handle",
-      "relationships" => %{"member" => %{}},
+      "relationships" => %{"member" => %{"data" => nil}},
       "attributes"    => %{
         "name"   => handle.name,
         "handle" => handle.handle,

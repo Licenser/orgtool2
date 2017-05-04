@@ -18,4 +18,10 @@ defmodule OrgtoolDb.ItemView do
     serializer: OrgtoolDb.UnitView,
     include: false,
     identifiers: :when_included
+
+  has_many :item_props,
+    serializer: OrgtoolDb.ItemProp,
+    include: false,
+    identifiers: :when_included
+
 end
