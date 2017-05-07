@@ -3,6 +3,7 @@ defmodule OrgtoolDb.ItemController do
 
   alias OrgtoolDb.Item
   alias OrgtoolDb.Template
+#    alias OrgtoolDb.Category
   alias OrgtoolDb.Member
   alias OrgtoolDb.Unit
   alias OrgtoolDb.ItemProp
@@ -15,6 +16,7 @@ defmodule OrgtoolDb.ItemController do
 
   def index(conn, _params, _current_user, _claums) do
     items = Repo.all(Item)
+    |> Repo.preload(@preload)
     render(conn, "index.json-api", data: items)
   end
 
@@ -27,11 +29,11 @@ defmodule OrgtoolDb.ItemController do
     case Repo.insert(changeset) do
       {:ok, item} ->
         item = item
-        |> Repo.preload(:item_props)
+        |> Repo.preload(@preload)
         conn
         |> put_status(:created)
         |> put_resp_header("location", item_path(conn, :show, item))
-        |> render("show.json-api", data: item, opts: @opts)
+        |> render("show.json-api", data: item) #, opts: @opts)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -42,7 +44,7 @@ defmodule OrgtoolDb.ItemController do
   def show(conn, %{"id" => id}, _current_user, _claums) do
     item = Repo.get!(Item, id)
     |> Repo.preload(@preload)
-    render(conn, "show.json-api", data: item, opts: @opts)
+    render(conn, "show.json-api", data: item) #, opts: @opts)
   end
 
   def update(conn, %{"id" => id,
@@ -60,7 +62,7 @@ defmodule OrgtoolDb.ItemController do
       {:ok, item} ->
         item
         |> Repo.preload(@preload)
-        render(conn, "show.json-api", data: item, opts: @opts)
+        render(conn, "show.json-api", data: item) # , opts: @opts)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)

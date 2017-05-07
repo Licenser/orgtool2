@@ -9,6 +9,8 @@ defmodule OrgtoolDb.Member do
     has_many :handles, OrgtoolDb.Handle
     has_one :user, OrgtoolDb.User
 
+    has_many :items, OrgtoolDb.Item
+
     many_to_many :memberships, OrgtoolDb.Unit, join_through: OrgtoolDb.MemberUnit, on_replace: :delete
     many_to_many :applications, OrgtoolDb.Unit, join_through: OrgtoolDb.ApplicantUnit, on_replace: :delete
     many_to_many :leaderships, OrgtoolDb.Unit, join_through: OrgtoolDb.LeaderUnit, on_replace: :delete
@@ -25,6 +27,7 @@ defmodule OrgtoolDb.Member do
     struct
     |> cast(params, [:name, :avatar, :timezone])
     |> cast_assoc(:user)
+    |> cast_assoc(:items)
     |> cast_assoc(:handles)
     |> cast_assoc(:rewards)
     |> cast_assoc(:applications)
