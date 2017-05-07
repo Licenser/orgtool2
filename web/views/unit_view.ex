@@ -7,7 +7,7 @@ defmodule OrgtoolDb.UnitView do
   has_many :units,
     serializer: OrgtoolDb.UnitView,
     include: false,
-    identifiers: :always
+    identifiers: :when_included
 
   has_many :members,
     serializer: OrgtoolDb.MemberView,
@@ -27,10 +27,10 @@ defmodule OrgtoolDb.UnitView do
   has_one :unit,
     serializer: OrgtoolDb.UnitView,
     include: false,
-    identifiers: :always
+    identifiers: :when_included
 
   has_one :unit_type,
     serializer: OrgtoolDb.UnitTypeView,
-    include: false,
+    include: true,
     identifiers: :when_included
 end

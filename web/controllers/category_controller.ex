@@ -1,10 +1,7 @@
 defmodule OrgtoolDb.CategoryController do
   use OrgtoolDb.Web, :controller
 
-  alias OrgtoolDb.Template
   alias OrgtoolDb.Category
-
-  @preload [:templates]
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
@@ -12,7 +9,6 @@ defmodule OrgtoolDb.CategoryController do
 
   def index(conn, _params, _current_user, _claums) do
     categorys = Repo.all(Category)
-    |> Repo.preload(@preload)
     render(conn, "index.json-api", data: categorys)
   end
 
@@ -35,7 +31,6 @@ defmodule OrgtoolDb.CategoryController do
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
     category = Repo.get!(Category, id)
-    |> Repo.preload(@preload)
     render(conn, "show.json-api", data: category)
   end
 

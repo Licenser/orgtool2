@@ -10,8 +10,8 @@ defmodule OrgtoolDb.Repo.Migrations.CreateItem do
       add :available, :boolean, default: false, null: false
 
       add :member_id, references(:members)
-#        add :item_id, references(:items)
-#        add :item_type_id, references(:item_types)
+      add :item_id, references(:items)
+      add :item_type_id, references(:item_types)
       add :unit_id, references(:units)
 
       timestamps()

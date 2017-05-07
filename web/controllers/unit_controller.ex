@@ -10,8 +10,7 @@ defmodule OrgtoolDb.UnitController do
   end
 
   def index(conn, _params, _current_user, _claums) do
-    units = Repo.all(Unit)
-    |> Repo.preload([:unit_type, :unit, :units, :members, :leaders, :applicants])
+    units = Repo.all(Unit) |> Repo.preload([:unit_type])
     render(conn, "index.json-api", data: units)
   end
 
@@ -22,8 +21,7 @@ defmodule OrgtoolDb.UnitController do
 
     case Repo.insert(changeset) do
       {:ok, unit} ->
-        unit = unit
-         |> Repo.preload([:unit_type, :unit, :units, :members, :leaders, :applicants])
+        unit = unit |> Repo.preload([:unit_type])
         conn
         |> put_status(:created)
         |> put_resp_header("location", unit_path(conn, :show, unit))
@@ -36,9 +34,8 @@ defmodule OrgtoolDb.UnitController do
   end
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
-    unit = Repo.get!(Unit, id)
-     |> Repo.preload([:unit_type, :unit, :units, :members, :leaders, :applicants])
-    render(conn, "show.json-api", data: unit) #, opts: [include: "unit,units,unit_type,members,leaders,applicants"])
+    unit = Repo.get!(Unit, id) |> Repo.preload([:unit_type, :unit, :units, :members, :leaders, :applicants])
+    render(conn, "show.json-api", data: unit, opts: [include: "unit,units,unit_type,members,leaders,applicants"])
   end
 
   def update(conn, %{"id" => id,
@@ -46,8 +43,7 @@ defmodule OrgtoolDb.UnitController do
                        "attributes" => params}},
         _current_user, _claums) do
     unit = Repo.get!(Unit, id)
-#      |> Repo.preload([:leaders, :members, :applicants, :unit_type, :unit])
-     |> Repo.preload([:unit_type, :unit, :units, :members, :leaders, :applicants])
+    |> Repo.preload([:leaders, :members, :applicants, :unit_type, :unit])
 
     changeset = Unit.changeset(unit, params)
     |> maybe_add_rels(data)
@@ -75,7 +71,6 @@ defmodule OrgtoolDb.UnitController do
 
   defp maybe_add_rels(changeset, %{"relationships" => relationships}) do
     changeset
-    |> maybe_apply(Unit, :unit, relationships)
     |> maybe_apply(UnitType, :unit_type, relationships)
     |> maybe_apply(Member, :leaders, relationships)
     |> maybe_apply(Member, :members, relationships)

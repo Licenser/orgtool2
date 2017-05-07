@@ -35,9 +35,9 @@ config :phoenix, :stacktrace_depth, 20
 
 # Configure your database
 config :orgtool_db, OrgtoolDb.Repo,
-  adapter: Ecto.Adapters.MySQL,
-  username: "orgtool",
-  password: "orgtool",
-  database: "orgtool_db",
+  adapter: Ecto.Adapters.Postgres,
+  username: "postgres",
+  password: "postgres",
+  database: "orgtool_db_dev",
   hostname: "localhost",
   pool_size: 10
