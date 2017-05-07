@@ -3,4 +3,9 @@ defmodule OrgtoolDb.CategoryView do
   use JaSerializer.PhoenixView
 
   attributes [:name, :img]
+
+  has_many :templates,
+    serializer: OrgtoolDb.TemplateView,
+    include: false,
+    identifiers: :always
 end

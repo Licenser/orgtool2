@@ -5,9 +5,11 @@ defmodule OrgtoolDb.Template do
     field :name, :string
     field :img, :string
     field :description, :string
+#      field :category_id, :id
 
     belongs_to :category, OrgtoolDb.Category
 
+    has_many :items, OrgtoolDb.Item
     has_many :template_props, OrgtoolDb.TemplateProp
 
     timestamps()

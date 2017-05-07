@@ -7,10 +7,21 @@ defmodule OrgtoolDb.TemplateView do
   has_one :category,
     serializer: OrgtoolDb.CategoryView,
     include: false,
-    identifiers: :when_included
+    identifiers: :always # :when_included
 
   has_many :template_props,
     serializer: OrgtoolDb.TemplatePropView,
     include: false,
     identifiers: :when_included
+
+#      def templates(struct, conn) do
+#        case struct.templates do
+#          %Ecto.Association.NotLoaded{} ->
+#            struct
+#            |> Ecto.assoc(:templates)
+#            |> Repo.all
+#          other -> other
+#        end
+#      end
+
 end

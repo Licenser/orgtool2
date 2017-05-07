@@ -6,7 +6,8 @@ defmodule OrgtoolDb.TemplateController do
   alias OrgtoolDb.TemplateProp
 
   @opts [include: "category,template_props"]
-  @preload [:category, :template_props]
+#    @preload [:category, :template_props]
+  @preload [:category]
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
@@ -14,6 +15,7 @@ defmodule OrgtoolDb.TemplateController do
 
   def index(conn, _params, _current_user, _claums) do
     templates = Repo.all(Template)
+    |> Repo.preload(@preload)
     render(conn, "index.json-api", data: templates)
   end
 
@@ -38,7 +40,7 @@ defmodule OrgtoolDb.TemplateController do
   def show(conn, %{"id" => id}, _current_user, _claums) do
     template = Repo.get!(Template, id)
     |> Repo.preload(@preload)
-    render(conn, "show.json-api", data: template, opts: @opts)
+    render(conn, "show.json-api", data: template) #, opts: @opts)
   end
 
   def update(conn, %{"id" => id, "data" => data = %{"attributes" => params}},

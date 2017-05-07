@@ -7,7 +7,7 @@ defmodule OrgtoolDb.ItemView do
   has_one :member,
     serializer: OrgtoolDb.MemberView,
     include: false,
-    identifiers: :when_included
+    identifiers: :always
 
   has_one :template,
     serializer: OrgtoolDb.TemplateView,
@@ -23,5 +23,6 @@ defmodule OrgtoolDb.ItemView do
     serializer: OrgtoolDb.ItemProp,
     include: false,
     identifiers: :when_included
+
 
 end

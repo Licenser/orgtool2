@@ -1,10 +1,14 @@
 defmodule OrgtoolDb.MemberController do
   use OrgtoolDb.Web, :controller
   alias OrgtoolDb.Member
+  alias OrgtoolDb.Item
   alias OrgtoolDb.Unit
   alias OrgtoolDb.User
   alias OrgtoolDb.Handle
   alias OrgtoolDb.Reward
+
+  @opts [include: "user,rewards,handles,memberships,applications,leaderships"]
+  @preload [:items, :rewards, :user, :handles, :leaderships, :memberships, :applications]
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
@@ -12,6 +16,7 @@ defmodule OrgtoolDb.MemberController do
 
   def index(conn, _params, _current_user, _claums) do
     members = Repo.all(Member)
+    |> Repo.preload(@preload)
     render(conn, "index.json-api", data: members)
   end
 
@@ -35,15 +40,16 @@ defmodule OrgtoolDb.MemberController do
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
     member = Repo.get!(Member, id)
-    |> Repo.preload([:rewards, :user, :handles, :leaderships, :memberships, :applications])
-      render(conn, "show.json-api", data: member, opts: [include: "user,rewards,handles,memberships,applications,leaderships"])
+    |> Repo.preload(@preload)
+    render(conn, "show.json-api", data: member) #, opts: @opts)
   end
 
   def update(conn, %{"id" => id,
                      "data" => data = %{"attributes" => params}},
         _current_user, _claums) do
     member = Repo.get!(Member, id)
-    |> Repo.preload([:leaderships, :memberships, :applications, :handles, :user, :rewards])
+    |> Repo.preload(@preload)
+#      |> Repo.preload([:leaderships, :memberships, :applications, :handles, :user, :rewards])
 
     changeset = Member.changeset(member, params)
     |> maybe_add_rels(data)

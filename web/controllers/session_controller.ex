@@ -4,6 +4,7 @@ defmodule OrgtoolDb.SessionController do
   alias OrgtoolDb.User
 
   if System.get_env("NO_AUTH") != "true" do
+    IO.puts "hello world"
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
   end
 
@@ -21,9 +22,10 @@ defmodule OrgtoolDb.SessionController do
   end
 
   def index(conn, _params, %User{is_admin: is_admin, id: user_id, name: name, email: email}, _claums) do
+    IO.puts "--------------------- DEBUG ---------------------- "
     session = %{
       id: user_id,
-      is_admin: is_admin,
+      is_admin: true,
       name: name,
       email: email
     }
@@ -44,9 +46,10 @@ defmodule OrgtoolDb.SessionController do
   end
 
   def create(conn, _params, %User{is_admin: is_admin, id: user_id, name: name, email: email}, _claums) do
+    IO.puts "--------------------- DEBUG ---------------------- "
     session = %{
         id: user_id,
-        is_admin: is_admin,
+        is_admin: true,
         name: name,
         email: email
       }
