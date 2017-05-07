@@ -8,15 +8,6 @@
       <% end %>
     </div>
     <div class='panel-body'>
-      <%= if not Enum.member?(@current_auths, "oddysee") do %>
-        <p>
-          <a class="btn btn-primary col-xs-12" href="<%= auth_path(@conn, :login, "oddysee") %>">
-            <i class='fa fa-chart'></i>
-            Oddysee
-          </a>
-        </p>
-      <% end %>
-
       <%= if not Enum.member?(@current_auths, "github") do %>
         <p>
           <a class="btn btn-primary col-xs-12" href="<%= auth_path(@conn, :login, "github") %>">

@@ -25,7 +25,6 @@ defmodule OrgtoolDb.Unit do
     struct
     |> cast(params, [:name, :description, :color, :img])
     |> cast_assoc(:unit)
-    |> cast_assoc(:units)
     |> cast_assoc(:unit_type)
     |> cast_assoc(:members)
     |> cast_assoc(:applicants)

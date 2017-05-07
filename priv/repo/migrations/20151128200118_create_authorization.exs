@@ -15,6 +15,6 @@ defmodule OrgtoolDb.Repo.Migrations.CreateAuthorization do
 
     create index(:authorizations, [:provider, :uid], unique: true)
     create index(:authorizations, [:expires_at])
-#      create index(:authorizations, [:provider, :token])
+    create index(:authorizations, [:provider, :token])
   end
 end

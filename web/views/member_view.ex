@@ -4,11 +4,6 @@ defmodule OrgtoolDb.MemberView do
 
   attributes [:name, :avatar, :timezone]
 
-  has_many :items,
-    serializer: OrgtoolDb.ItemView,
-    include: false,
-    identifiers: :always
-
   has_many :handles,
     serializer: OrgtoolDb.HandleView,
     include: false,
