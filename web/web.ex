@@ -71,6 +71,8 @@ defmodule OrgtoolDb.Web do
           %{"data" => %{"type" => ^name, "id" => id}} ->
             element = Repo.get!(model, id_int(id))
             Ecto.Changeset.put_assoc(changeset, key, element)
+          %{"data" => nil} ->
+            changeset
           %{"data" => elements} ->
             elements = for %{"id" => id, "type" => ^name} <- elements do
                 Repo.get!(model, id_int(id))

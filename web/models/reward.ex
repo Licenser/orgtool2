@@ -21,6 +21,6 @@ defmodule OrgtoolDb.Reward do
     |> cast(params, [:description, :img, :level, :name])
     |> cast_assoc(:reward_type)
     |> cast_assoc(:members)
-    |> validate_required([:description, :img, :level, :name])
+    |> validate_required([:description, :level, :name])
   end
 end

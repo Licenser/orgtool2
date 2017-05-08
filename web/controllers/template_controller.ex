@@ -5,8 +5,10 @@ defmodule OrgtoolDb.TemplateController do
   alias OrgtoolDb.Category
   alias OrgtoolDb.TemplateProp
 
-  @opts [include: "category,template_props"]
-  @preload [:category, :template_props]
+  @opts [include: "template_props,category"]
+  @idx_opts [include: "category"]
+  @preload [:template_props]
+  @always_preload [:category]
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
@@ -14,7 +16,8 @@ defmodule OrgtoolDb.TemplateController do
 
   def index(conn, _params, _current_user, _claums) do
     templates = Repo.all(Template)
-    render(conn, "index.json-api", data: templates)
+    |> Repo.preload(@always_preload)
+    render(conn, "index.json-api", data: templates, opts: @idx_opts)
   end
 
   def create(conn, %{"data" => data = %{"attributes" => params}}, _current_user, _claums) do
@@ -23,7 +26,9 @@ defmodule OrgtoolDb.TemplateController do
 
     case Repo.insert(changeset) do
       {:ok, template} ->
-        template = template |> Repo.preload(@preload)
+        template = template
+        |> Repo.preload(@always_preload)
+        |> Repo.preload(@preload)
         conn
         |> put_status(:created)
         |> put_resp_header("location", template_path(conn, :show, template))
@@ -37,6 +42,7 @@ defmodule OrgtoolDb.TemplateController do
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
     template = Repo.get!(Template, id)
+    |> Repo.preload(@always_preload)
     |> Repo.preload(@preload)
     render(conn, "show.json-api", data: template, opts: @opts)
   end
@@ -44,14 +50,17 @@ defmodule OrgtoolDb.TemplateController do
   def update(conn, %{"id" => id, "data" => data = %{"attributes" => params}},
         _current_user, _claums) do
     template = Repo.get!(Template, id)
+    |> Repo.preload(@always_preload)
     |> Repo.preload(@preload)
-    
+
     changeset = Template.changeset(template, params)
     |> maybe_add_rels(data)
 
     case Repo.update(changeset) do
       {:ok, template} ->
-        template = template |> Repo.preload(@preload)
+        template = template
+        |> Repo.preload(@always_preload)
+        |> Repo.preload(@preload)
         render(conn, "show.json-api", data: template, opts: @opts)
       {:error, changeset} ->
         conn

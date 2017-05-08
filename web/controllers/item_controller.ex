@@ -9,6 +9,7 @@ defmodule OrgtoolDb.ItemController do
 
   @opts [include: "member,template,unit,item_props"]
   @preload [:member, :template, :unit, :item_props]
+
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
   end
@@ -27,7 +28,7 @@ defmodule OrgtoolDb.ItemController do
     case Repo.insert(changeset) do
       {:ok, item} ->
         item = item
-        |> Repo.preload(:item_props)
+        |> Repo.preload(@preload)
         conn
         |> put_status(:created)
         |> put_resp_header("location", item_path(conn, :show, item))
