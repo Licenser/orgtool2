@@ -40,7 +40,12 @@ config :guardian, Guardian,
 
 config :guardian_db, GuardianDb,
   repo: OrgtoolDb.Repo,
-  sweep_interval: 60 # 60 minutes
+  # in minutes
+  sweep_interval: 60,
+  permissions: %{
+    default: [:read, :write],
+    admin: [:dashboard, :reconcile]
+  }
 
 
 config :ueberauth, Ueberauth,
