@@ -51,7 +51,7 @@ defmodule OrgtoolDb.UnitController do
       INNER JOIN unit_tree ut ON ut.id = ut0.unit_id
   ) SELECT * FROM unit_tree
   """, ^uid_i),
-      where: u.unit_id == ^uid)
+      on: u.id == ut.id)
     |> Repo.preload([:unit_type, :unit, :units, :members, :leaders, :applicants])
     render(conn, "index.json-api", data: units, opts: [include: "unit,units,unit_type,members,leaders,applicants"])
 
