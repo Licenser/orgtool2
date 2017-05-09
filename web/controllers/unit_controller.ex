@@ -5,6 +5,8 @@ defmodule OrgtoolDb.UnitController do
   alias OrgtoolDb.UnitType
   alias OrgtoolDb.Member
 
+  import Ecto.Query, only: [from: 1, from: 2]
+
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
   end
@@ -31,6 +33,28 @@ defmodule OrgtoolDb.UnitController do
         |> put_status(:unprocessable_entity)
         |> render("errors.json-api", data: changeset)
     end
+  end
+
+  def show(conn, %{"id" => uid, "recursive" => "true"}, _current_user, _claums) do
+    :io.format("recursive\n")
+    uid_i = String.to_integer(uid)
+    units = Repo.all(
+      from u in Unit,
+      join: ut in fragment("""
+  WITH RECURSIVE unit_tree AS (
+      SELECT *
+      FROM units
+      WHERE units.id = ?
+    UNION ALL
+      SELECT ut0.*
+      FROM units ut0
+      INNER JOIN unit_tree ut ON ut.id = ut0.unit_id
+  ) SELECT * FROM unit_tree
+  """, ^uid_i),
+      where: u.unit_id == ^uid)
+    |> Repo.preload([:unit_type, :unit, :units, :members, :leaders, :applicants])
+    render(conn, "index.json-api", data: units, opts: [include: "unit,units,unit_type,members,leaders,applicants"])
+
   end
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
