@@ -5,7 +5,9 @@ defmodule OrgtoolDb.UnitController do
   alias OrgtoolDb.UnitType
   alias OrgtoolDb.Member
 
-  import Ecto.Query, only: [from: 1, from: 2]
+  import Ecto.Query, only: [from: 2]
+  @preload [:leaders, :members, :applicants, :unit_type, :unit, :units]
+  @opts [include: "unit,units,unit_type,members,leaders,applicants"]
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
@@ -23,11 +25,11 @@ defmodule OrgtoolDb.UnitController do
 
     case Repo.insert(changeset) do
       {:ok, unit} ->
-        unit = unit |> Repo.preload([:unit_type])
+        unit = unit |> Repo.preload(@preload)
         conn
         |> put_status(:created)
         |> put_resp_header("location", unit_path(conn, :show, unit))
-        |> render("show.json-api", data: unit)
+        |> render("show.json-api", data: unit, opts: @opts)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -36,7 +38,6 @@ defmodule OrgtoolDb.UnitController do
   end
 
   def show(conn, %{"id" => uid, "recursive" => "true"}, _current_user, _claums) do
-    :io.format("recursive\n")
     uid_i = String.to_integer(uid)
     units = Repo.all(
       from u in Unit,
@@ -53,13 +54,14 @@ defmodule OrgtoolDb.UnitController do
   """, ^uid_i),
       on: u.id == ut.id)
     |> Repo.preload([:unit_type, :unit, :units, :members, :leaders, :applicants])
-    render(conn, "index.json-api", data: units, opts: [include: "unit,units,unit_type,members,leaders,applicants"])
+    render(conn, "index.json-api", data: units, opts: @opts)
 
   end
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
-    unit = Repo.get!(Unit, id) |> Repo.preload([:unit_type, :unit, :units, :members, :leaders, :applicants])
-    render(conn, "show.json-api", data: unit, opts: [include: "unit,units,unit_type,members,leaders,applicants"])
+    unit = Repo.get!(Unit, id)
+    |> Repo.preload(@preload)
+    render(conn, "show.json-api", data: unit, opts: @opts)
   end
 
   def update(conn, %{"id" => id,
@@ -67,15 +69,15 @@ defmodule OrgtoolDb.UnitController do
                        "attributes" => params}},
         _current_user, _claums) do
     unit = Repo.get!(Unit, id)
-    |> Repo.preload([:leaders, :members, :applicants, :unit_type, :unit])
+    |> Repo.preload(@preload)
 
     changeset = Unit.changeset(unit, params)
     |> maybe_add_rels(data)
 
     case Repo.update(changeset) do
       {:ok, unit} ->
-        unit = unit |> Repo.preload([:unit_type])
-        render(conn, "show.json-api", data: unit)
+        unit = unit |> Repo.preload(@preload)
+        render(conn, "show.json-api", data: unit, opts: @opts)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -95,7 +97,8 @@ defmodule OrgtoolDb.UnitController do
 
   defp maybe_add_rels(changeset, %{"relationships" => relationships}) do
     changeset
-    |> maybe_apply(UnitType, :unit_type, relationships)
+    |> maybe_apply(Unit, :unit, relationships)
+    |> maybe_apply(UnitType, "unit-type", :unit_type, relationships)
     |> maybe_apply(Member, :leaders, relationships)
     |> maybe_apply(Member, :members, relationships)
     |> maybe_apply(Member, :applications, relationships)

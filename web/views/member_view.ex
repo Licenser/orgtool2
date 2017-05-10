@@ -14,6 +14,10 @@ defmodule OrgtoolDb.MemberView do
     include: false,
     identifiers: :when_included
 
+  has_many :items,
+    serializer: OrgtoolDb.ItemView,
+    include: false,
+    identifiers: :when_included
 
   has_many :leaderships,
     serializer: OrgtoolDb.UnitView,

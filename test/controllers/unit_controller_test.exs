@@ -14,7 +14,12 @@ defmodule OrgtoolDb.UnitControllerTest do
       relationships: %{
         members: %{data: [%{id: member.id, type: "member"}]},
         unit_type: %{data: %{id: unit_type.id, type: "unit_type"}}}}
-    {:ok, %{valid_data: valid_data, conn: put_req_header(conn, "accept", "application/json")}}
+    type_id = Integer.to_string(unit_type.id)
+    {:ok, %{
+        type_id: type_id,
+        valid_data: valid_data,
+        conn: put_req_header(conn, "accept", "application/json"),
+     }}
   end
 
   test "lists all entries on index", %{conn: conn} do
@@ -54,6 +59,31 @@ defmodule OrgtoolDb.UnitControllerTest do
     conn = post conn, unit_path(conn, :create), data: valid_data
     assert json_response(conn, 201)["data"]["id"]
     assert Repo.get_by(Unit, @valid_attrs)
+  end
+
+
+  test "creates and renders sub unit", %{conn: conn, type_id: type_id} do
+    {:ok, unit} = %Unit{} |> Repo.insert
+    unit_id = Integer.to_string(unit.id)
+    payload = %{"data" => %{
+               "attributes" => %{},
+               "relationships" => %{
+                 "applicants" => %{"data" => []},
+                 "leaders" => %{"data" => []},
+                 "members" => %{"data" => []},
+                 "unit-type" => %{"data" => %{
+                                 "id" => type_id,
+                                 "type" => "unit-type"}},
+                 "unit" => %{"data" => %{
+                            "id" => unit_id,
+                            "type" => "unit"}}
+               },
+               "type" => "unit"}}
+    conn = post conn, unit_path(conn, :create), payload
+    assert json_response(conn, 201)["data"]["id"]
+    assert json_response(conn, 201)["data"]["relationships"]["unit-type"]["data"]["id"] == type_id
+    assert json_response(conn, 201)["data"]["relationships"]["unit"]["data"]["id"] == unit_id
+    #assert Repo.get_by(Unit, @valid_attrs)
   end
 
   # test "does not create resource and renders errors when data is invalid", %{conn: conn} do

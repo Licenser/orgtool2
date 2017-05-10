@@ -30,7 +30,8 @@ defmodule OrgtoolDb.MemberControllerTest do
         "handles" => %{"data" => []},
         "leaderships" => %{"data" => []},
         "memberships" => %{"data" => []},
-        "rewards" => %{"data" => []}
+        "rewards" => %{"data" => []},
+        "items" =>  %{"data" => []},
       }
     }
   end

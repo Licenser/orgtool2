@@ -66,15 +66,22 @@ defmodule OrgtoolDb.Web do
       end
 
       defp maybe_apply(changeset, model, key, relationships) do
-        name = Atom.to_string(key)
-        case Map.get(relationships, name) do
-          %{"data" => %{"type" => ^name, "id" => id}} ->
+        type = Atom.to_string(key)
+        maybe_apply(changeset, model, type, key, relationships)
+      end
+      defp maybe_apply(changeset, model, type, key, relationships) do
+        json_key = type
+        maybe_apply(changeset, model, type, json_key, key, relationships)
+      end
+      defp maybe_apply(changeset, model, type, json_key, key, relationships) do
+        case Map.get(relationships, json_key) do
+          %{"data" => %{"type" => ^type, "id" => id}} ->
             element = Repo.get!(model, id_int(id))
             Ecto.Changeset.put_assoc(changeset, key, element)
           %{"data" => nil} ->
             changeset
           %{"data" => elements} ->
-            elements = for %{"id" => id, "type" => ^name} <- elements do
+            elements = for %{"id" => id, "type" => ^type} <- elements do
                 Repo.get!(model, id_int(id))
               end
             Ecto.Changeset.put_assoc(changeset, key, elements)

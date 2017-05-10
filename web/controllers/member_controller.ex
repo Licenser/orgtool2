@@ -6,6 +6,9 @@ defmodule OrgtoolDb.MemberController do
   alias OrgtoolDb.Handle
   alias OrgtoolDb.Reward
 
+  @preload [:rewards, :user, :handles, :leaderships, :memberships, :applications, :items]
+  @opts [include: "user,rewards,handles,memberships,applications,leaderships,items"]
+
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
   end
@@ -22,10 +25,11 @@ defmodule OrgtoolDb.MemberController do
 
     case Repo.insert(changeset) do
       {:ok, member} ->
+        member = member |> Repo.preload(@preload)
         conn
         |> put_status(:created)
         |> put_resp_header("location", member_path(conn, :show, member))
-        |> render("show.json-api", data: member)
+        |> render("show.json-api", data: member, opts: @opts)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -35,22 +39,23 @@ defmodule OrgtoolDb.MemberController do
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
     member = Repo.get!(Member, id)
-    |> Repo.preload([:rewards, :user, :handles, :leaderships, :memberships, :applications])
-      render(conn, "show.json-api", data: member, opts: [include: "user,rewards,handles,memberships,applications,leaderships"])
+    |> Repo.preload(@preload)
+      render(conn, "show.json-api", data: member, opts: @opts)
   end
 
   def update(conn, %{"id" => id,
                      "data" => data = %{"attributes" => params}},
         _current_user, _claums) do
     member = Repo.get!(Member, id)
-    |> Repo.preload([:leaderships, :memberships, :applications, :handles, :user, :rewards])
+    |> Repo.preload(@preload)
 
     changeset = Member.changeset(member, params)
     |> maybe_add_rels(data)
 
     case Repo.update(changeset) do
       {:ok, member} ->
-        render(conn, "show.json-api", data: member)
+        member = member |> Repo.preload(@preload)
+        render(conn, "show.json-api", data: member, opts: @opts)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -70,7 +75,8 @@ defmodule OrgtoolDb.MemberController do
 
   defp maybe_add_rels(changeset, %{"relationships" => relationships}) do
     changeset
-    |> maybe_apply(User, :user, relationships)
+    |> maybe_apply(User,   :user, relationships)
+    |> maybe_apply(Item,   :items, relationships)
     |> maybe_apply(Reward, :rewards, relationships)
     |> maybe_apply(Handle, :handles, relationships)
     |> maybe_apply(Unit, :leaderships, relationships)
