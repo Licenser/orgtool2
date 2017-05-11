@@ -4,8 +4,8 @@ defmodule OrgtoolDb.HandleView do
 
   attributes [:name, :handle, :img, :login]
 
-  has_one :member,
-    serializer: OrgtoolDb.MemberView,
+  has_one :player,
+    serializer: OrgtoolDb.PlayerView,
     include: false,
     identifiers: :when_included
 end

@@ -100,7 +100,7 @@ defmodule OrgtoolDb.Router do
     resources "/sessions", SessionController, except: [:edit, :show]
     resources "/units", UnitController, except: [:new, :edit]
     resources "/unit-types", UnitTypeController, except: [:new, :edit]
-    resources "/members", MemberController, except: [:new, :edit]
+    resources "/players", PlayerController, except: [:new, :edit]
     resources "/leader-units", LeaderUnitController, except: [:new, :edit]
     resources "/applicant-units", ApplicantUnitController, except: [:new, :edit]
 

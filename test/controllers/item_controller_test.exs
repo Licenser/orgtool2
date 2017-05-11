@@ -3,7 +3,7 @@ defmodule OrgtoolDb.ItemControllerTest do
 
   alias OrgtoolDb.Item
   alias OrgtoolDb.Template
-  alias OrgtoolDb.Member
+  alias OrgtoolDb.Player
   alias OrgtoolDb.Unit
 
   @valid_attrs %{available: true, description: "some content", hidden: true, img: "some content", name: "some content"}
@@ -12,13 +12,13 @@ defmodule OrgtoolDb.ItemControllerTest do
 
   setup %{conn: conn} do
     {:ok, template} = %Template{} |> Repo.insert
-    {:ok, member} = %Member{} |> Repo.insert
+    {:ok, player} = %Player{} |> Repo.insert
     {:ok, unit} = %Unit{} |> Repo.insert
     valid_data = %{
       attributes: @valid_attrs,
       relationships: %{
         template: %{data: %{type: "template", id: template.id}},
-        member:   %{data: %{type: "member", id: member.id}},
+        player:   %{data: %{type: "player", id: player.id}},
         unit:     %{data: %{type: "unit", id: unit.id}},
       }
     }
@@ -37,7 +37,7 @@ defmodule OrgtoolDb.ItemControllerTest do
       "id"            => Integer.to_string(item.id),
       "type"          => "item",
       "relationships" => %{
-        "member"     => %{"data" => nil},
+        "player"     => %{"data" => nil},
         "unit"       => %{"data" => nil},
         "template"   => %{"data" => nil},
         "item-props" => %{"data" => []},
@@ -63,7 +63,7 @@ defmodule OrgtoolDb.ItemControllerTest do
     response = json_response(conn, 201)
     assert response["data"]["id"]
     assert response["data"]["relationships"]["template"]["data"]["id"]
-    assert response["data"]["relationships"]["member"]["data"]["id"]
+    assert response["data"]["relationships"]["player"]["data"]["id"]
     assert response["data"]["relationships"]["unit"]["data"]["id"]
     assert Repo.get_by(Item, @valid_attrs)
   end
@@ -79,7 +79,7 @@ defmodule OrgtoolDb.ItemControllerTest do
     response = json_response(conn, 200)
     assert response["data"]["id"]
     assert response["data"]["relationships"]["template"]["data"]["id"]
-    assert response["data"]["relationships"]["member"]["data"]["id"]
+    assert response["data"]["relationships"]["player"]["data"]["id"]
     assert response["data"]["relationships"]["unit"]["data"]["id"]
     assert Repo.get_by(Item, @valid_attrs)
   end

@@ -42,7 +42,7 @@ Repo.insert! %Reward{
 }
 Repo.insert! %Reward{
   reward_type: rank,
-  name: "Member",
+  name: "Player",
   level: 4
 }
 Repo.insert! %Reward{
@@ -60,7 +60,7 @@ Repo.insert! %Reward{
 
 Repo.insert! %Reward{
   reward_type: position,
-  name: "Member",
+  name: "Player",
   level: 2
 }
 

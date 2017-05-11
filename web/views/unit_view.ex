@@ -9,18 +9,18 @@ defmodule OrgtoolDb.UnitView do
     include: false,
     identifiers: :when_included
 
-  has_many :members,
-    serializer: OrgtoolDb.MemberView,
+  has_many :players,
+    serializer: OrgtoolDb.PlayerView,
     include: false,
     identifiers: :when_included
 
   has_many :leaders,
-    serializer: OrgtoolDb.MemberView,
+    serializer: OrgtoolDb.PlayerView,
     include: false,
     identifiers: :when_included
 
   has_many :applicants,
-    serializer: OrgtoolDb.MemberView,
+    serializer: OrgtoolDb.PlayerView,
     include: false,
     identifiers: :when_included
 

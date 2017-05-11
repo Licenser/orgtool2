@@ -2,20 +2,20 @@ defmodule OrgtoolDb.HandleControllerTest do
   use OrgtoolDb.ConnCase
 
   alias OrgtoolDb.Handle
-  alias OrgtoolDb.Member
+  alias OrgtoolDb.Player
   @valid_attrs %{handle: "some content", img: "some content", login: "some content", name: "some content"}
   @invalid_attrs %{}
   @invalid_data %{attributes: @invalid_attrs}
 
   setup %{conn: conn} do
-    {:ok, member} = %Member{} |> Repo.insert
+    {:ok, player} = %Player{} |> Repo.insert
     valid_data = %{
       attributes: @valid_attrs,
       relationships: %{
-        member: %{
+        player: %{
           data: %{
-            type: "member",
-            id:   member.id
+            type: "player",
+            id:   player.id
           }
         }
       }
@@ -34,7 +34,7 @@ defmodule OrgtoolDb.HandleControllerTest do
     assert json_response(conn, 200)["data"] == %{
       "id"            => Integer.to_string(handle.id),
       "type"          => "handle",
-      "relationships" => %{"member" => %{"data" => nil}},
+      "relationships" => %{"player" => %{"data" => nil}},
       "attributes"    => %{
         "name"   => handle.name,
         "handle" => handle.handle,
@@ -53,7 +53,7 @@ defmodule OrgtoolDb.HandleControllerTest do
     conn = post conn, handle_path(conn, :create), data: valid_data
     response = json_response(conn, 201)
     assert response["data"]["id"]
-    assert response["data"]["relationships"]["member"]["data"]["id"]
+    assert response["data"]["relationships"]["player"]["data"]["id"]
     assert Repo.get_by(Handle, @valid_attrs)
   end
 
@@ -67,7 +67,7 @@ defmodule OrgtoolDb.HandleControllerTest do
     conn = put conn, handle_path(conn, :update, handle), id: handle.id, data: valid_data
     response = json_response(conn, 200)
     assert response["data"]["id"]
-    assert response["data"]["relationships"]["member"]["data"]["id"]
+    assert response["data"]["relationships"]["player"]["data"]["id"]
     assert Repo.get_by(Handle, @valid_attrs)
   end
 

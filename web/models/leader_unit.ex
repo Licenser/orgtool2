@@ -3,7 +3,7 @@ defmodule OrgtoolDb.LeaderUnit do
 
   schema "leader_units" do
 
-    belongs_to :member, OrgtoolDb.Member
+    belongs_to :player, OrgtoolDb.Player
     belongs_to :unit, OrgtoolDb.Unit
 
     timestamps()
@@ -14,7 +14,7 @@ defmodule OrgtoolDb.LeaderUnit do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:member_id, :unit_id])
-    |> validate_required([:member_id, :unit_id])
+    |> cast(params, [:player_id, :unit_id])
+    |> validate_required([:player_id, :unit_id])
   end
 end

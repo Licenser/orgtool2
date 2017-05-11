@@ -2,10 +2,10 @@ defmodule OrgtoolDb.HandleController do
   use OrgtoolDb.Web, :controller
 
   alias OrgtoolDb.Handle
-  alias OrgtoolDb.Member
+  alias OrgtoolDb.Player
 
-  @preload [:member]
-  @opts [include: "member"]
+  @preload [:player]
+  @opts [include: "player"]
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
@@ -22,7 +22,7 @@ defmodule OrgtoolDb.HandleController do
 
     case Repo.insert(changeset) do
       {:ok, handle} ->
-        handle = handle |> Repo.preload(:member)
+        handle = handle |> Repo.preload(:player)
 
         conn
         |> put_status(:created)
@@ -45,14 +45,14 @@ defmodule OrgtoolDb.HandleController do
                      "data" => data = %{
                        "attributes" => params}}, _current_user, _claums) do
     handle = Repo.get!(Handle, id)
-    |> Repo.preload(:member)
+    |> Repo.preload(:player)
 
     changeset = Handle.changeset(handle, params)
     |> maybe_add_rels(data)
 
     case Repo.update(changeset) do
       {:ok, handle} ->
-        handle = handle |> Repo.preload(:member)
+        handle = handle |> Repo.preload(:player)
         render(conn, "show.json-api", data: handle, opts: @opts)
       {:error, changeset} ->
         conn
@@ -73,7 +73,7 @@ defmodule OrgtoolDb.HandleController do
 
   defp maybe_add_rels(changeset, %{"relationships" => relationships}) do
     changeset
-    |> maybe_apply(Member, :member, relationships)
+    |> maybe_apply(Player, :player, relationships)
   end
 
   defp maybe_add_rels(changeset, _) do

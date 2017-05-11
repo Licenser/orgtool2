@@ -8,7 +8,7 @@ defmodule OrgtoolDb.Item do
     field :img, :string
     field :name, :string
 
-    belongs_to :member, OrgtoolDb.Member
+    belongs_to :player, OrgtoolDb.Player
     belongs_to :unit, OrgtoolDb.Unit
     belongs_to :template, OrgtoolDb.Template
 
@@ -24,7 +24,7 @@ defmodule OrgtoolDb.Item do
     struct
     |> cast(params, [:available, :description, :hidden, :img, :name])
     |> cast_assoc(:template)
-    |> cast_assoc(:member)
+    |> cast_assoc(:player)
     |> cast_assoc(:unit)
     |> cast_assoc(:item_props)
     |> validate_required([:available, :hidden, :img, :name])

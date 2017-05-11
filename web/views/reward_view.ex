@@ -4,8 +4,8 @@ defmodule OrgtoolDb.RewardView do
 
   attributes [:name, :level, :img, :description]
 
-  has_many :members,
-    serializer: OrgtoolDb.MemberView,
+  has_many :players,
+    serializer: OrgtoolDb.PlayerView,
     include: false,
     identifiers: :when_included
 

@@ -1,9 +1,9 @@
-defmodule OrgtoolDb.MemberReward do
+defmodule OrgtoolDb.PlayerReward do
   use OrgtoolDb.Web, :template
 
-  schema "member_rewards" do
+  schema "player_rewards" do
 
-    belongs_to :member, OrgtoolDb.Member
+    belongs_to :player, OrgtoolDb.Player
     belongs_to :reward, OrgtoolDb.Reward
 
     timestamps()
@@ -14,7 +14,7 @@ defmodule OrgtoolDb.MemberReward do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:reward_id, :member_id])
-    |> validate_required([:reward_id, :member_id])
+    |> cast(params, [:reward_id, :player_id])
+    |> validate_required([:reward_id, :player_id])
   end
 end

@@ -1,35 +1,35 @@
-defmodule OrgtoolDb.MemberController do
+defmodule OrgtoolDb.PlayerController do
   use OrgtoolDb.Web, :controller
-  alias OrgtoolDb.Member
+  alias OrgtoolDb.Player
   alias OrgtoolDb.Unit
   alias OrgtoolDb.User
   alias OrgtoolDb.Handle
   alias OrgtoolDb.Reward
 
-  @preload [:rewards, :user, :handles, :leaderships, :memberships, :applications, :items]
-  @opts [include: "user,rewards,handles,memberships,applications,leaderships,items"]
+  @preload [:rewards, :user, :handles, :leaderships, :playerships, :applications, :items]
+  @opts [include: "user,rewards,handles,playerships,applications,leaderships,items"]
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
   end
 
   def index(conn, _params, _current_user, _claums) do
-    members = Repo.all(Member)
-    render(conn, "index.json-api", data: members)
+    players = Repo.all(Player)
+    render(conn, "index.json-api", data: players)
   end
 
   def create(conn, %{"data" => data = %{"attributes" => params}},
                      _current_user, _claums) do
-    changeset = Member.changeset(%Member{}, params)
+    changeset = Player.changeset(%Player{}, params)
     |> maybe_add_rels(data)
 
     case Repo.insert(changeset) do
-      {:ok, member} ->
-        member = member |> Repo.preload(@preload)
+      {:ok, player} ->
+        player = player |> Repo.preload(@preload)
         conn
         |> put_status(:created)
-        |> put_resp_header("location", member_path(conn, :show, member))
-        |> render("show.json-api", data: member, opts: @opts)
+        |> put_resp_header("location", player_path(conn, :show, player))
+        |> render("show.json-api", data: player, opts: @opts)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -38,24 +38,24 @@ defmodule OrgtoolDb.MemberController do
   end
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
-    member = Repo.get!(Member, id)
+    player = Repo.get!(Player, id)
     |> Repo.preload(@preload)
-      render(conn, "show.json-api", data: member, opts: @opts)
+      render(conn, "show.json-api", data: player, opts: @opts)
   end
 
   def update(conn, %{"id" => id,
                      "data" => data = %{"attributes" => params}},
         _current_user, _claums) do
-    member = Repo.get!(Member, id)
+    player = Repo.get!(Player, id)
     |> Repo.preload(@preload)
 
-    changeset = Member.changeset(member, params)
+    changeset = Player.changeset(player, params)
     |> maybe_add_rels(data)
 
     case Repo.update(changeset) do
-      {:ok, member} ->
-        member = member |> Repo.preload(@preload)
-        render(conn, "show.json-api", data: member, opts: @opts)
+      {:ok, player} ->
+        player = player |> Repo.preload(@preload)
+        render(conn, "show.json-api", data: player, opts: @opts)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -64,11 +64,11 @@ defmodule OrgtoolDb.MemberController do
   end
 
   def delete(conn, %{"id" => id}, _current_user, _claums) do
-    member = Repo.get!(Member, id)
+    player = Repo.get!(Player, id)
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
-    Repo.delete!(member)
+    Repo.delete!(player)
 
     send_resp(conn, :no_content, "")
   end
@@ -80,7 +80,7 @@ defmodule OrgtoolDb.MemberController do
     |> maybe_apply(Reward, :rewards, relationships)
     |> maybe_apply(Handle, :handles, relationships)
     |> maybe_apply(Unit, :leaderships, relationships)
-    |> maybe_apply(Unit, :memberships, relationships)
+    |> maybe_apply(Unit, :playerships, relationships)
     |> maybe_apply(Unit, :applications, relationships)
   end
 

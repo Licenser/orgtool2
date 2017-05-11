@@ -1,8 +1,8 @@
-defmodule OrgtoolDb.Repo.Migrations.CreateMember do
+defmodule OrgtoolDb.Repo.Migrations.CreatePlayer do
   use Ecto.Migration
 
   def change do
-    create table(:members) do
+    create table(:players) do
       add :name, :string
       add :avatar, :string
       add :logs, :text

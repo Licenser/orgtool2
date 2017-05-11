@@ -14,7 +14,7 @@ defmodule OrgtoolDb.RewardControllerTest do
     valid_data = %{
       attributes:    @valid_attrs,
       relationships: %{
-        members: %{data: []},
+        players: %{data: []},
         reward_type: %{data: %{type: "reward_type", id: reward_type.id}}
       }
     }
@@ -40,7 +40,7 @@ defmodule OrgtoolDb.RewardControllerTest do
       },
       "relationships" => %{
         "reward-type" => %{"data" => nil},
-        "members" => %{"data" => []},
+        "players" => %{"data" => []},
 
       }
     }

@@ -9,7 +9,7 @@ defmodule OrgtoolDb.Repo.Migrations.CreateItem do
       add :hidden, :boolean, default: false, null: false
       add :available, :boolean, default: false, null: false
 
-      add :member_id, references(:members)
+      add :player_id, references(:players)
       add :item_id, references(:items)
       add :item_type_id, references(:item_types)
       add :unit_id, references(:units)

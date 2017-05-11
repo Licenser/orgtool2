@@ -3,12 +3,12 @@ defmodule OrgtoolDb.ItemController do
 
   alias OrgtoolDb.Item
   alias OrgtoolDb.Template
-  alias OrgtoolDb.Member
+  alias OrgtoolDb.Player
   alias OrgtoolDb.Unit
   alias OrgtoolDb.ItemProp
 
-  @opts [include: "member,template,unit,item_props"]
-  @preload [:member, :template, :unit, :item_props]
+  @opts [include: "player,template,unit,item_props"]
+  @preload [:player, :template, :unit, :item_props]
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
@@ -82,7 +82,7 @@ defmodule OrgtoolDb.ItemController do
   defp maybe_add_rels(changeset, %{"relationships" => relationships}) do
     changeset
     |> maybe_apply(Template, :template, relationships)
-    |> maybe_apply(Member,   :member, relationships)
+    |> maybe_apply(Player,   :player, relationships)
     |> maybe_apply(Unit,     :unit, relationships)
     |> maybe_apply(ItemProp, :item_props, relationships)
   end

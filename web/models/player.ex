@@ -1,7 +1,7 @@
-defmodule OrgtoolDb.Member do
+defmodule OrgtoolDb.Player do
   use OrgtoolDb.Web, :template
 
-  schema "members" do
+  schema "players" do
     field :name, :string
     field :avatar, :string
     field :timezone, :integer
@@ -10,11 +10,11 @@ defmodule OrgtoolDb.Member do
     has_many :items, OrgtoolDb.Item
     has_one :user, OrgtoolDb.User
 
-    many_to_many :memberships, OrgtoolDb.Unit, join_through: OrgtoolDb.MemberUnit, on_replace: :delete
+    many_to_many :playerships, OrgtoolDb.Unit, join_through: OrgtoolDb.PlayerUnit, on_replace: :delete
     many_to_many :applications, OrgtoolDb.Unit, join_through: OrgtoolDb.ApplicantUnit, on_replace: :delete
     many_to_many :leaderships, OrgtoolDb.Unit, join_through: OrgtoolDb.LeaderUnit, on_replace: :delete
 
-    many_to_many :rewards, OrgtoolDb.Reward, join_through: OrgtoolDb.MemberReward, on_replace: :delete
+    many_to_many :rewards, OrgtoolDb.Reward, join_through: OrgtoolDb.PlayerReward, on_replace: :delete
 
 
     timestamps()
@@ -30,7 +30,7 @@ defmodule OrgtoolDb.Member do
     |> cast_assoc(:handles)
     |> cast_assoc(:rewards)
     |> cast_assoc(:applications)
-    |> cast_assoc(:memberships)
+    |> cast_assoc(:playerships)
     |> cast_assoc(:leaderships)
 
     |> validate_required([:name, :timezone])

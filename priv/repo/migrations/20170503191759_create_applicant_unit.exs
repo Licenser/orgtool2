@@ -3,7 +3,7 @@ defmodule OrgtoolDb.Repo.Migrations.CreateApplicantUnit do
 
   def change do
     create table(:applicant_units) do
-      add :member_id, references(:members)
+      add :player_id, references(:players)
       add :unit_id, references(:units)
 
       timestamps()

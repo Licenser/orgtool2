@@ -3,16 +3,16 @@ defmodule OrgtoolDb.UnitControllerTest do
 
   alias OrgtoolDb.Unit
   alias OrgtoolDb.UnitType
-  alias OrgtoolDb.Member
+  alias OrgtoolDb.Player
   @valid_attrs %{color: "some content", description: "some content", img: "some content", name: "some content"}
 
   setup %{conn: conn} do
     {:ok, unit_type} = %UnitType{} |> Repo.insert
-    {:ok, member} = %Member{} |> Repo.insert
+    {:ok, player} = %Player{} |> Repo.insert
     valid_data = %{
       attributes:    @valid_attrs,
       relationships: %{
-        members: %{data: [%{id: member.id, type: "member"}]},
+        players: %{data: [%{id: player.id, type: "player"}]},
         unit_type: %{data: %{id: unit_type.id, type: "unit_type"}}}}
     type_id = Integer.to_string(unit_type.id)
     {:ok, %{
@@ -42,7 +42,7 @@ defmodule OrgtoolDb.UnitControllerTest do
       "relationships" => %{
         "applicants" => %{"data" => []},
         "leaders" => %{"data" => []},
-        "members" => %{"data" => []},
+        "players" => %{"data" => []},
         "unit" => %{"data" => nil},
         "unit-type" => %{"data" => nil},
         "units" => %{"data" => []}}
@@ -70,7 +70,7 @@ defmodule OrgtoolDb.UnitControllerTest do
                "relationships" => %{
                  "applicants" => %{"data" => []},
                  "leaders" => %{"data" => []},
-                 "members" => %{"data" => []},
+                 "players" => %{"data" => []},
                  "unit-type" => %{"data" => %{
                                  "id" => type_id,
                                  "type" => "unit-type"}},

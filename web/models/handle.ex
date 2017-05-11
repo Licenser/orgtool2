@@ -8,7 +8,7 @@ defmodule OrgtoolDb.Handle do
     field :login, :string
     field :type, :string
 
-    belongs_to :member, OrgtoolDb.Member
+    belongs_to :player, OrgtoolDb.Player
 
     timestamps()
   end
@@ -19,7 +19,7 @@ defmodule OrgtoolDb.Handle do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:name, :handle, :img, :login, :type])
-    |> cast_assoc(:member)
+    |> cast_assoc(:player)
     |> validate_required([:name, :handle])
   end
 end

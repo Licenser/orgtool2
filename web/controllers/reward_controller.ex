@@ -3,7 +3,7 @@ defmodule OrgtoolDb.RewardController do
 
   alias OrgtoolDb.Reward
   alias OrgtoolDb.RewardType
-  alias OrgtoolDb.Member
+  alias OrgtoolDb.Player
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
@@ -34,14 +34,14 @@ defmodule OrgtoolDb.RewardController do
 
   def show(conn, %{"id" => id}, _current_user, _claums) do
     reward = Repo.get!(Reward, id)
-    |> Repo.preload([:reward_type, :members])
-    render(conn, "show.json-api", data: reward, opts: [include: "reward_type,members"])
+    |> Repo.preload([:reward_type, :players])
+    render(conn, "show.json-api", data: reward, opts: [include: "reward_type,players"])
   end
 
   def update(conn, %{"id" => id, "data" => data = %{"attributes" => params}},
         _current_user, _claums) do
     reward = Repo.get!(Reward, id)
-    |> Repo.preload([:members, :reward_type])
+    |> Repo.preload([:players, :reward_type])
 
     changeset = Reward.changeset(reward, params)
     |> maybe_add_rels(data)
@@ -68,7 +68,7 @@ defmodule OrgtoolDb.RewardController do
 
   defp maybe_add_rels(changeset, %{"relationships" => relationships}) do
     changeset
-    |> maybe_apply(Member, :members, relationships)
+    |> maybe_apply(Player, :players, relationships)
     |> maybe_apply(RewardType, :reward_type, relationships)
   end
 

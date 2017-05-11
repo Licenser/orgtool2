@@ -32,7 +32,7 @@ config :guardian, Guardian,
   permissions: %{
     #          1      2        4      8        16       32       64
     user:     [:read, :create, :edit, :delete],
-    member:   [:read, :create, :edit, :delete],
+    player:   [:read, :create, :edit, :delete],
     unit:     [:read, :create, :edit, :delete, :assign, :accept, :apply],
     category: [:read, :create, :edit, :delete],
     template: [:read, :create, :edit, :delete],

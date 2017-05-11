@@ -4,8 +4,8 @@ defmodule OrgtoolDb.ItemView do
 
   attributes [:available, :description, :hidden, :img, :name]
 
-  has_one :member,
-    serializer: OrgtoolDb.MemberView,
+  has_one :player,
+    serializer: OrgtoolDb.PlayerView,
     include: false,
     identifiers: :when_included
 

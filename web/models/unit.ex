@@ -11,9 +11,9 @@ defmodule OrgtoolDb.Unit do
     belongs_to :unit, OrgtoolDb.Unit
     has_many :units, OrgtoolDb.Unit
 
-    many_to_many :members, OrgtoolDb.Member, join_through: OrgtoolDb.MemberUnit, on_replace: :delete
-    many_to_many :applicants, OrgtoolDb.Member, join_through: OrgtoolDb.ApplicantUnit, on_replace: :delete
-    many_to_many :leaders, OrgtoolDb.Member, join_through: OrgtoolDb.LeaderUnit, on_replace: :delete
+    many_to_many :players, OrgtoolDb.Player, join_through: OrgtoolDb.PlayerUnit, on_replace: :delete
+    many_to_many :applicants, OrgtoolDb.Player, join_through: OrgtoolDb.ApplicantUnit, on_replace: :delete
+    many_to_many :leaders, OrgtoolDb.Player, join_through: OrgtoolDb.LeaderUnit, on_replace: :delete
 
     timestamps()
   end
@@ -26,7 +26,7 @@ defmodule OrgtoolDb.Unit do
     |> cast(params, [:name, :description, :color, :img])
     |> cast_assoc(:unit)
     |> cast_assoc(:unit_type)
-    |> cast_assoc(:members)
+    |> cast_assoc(:players)
     |> cast_assoc(:applicants)
     |> cast_assoc(:leaders)
     |> validate_required([])

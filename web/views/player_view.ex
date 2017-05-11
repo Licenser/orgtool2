@@ -1,4 +1,4 @@
-defmodule OrgtoolDb.MemberView do
+defmodule OrgtoolDb.PlayerView do
   use OrgtoolDb.Web, :view
   use JaSerializer.PhoenixView
 
@@ -24,7 +24,7 @@ defmodule OrgtoolDb.MemberView do
     include: false,
     identifiers: :when_included
 
-  has_many :memberships,
+  has_many :playerships,
     serializer: OrgtoolDb.UnitView,
     include: false,
     identifiers: :when_included

@@ -1,6 +1,6 @@
 defmodule OrgtoolDb.UserFromAuth do
   alias OrgtoolDb.User
-  alias OrgtoolDb.Member
+  alias OrgtoolDb.Player
   alias OrgtoolDb.Authorization
   alias OrgtoolDb.Reward
   require Ecto.Query
@@ -121,15 +121,15 @@ defmodule OrgtoolDb.UserFromAuth do
     case result do
       {:ok, user} ->
 
-        member = repo.insert!(%Member{timezone: 0, name: name})
+        player = repo.insert!(%Player{timezone: 0, name: name})
         |> repo.preload(:rewards)
         |> Ecto.Changeset.change()
         |> repo.update!
 
         user = user
-        |> repo.preload(:member)
+        |> repo.preload(:player)
         |> Ecto.Changeset.change()
-        |> Ecto.Changeset.put_assoc(:member, member)
+        |> Ecto.Changeset.put_assoc(:player, player)
         |> repo.update!
         ## Make our first user admin
         if user.id == 1 do

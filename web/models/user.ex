@@ -9,14 +9,14 @@ defmodule OrgtoolDb.User do
     field :is_admin, :boolean
 
     has_many :authorizations, OrgtoolDb.Authorization
-    belongs_to :member, OrgtoolDb.Member
+    belongs_to :player, OrgtoolDb.Player
     has_one :item_perm, OrgtoolDb.ItemPerm
 
     timestamps()
   end
 
   @required_fields ~w(email name)a
-  @optional_fields ~w(is_admin member)a
+  @optional_fields ~w(is_admin player)a
 
   def registration_changeset(template, params \\ :empty) do
     template

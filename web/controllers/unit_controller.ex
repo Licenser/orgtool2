@@ -3,11 +3,11 @@ defmodule OrgtoolDb.UnitController do
 
   alias OrgtoolDb.Unit
   alias OrgtoolDb.UnitType
-  alias OrgtoolDb.Member
+  alias OrgtoolDb.Player
 
   import Ecto.Query, only: [from: 2]
-  @preload [:leaders, :members, :applicants, :unit_type, :unit, :units]
-  @opts [include: "unit,units,unit_type,members,leaders,applicants"]
+  @preload [:leaders, :players, :applicants, :unit_type, :unit, :units]
+  @opts [include: "unit,units,unit_type,players,leaders,applicants"]
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
@@ -53,7 +53,7 @@ defmodule OrgtoolDb.UnitController do
   ) SELECT * FROM unit_tree
   """, ^uid_i),
       on: u.id == ut.id)
-    |> Repo.preload([:unit_type, :unit, :units, :members, :leaders, :applicants])
+    |> Repo.preload([:unit_type, :unit, :units, :players, :leaders, :applicants])
     render(conn, "index.json-api", data: units, opts: @opts)
 
   end
@@ -99,9 +99,9 @@ defmodule OrgtoolDb.UnitController do
     changeset
     |> maybe_apply(Unit, :unit, relationships)
     |> maybe_apply(UnitType, "unit-type", :unit_type, relationships)
-    |> maybe_apply(Member, :leaders, relationships)
-    |> maybe_apply(Member, :members, relationships)
-    |> maybe_apply(Member, :applications, relationships)
+    |> maybe_apply(Player, :leaders, relationships)
+    |> maybe_apply(Player, :players, relationships)
+    |> maybe_apply(Player, :applications, relationships)
   end
 
   defp maybe_add_rels(changeset, _) do
