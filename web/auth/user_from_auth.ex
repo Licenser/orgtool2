@@ -120,12 +120,10 @@ defmodule OrgtoolDb.UserFromAuth do
     |> repo.insert
     case result do
       {:ok, user} ->
-        reward = repo.one!(Ecto.Query.from(r in Reward, where: r.name == "Applicant", limit: 1))
 
         member = repo.insert!(%Member{timezone: 0, name: name})
         |> repo.preload(:rewards)
         |> Ecto.Changeset.change()
-        |> Ecto.Changeset.put_assoc(:rewards, [reward])
         |> repo.update!
 
         user = user

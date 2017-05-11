@@ -30,22 +30,22 @@ config :guardian, Guardian,
   secret_key: to_string(Mix.env),
   hooks: GuardianDb,
   permissions: %{
-    default: [
-      :read_profile,
-      :write_profile,
-      :read_token,
-      :revoke_token,
-    ],
+    #          1      2        4      8        16       32       64
+    user:     [:read, :create, :edit, :delete],
+    member:   [:read, :create, :edit, :delete],
+    unit:     [:read, :create, :edit, :delete, :assign, :accept, :apply],
+    category: [:read, :create, :edit, :delete],
+    template: [:read, :create, :edit, :delete],
+    item:     [:read, :create, :edit, :delete],
+    lfg:      [:read, :create, :edit, :delete],
+    reward:   [:read, :create, :edit, :delete]
   }
+
 
 config :guardian_db, GuardianDb,
   repo: OrgtoolDb.Repo,
   # in minutes
-  sweep_interval: 60,
-  permissions: %{
-    default: [:read, :write],
-    admin: [:dashboard, :reconcile]
-  }
+  sweep_interval: 60
 
 
 config :ueberauth, Ueberauth,

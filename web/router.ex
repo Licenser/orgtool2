@@ -91,7 +91,8 @@ defmodule OrgtoolDb.Router do
     post "/impersonate/:user_id", SessionController, :impersonate, as: :impersonation
     delete "/impersonate", SessionController, :stop_impersonating
 
-    resources "/users", UserController
+    resources "/users", UserController, only: [:new]
+
   end
 
   scope "/api", OrgtoolDb do
@@ -113,5 +114,10 @@ defmodule OrgtoolDb.Router do
     resources "/template-props", TemplatePropController, except: [:new, :edit]
     resources "/items", ItemController, except: [:new, :edit]
     resources "/item-props", ItemPropController, except: [:new, :edit]
+
+
+    resources "/item_perms", ItemPermController, except: [:new, :edit]
+
+    resources "/users", UserController, except: [:new, :edit]
   end
 end

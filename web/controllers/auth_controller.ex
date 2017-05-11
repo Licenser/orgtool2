@@ -23,16 +23,53 @@ defmodule OrgtoolDb.AuthController do
   def callback(%Plug.Conn{assigns: %{ueberauth_auth: auth}} = conn, _params, current_user, _claims) do
     case UserFromAuth.get_or_insert(auth, current_user, Repo) do
       {:ok, user} ->
+        perms = get_perms(user)
+        :io.format("perms: ~p~n", [perms])
+
         conn
-        |> put_flash(:info, "Signed in as #{user.name}")
-        |> Guardian.Plug.sign_in(user, :access, perms: %{default: Guardian.Permissions.max})
-        |> redirect(to: "/ui/index.html")
+        |> Guardian.Plug.sign_in(user, :access, perms: perms)
+        |> redirect(to: "/ui")
         # |> redirect(to: private_page_path(conn, :index))
       {:error, reason} ->
         conn
         |> put_flash(:error, "Could not authenticate. Error: #{reason}")
         |> render("login.html", current_user: current_user, current_auths: auths(current_user))
     end
+  end
+
+  def get_perms(user) do
+    user = user
+    |> Repo.preload(:item_perm)
+
+    apply_perms(%{}, user, :item_perm, :item, [:read, :create, :edit, :delete])
+  end
+
+  def apply_perms(perms, user, user_key, perm_key, fields) do
+    user = user
+    |> Repo.preload(user_key)
+
+    case Map.get(user, user_key) do
+      nil ->
+        perms;
+      perm_values ->
+        :io.format("perm_values: ~p~n", [perm_values])
+        perm_values = get_values(perm_values, fields, [])
+        Map.put(perms, perm_key, perm_values)
+    end
+  end
+
+  def get_values(_, [], acc) do
+    acc
+  end
+
+  def get_values(perms, [key | rest], acc) do
+    acc = case  Map.get(perms, key) do
+            true ->
+              [key | acc]
+            false ->
+              acc
+          end
+    get_values(perms, rest, acc)
   end
 
   def logout(conn, _params, current_user, _claims) do

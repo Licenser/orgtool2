@@ -59,7 +59,7 @@ defmodule OrgtoolDb.ItemController do
 
     case Repo.update(changeset) do
       {:ok, item} ->
-        item
+        item = item
         |> Repo.preload(@preload)
         render(conn, "show.json-api", data: item, opts: @opts)
       {:error, changeset} ->
