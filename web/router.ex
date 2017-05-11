@@ -45,7 +45,9 @@ defmodule OrgtoolDb.Router do
   # In this case, it should be prefixed with "Bearer" so that it's looking for
   # Authorization: Bearer <jwt>
   pipeline :api_auth do
-    plug Guardian.Plug.VerifyHeader, realm: "Bearer"
+    if System.get_env("NO_AUTH") != "true" do
+      plug Guardian.Plug.VerifyHeader, realm: "Bearer"
+    end
     # plug Guardian.Plug.VerifySession
     plug Guardian.Plug.LoadResource
   end
