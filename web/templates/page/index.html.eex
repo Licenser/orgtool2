@@ -1,6 +1,6 @@
 <div class="jumbotron">
   <h2>Welcome to Orgtool!</h2>
-  <p class="lead">Please log in and proceed to the <a href="/ui/index.html">UI</a>.</p>
+  <p class="lead">Please log in and proceed to the <a href="/ui">UI</a>.</p>
 </div>
 
 <div class="row marketing">

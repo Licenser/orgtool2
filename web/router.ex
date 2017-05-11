@@ -45,8 +45,8 @@ defmodule OrgtoolDb.Router do
   # In this case, it should be prefixed with "Bearer" so that it's looking for
   # Authorization: Bearer <jwt>
   pipeline :api_auth do
-    # plug Guardian.Plug.VerifyHeader, realm: "Bearer"
-    plug Guardian.Plug.VerifySession
+    plug Guardian.Plug.VerifyHeader, realm: "Bearer"
+    # plug Guardian.Plug.VerifySession
     plug Guardian.Plug.LoadResource
   end
 
@@ -56,6 +56,7 @@ defmodule OrgtoolDb.Router do
     # We don't just pipe it through admin_browser_auth because that also loads the resource
     pipe_through [:browser, :browser_auth, :impersonation_browser_auth]
 
+    get "/ui", UiController, :index
     get "/", PageController, :index
     delete "/logout", AuthController, :logout
 
