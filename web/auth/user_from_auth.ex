@@ -127,7 +127,6 @@ defmodule OrgtoolDb.UserFromAuth do
         |> repo.update!
 
         permission = repo.insert!(%Permission{})
-        |> Permission.all!
 
         user = user
         |> repo.preload(:player)
@@ -139,6 +138,7 @@ defmodule OrgtoolDb.UserFromAuth do
         ## Make our first user admin
         if user.id == 1 do
           User.make_admin!(user)
+          Permission.all!(permission)
         else
           user
         end
