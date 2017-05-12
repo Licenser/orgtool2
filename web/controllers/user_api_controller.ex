@@ -4,8 +4,8 @@ defmodule OrgtoolDb.UserApiController do
   alias OrgtoolDb.User
   alias OrgtoolDb.Permission
 
-  @opts [include: "permission"]
-  @preload [:permission]
+  @opts [include: "permission,player"]
+  @preload [:permission, :player]
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"

@@ -10,4 +10,9 @@ defmodule OrgtoolDb.UserApiView do
     serializer: OrgtoolDb.PermissionView,
     include: false,
     identifiers: :when_included
+
+  has_one :player,
+    serializer: OrgtoolDb.PlayerView,
+    include: false,
+    identifiers: :when_included
 end
