@@ -118,6 +118,6 @@ defmodule OrgtoolDb.Router do
 
     resources "/permissions", PermissionController, except: [:new, :edit]
 
-    resources "/users", UserController, except: [:new, :edit]
+    resources "/users", UserApiController, except: [:new, :edit]
   end
 end

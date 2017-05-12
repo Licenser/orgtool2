@@ -45,24 +45,46 @@ defmodule OrgtoolDb.AuthController do
         %{};
       permission ->
 
-        apply_perms(
-          [:item_read, :item_create, :item_edit, :item_delete],
-          [:read,      :create,      :edit,      :delete],
-          :item, permission, %{})
+      apply_perms(%{}, :user, permission,
+      [:user_read, :user_create, :user_edit, :user_delete],
+      [:read,      :create,      :edit,      :delete])
+      |> apply_perms(:player, permission,
+      [:player_read, :player_create, :player_edit, :player_delete],
+      [:read,        :create,        :edit,        :delete])
+      |> apply_perms(:unit, permission,
+      [:unit_read, :unit_create, :unit_edit, :unit_deletem, :unit_assign, :unit_accept, :unit_apply],
+      [:read,      :create,      :edit,      :delete,       :assign,      :accept,      :apply])
+      |> apply_perms(:category, permission,
+      [:category_read, :category_create, :category_edit, :category_delete],
+      [:read,          :create,          :edit,          :delete])
+      |> apply_perms(:template, permission,
+      [:template_read, :template_create, :template_edit, :template_delete],
+      [:read,          :create,          :edit,          :delete])
+      |> apply_perms(:item, permission,
+      [:item_read, :item_create, :item_edit, :item_delete],
+      [:read,      :create,      :edit,      :delete])
+      |> apply_perms(:reward, permission,
+      [:reward_read, :reward_create, :reward_edit, :reward_delete],
+      [:read,          :create,          :edit,          :delete])
     end
   end
 
-  def apply_perms(src, target, key, perms, acc) do
-    res = get_values(src, target, perms, %{})
-    Maps.set(acc, key, res)
+  def apply_perms(acc, key, perms, src, target) do
+    res = get_values(src, target, perms, [])
+    Map.put(acc, key, res)
   end
 
-  def get_values([], [], perms, acc) do
+  def get_values([], [], _perms, acc) do
     acc
   end
 
   def get_values([src | s_rest], [target | t_rest], perms, acc) do
-    acc = Maps.put(acc, target, Map.get(perms, src))
+    acc = case Map.get(perms, src) do
+            true ->
+              [target | acc]
+            false ->
+              acc
+          end
     get_values(s_rest, t_rest, perms, acc)
   end
 

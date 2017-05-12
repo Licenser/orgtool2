@@ -2,7 +2,6 @@ defmodule OrgtoolDb.UserFromAuth do
   alias OrgtoolDb.User
   alias OrgtoolDb.Player
   alias OrgtoolDb.Authorization
-  alias OrgtoolDb.Reward
   require Ecto.Query
 
   alias Ueberauth.Auth

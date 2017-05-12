@@ -37,7 +37,6 @@ config :guardian, Guardian,
     category: [:read, :create, :edit, :delete],
     template: [:read, :create, :edit, :delete],
     item:     [:read, :create, :edit, :delete],
-    lfg:      [:read, :create, :edit, :delete],
     reward:   [:read, :create, :edit, :delete]
   }
 

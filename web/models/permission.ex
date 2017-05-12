@@ -4,10 +4,15 @@ defmodule OrgtoolDb.Permission do
   schema "permissions" do
 
 
-    field :member_read,   :boolean, default: false
-    field :member_create, :boolean, default: false
-    field :member_edit,   :boolean, default: false
-    field :member_delete, :boolean, default: false
+    field :user_read,     :boolean, default: false
+    field :user_create,   :boolean, default: false
+    field :user_edit,     :boolean, default: false
+    field :user_delete,   :boolean, default: false
+
+    field :player_read,   :boolean, default: false
+    field :player_create, :boolean, default: false
+    field :player_edit,   :boolean, default: false
+    field :player_delete, :boolean, default: false
 
     field :unit_read,     :boolean, default: false
     field :unit_create,   :boolean, default: false
@@ -16,6 +21,16 @@ defmodule OrgtoolDb.Permission do
     field :unit_apply,    :boolean, default: false
     field :unit_accept,   :boolean, default: false
     field :unit_assign,   :boolean, default: false
+
+    field :category_read,     :boolean, default: false
+    field :category_create,   :boolean, default: false
+    field :category_edit,     :boolean, default: false
+    field :category_delete,   :boolean, default: false
+
+    field :template_read,     :boolean, default: false
+    field :template_create,   :boolean, default: false
+    field :template_edit,     :boolean, default: false
+    field :template_delete,   :boolean, default: false
 
     field :item_read,     :boolean, default: false
     field :item_create,   :boolean, default: false
@@ -39,9 +54,15 @@ defmodule OrgtoolDb.Permission do
     struct
     |> cast(params,
     [
-      :member_read, :member_create, :member_edit, :member_delete,
+      :user_read, :user_create, :user_edit, :user_delete,
+
+      :player_read, :player_create, :player_edit, :player_delete,
 
       :unit_read, :unit_create, :unit_edit, :unit_delete, :unit_apply, :unit_accept, :unit_assign,
+
+      :category_read, :category_create, :category_edit, :category_delete,
+
+      :template_read, :template_create, :template_edit, :template_delete,
 
       :item_read, :item_create, :item_edit, :item_delete,
 
@@ -49,14 +70,20 @@ defmodule OrgtoolDb.Permission do
     ])
     |> cast_assoc(:user)
     |> validate_required(
-      [
-        :member_read, :member_create, :member_edit, :member_delete,
+    [
+      :user_read, :user_create, :user_edit, :user_delete,
 
-        :unit_read, :unit_create, :unit_edit, :unit_delete, :unit_apply, :unit_accept, :unit_assign,
+      :player_read, :player_create, :player_edit, :player_delete,
 
-        :item_read, :item_create, :item_edit, :item_delete,
+      :unit_read, :unit_create, :unit_edit, :unit_delete, :unit_apply, :unit_accept, :unit_assign,
 
-        :reward_read, :reward_create, :reward_edit, :reward_delete
+      :category_read, :category_create, :category_edit, :category_delete,
+
+      :template_read, :template_create, :template_edit, :template_delete,
+
+      :item_read, :item_create, :item_edit, :item_delete,
+
+      :reward_read, :reward_create, :reward_edit, :reward_delete
       ])
   end
 end

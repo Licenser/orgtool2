@@ -4,10 +4,14 @@ defmodule OrgtoolDb.PermissionControllerTest do
   alias OrgtoolDb.Permission
   alias OrgtoolDb.User
   @valid_attrs %{
-    member_read: true, member_create: true, member_edit: true, member_delete: true,
+    user_read: true, user_create: true, user_edit: true, user_delete: true,
+
+    player_read: true, player_create: true, player_edit: true, player_delete: true,
 
     unit_read: true, unit_create: true, unit_edit: true, unit_delete: true, unit_apply: true, unit_accept: true, unit_assign: true,
 
+    category_read: true, category_create: true, category_edit: true, category_delete: true,
+    template_read: true, template_create: true, template_edit: true, template_delete: true,
     item_read: true, item_create: true, item_edit: true, item_delete: true,
 
     reward_read: true, reward_create: true, reward_edit: true, reward_delete: true
@@ -41,10 +45,15 @@ defmodule OrgtoolDb.PermissionControllerTest do
         "user"       => %{"data" => nil},
       },
       "attributes"    => %{
-        "member-read"   => permission.member_read,
-        "member-create" => permission.member_create,
-        "member-edit"   => permission.member_edit,
-        "member-delete" => permission.member_delete,
+        "user-read"   => permission.user_read,
+        "user-create" => permission.user_create,
+        "user-edit"   => permission.user_edit,
+        "user-delete" => permission.user_delete,
+
+        "player-read"   => permission.player_read,
+        "player-create" => permission.player_create,
+        "player-edit"   => permission.player_edit,
+        "player-delete" => permission.player_delete,
 
         "unit-read"   => permission.unit_read,
         "unit-create" => permission.unit_create,
@@ -53,6 +62,16 @@ defmodule OrgtoolDb.PermissionControllerTest do
         "unit-apply"  => permission.unit_apply,
         "unit-accept" => permission.unit_accept,
         "unit-assign" => permission.unit_assign,
+
+        "category-read"   => permission.category_read,
+        "category-create" => permission.category_create,
+        "category-edit"   => permission.category_edit,
+        "category-delete" => permission.category_delete,
+
+        "template-read"   => permission.template_read,
+        "template-create" => permission.template_create,
+        "template-edit"   => permission.template_edit,
+        "template-delete" => permission.template_delete,
 
         "item-read"   => permission.item_read,
         "item-create" => permission.item_create,
