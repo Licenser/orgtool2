@@ -2,10 +2,10 @@ defmodule OrgtoolDb.UserController do
   use OrgtoolDb.Web, :controller
 
   alias OrgtoolDb.User
-  alias OrgtoolDb.ItemPerm
+  alias OrgtoolDb.Permission
 
-  @opts [include: "item_perm"]
-  @preload [:item_perm]
+  @opts [include: "permission"]
+  @preload [:permission]
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
@@ -81,7 +81,7 @@ defmodule OrgtoolDb.UserController do
 
   defp maybe_add_rels(changeset, %{"relationships" => relationships}) do
     changeset
-    |> maybe_apply(ItemPerm, :item_perm, relationships)
+    |> maybe_apply(Permission, :permission, relationships)
   end
 
   defp maybe_add_rels(changeset, _) do

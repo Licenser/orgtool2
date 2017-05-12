@@ -116,7 +116,7 @@ defmodule OrgtoolDb.Router do
     resources "/item-props", ItemPropController, except: [:new, :edit]
 
 
-    resources "/item-perms", ItemPermController, except: [:new, :edit]
+    resources "/permissions", PermissionController, except: [:new, :edit]
 
     resources "/users", UserController, except: [:new, :edit]
   end

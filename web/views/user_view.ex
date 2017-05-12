@@ -4,8 +4,8 @@ defmodule OrgtoolDb.UserView do
 
   attributes [:email, :name]
 
-  has_one :item_permission,
-    serializer: OrgtoolDb.ItemPermView,
+  has_one :permissionission,
+    serializer: OrgtoolDb.PermissionView,
     include: false,
     identifiers: :when_included
 end

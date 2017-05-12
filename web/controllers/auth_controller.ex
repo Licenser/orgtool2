@@ -39,37 +39,31 @@ defmodule OrgtoolDb.AuthController do
 
   def get_perms(user) do
     user = user
-    |> Repo.preload(:item_perm)
-
-    apply_perms(%{}, user, :item_perm, :item, [:read, :create, :edit, :delete])
-  end
-
-  def apply_perms(perms, user, user_key, perm_key, fields) do
-    user = user
-    |> Repo.preload(user_key)
-
-    case Map.get(user, user_key) do
+    |> Repo.preload(:permission)
+    case user.permission do
       nil ->
-        perms;
-      perm_values ->
-        :io.format("perm_values: ~p~n", [perm_values])
-        perm_values = get_values(perm_values, fields, [])
-        Map.put(perms, perm_key, perm_values)
+        %{};
+      permission ->
+
+        apply_perms(
+          [:item_read, :item_create, :item_edit, :item_delete],
+          [:read,      :create,      :edit,      :delete],
+          :item, permission, %{})
     end
   end
 
-  def get_values(_, [], acc) do
+  def apply_perms(src, target, key, perms, acc) do
+    res = get_values(src, target, perms, %{})
+    Maps.set(acc, key, res)
+  end
+
+  def get_values([], [], perms, acc) do
     acc
   end
 
-  def get_values(perms, [key | rest], acc) do
-    acc = case  Map.get(perms, key) do
-            true ->
-              [key | acc]
-            false ->
-              acc
-          end
-    get_values(perms, rest, acc)
+  def get_values([src | s_rest], [target | t_rest], perms, acc) do
+    acc = Maps.put(acc, target, Map.get(perms, src))
+    get_values(s_rest, t_rest, perms, acc)
   end
 
   def logout(conn, _params, current_user, _claims) do

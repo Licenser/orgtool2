@@ -10,7 +10,7 @@ defmodule OrgtoolDb.User do
 
     has_many :authorizations, OrgtoolDb.Authorization
     belongs_to :player, OrgtoolDb.Player
-    has_one :item_perm, OrgtoolDb.ItemPerm
+    has_one :permission, OrgtoolDb.Permission
 
     timestamps()
   end
