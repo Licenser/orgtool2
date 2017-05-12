@@ -1,6 +1,7 @@
 defmodule OrgtoolDb.UserFromAuth do
   alias OrgtoolDb.User
   alias OrgtoolDb.Player
+  alias OrgtoolDb.Permission
   alias OrgtoolDb.Authorization
   require Ecto.Query
 
@@ -125,10 +126,15 @@ defmodule OrgtoolDb.UserFromAuth do
         |> Ecto.Changeset.change()
         |> repo.update!
 
+        permission = repo.insert!(%Permission{})
+        |> Permission.all!
+
         user = user
         |> repo.preload(:player)
+        |> repo.preload(:permission)
         |> Ecto.Changeset.change()
         |> Ecto.Changeset.put_assoc(:player, player)
+        |> Ecto.Changeset.put_assoc(:permission, permission)
         |> repo.update!
         ## Make our first user admin
         if user.id == 1 do

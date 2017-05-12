@@ -52,7 +52,7 @@ defmodule OrgtoolDb.AuthController do
       [:player_read, :player_create, :player_edit, :player_delete],
       [:read,        :create,        :edit,        :delete])
       |> apply_perms(:unit, permission,
-      [:unit_read, :unit_create, :unit_edit, :unit_deletem, :unit_assign, :unit_accept, :unit_apply],
+      [:unit_read, :unit_create, :unit_edit, :unit_delete, :unit_assign, :unit_accept, :unit_apply],
       [:read,      :create,      :edit,      :delete,       :assign,      :accept,      :apply])
       |> apply_perms(:category, permission,
       [:category_read, :category_create, :category_edit, :category_delete],

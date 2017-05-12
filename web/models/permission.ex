@@ -1,6 +1,6 @@
 defmodule OrgtoolDb.Permission do
   use OrgtoolDb.Web, :template
-
+  alias OrgtoolDb.Repo
   schema "permissions" do
 
 
@@ -47,6 +47,22 @@ defmodule OrgtoolDb.Permission do
     timestamps()
   end
 
+  def all!(permission) do
+    permission
+    |> Repo.preload(:user)
+    |> changeset(
+      %{
+        user_read: true, user_create: true, user_edit: true, user_delete: true,
+        player_read: true, player_create: true, player_edit: true, player_delete: true,
+        unit_read: true, unit_create: true, unit_edit: true, unit_delete: true, unit_apply: true, unit_accept: true, unit_assign: true,
+        category_read: true, category_create: true, category_edit: true, category_delete: true,
+        template_read: true, template_create: true, template_edit: true, template_delete: true,
+        item_read: true, item_create: true, item_edit: true, item_delete: true,
+        reward_read: true, reward_create: true, reward_edit: true, reward_delete: true
+      })
+    |> Repo.update!
+  end
+
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
@@ -70,20 +86,20 @@ defmodule OrgtoolDb.Permission do
     ])
     |> cast_assoc(:user)
     |> validate_required(
-    [
-      :user_read, :user_create, :user_edit, :user_delete,
+      [
+        :user_read, :user_create, :user_edit, :user_delete,
 
-      :player_read, :player_create, :player_edit, :player_delete,
+        :player_read, :player_create, :player_edit, :player_delete,
 
-      :unit_read, :unit_create, :unit_edit, :unit_delete, :unit_apply, :unit_accept, :unit_assign,
+        :unit_read, :unit_create, :unit_edit, :unit_delete, :unit_apply, :unit_accept, :unit_assign,
 
-      :category_read, :category_create, :category_edit, :category_delete,
+        :category_read, :category_create, :category_edit, :category_delete,
 
-      :template_read, :template_create, :template_edit, :template_delete,
+        :template_read, :template_create, :template_edit, :template_delete,
 
-      :item_read, :item_create, :item_edit, :item_delete,
+        :item_read, :item_create, :item_edit, :item_delete,
 
-      :reward_read, :reward_create, :reward_edit, :reward_delete
+        :reward_read, :reward_create, :reward_edit, :reward_delete
       ])
   end
 end
