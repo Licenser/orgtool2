@@ -7,7 +7,7 @@ defmodule OrgtoolDb.Unit do
     field :color, :string
     field :img, :string
 
-    belongs_to :unit_type, OrgtoolDb.UnitType
+    belongs_to :unit_type, OrgtoolDb.UnitType, on_replace: :nilify
     belongs_to :unit, OrgtoolDb.Unit
     has_many :units, OrgtoolDb.Unit
 

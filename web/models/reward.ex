@@ -7,7 +7,7 @@ defmodule OrgtoolDb.Reward do
     field :description, :string
     field :img, :string
 
-    belongs_to :reward_type, OrgtoolDb.RewardType
+    belongs_to :reward_type, OrgtoolDb.RewardType, on_replace: :nilify
     many_to_many :players, OrgtoolDb.Player, join_through: OrgtoolDb.PlayerReward, on_replace: :delete
 
     timestamps()
