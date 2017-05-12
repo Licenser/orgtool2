@@ -2,6 +2,8 @@ defmodule OrgtoolDb.UserApiView do
   use OrgtoolDb.Web, :view
   use JaSerializer.PhoenixView
 
+  def type, do: "user"
+
   attributes [:email, :name]
 
   has_one :permission,
