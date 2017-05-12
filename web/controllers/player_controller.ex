@@ -11,6 +11,10 @@ defmodule OrgtoolDb.PlayerController do
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
+    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, player: ~w(read)]
+    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, player: ~w(create)] when action in [:create]
+    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, player: ~w(edit)] when action in [:update]
+    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, player: ~w(delete)] when action in [:delete]
   end
 
   def index(conn, _params, _current_user, _claums) do

@@ -9,6 +9,10 @@ defmodule OrgtoolDb.UserApiController do
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
+    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, user: ~w(read)] when action in [:index, :show]
+    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, user: ~w(create)] when action in [:create]
+    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, user: ~w(edit)] when action in [:update]
+    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, user: ~w(delete)] when action in [:delete]
   end
 
   def index(conn, _params, _current_user, _claums) do

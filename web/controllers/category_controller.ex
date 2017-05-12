@@ -9,6 +9,10 @@ defmodule OrgtoolDb.CategoryController do
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
+    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, category: ~w(read)]
+    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, category: ~w(create)] when action in [:create]
+    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, category: ~w(edit)] when action in [:update]
+    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, category: ~w(delete)] when action in [:delete]
   end
 
   def index(conn, _params, _current_user, _claums) do
