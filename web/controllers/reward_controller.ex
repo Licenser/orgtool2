@@ -73,7 +73,7 @@ defmodule OrgtoolDb.RewardController do
   defp maybe_add_rels(changeset, %{"relationships" => relationships}) do
     changeset
     |> maybe_apply(Player, :players, relationships)
-    |> maybe_apply(RewardType, :reward_type, relationships)
+    |> maybe_apply(RewardType, "reward-type", :reward_type, relationships)
   end
 
   defp maybe_add_rels(changeset, _) do
