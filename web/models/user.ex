@@ -10,13 +10,13 @@ defmodule OrgtoolDb.User do
 
     has_many :authorizations, OrgtoolDb.Authorization
     belongs_to :player, OrgtoolDb.Player
-    has_one :permission, OrgtoolDb.Permission
+    has_one :permission, OrgtoolDb.Permission, on_replace: :update
 
     timestamps()
   end
 
   @required_fields ~w(email name)a
-  @optional_fields ~w(is_admin player)a
+  @optional_fields ~w(is_admin)a
 
   def registration_changeset(template, params \\ :empty) do
     template
@@ -33,6 +33,8 @@ defmodule OrgtoolDb.User do
   def changeset(template, params \\ :empty) do
     template
     |> cast(params, @required_fields ++ @optional_fields)
+    |> cast_assoc(:permission)
+    |> cast_assoc(:player)
     |> validate_required(@required_fields)
     |> validate_format(:email, ~r/@/)
   end
