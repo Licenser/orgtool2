@@ -28,7 +28,7 @@ defmodule OrgtoolDb.AuthController do
 
         conn
         |> Guardian.Plug.sign_in(user, :access, perms: perms)
-        |> redirect(to: "/ui")
+        |> redirect(to: "/")
         # |> redirect(to: private_page_path(conn, :index))
       {:error, reason} ->
         conn

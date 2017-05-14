@@ -58,7 +58,6 @@ defmodule OrgtoolDb.Router do
     # We don't just pipe it through admin_browser_auth because that also loads the resource
     pipe_through [:browser, :browser_auth, :impersonation_browser_auth]
 
-    get "/ui", UiController, :index
     get "/", PageController, :index
     delete "/logout", AuthController, :logout
 
