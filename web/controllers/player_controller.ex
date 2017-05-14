@@ -83,13 +83,12 @@ defmodule OrgtoolDb.PlayerController do
     |> maybe_apply(Item,   :items, relationships)
     |> maybe_apply(Reward, :rewards, relationships)
     |> maybe_apply(Handle, :handles, relationships)
-    |> maybe_apply(Unit, :leaderships, relationships)
-    |> maybe_apply(Unit, :playerships, relationships)
-    |> maybe_apply(Unit, :applications, relationships)
+    |> maybe_apply(Unit, "unit", "leaderships", :leaderships, relationships)
+    |> maybe_apply(Unit, "unit", "playerships", :playerships, relationships)
+    |> maybe_apply(Unit, "unit", "applications", :applications, relationships)
   end
 
   defp maybe_add_rels(changeset, _) do
     changeset
   end
-
 end

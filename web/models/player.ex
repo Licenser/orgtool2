@@ -32,7 +32,6 @@ defmodule OrgtoolDb.Player do
     |> cast_assoc(:applications)
     |> cast_assoc(:playerships)
     |> cast_assoc(:leaderships)
-
     |> validate_required([:name, :timezone])
   end
 end
