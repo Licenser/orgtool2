@@ -42,7 +42,7 @@ defmodule OrgtoolDb.Permission do
     field :reward_edit,   :boolean, default: false
     field :reward_delete, :boolean, default: false
 
-    belongs_to :user, OrgtoolDb.Item
+    belongs_to :user, OrgtoolDb.User
 
     timestamps()
   end
