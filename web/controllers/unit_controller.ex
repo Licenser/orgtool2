@@ -23,10 +23,10 @@ defmodule OrgtoolDb.UnitController do
     render(conn, "index.json-api", data: units)
   end
 
-  def create(conn, %{"data" => data = %{"attributes" => params}}, _current_user, _claums) do
+  def create(conn, payload = %{"data" => %{"attributes" => params}}, _current_user, _claums) do
 
     changeset = Unit.changeset(%Unit{}, params)
-    |> maybe_add_rels(data)
+    |> handle_rels(payload, &do_add_res/2)
 
     case Repo.insert(changeset) do
       {:ok, unit} ->
@@ -69,15 +69,15 @@ defmodule OrgtoolDb.UnitController do
     render(conn, "show.json-api", data: unit, opts: @opts)
   end
 
-  def update(conn, %{"id" => id,
-                     "data" => data = %{
-                       "attributes" => params}},
+  def update(conn, payload = %{"id" => id,
+                               "data" => %{
+                                 "attributes" => params}},
         _current_user, _claums) do
     unit = Repo.get!(Unit, id)
     |> Repo.preload(@preload)
 
     changeset = Unit.changeset(unit, params)
-    |> maybe_add_rels(data)
+    |> handle_rels(payload, &do_add_res/2)
 
     case Repo.update(changeset) do
       {:ok, unit} ->
@@ -100,16 +100,12 @@ defmodule OrgtoolDb.UnitController do
     send_resp(conn, :no_content, "")
   end
 
-  defp maybe_add_rels(changeset, %{"relationships" => relationships}) do
+  defp do_add_res(changeset, elements) do
     changeset
-    |> maybe_apply(Unit, :unit, relationships)
-    |> maybe_apply(UnitType, "unit-type", :unit_type, relationships)
-    |> maybe_apply(Player, :leaders, relationships)
-    |> maybe_apply(Player, :players, relationships)
-    |> maybe_apply(Player, :applications, relationships)
-  end
-
-  defp maybe_add_rels(changeset, _) do
-    changeset
+    |> maybe_apply(Unit, :unit, elements)
+    |> maybe_apply(UnitType, "unit-type", :unit_type, elements)
+    |> maybe_apply(Player, :leaders, elements)
+    |> maybe_apply(Player, :players, elements)
+    |> maybe_apply(Player, :applications, elements)
   end
 end

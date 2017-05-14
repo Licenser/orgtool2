@@ -65,6 +65,26 @@ defmodule OrgtoolDb.Web do
         b
       end
 
+      defp handle_rels(changeset, %{"included" => included,
+                                    "data" => %{"relationships" => relationships}}, fun) do
+        changeset
+        |> fun.(relationships)
+        |> fun.(included)
+      end
+
+      defp handle_rels(changeset, %{"included" => included}, fun) do
+        changeset
+        |> fun.(included)
+      end
+      defp handle_rels(changeset, %{"data" => %{"relationships" => relationships}}, fun) do
+        changeset
+        |> fun.(relationships)
+      end
+
+      defp handle_rels(changeset, _) do
+        changeset
+      end
+
       defp maybe_apply(changeset, model, key, relationships) do
         type = Atom.to_string(key)
         maybe_apply(changeset, model, type, key, relationships)
@@ -73,20 +93,45 @@ defmodule OrgtoolDb.Web do
         json_key = type
         maybe_apply(changeset, model, type, json_key, key, relationships)
       end
+
+      defp maybe_apply(changeset, _model, _type, _json_key, _key, []) do
+        changeset
+      end
+
+      defp maybe_apply(changeset, model, type, json_key, key, [element | elements]) do
+        handle_element(element, changeset, model, type, key)
+        |> maybe_apply(model, type, json_key, key, elements)
+      end
+
       defp maybe_apply(changeset, model, type, json_key, key, relationships) do
-        case Map.get(relationships, json_key) do
-          %{"data" => %{"type" => ^type, "id" => id}} ->
-            element = Repo.get!(model, id_int(id))
+        handle_element(Map.get(relationships, json_key), changeset, model, type, key)
+      end
+
+      defp handle_element(element, changeset, model, type, key) do
+        case element do
+          # This is a dirty hack, maybe we should do this differently?
+          %{"type" => ^type, "id" => id, "attributes" => params} ->
+            element = case Kernel.function_exported?(model, :changeset_include, 2) do
+                        true ->
+                          params = JaSerializer.ParamParser.parse(params)
+                          element = Repo.get!(model, id_int(id))
+                          apply(model, :changeset_include, [element, params])
+                        false ->
+                          Repo.get!(model, id_int(id))
+                      end
             Ecto.Changeset.put_assoc(changeset, key, element)
+          %{"data" => %{"type" => ^type, "id" => id}} ->
+              element = Repo.get!(model, id_int(id))
+              Ecto.Changeset.put_assoc(changeset, key, element)
           %{"data" => nil} ->
-            changeset
+              changeset
           %{"data" => elements} ->
-            elements = for %{"id" => id, "type" => ^type} <- elements do
-                Repo.get!(model, id_int(id))
-              end
-            Ecto.Changeset.put_assoc(changeset, key, elements)
-          nil ->
-            changeset
+              elements = for %{"id" => id, "type" => ^type} <- elements do
+                  Repo.get!(model, id_int(id))
+                end
+              Ecto.Changeset.put_assoc(changeset, key, elements)
+          _ ->
+              changeset
         end
       end
     end

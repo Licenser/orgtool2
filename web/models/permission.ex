@@ -1,8 +1,8 @@
 defmodule OrgtoolDb.Permission do
   use OrgtoolDb.Web, :template
   alias OrgtoolDb.Repo
-  schema "permissions" do
 
+  schema "permissions" do
 
     field :user_read,     :boolean, default: false
     field :user_create,   :boolean, default: false
@@ -47,6 +47,10 @@ defmodule OrgtoolDb.Permission do
     timestamps()
   end
 
+  def preload do
+    [:user]
+  end
+
   def all!(permission) do
     permission
     |> Repo.preload(:user)
@@ -60,46 +64,31 @@ defmodule OrgtoolDb.Permission do
         item_read: true, item_create: true, item_edit: true, item_delete: true,
         reward_read: true, reward_create: true, reward_edit: true, reward_delete: true
       })
-    |> Repo.update!
+      |> Repo.update!
   end
 
+
+  @permissions [
+    :user_read, :user_create, :user_edit, :user_delete,
+    :player_read, :player_create, :player_edit, :player_delete,
+    :unit_read, :unit_create, :unit_edit, :unit_delete, :unit_apply, :unit_accept, :unit_assign,
+    :category_read, :category_create, :category_edit, :category_delete,
+    :template_read, :template_create, :template_edit, :template_delete,
+    :item_read, :item_create, :item_edit, :item_delete,
+    :reward_read, :reward_create, :reward_edit, :reward_delete]
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params,
-    [
-      :user_read, :user_create, :user_edit, :user_delete,
-
-      :player_read, :player_create, :player_edit, :player_delete,
-
-      :unit_read, :unit_create, :unit_edit, :unit_delete, :unit_apply, :unit_accept, :unit_assign,
-
-      :category_read, :category_create, :category_edit, :category_delete,
-
-      :template_read, :template_create, :template_edit, :template_delete,
-
-      :item_read, :item_create, :item_edit, :item_delete,
-
-      :reward_read, :reward_create, :reward_edit, :reward_delete
-    ])
+    |> cast(params, @permissions)
     |> cast_assoc(:user)
-    |> validate_required(
-      [
-        :user_read, :user_create, :user_edit, :user_delete,
+    |> validate_required(@permissions)
+  end
 
-        :player_read, :player_create, :player_edit, :player_delete,
-
-        :unit_read, :unit_create, :unit_edit, :unit_delete, :unit_apply, :unit_accept, :unit_assign,
-
-        :category_read, :category_create, :category_edit, :category_delete,
-
-        :template_read, :template_create, :template_edit, :template_delete,
-
-        :item_read, :item_create, :item_edit, :item_delete,
-
-        :reward_read, :reward_create, :reward_edit, :reward_delete
-      ])
+  def changeset_include(struct, params \\ %{}) do
+    struct
+    |> cast(params, @permissions)
+    |> validate_required(@permissions)
   end
 end

@@ -20,10 +20,10 @@ defmodule OrgtoolDb.UserApiController do
     render(conn, "index.json-api", data: users)
   end
 
-  def create(conn, %{"data" => data = %{"attributes" => params}},
+  def create(conn, payload = %{"data" => %{"attributes" => params}},
         _current_user, _claums) do
     changeset = User.changeset(%User{}, params)
-    |> maybe_add_rels(data)
+    |> handle_rels(payload, &do_add_res/2)
 
     case Repo.insert(changeset) do
       {:ok, user} ->
@@ -46,16 +46,16 @@ defmodule OrgtoolDb.UserApiController do
     render(conn, "show.json-api", data: user, opts: @opts)
   end
 
-  def update(conn, %{"id" => id,
-                     "data" => data = %{
-                       "attributes" => params}},
+  def update(conn, payload = %{"id" => id,
+                               "data" => %{
+                                 "attributes" => params}},
         _current_user, _claums) do
 
     user = Repo.get!(User, id)
     |> Repo.preload(@preload)
 
     changeset = User.changeset(user, params)
-    |> maybe_add_rels(data)
+    |> handle_rels(payload, &do_add_res/2)
 
     case Repo.update(changeset) do
       {:ok, user} ->
@@ -83,13 +83,9 @@ defmodule OrgtoolDb.UserApiController do
     render conn, "new.html", current_user: current_user
   end
 
-  defp maybe_add_rels(changeset, %{"relationships" => relationships}) do
+  defp do_add_res(changeset, elements) do
     changeset
-    |> maybe_apply(Permission, :permission, relationships)
-  end
-
-  defp maybe_add_rels(changeset, _) do
-    changeset
+    |> maybe_apply(Permission, :permission, elements)
   end
 
 end
