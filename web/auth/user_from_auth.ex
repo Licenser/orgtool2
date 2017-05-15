@@ -135,10 +135,11 @@ defmodule OrgtoolDb.UserFromAuth do
         |> Ecto.Changeset.put_assoc(:player, player)
         |> Ecto.Changeset.put_assoc(:permission, permission)
         |> repo.update!
+
         ## Make our first user admin
         if user.id == 1 do
-          User.make_admin!(user)
           Permission.all!(permission)
+          User.make_admin!(user)
         else
           user
         end

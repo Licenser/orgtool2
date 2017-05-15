@@ -10,6 +10,6 @@ services:
         PORT: 4000
         EXT_HOST: ${HOSTNAME}
         EXT_PORT: 4000
-        SECRET_KEY_BASE: put_your_own_secret_here
+        SECRET_KEY_BASE: put_your_own_secret_here_which_needs_to_be_at_least_sixtyfour_bytes
     depends_on:
       - db
