@@ -30,6 +30,36 @@ docker build -t orgtool .
 docker run -p 4000:4000 orgtool
 ```
 
+# Running
+
+The following environment variables are used for the production config:
+
+* `PORT` - Port to listen to
+* `EXT_HOST` - The host from the outside
+* `EXT_PORT` - The port form the outside (might differ from `PORT` if say nginx is used)
+* `DB_HOST` - Postgres server
+* `DB_NAME` - Database name
+* `DB_USER` - Postgres username
+* `DB_PASSWORD` - Postgres user password
+* `SECRET_KEY_BASE` - secret key for signing cookies
+
+```
+cd docker
+docker build -t orgtool .
+docker run \
+  -p 4000:4000 \
+  -e "PORT=4000" \
+  -e "EXT_HOST=localhost" \
+  -e "EXT_PORT=4000" \
+  -e "DB_HOST=192.168.1.109" \
+  -e "DB_NAME=orgtool_db_dev" \
+  -e "DB_USER=postgres" \
+  -e "DB_PASSWORD=postgres" \
+  -e "SECRET_KEY_BASE=shhhh" \
+  orgtool
+```
+
+
 # Installation
 ## Install dependencies
 ```
