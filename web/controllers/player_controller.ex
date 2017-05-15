@@ -22,10 +22,10 @@ defmodule OrgtoolDb.PlayerController do
     render(conn, "index.json-api", data: players)
   end
 
-  def create(conn, %{"data" => data = %{"attributes" => params}},
-                     _current_user, _claums) do
+  def create(conn,  payload = %{"data" => %{"attributes" => params}},
+        _current_user, _claums) do
     changeset = Player.changeset(%Player{}, params)
-    |> maybe_add_rels(data)
+    |> handle_rels(payload, &do_add_res/2)
 
     case Repo.insert(changeset) do
       {:ok, player} ->
@@ -47,14 +47,13 @@ defmodule OrgtoolDb.PlayerController do
       render(conn, "show.json-api", data: player, opts: @opts)
   end
 
-  def update(conn, %{"id" => id,
-                     "data" => data = %{"attributes" => params}},
+  def update(conn, payload = %{"id" => id, "data" => %{"attributes" => params}},
         _current_user, _claums) do
     player = Repo.get!(Player, id)
     |> Repo.preload(@preload)
 
     changeset = Player.changeset(player, params)
-    |> maybe_add_rels(data)
+    |> handle_rels(payload, &do_add_res/2)
 
     case Repo.update(changeset) do
       {:ok, player} ->
@@ -77,18 +76,15 @@ defmodule OrgtoolDb.PlayerController do
     send_resp(conn, :no_content, "")
   end
 
-  defp maybe_add_rels(changeset, %{"relationships" => relationships}) do
+  defp do_add_res(changeset, elements) do
+    :io.format("~p~n", [elements])
     changeset
-    |> maybe_apply(User,   :user, relationships)
-    |> maybe_apply(Item,   :items, relationships)
-    |> maybe_apply(Reward, :rewards, relationships)
-    |> maybe_apply(Handle, :handles, relationships)
-    |> maybe_apply(Unit, "unit", "leaderships", :leaderships, relationships)
-    |> maybe_apply(Unit, "unit", "playerships", :playerships, relationships)
-    |> maybe_apply(Unit, "unit", "applications", :applications, relationships)
-  end
-
-  defp maybe_add_rels(changeset, _) do
-    changeset
+    |> maybe_apply(User,   :user, elements)
+    |> maybe_apply(Item,   "item",   "items", :items, elements)
+    |> maybe_apply(Reward, "reward", "rewards", :rewards, elements)
+    |> maybe_apply(Handle, "handle", "handles", :handles, elements)
+    |> maybe_apply(Unit,   "unit",   "leaderships", :leaderships, elements)
+    |> maybe_apply(Unit,   "unit",   "playerships", :playerships, elements)
+    |> maybe_apply(Unit,   "unit",   "applications", :applications, elements)
   end
 end
