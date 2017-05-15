@@ -45,7 +45,7 @@ defmodule OrgtoolDb.Mixfile do
      {:sweet_xml, "~> 0.6.5"},
      {:cowboy, "~> 1.0"},
      {:ja_serializer, "~> 0.12.0"},
-
+     {:exrm, "~> 1.0"},
 
      {:comeonin, "~> 3.0"},
 

@@ -2,8 +2,10 @@ version: '2'
 services:
   db:
     image: postgres
+    volumes:
+      - ./db:/var/lib/postgresql/data
   orgtool:
-    image: orgtool
+    image: orgtool/orgtool
     ports:
       - "4000:4000"
     environment:

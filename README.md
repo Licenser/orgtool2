@@ -1,64 +1,69 @@
 # OrgtoolDb
 
-To start your Phoenix app:
+## Compiling
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
-  * Seed your database with `mix run priv/repo/seeds.exs`
-  * Install Node.js dependencies with `npm install`
-  * Start Phoenix endpoint with `mix phoenix.server`
+### Installing dependencies
+
+```bash
+git clone https://github.com/Licenser/orgtool_db
+npm install -g brunch yarn bower
+cd orgtool_db
+mix deps.get
+npm install
+```
+
+### Fetching and building the UI
+```bash
+git submodule update --init
+cd priv/orgtool
+# if you run as root:
+# echo '{ "allow_root": true }' > /root/.bowerrc
+yarn
+node_modules/ember-cli/bin/ember build --prod
+cd -
+```
+
+### compile static assets
+
+```
+brunch build
+```
+
+
+## docker image
+If you build a docker image this is now the time to do it!
+## Initialize and seed the DB
+
+Warning thistle will delete an existing database!
+```
+./reseed.db
+```
+
+## Start the server
+
+```
+mix phoenix.server
+```
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
 
-## Learn more
 
-  * Official website: http://www.phoenixframework.org/
-  * Guides: http://phoenixframework.org/docs/overview
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+# Docker Image
 
-
-# Testing
-You can use the docker file in `docker` for testing. The container disables authentication.
-
-```
-cd docker
-docker build -t orgtool .
-docker run -p 4000:4000 orgtool
-```
-
-# Running
 
 The following environment variables are used for the production config:
 
 * `PORT` - Port to listen to
 * `EXT_HOST` - The host from the outside
 * `EXT_PORT` - The port form the outside (might differ from `PORT` if say nginx is used)
-* `DB_HOST` - Postgres server
-* `DB_NAME` - Database name
-* `DB_USER` - Postgres username
-* `DB_PASSWORD` - Postgres user password
 * `SECRET_KEY_BASE` - secret key for signing cookies
 
 ```
-cd docker
 docker build -t orgtool .
-docker run \
-  -p 4000:4000 \
-  -e "PORT=4000" \
-  -e "EXT_HOST=localhost" \
-  -e "EXT_PORT=4000" \
-  -e "DB_HOST=192.168.1.109" \
-  -e "DB_NAME=orgtool_db_dev" \
-  -e "DB_USER=postgres" \
-  -e "DB_PASSWORD=postgres" \
-  -e "SECRET_KEY_BASE=shhhh" \
-  orgtool
+docker-compose up
 ```
-
 
 # Installation
 ## Install dependencies
