@@ -104,8 +104,8 @@ defmodule OrgtoolDb.UnitController do
     changeset
     |> maybe_apply(Unit, :unit, elements)
     |> maybe_apply(UnitType, "unit-type", :unit_type, elements)
-    |> maybe_apply(Player, :leaders, elements)
-    |> maybe_apply(Player, :players, elements)
-    |> maybe_apply(Player, :applications, elements)
+    |> maybe_apply(Player,   "player", "leaders", :leaders, elements)
+    |> maybe_apply(Player,   "player", "players", :players, elements)
+    |> maybe_apply(Player,   "player", "applicants", :applicants, elements)
   end
 end
