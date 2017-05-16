@@ -125,3 +125,11 @@ cd -
 ```
 mix phoenix.server
 ```
+
+
+## making a image
+```
+docker -t orgtool .
+docker tag orgtool orgtool/orgtool
+docker push orgtool/orgtool
+```
