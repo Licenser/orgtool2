@@ -20,7 +20,11 @@ defmodule OrgtoolDb.Mixfile do
     [mod: {OrgtoolDb, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :phoenix_ecto,
                     :cowboy, :logger, :gettext, :postgrex, :httpotion, :sweet_xml,
-                    :ueberauth, :ueberauth_google, :ueberauth_identity,
+
+                    :ueberauth,
+                    :ueberauth_google, :ueberauth_identity, :ueberauth_twitter, :ueberauth_slack,
+                    :ueberauth_facebook, :ueberauth_github, :ueberauth_discord, :ueberauth_microsoft,
+
                     :oauth2, :comeonin, :ja_serializer]]
   end
 
@@ -52,9 +56,18 @@ defmodule OrgtoolDb.Mixfile do
      {:guardian_db, "~> 0.7"},
      {:guardian, "~> 0.12.0"},
 
+     {:oauth2, "~> 0.8", override: true},
+
      {:ueberauth, "~> 0.4"},
      {:ueberauth_google, "~> 0.5"},
      {:ueberauth_identity, "~>0.2.3"},
+     {:ueberauth_twitter, "~> 0.2"},
+     {:ueberauth_slack, "~> 0.4"},
+     {:ueberauth_facebook, "~> 0.6"},
+     {:ueberauth_github, "~> 0.4"},
+
+     {:ueberauth_discord, "~> 0.3.0"},
+     {:ueberauth_microsoft, "~> 0.2.0"},
     ]
   end
 

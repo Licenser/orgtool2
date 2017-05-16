@@ -49,13 +49,45 @@ config :guardian_db, GuardianDb,
 
 config :ueberauth, Ueberauth,
   providers: [
-    google: {Ueberauth.Strategy.Google, []},
     identity: {Ueberauth.Strategy.Identity, [callback_methods: ["POST"]]},
+    google: {Ueberauth.Strategy.Google, []},
+    twitter: {Ueberauth.Strategy.Twitter, []},
+    slack: {Ueberauth.Strategy.Slack, []},
+    facebook: {Ueberauth.Strategy.Facebook, []},
+    github: {Ueberauth.Strategy.Github, []},
+    microsoft: {Ueberauth.Strategy.Microsoft, []},
+    discord: {Ueberauth.Strategy.Discord, []},
   ]
 
 config :ueberauth, Ueberauth.Strategy.Google.OAuth,
   client_id: System.get_env("GOOGLE_CLIENT_ID"),
   client_secret: System.get_env("GOOGLE_CLIENT_SECRET")
+
+config :ueberauth, Ueberauth.Strategy.Twitter.OAuth,
+  consumer_key: System.get_env("TWITTER_CLIENT_ID"),
+  consumer_secret: System.get_env("TWITTER_CLIENT_SECRET")
+
+config :ueberauth, Ueberauth.Strategy.Slack.OAuth,
+  client_id: System.get_env("SLACK_CLIENT_ID"),
+  client_secret: System.get_env("SLACK_CLIENT_SECRET")
+
+config :ueberauth, Ueberauth.Strategy.Facebook.OAuth,
+  client_id: System.get_env("FACEBOOK_CLIENT_ID"),
+  client_secret: System.get_env("FACEBOOK_CLIENT_SECRET")
+
+config :ueberauth, Ueberauth.Strategy.Github.OAuth,
+  client_id: System.get_env("GITHUB_CLIENT_ID"),
+  client_secret: System.get_env("GITHUB_CLIENT_SECRET")
+
+
+config :ueberauth, Ueberauth.Strategy.Microsoft.OAuth,
+  client_id: System.get_env("MICROSOFT_CLIENT_ID"),
+  client_secret: System.get_env("MICROSOFT_CLIENT_SECRET")
+
+config :ueberauth, Ueberauth.Strategy.Discord.OAuth,
+  client_id: System.get_env("DISCORD_CLIENT_ID"),
+  client_secret: System.get_env("DISCORD_CLIENT_SECRET")
+
 
 config :phoenix, :format_encoders,
   "json-api": Poison
