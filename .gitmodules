@@ -1,4 +1,4 @@
 [submodule "priv/orgtool"]
-	path = priv/orgtool
+	path = be/priv/orgtool
 	url = https://github.com/OddyseeGamers/orgtool
 	branch = new-db
