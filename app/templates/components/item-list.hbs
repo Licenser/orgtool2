@@ -1,0 +1,91 @@
+<div class="item-menu">
+
+
+  {{!--
+  <!--   {{#if (and adminMode session.current_user.permission.)}} -->
+  --}}
+  {{#if (and adminMode session.current_user.permission.item_list_filter)}}
+    <div class={{if (and adminMode session.current_user.permission.category_read) "item-type-menu" "item-type-menu item-type-menu-corner"}}>
+      {{#if session.current_user.permission.category_read}}
+        <span class="item-type-menu-item">
+          <a href="#" class={{if (eq "cats" typeFilter) "active"}} {{action "setTypeFilter" "cats"}}>
+            Categories
+          </a>
+        </span>
+      {{/if}}
+      {{#if session.current_user.permission.template_read}}
+        <span class="item-type-menu-item">
+          <a href="#" class={{if (eq "tpls" typeFilter) "active"}} {{action "setTypeFilter" "tpls"}}>
+            Templates
+          </a>
+        </span>
+      {{/if}}
+      {{#if session.current_user.permission.item_read}}
+        <span class="item-type-menu-item">
+          <a href="#" class={{if (eq "items" typeFilter) "active"}} {{action "setTypeFilter" "items"}}>
+            Items
+          </a>
+        </span>
+      {{/if}}
+    </div>
+  {{/if}}
+
+<!--     <div class="item-type-tb"> -->
+<!--     </div> -->
+
+  {{!--
+    {{#if (and adminMode session.isAdmin)}}
+    <div class="item-type-tb">
+      {{#if typeFilter}}
+      <button type="button" class="tb tb-default" {{action "editItemType" typeFilter}}> <i class="fa fa-gear" ></i></button>
+      {{/if}}
+      <button type="button" class="tb tb-default" {{action "addItemType"}}><i class="fa fa-plus" ></i> </button>
+    </div>
+    {{/if}}
+    --}}
+  <div class="item-stat-menu">
+    Items: {{filteredContent.length}} 
+<!--     / {{items.length}} -->
+  </div>
+
+
+  {{#if session.current_user.permission.item_list_filter}}
+    <div class="toolbar">
+
+      {{#if (and session.current_user.permission.category_create (eq typeFilter "cats"))}}
+        <button type="button" class="tb tb-default" {{action "addCategory"}}> <i class="fa fa-plus" ></i> Category</button>
+      {{/if}}
+
+      {{#if (and session.current_user.permission.template_create (eq typeFilter 'tpls'))}}
+        <button type="button" class="tb tb-default" {{action "addTemplate"}}> <i class="fa fa-plus" ></i> Template</button>
+      {{/if}}
+
+      {{#if (and session.current_user.permission.item_create (eq typeFilter 'items'))}}
+        <button type="button" class="tb tb-default" {{action "addItem" player}}> <i class="fa fa-plus" ></i> Item</button>
+      {{/if}}
+    </div>
+  {{/if}}
+</div>
+
+<div class="item-list">
+  {{#ember-collection items=filteredContent cell-layout=(percentage-columns-layout filteredContent.length columns itemHeight) as |item index|}}
+    {{item-details item=item details=details onConfirm=(action "showConfirm") onEdit=(action "showEdit")}}
+  {{/ember-collection}}
+</div>
+
+{{#if showCategoryDialog}}
+  {{category-create category=currCategory showDialog=showCategoryDialog onConfirm=(action "showConfirm")}}
+{{/if}}
+
+{{#if showTemplateDialog}}
+  {{template-create template=currTemplate showDialog=showTemplateDialog onConfirm=(action "showConfirm")}}
+{{/if}}
+
+{{#if showItemDialog}}
+  {{item-create item=currItem showDialog=showItemDialog itemTypeFilter=itemTypeFilter}}
+{{/if}}
+
+
+{{#if showConfirmDialog}}
+  {{confirm-dialog showDialog=showConfirmDialog msg=msg onConfirm=(action "onConfirmed")}}
+{{/if}}

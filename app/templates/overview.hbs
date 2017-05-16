@@ -1,0 +1,47 @@
+{{#if session.current_user.permission.unit_read}}
+<div id="units">
+  <div class="panel panel-default pilot-panel">
+    {{#if (eq currentUnit.id '1')}}
+      {{unit-tree unit=currentUnit level=1}}
+    {{else}}
+      {{unit-tree unit=currentUnit level=5}}
+    {{/if}}
+  </div>
+</div>
+
+<div id="chart">
+  {{org-chart units=model currFilter=currentChart.id}}
+</div>
+
+<div id="info">
+  {{#if session.current_user.permission.unit_assign}}
+    <div class="toolbar">
+      <button type="button" class="tb tb-default" {{action (toggle this "showMembers")}}> <i class="fa fa-eye" ></i> {{if showMembers "Fleet" "Members"}}</button>
+    </div>
+
+  <div class="info-stats">
+    {{#if currentUnit}}
+      Members: {{sumMembers.length}} 
+      Items: {{sumItems.length}}
+    {{/if}}
+  </div>
+  {{/if}}
+
+
+  <div class="info-content">
+    {{#if (and (not showMembers) currentUnit)}}
+        {{#ember-collection items=sumItems cell-layout=(percentage-columns-layout sumItems.length columns itemHeight) as |item index|}}
+          {{item-details item=item.type details=false count=item.count}}
+        {{/ember-collection}}
+    {{/if}}
+
+    {{#if (and session.current_user.permission.unit_assign showMembers)}}
+      {{player-list players=players draggable=true details=false}}
+    {{/if}}
+  </div>
+</div>
+
+{{outlet}}
+{{else}}
+  {{partial 'application/permission-denied'}}
+{{/if}}

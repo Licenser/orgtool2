@@ -1,0 +1,76 @@
+<div id="myheader" class="clearfix">
+  <ul class="nav nav-tabs">
+
+    <li>
+      {{#if session.current_user}}
+        {{#if session.current_user.player}}
+          {{#link-to 'players.player' session.current_user.player}}
+            <i class={{if session.current_user.permission.settings "fa fa-user" "fa fa-user"}}></i> {{session.current_user.name}}
+          {{/link-to}}
+        {{else}}
+          <i class={{if session.current_user.permission.settings "fa fa-user" "fa fa-user"}}></i> {{session.current_user.name}}
+        {{/if}}
+
+        <button type="button" class="btn btn-tb danger" {{action "logout"}}> <i class="fa fa-sign-out"></i> </button>
+      {{else}}
+        {{#link-to 'login'}}<i class="fa fa-sign-in"></i>{{/link-to}}
+      {{/if}}
+    </li>
+
+    <li style="padding-left: 10px;">
+      {{#if session.errors}}
+        <i class="danger fa fa-warning"></i>
+        {{#each session.errors as |error|}}
+            {{error.message}},
+        {{/each}}
+      {{/if}}
+
+      <button type="button" class="btn btn-check" {{action (toggle this "showBG")}}>
+        {{#if showBG}}
+        <i class="fa fa-check-square-o"></i>
+        {{else}}
+        <i class="fa fa-square-o"></i>
+        {{/if}}
+      </button> Fancy Background
+    </li>
+
+
+    {{#if session.current_user.permission.settings}}
+      <li class="pull-right">{{#link-to 'log'}}<i class="fa fa-history"></i> Log{{/link-to}}</li>
+    {{/if}}
+
+    {{#if session.current_user.permission.user_read}}
+      <li class="pull-right">{{#link-to 'users'}}<i class="fa fa-users"></i> Users{{/link-to}}</li>
+    {{/if}}
+
+    {{#if session.current_user.permission.reward_read}}
+      <li class="pull-right">{{#link-to 'rewards'}}<i class="fa fa-trophy"></i> Rewards{{/link-to}}</li>
+    {{/if}}
+
+    {{#if session.current_user.permission.item_read}}
+      <li class="pull-right">{{#link-to 'items'}}<i class="fa fa-cubes"></i> Items{{/link-to}}</li>
+    {{/if}}
+
+
+
+<!--       <li class="pull-right" >{{#link-to 'log'}}<i class="fa fa-history"></i> Log{{/link-to}}</li> -->
+<!--       <li class="pull-right" >{{#link-to 'settings'}}<i class="fa fa-gear"></i> Settings{{/link-to}}</li> -->
+<!--       <li class="pull-right" >{{#link-to 'lfg'}}<i class="fa fa-gamepad"></i> LFG{{/link-to}}</li> -->
+
+    {{!--
+    {{#if session.current_user.permission.settings}}
+      <li class="pull-right" >
+        {{partial 'application/settings-menu'}}
+      </li>
+    {{/if}}
+    --}}
+
+    {{#if session.current_user.permission.player_read}}
+      <li class="pull-right" >{{#link-to 'players'}}<i class="fa fa-users"></i> Players{{/link-to}}</li>
+    {{/if}}
+
+    {{#if session.current_user.permission.unit_read}}
+      <li class="pull-right" >{{#link-to 'overview'}}<i class="fa fa-pie-chart"></i> Overview{{/link-to}}</li>
+    {{/if}}
+  </ul>
+</div>

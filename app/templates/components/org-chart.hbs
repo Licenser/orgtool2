@@ -1,0 +1,23 @@
+<div class="chart-pane">
+  <svg id="svg" preserveAspectRatio="xMinYMin" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink= "http://www.w3.org/1999/xlink">
+  </svg>
+</div>
+
+<div class="overlay-pane">
+  {{!-- {{#unless hideNav}} --}}
+
+  {{#if (gt currFilter 1)}}
+  <div class="unit-nav-box">
+    <div class="unit-nav-content">
+      <button class="btn btn-trans-nav" {{action "goBack"}}><i class="fa fa-arrow-left"></i> back</button>
+    </div>
+  </div>
+  {{/if}}
+
+  {{!--  {{/unless}} --}}
+<!--   <div class="unit-info-box"> -->
+<!--     <div class="unit-info-content"> -->
+<!--       <h4>TODO</h4>Hover over a unit -->
+<!--     </div> -->
+<!--   </div> -->
+</div>

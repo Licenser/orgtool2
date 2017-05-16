@@ -1,0 +1,11 @@
+{{#if session.current_user.permission.unit_read}}
+<div id="units">
+  <div class="panel panel-default pilot-panel">
+    {{#if (eq currentUnit.id '1')}}
+      {{unit-tree unit=currentUnit level=1}}
+    {{else}}
+      {{unit-tree unit=currentUnit level=50}}
+    {{/if}}
+  </div>
+</div>
+{{/if}}

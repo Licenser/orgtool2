@@ -1,0 +1,97 @@
+{{!--
+{{#if (and session.current_user showDialog)}}
+--}}
+{{#if showDialog}}
+
+{{#bs-modal open=showDialog size='m' header=false body=false footer=false autoClose=false onHide=(action 'close') class="handle-create" as |md|}}
+  {{#md.header}}
+    <h4 class="modal-title">
+      {{#if handle.isNew}} Add {{else}} Edit {{/if}} Handle {{handle.handle}} [{{handle.type}}]
+    </h4>
+  {{/md.header}}
+  {{#md.body}}
+
+    <label class="control-label">
+      Type
+      {{#unless handle.type}}
+      <span class="text-danger">(required)</span>
+      {{/unless}}
+    </label>
+    {{#if handle.errors.type.length}}
+    <span class="text-danger">
+      {{#each handle.errors.type as |err|}}{{err.message}}{{/each}}
+    </span>
+    {{/if}}
+    <div class="input-group ship-model-modal">
+      <input type="text" class="form-control" value={{handle.type}}>
+      <div class="input-group-btn">
+        {{#bs-dropdown as |dd|}}
+          {{#dd.button}}<span class="caret"></span>{{/dd.button}}
+          {{#dd.menu align="right"}}
+
+            {{#each types as |ty|}}
+              <li {{action "setType" ty}}><a href="#" >{{ty.desc}}</a></li>
+            {{/each}}
+
+          {{/dd.menu}}
+        {{/bs-dropdown}}
+      </div>
+    </div>
+
+    <label class="control-label">
+      Handle
+      {{#unless handle.handle}}
+      <span class="text-danger">(required)</span>
+      {{/unless}}
+    </label>
+    {{#if handle.errors.handle.length}}
+    <span class="text-danger">
+      {{#each handle.errors.handle as |err|}}{{err.message}}{{/each}}
+    </span>
+    {{/if}}
+    {{input type="text" class="form-control" value=handle.handle}}
+
+    <label class="control-label">
+      Name
+    </label>
+    {{#if handle.errors.name.length}}
+    <span class="text-danger">
+      {{#each handle.errors.name as |err|}}{{err.message}}{{/each}}
+    </span>
+    {{/if}}
+    {{input type="text" class="form-control" value=handle.name}}
+
+    <label class="control-label">
+      Image
+    </label>
+    {{#if handle.errors.img.length}}
+    <span class="text-danger">
+      {{#each handle.errors.img as |err|}}{{err.message}}{{/each}}
+    </span>
+    {{/if}}
+    {{input type="text" class="form-control" value=handle.img}}
+    
+<!--       <div class="col-md-4 row text-center disabled"> -->
+<!--         <label class="control-label stretch">Hidden</label> -->
+<!--         {{bs-switch size='mini' checked=false indeterminate=false}} -->
+<!--       </div> -->
+      <br>
+      <br>
+      <br>
+      <br>
+
+  {{/md.body}}
+  {{#md.footer}}
+    {{#if session.current_user.permission.player_edit}}
+      <button type="submit" class="btn btn-danger" {{action "deleteHandle"}} disabled={{handle.isSaving}}>{{fa-icon "trash-o"}} Delete </button>
+      <button type="submit" class="btn btn-primary" {{action "saveHandle"}} disabled={{if handle.hasDirtyAttributes false true}} >  
+        {{fa-icon "save"}} Save
+      </button>
+    {{/if}}
+    <button type="button" class="btn btn-default" {{action "close"}}>{{fa-icon "close"}} Close</button>
+  {{/md.footer}}
+{{/bs-modal}}
+
+
+{{/if}}
+

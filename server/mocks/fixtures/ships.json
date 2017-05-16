@@ -1,0 +1,445 @@
+{
+  "ships": [
+    {
+      "id": 1,
+      "name": "Aurora",
+      "ship_manufacturer": 1,
+      "ship_collection_ids": [1],
+      "type": null,
+      "roles": []
+    }, {
+      "id": 2,
+      "name": "Aurora Essential (ES)",
+      "ship_collection_ids": [2, 3],
+      "ship_manufacturer": 1,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 3,
+      "name": "Aurora Marque (MR)",
+      "ship_manufacturer": 1,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 4,
+      "name": "Aurora Clipper (CL)",
+      "ship_manufacturer": 1,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 5,
+      "name": "Aurora Deluxe (LX)",
+      "ship_manufacturer": 1,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 6,
+      "name": "Aurora Legionnaire (LN)",
+      "ship_manufacturer": 1,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 7,
+      "name": "Bengal-class Carrier",
+      "ship_manufacturer": 1,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 8,
+      "name": "Constellation Andromeda",
+      "ship_manufacturer": 1,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 9,
+      "name": "Constellation Taurus",
+      "ship_manufacturer": 1,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 10,
+      "name": "Constellation Aquila",
+      "ship_manufacturer": 1,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 11,
+      "name": "Constellation Phoenix",
+      "ship_manufacturer": 1,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 12,
+      "name": "Mover Transport",
+      "ship_manufacturer": 1,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 13,
+      "name": "Pegasus-class Escort Carrier",
+      "ship_manufacturer": 1,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 14,
+      "name": "X-7",
+      "ship_manufacturer": 1,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 15,
+      "name": "Zeus",
+      "ship_manufacturer": 1,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 16,
+      "name": "Orion",
+      "ship_manufacturer": 1,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 17,
+      "name": "300i",
+      "ship_manufacturer": 2,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 18,
+      "name": "315p",
+      "ship_manufacturer": 2,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 19,
+      "name": "325a",
+      "ship_manufacturer": 2,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 20,
+      "name": "350r",
+      "ship_manufacturer": 2,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 21,
+      "name": "600 Series",
+      "ship_manufacturer": 2,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 22,
+      "name": "890 Jump",
+      "ship_manufacturer": 2,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 23,
+      "name": "85x Runabout",
+      "ship_manufacturer": 2,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 24,
+      "name": "M50",
+      "ship_manufacturer": 2,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 25,
+      "name": "X3",
+      "ship_manufacturer": 2,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 26,
+      "name": "Avenger",
+      "ship_manufacturer": 3,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 27,
+      "name": "Gladius",
+      "ship_manufacturer": 3,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 28,
+      "name": "Idris-P",
+      "ship_manufacturer": 3,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 29,
+      "name": "Idris-M",
+      "ship_manufacturer": 3,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 30,
+      "name": "Javelin",
+      "ship_manufacturer": 3,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 31,
+      "name": "Reclaimer",
+      "ship_manufacturer": 3,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 32,
+      "name": "Redeemer",
+      "ship_manufacturer": 3,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 33,
+      "name": "Retaliator",
+      "ship_manufacturer": 3,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 34,
+      "name": "Terrapin",
+      "ship_manufacturer": 3,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 35,
+      "name": "Vanguard",
+      "ship_manufacturer": 3,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 36,
+      "name": "Cutlass Blue",
+      "ship_manufacturer": 4,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 37,
+      "name": "Cutlass Red",
+      "ship_manufacturer": 4,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 38,
+      "name": "Cutlass Black",
+      "ship_manufacturer": 4,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 39,
+      "name": "Caterpillar",
+      "ship_manufacturer": 4,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 40,
+      "name": "Dragonfly",
+      "ship_manufacturer": 4,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 41,
+      "name": "Herald",
+      "ship_manufacturer": 4,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 42,
+      "name": "Carrack",
+      "ship_manufacturer": 5,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 43,
+      "name": "Crucible",
+      "ship_manufacturer": 5,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 44,
+      "name": "Gladiator",
+      "ship_manufacturer": 5,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 45,
+      "name": "Hurricane",
+      "ship_manufacturer": 5,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 46,
+      "name": "F7A Hornet",
+      "ship_manufacturer": 5,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 47,
+      "name": "F7C Hornet",
+      "ship_manufacturer": 5,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 48,
+      "name": "F7C-M Super Hornet",
+      "ship_manufacturer": 5,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 49,
+      "name": "F7C-R Hornet Tracker",
+      "ship_manufacturer": 5,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 50,
+      "name": "F7C-S Hornet Ghost",
+      "ship_manufacturer": 5,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 51,
+      "name": "Freelancer",
+      "ship_manufacturer": 6,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 52,
+      "name": "Freelancer DUR",
+      "ship_manufacturer": 6,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 53,
+      "name": "Freelancer MIS",
+      "ship_manufacturer": 6,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 54,
+      "name": "Freelancer MAX",
+      "ship_manufacturer": 6,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 55,
+      "name": "Hull A",
+      "ship_manufacturer": 6,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 56,
+      "name": "Hull B",
+      "ship_manufacturer": 6,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 57,
+      "name": "Hull C",
+      "ship_manufacturer": 6,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 58,
+      "name": "Hull D",
+      "ship_manufacturer": 6,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 59,
+      "name": "Hull E",
+      "ship_manufacturer": 6,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 60,
+      "name": "Reliant",
+      "ship_manufacturer": 6,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 61,
+      "name": "Starfarer",
+      "ship_manufacturer": 6,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 62,
+      "name": "Starfarer Gemini",
+      "ship_manufacturer": 6,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 63,
+      "name": "P-52 Merlin",
+      "ship_manufacturer": 7,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 64,
+      "name": "P-72 Archimedes",
+      "ship_manufacturer": 7,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 65,
+      "name": "Mustang Alpha",
+      "ship_manufacturer": 8,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 66,
+      "name": "Mustang Beta",
+      "ship_manufacturer": 8,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 67,
+      "name": "Mustang Delta",
+      "ship_manufacturer": 8,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 68,
+      "name": "Mustang Gamma",
+      "ship_manufacturer": 8,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 69,
+      "name": "Mustang Omega",
+      "ship_manufacturer": 8,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 70,
+      "name": "Scythe",
+      "ship_manufacturer": 9,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 71,
+      "name": "Glaive",
+      "ship_manufacturer": 9,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 72,
+      "name": "Khartu",
+      "ship_manufacturer": 10,
+      "type": null,
+      "roles": []
+    }, {
+      "id": 73,
+      "name": "Merchantman",
+      "ship_manufacturer": 11,
+      "type": null,
+      "roles": []
+    }
+  ]
+}

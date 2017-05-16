@@ -1,0 +1,16 @@
+<div class="loader-screen">
+  <div class="loader-box">
+    <div class="loader-text">
+      <i class="loader-spinner fa fa-download fa-pulse"></i>
+    </div>
+    loading...
+    {{!--
+      <div class="loader-bar">
+        {{#bs-progress class="progress-sm" as |p|}}
+            {{p.bar value=session.state.length minValue=0 maxValue=session.statesDone showLabel=false roundDigits=false type="info" striped=true animate=true}}
+        {{/bs-progress}}
+          {{session.state.lastObject}} ...
+        </div>
+    --}}
+  </div>
+</div>

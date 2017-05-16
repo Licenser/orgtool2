@@ -1,0 +1,11 @@
+{
+  "name": "orgtool",
+  "dependencies": {
+    "ember": "~2.12.2",
+    "jquery-ui": "^1.12.1",
+    "font-awesome": "^4.7.0"
+  },
+  "resolutions": {
+    "jquery": ">= 1.7.0 < 4.0.0"
+  }
+}

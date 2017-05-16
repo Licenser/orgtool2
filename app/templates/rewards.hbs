@@ -1,0 +1,67 @@
+{{#if session.current_user.permission.reward_read}}
+<div class="rewards">
+<!-- <div class="rewards"> -->
+        <div class="toolbar">
+  <!--         <button type="button" class="tb tb-default" {{action "createReward" rt}}>{{fa-icon "plus"}} Reward</button> -->
+          <button type="button" class="tb tb-default" {{action "createRewardType"}}>{{fa-icon "plus"}} Reward Type</button>
+        </div>
+
+  <div class="col-md-6 reward-list">
+
+    {{#each sortedRewardTypes as |rt|}}
+      <div class="box">
+
+        <div class="toolbar">
+          <button type="button" class="tb tb-default" {{action "editRewardType" rt}}>{{fa-icon "edit"}}</button>
+          <button type="button" class="tb tb-default" {{action "createReward" rt}}>{{fa-icon "plus"}} Reward</button>
+        </div>
+            
+        <div class="box-header">
+          <span class="badge">{{rt.level}}</span>
+          {{rt.name}}
+        </div>
+
+  <!--       <div class="row"> -->
+            {{#each rt.sortedRewards as |r|}}
+              <div class="row selectable" {{action "editReward" r}}>
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-1">
+                  {{r.level}}
+                </div>
+                <div class="col-md-3">
+                  {{r.name}}
+                </div>
+                <div class="col-md-3">
+                  {{!--
+                  {{if r.playerUnits.length r.playerUnits.length ""}}
+                  {{sum r.playerUnits.length r.playerRewards.length}}
+                  --}}
+                  {{r.players.length}}
+                </div>
+                <div class="col-md-1">
+<!--                   <button type="button" class="tb" {{action "editReward" r}}>{{fa-icon "edit"}}</button> -->
+                </div>
+              </div>
+            {{/each}}
+  <!--       </div> -->
+
+      </div>
+    {{/each}}
+
+    {{#if showRTDialog}}
+      {{reward-type-create rt=currType showDialog=showRTDialog onConfirm=(action "showConfirmType")}}
+    {{/if}}
+
+    {{#if showRewardDialog}}
+      {{reward-create reward=currReward showDialog=showRewardDialog onConfirm=(action "showConfirmReward")}}
+    {{/if}}
+
+    {{#if showConfirmDialog}}
+      {{confirm-dialog showDialog=showConfirmDialog msg=msg onConfirm=(action "onConfirmed")}}
+    {{/if}}
+
+  </div>
+</div>
+
+{{/if}}

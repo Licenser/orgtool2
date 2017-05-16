@@ -1,0 +1,47 @@
+.unit-select {
+  z-index: 1100;
+//    .dropdown-menu {
+//      width: 250px;
+//      float: left;
+//    }
+
+    input {
+      background-color: transparent;
+    }
+  
+
+  .ember-basic-dropdown {
+    width: 250px;
+    float: left;
+//      width: 300px;
+//      float: left;
+  }
+
+  .action-name {
+    float: left;
+    margin-right: 8px;
+    line-height: 24px;
+  }
+
+  .unit-form { 
+//      border: 1px solid #f00;
+//      width: 400px;
+//      position: absolute;
+    display: inline;
+    float: left;
+  }
+
+  .unit-apply { 
+//      float: right;
+    line-height: 24px;
+//      width: 40px;
+  }
+
+//    .btn-default {
+//      top: 5px;
+//      right: -26px;
+//      position: absolute;
+//      height: 24px;
+//      border-radius: 3px;
+//    }
+}

@@ -1,0 +1,254 @@
+{{!--
+{{#if (and session.current_user showDialog)}}
+--}}
+{{#if showDialog}}
+
+{{#bs-modal open=showDialog size='l' header=false body=false footer=false autoClose=false onHide=(action 'close') class="item-create" as |md|}}
+  {{#md.header}}
+    <h4 class="modal-title">
+      {{#if item.isNew}}
+        Add {{item.type.name}} to
+      {{else}}
+      Edit {{item.type.name}} of
+      {{/if}}
+      {{item.player.name}}
+    </h4>
+  {{/md.header}}
+  {{#md.body}}
+
+
+  <div class="row">
+      {{#if item.isNew}}
+        <label class="control-label">
+          Type
+          {{#unless item.template}}
+          <span class="text-danger">(required)</span>
+          {{/unless}}
+        </label>
+        <div class="input-group ship-model-modal">
+          <input type="text" class="form-control" value={{item.template.name}} readonly>
+          <div class="input-group-btn">
+            {{#bs-dropdown as |dd|}}
+              {{#dd.button}}<span class="caret"></span>{{/dd.button}}
+              {{#dd.menu align="right"}}
+                {{#each categories as |cat|}}
+                    <li class="ship-manu">
+                     {{#if cat.img}}
+                        <img class="manu-img" src={{cat.img}}>
+                      {{/if}}
+                      {{cat.name}}
+                    </li>
+                    {{#each cat.templates as |temp|}}
+                      <li {{action "setTemplate" temp}}><a href="#" >{{temp.name}}</a></li>
+                    {{/each}}
+                {{/each}}
+              {{/dd.menu}}
+            {{/bs-dropdown}}
+          </div>
+        </div>
+      {{/if}}
+  </div>
+
+
+  {{!--
+<!--                   <li {{action "setType" cat}}><a href="#" class={{if (eq cat.id item.template.id) "active"}} >{{sm.name}}</a></li> -->
+
+  <div class="row">
+    <div class="col-md-6">
+      {{#if item.isNew}}
+        <label class="control-label">
+          Type
+          {{#unless item.type}}
+          <span class="text-danger">(required)</span>
+          {{/unless}}
+        </label>
+        <div class="input-group ship-model-modal">
+          <input type="text" class="form-control" value={{item.type.name}} readonly>
+          <div class="input-group-btn">
+            {{#bs-dropdown as |dd|}}
+              {{#dd.button}}<span class="caret"></span>{{/dd.button}}
+              {{#dd.menu align="right"}}
+                {{#each types as |sm|}}
+                  <li {{action "setType" sm}}><a href="#" class={{if (and (and (and s s.id) (and item.type item.type.id)) (eq s.id item.type.id)) "active"}} >{{sm.name}}</a></li>
+                {{/each}}
+              {{/dd.menu}}
+            {{/bs-dropdown}}
+          </div>
+        </div>
+      {{/if}}
+    </div>
+
+    <div class="col-md-6">
+      {{#if parentType}} 
+        <label class="control-label">
+            {{parentType.name}}
+            {{#unless item.parent}}
+              <span class="text-danger">(required)</span>
+            {{/unless}}
+          </label>
+        <div class="input-group ship-model-modal">
+          <input type="text" class="form-control" id="shipModel" value={{item.parent.name}} readonly>
+          <div class="input-group-btn">
+            {{#bs-dropdown as |dd|}}
+              {{#dd.button}}<span class="caret"></span>{{/dd.button}}
+              {{#dd.menu align="right"}}
+                {{#if parentType.parent}}
+                  {{#each parentType.parent.items as |pi|}}
+                    <li class="ship-manu">
+                     {{#if pi.img}}
+                        <img class="manu-img" src={{pi.img}}>
+                      {{/if}}
+                      {{pi.name}}
+                    </li>
+                    {{#each pi.items as |it|}}
+                      <li {{action "setParent" it}}><a href="#" class={{if (eq it.id item.parent.id) "active"}} >{{it.name}}</a></li>
+                    {{/each}}
+                  {{/each}}
+                {{else}}
+                  {{#each parentType.items as |pi|}}
+                    <li {{action "setParent" pi}}><a href="#" class={{if (eq pi.id item.parent.id) "active"}} >{{pi.name}}</a></li>
+                  {{/each}}
+                {{/if}}
+              {{/dd.menu}}
+            {{/bs-dropdown}}
+          </div>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+  --}}
+
+
+  {{!--
+                {{#unless parentType.parent}}
+                  {{#each parents as |pa|}}
+                      <li {{action "setParent" pa}}><a href="#" class={{if (eq pa.id item.parent.id) "active"}} >{{pa.name}}</a></li>
+                  {{/each}}
+                {{/unless}}
+
+                  {{#each parentType.items as |pi|}}
+                    <li class="ship-manu">
+                     {{#if sm.img}}
+                        <img class="manu-img" src={{sm.img}}>
+                      {{/if}}
+                      {{sm.name}}
+                    </li>
+                    {{#each sm.items as |it|}}
+                      <li {{action "setParent" it}}><a href="#" class={{if (eq it.id item.parent.id) "active"}} >{{it.name}}</a></li>
+                    {{/each}}
+                {{/each}}
+  --}}
+
+    <br><br>
+
+
+    <div class="row">
+      <label class="control-label">Item Name</label>
+      {{#if item.errors.name.length}}
+        <span class="text-danger">
+        {{#each item.errors.name as |err|}}{{err.message}}{{/each}}
+        </span>
+      {{/if}}
+      {{input type="text" class="form-control" id="itemParentName" value=item.name placeholder=item.template.name}}
+    </div>
+
+    <div class="row">
+      <label class="control-label">Image</label>
+      {{#if item.errors.img.length}}
+        <span class="text-danger">
+        {{#each item.errors.img as |err|}}{{err.message}}{{/each}}
+        </span>
+      {{/if}}
+
+      {{input type="text" class="form-control" id="itemImg" value=item.img placeholder=item.template.img}}
+    </div>
+
+    <div class="row">
+      {{#if session.current_user.permission.player_edit}}
+        <label class="control-label">Owner</label>
+        <div class="row">
+          <div class="col-md-5">
+            {{player-details player=item.player details=false}}
+          </div>
+          <div class="col-md-1">
+          </div>
+          <div class="col-md-6 mem-sel">
+            {{player-select onConfirm=(action "changeOwner") actionName="Change"}}
+          </div>
+        </div>
+      {{/if}}
+    </div>
+
+
+
+<!--     <div class="row"  style="height: 30%;"> -->
+      <div class="col-md-6" style="height: 30%;">
+        <br>
+        <div class="item-img-box">
+          {{#if item.img}}
+              {{item-details item=item details=false tb=false}}
+          {{else}}
+            {{#if item.parent}}
+              {{item-details item=item.parent details=false tb=false}}
+            {{else}}
+              {{#if item.template}}
+                {{item-details item=item.template details=false tb=false}}
+              {{/if}}
+            {{/if}}
+          {{/if}}
+        </div>
+      </div>
+      <div class="col-md-6 checklist">
+
+        <div class="row">
+          <div class="col-md-4">
+          </div>
+          <div class="col-md-2">
+            <button type="button" class="btn btn-check" {{action (toggle item "hidden")}}>
+              {{#if item.hidden}}
+              <i class="fa fa-check-square-o fa-2x"></i>
+              {{else}}
+              <i class="fa fa-square-o fa-2x"></i>
+              {{/if}}
+            </button>
+          </div>
+          <div class="col-md-6">
+            <label class="control-label">Hidden</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+          </div>
+          <div class="col-md-2">
+            <button type="button" class="btn btn-check" {{action (toggle item "available")}}>
+              {{#if item.available}}
+              <i class="fa fa-check-square-o fa-2x"></i>
+              {{else}}
+              <i class="fa fa-square-o fa-2x"></i>
+              {{/if}}
+            </button>
+          </div>
+          <div class="col-md-6">
+            <label class="control-label">Available</label>
+          </div>
+        </div>
+      </div>
+<!--     </div> -->
+
+
+  {{/md.body}}
+  {{#md.footer}}
+    {{#if session.current_user.permission.item_edit}}
+<!--       <button type="submit" class="btn btn-danger" {{action "deleteReward"}} disabled={{reward.isSaving}}>{{fa-icon "trash-o"}} Delete </button> -->
+      <button type="submit" class="btn btn-primary" {{action "saveItem"}} disabled={{cannotSave}} >  
+        {{fa-icon "save"}} Save
+      </button>
+    {{/if}}
+    <button type="button" class="btn btn-default" {{action "close"}}>{{fa-icon "close"}} Close</button>
+
+  {{/md.footer}}
+{{/bs-modal}}
+
+
+{{/if}}
+

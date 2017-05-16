@@ -1,0 +1,39 @@
+{{#bs-modal open=showDialog header=false body=false footer=false as |md|}}
+{{#md.header}}
+  <h4 class="modal-title">
+    {{#if unit.isNew}} Create {{else}} Edit {{/if}}
+    Unit
+  </h4>
+{{/md.header}}
+  {{#md.body}}
+    {{#bs-form action=(action "submit") model=unit as |form|}}
+      {{form.element controlType="text" label="Name" property="name"}}
+      {{form.element controlType="text" label="Description" property="description"}}
+      {{form.element controlType="text" label="Color" property="color"}}
+      {{form.element controlType="text" label="Image" property="img"}}
+
+      <label class="control-label">Type</label>
+      <div class="input-group">
+        {{#if unit.type}}
+        <input type="text" class="form-control" id="unittype" value={{unit.type.name}} readonly>
+        {{else}}
+        <input type="text" class="form-control" id="unittype" value="" readonly>
+        {{/if}}
+        <div class="input-group-btn">
+          {{#bs-dropdown}}
+            {{#dd.button}}<span class="caret"></span>{{/dd.button}}
+            {{#dd.menu  align="right"}}
+              {{#each models.unitTypes as |ut|}}
+              <li {{action "setType" ut}}><a href="#">{{ut.name}}</a></li>
+              {{/each}}
+            {{/dd.menu}}
+          {{/bs-dropdown}}
+        </div>
+      </div>
+      {{/bs-form}}
+    {{/md.body}}
+    {{#md.footer}}
+        <button type="button" class="btn btn-default" {{action "close"}}>Close</button>
+        <button type="submit" class="btn btn-primary"> {{#if unit.hasDirtyAttributes}} Save {{else}} Ok {{/if}} </button>
+    {{/md.footer}}
+{{/bs-modal}}

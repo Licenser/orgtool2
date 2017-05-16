@@ -1,0 +1,117 @@
+{
+  "units": [
+    {
+      "id": 1,
+      "name": "UEE",
+      "type": "org",
+      "desc": "United Empire of Earth",
+      "color": "",
+      "leader_ids": [1,2, 3,4],
+      "pilot_ids": [],
+      "unit_ids": [2,3,4]
+    }, {
+      "id": 2,
+      "name": "Advocacy",
+      "type": "department",
+      "desc": "The Advocacy",
+      "color": "#0000CC",
+      "leader_ids": [],
+      "pilot_ids": [],
+      "parent": 1,
+      "unit_ids": []
+    }, {
+      "id": 3,
+      "name": "Military",
+      "type": "department",
+      "desc": "The Military",
+      "color": "#9F0000",
+      "leader_ids": [2],
+      "pilot_ids": [],
+      "parent": 1,
+      "unit_ids": [5, 6, 7]
+    }, {
+      "id": 4,
+      "name": "Senate",
+      "type": "department",
+      "desc": "The Senate",
+      "color": "#005500",
+      "leader_ids": [],
+      "pilot_ids": [],
+      "parent": 1
+    }, {
+      "id": 5,
+      "name": "Army",
+      "type": "division",
+      "desc": "The Army",
+      "color": "",
+      "leader_ids": [17],
+      "pilot_ids": [21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40],
+      "parent": 3
+    }, {
+      "id": 6,
+      "name": "Marines",
+      "type": "division",
+      "desc": "The Marines",
+      "color": "",
+      "leader_ids": [],
+      "pilot_ids": [],
+      "parent": 3
+    }, {
+      "id": 7,
+      "name": "Navy",
+      "type": "division",
+      "desc": "The Navy",
+      "color": "",
+      "leader_ids": [],
+      "pilot_ids": [],
+      "unit_ids": [8,9, 10],
+      "parent": 3
+    }, {
+      "id": 8,
+      "name": "18th Fleet",
+      "type": "fleet",
+      "desc": "The 18th Battle Fleet",
+      "color": "",
+      "leader_ids": [],
+      "pilot_ids": [],
+      "parent": 7
+    }, {
+      "id": 9,
+      "name": "2nd Fleet",
+      "type": "fleet",
+      "desc": "The 2nd Fleet",
+      "color": "",
+      "leader_ids": [],
+      "pilot_ids": [],
+      "unit_ids": [11, 12],
+      "parent": 7
+    }, {
+      "id": 10,
+      "name": "33rd Fleet",
+      "type": "fleet",
+      "desc": "The 33rd Fleet",
+      "color": "",
+      "leader_ids": [],
+      "pilot_ids": [],
+      "parent": 7
+    }, {
+      "id": 11,
+      "name": "Squadron 42",
+      "type": "squadron",
+      "desc": "The Squadron 42",
+      "color": "",
+      "leader_ids": [],
+      "pilot_ids": [],
+      "parent": 9
+    }, {
+      "id": 12,
+      "name": "Squadron 52",
+      "type": "squadron",
+      "desc": "",
+      "color": "",
+      "leader_ids": [],
+      "pilot_ids": [],
+      "parent": 9
+    }
+  ]
+}

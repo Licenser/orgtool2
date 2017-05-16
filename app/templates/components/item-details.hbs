@@ -1,0 +1,94 @@
+
+{{#if (and tb (or session.current_user.permission.item_tb count))}}
+  <div class="toolbar">
+    {{#if count}}
+      <div class="text-default">{{count}}x</div>
+    {{else}}
+      {{#if session.current_user.permission.item_edit}}
+        <button class="tb tb-default" type="button" {{action 'editItem' item}}><i class="fa fa-gear"></i></button>
+      {{/if}}
+      {{#if session.current_user.permission.item_delete}}
+        <button class="tb tb-danger" type="button" {{action 'deleteItem' item}}><i class="fa fa-close"></i></button>
+      {{/if}}
+    {{/if}}
+  </div>
+{{/if}}
+
+{{items-hack item}}
+{{items-hack item.player}}
+<div class={{if count "top-left-sm" "top-left"}}>
+    {{#if item.category.img}}
+      {{#if item.category.img}}
+        <img class="top-left-img" src={{item.category.img}}>
+      {{/if}}
+    {{/if}}
+
+      {{#if item.player.avatar}}
+        <img class="top-left-img" src={{item.player.avatar}}>
+      {{else}}
+        {{#if item.template.category.img}}
+          <img class="top-left-img" src={{item.template.category.img}}>
+        {{/if}}
+      {{/if}}
+
+
+
+    {{#if item.player.name}}
+      <span class={{if (and item.type (eq item.type.permissions "1")) "top-left-name" "item-name"}}>
+        {{item.player.name}}
+      </span><br><span style="margin-right:34px;"/>
+    {{/if}}
+
+    <span class="item-name">
+      {{#if item.name}}
+        {{item.name}}
+      {{else}}
+        {{item.parent.name}}
+      {{/if}}
+    </span>
+
+</div>
+
+{{#if (or item.template item.category)}}
+  {{partial 'components/item-item-details'}}
+{{else}}
+  {{partial 'components/item-category-details'}}
+{{/if}}
+
+{{!--
+{{#if (eq typeFilter "cats")}}
+
+{{#if item.img}}
+  <img class="item-img" src={{item.img}}>
+{{else}}
+  {{#if item.template.img}}
+    <img class="item-img" src={{item.template.img}}>
+  {{/if}}
+
+  {{#if item.category.img}}
+    <img class="item-img" src={{item.category.img}}>
+  {{/if}}
+{{/if}}
+--}}
+
+
+
+{{!--
+
+{{#if (eq typeFilter "cats")}}
+  {{partial 'components/item-category-details'}}
+{{/if}}
+
+{{#if (eq typeFilter 'tpls')}}
+  {{partial 'components/item-template-details'}}
+{{/if}}
+
+{{#if (eq typeFilter 'items')}}
+  {{partial 'components/item-item-details'}}
+{{/if}}
+
+
+{{#if (gt item.type.id '3')}}
+  {{partial 'components/item-ship-details'}}
+  {{/if}}
+  --}}

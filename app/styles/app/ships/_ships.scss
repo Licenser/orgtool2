@@ -1,0 +1,79 @@
+//  float:left;
+//    width: 200px;
+//    height: 100%;
+
+//  }
+
+$mod-height: 40px;
+//  $pager-height: 35px;
+$ship-height: calc(100% - #{$mod-height});
+
+
+#ships {
+  position: relative;
+  height: 100%;
+
+  .ship-mod {
+    position: absolute;
+    right: 10px;
+    top: 0px;
+    z-index: 1;
+//      height: $mod-height;
+  }
+
+  .ship-list {
+//      height: $ship-height;
+    height: 100%;
+    overflow-y:auto;
+  }
+
+  .player-avatar {
+    width: 29px;
+    float: left;
+  }
+
+//    .ship-details {
+//      float:left;
+    //    width: 100%;
+//    }
+
+  .ship-owner {
+//      width: 100%;
+//      margin-top: 10px;
+//      color: #fff;
+//      color: #1a80b6;
+//      font-size: 18px;
+//      border-bottom: 1px solid #222;
+
+//      height: 100%;
+    padding-left: 8px;
+    padding-right: 16px;
+    border-radius: 0 0 10px 0px;
+    background-color: rgba(255, 255, 255, .1); //#0A0C11;
+    color: #fff;
+    font-size: 18px;
+    vertical-align: middle;
+
+    padding-bottom: 6px;
+    padding-top: 2px;
+  }
+
+  .player-ships {
+//      height: 100px;
+    overflow: auto;
+//      position: relative;
+  }
+
+//    .ship-owner-name {
+
+//    }
+
+  .ships {
+//      background-color: #222;
+//      height: 100%;
+    border-top: 1px solid #222;
+//      border-bottom: 1px solid #222;
+    padding-bottom: 20px;
+//      margin-bottom: -1px;
+  }
+}

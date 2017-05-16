@@ -1,0 +1,165 @@
+{{#if unit}}
+  <div class="unit-tree">
+    {{!-- DEPRICATED:
+       <div class="unit-info" style="background-color: {{hex-to-rgba unit.color ".2"}}">
+       --}}
+    <!--   <div class="unit-info"> -->
+    <div class="box">
+
+      {{#if (or (or session.current_user.permission.unit_create session.current_user.permission.unit_edit)  session.current_user.permission.unit_delete)}}
+        <div class="toolbar">
+          {{#bs-dropdown class="unit-menu" as |dd|}}
+            {{#dd.toggle}}
+              <button type="button" class="tb tb-default">{{fa-icon "gear"}}</button>
+            {{/dd.toggle}}
+            {{#dd.menu class="pull-right"}}
+              {{#if session.current_user.permission.unit_create}}
+                <li><a {{action 'addUnit'}} href="#">{{fa-icon "plus"}} Add</a></li>
+              {{/if}}
+
+              {{#if session.current_user.permission.unit_edit}}
+                <li><a {{action 'editUnit'}} href="#">{{fa-icon "pencil-square-o"}} Edit</a></li>
+              {{/if}}
+
+              {{#if session.current_user.permission.unit_delete}}
+                <li><a {{action 'deleteUnit'}} style="color: #f00;" href="#">{{fa-icon "remove"}} Delete</a></li>
+              {{/if}}
+            {{/dd.menu}}
+          {{/bs-dropdown}}
+        </div>
+      {{/if}}
+
+
+      {{!--
+                              <div class="box-header" {{action 'toggleUnits'}}>
+                              <div class="unit-name unit-name-container" data-unitid={{unit.id}}>
+                              {{#if unit.units}}
+                              <a >
+                              <i class="fixedWidth fa {{if showUnits "fa-chevron-down" "fa-chevron-right"}}"></i>
+                              {{else}}
+                              <i class="fixedWidth fa"></i>
+                              {{/if}}
+
+                              {{#if unit.img}}
+                              <img class="unit-img" src={{unit.img}}>
+                              {{/if}}
+                              {{unit.name}}
+
+                              {{#if unit.description}}
+                              <div class="unit-desc">
+                              {{unit.description}}
+                              </div>
+                              {{/if}}
+                              {{#if unit.units}}
+                              </a>
+                              {{/if}}
+                              </div>
+
+                              </div>
+                              --}}
+
+      <div class="box-header" {{action 'toggleUnits'}}>
+
+        <div class="unit-name unit-name-container" data-unitid={{unit.id}}>
+          {{#if unit.units}}
+            <a >
+              <i class="fixedWidth fa {{if showUnits "fa-chevron-down" "fa-chevron-right"}}"></i>
+              {{#if unit.img}}
+                <img class="unit-img" src={{unit.img}}>
+              {{/if}}
+              {{unit.name}}
+            </a>
+          {{else}}
+            <i class="fixedWidth fa"></i>
+            {{#if unit.img}}
+              <img class="unit-img" src={{unit.img}}>
+            {{/if}}
+            {{unit.name}}
+          {{/if}}
+        </div>
+
+        {{#if unit.description}}
+          <div class="unit-desc">
+            {{unit.description}}
+          </div>
+        {{/if}}
+
+
+      </div>
+
+      <div style="clear:both;"/>
+
+      <div class="player-container unit-pilots-container" data-unitid={{unit.id}} data-dest="leader">
+        <a class="toggleElement" {{action 'toggleLeader'}}>
+          <i class="fixedWidth fa {{if showLeader "fa-chevron-circle-down" "fa-chevron-circle-right"}}"></i>
+          Leader: {{leaders.length}}
+        </a>
+
+        {{#if showLeader}}
+          <div class="unit-pilots">
+            {{#each leaders as |lead|}}
+              {{player-details player=lead draggable=true unit=unit type="leader"}}
+            {{/each}}
+          </div>
+
+        {{else}}
+
+          {{#each leaders as |lead|}}
+            <img class="mem-sm" style="width:16px; height: 16px;" src={{lead.avatar}}/>
+          {{/each}}
+
+        {{/if}}
+
+        <div style="clear: both"/>
+      </div>
+
+      <div class="player-container unit-pilots-container" data-unitid={{unit.id}} data-dest="player">
+        <a class="toggleElement" {{action 'toggleMembers'}}>
+          <i class="fixedWidth fa {{if showMembers "fa-chevron-circle-down" "fa-chevron-circle-right"}}"></i>
+          Member: {{players.length}}
+        </a>
+
+        {{#if showMembers}}
+          <div class="unit-pilots">
+            {{#each players as |mem|}}
+              {{player-details player=mem draggable=true unit=unit type="player"}}
+            {{/each}}
+          </div>
+        {{else}}
+          {{#each players as |mem|}}
+            <img class="mem-sm" style="width:16px; height: 16px;" src={{mem.avatar}}/>
+          {{/each}}
+        {{/if}}
+      </div>
+
+
+      <div class="player-container unit-pilots-container" data-unitid={{unit.id}} data-dest="applicant">
+        <a class="toggleElement" {{action 'toggleApplicants'}}>
+          <i class="fixedWidth fa {{if showApplicants "fa-chevron-circle-down" "fa-chevron-circle-right"}}"></i>
+          Applications: {{applicants.length}}
+        </a>
+
+        {{#if showApplicants}}
+          <div class="unit-pilots">
+            {{#each applicants as |mem|}}
+              {{player-details player=mem draggable=true unit=unit type="applicant"}}
+            {{/each}}
+          </div>
+        {{/if}}
+      </div>
+    </div>
+
+    {{#if showUnits}}
+      <div class="unit-bg">
+        <div class="child-units">
+          {{#each unit.units as |child|}}
+            {{unit-tree unit=child level=(-- level)}}
+          {{/each}}
+        </div>
+      </div>
+    {{/if}}
+
+    {{yield}}
+  </div>
+
+{{/if}}

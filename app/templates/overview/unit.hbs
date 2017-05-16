@@ -1,0 +1,58 @@
+{{#bs-modal fade=false open=showDialog header=false body=false footer=false onHide=(action 'close') as |md|}}
+{{#md.header}}
+<!--     <div class="player-avatar"> -->
+  <h4 class="modal-title">
+      {{#if model.img}}
+        <img class="player-avatar-img" style="width:42px;" src={{model.img}}>
+      {{/if}}
+<!--     </div> -->
+<!--     <div class="player-name-hdr"> -->
+<!--     </div> -->
+    {{#if model.isNew}} Create {{else}} Edit {{/if}}
+    Unit
+  </h4>
+{{/md.header}}
+  {{#md.body}}
+    {{#bs-form action=(action "submit") model=model as |form|}}
+      <label class="control-label">Parent</label>
+      <div class="input-group">
+        {{model.unit.name}}
+      </div>
+
+      {{form.element controlType="text" label="Name" property="name"}}
+      {{form.element controlType="text" label="Description" property="description"}}
+      {{form.element controlType="text" label="Color" property="color"}}
+      {{form.element controlType="text" label="Image" property="img"}}
+
+      <label class="control-label">Type</label>
+      <div class="input-group">
+
+        <input type="text" class="form-control" id="unittype" value={{model.unitType.name}} readonly>
+        <div class="input-group-btn">
+          {{#bs-dropdown as |dd|}}
+            {{#dd.button}}<span class="caret"></span>{{/dd.button}}
+            {{#dd.menu  align="right"}}
+              {{#each unitTypes as |ut|}}
+              <li {{action "setType" ut}}><a href="#" class={{if (eq ut.id model.unitType.id) "active"}} >{{ut.name}}</a></li>
+              {{/each}}
+            {{/dd.menu}}
+          {{/bs-dropdown}}
+        </div>
+      </div>
+      {{/bs-form}}
+      <br>
+      <br>
+      <br>
+      <br>
+    {{/md.body}}
+    {{#md.footer}}
+
+    {{#if session.current_user.permission.unit_edit}}
+<!--       <button type="submit" class="btn btn-danger" {{action "deleteReward"}} disabled={{reward.isSaving}}>{{fa-icon "trash-o"}} Delete </button> -->
+        <button type="submit" class="btn btn-primary" {{action "submit"}} disabled={{if (or (not model.unit-type.id) model.hasDirtyAttributes) false true}} >  
+        {{fa-icon "save"}} Save
+      </button>
+    {{/if}}
+    <button type="button" class="btn btn-default" {{action "close"}}>{{fa-icon "close"}} Close</button>
+    {{/md.footer}}
+{{/bs-modal}}
