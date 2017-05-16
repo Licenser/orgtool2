@@ -4,7 +4,7 @@ set -e
 export MIX_ENV=prod
 
 ## This is ugly!
-sleep 30
+sleep ${TIMEOUT}
 
 ## We run create migrate and seed
 ## if the dagtabase exists, create will fail and no seeding is done
