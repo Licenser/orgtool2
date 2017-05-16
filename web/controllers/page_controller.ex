@@ -3,13 +3,10 @@ defmodule OrgtoolDb.PageController do
   #alias OrgtoolDb.Repo
 
   def index(conn, _params, current_user, _claims) do
-    case Guardian.Plug.current_token(conn) do
-      nil ->
-        render conn, "index.html", current_user: current_user
-      jwt ->
-        conn
-        |> put_layout(false)
-        |> render("ui.html", jwt: jwt)
-    end
+    csrf = Plug.CSRFProtection.get_csrf_token;
+    jwt = Guardian.Plug.current_token(conn)
+    conn
+    |> put_layout(false)
+    |> render("index.html", jwt: jwt, csrf: csrf)
   end
 end
