@@ -6,8 +6,8 @@ defmodule OrgtoolDb.UnitController do
   alias OrgtoolDb.Player
 
   import Ecto.Query, only: [from: 2]
-  @preload [:leaders, :players, :applicants, :unit_type, :unit, :units]
-  @opts [include: "unit,units,unit_type,players,leaders,applicants"]
+  @preload [:items, :leaders, :players, :applicants, :unit_type, :unit, :units]
+  @opts [include: "items,unit,units,unit_type,players,leaders,applicants"]
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
@@ -104,6 +104,7 @@ defmodule OrgtoolDb.UnitController do
     changeset
     |> maybe_apply(Unit, :unit, elements)
     |> maybe_apply(UnitType, "unit-type", :unit_type, elements)
+    |> maybe_apply(Item,     "item", "items", :leaders, elements)
     |> maybe_apply(Player,   "player", "leaders", :leaders, elements)
     |> maybe_apply(Player,   "player", "players", :players, elements)
     |> maybe_apply(Player,   "player", "applicants", :applicants, elements)
