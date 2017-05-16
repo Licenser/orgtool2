@@ -54,6 +54,12 @@ defmodule OrgtoolDb.SessionController do
     render(conn, "show.json", session: session)
   end
 
+  def unauthorized(conn, _params) do
+    conn
+    |> send_resp(403, "{'error': 'not authorized'}")
+    |> halt
+  end
+
   def unauthenticated(conn, _params) do
     conn
     |> send_resp(401, "{'error': 'not authenticated'}")

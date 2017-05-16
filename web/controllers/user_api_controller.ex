@@ -9,14 +9,19 @@ defmodule OrgtoolDb.UserApiController do
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
-    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, user: ~w(read)] when action in [:index, :show]
-    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, user: ~w(create)] when action in [:create]
-    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, user: ~w(edit)] when action in [:update]
-    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, user: ~w(delete)] when action in [:delete]
+    # plug EnsurePermissions, [handler: OrgtoolDb.SessionController, user: ~w(read)] when action in [:index, :show]
+    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, user: ~w(read create)] when action in [:create]
+    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, user: ~w(read edit)] when action in [:update]
+    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, user: ~w(read delete)] when action in [:delete]
   end
 
-  def index(conn, _params, _current_user, _claums) do
-    users = Repo.all(User)
+  def index(conn, _params, current_user, {:ok, claims}) do
+    perms = Guardian.Permissions.from_claims(claims, :user)
+    users = if Guardian.Permissions.all?(perms, [:read], :user) do
+      Repo.all(User)
+    else
+      [current_user]
+    end
     render(conn, "index.json-api", data: users)
   end
 
@@ -40,10 +45,26 @@ defmodule OrgtoolDb.UserApiController do
     end
   end
 
-  def show(conn, %{"id" => id}, _current_user, _claums) do
-    user = Repo.get!(User, id)
-    |> Repo.preload(@preload)
-    render(conn, "show.json-api", data: user, opts: @opts)
+  def show(conn, params = %{"id" => id}, current_user, {:ok, claims}) do
+    perms = Guardian.Permissions.from_claims(claims, :player)
+    id = String.to_integer(id)
+    if Guardian.Permissions.all?(perms, [:read], :player) or current_user.id == id do
+      user = Repo.get!(User, id)
+      |> Repo.preload(@preload)
+      render(conn, "show.json-api", data: user, opts: @opts)
+    else
+      OrgtoolDb.SessionController.unauthorized(conn, params)
+    end
+  end
+
+  def show(conn, params = %{"id" => id}, _current_user, _claims) do
+    if System.get_env("NO_AUTH") == "true" do
+      user = Repo.get!(User, id)
+      |> Repo.preload(@preload)
+      render(conn, "show.json-api", data: user, opts: @opts)
+    else
+      OrgtoolDb.SessionController.unauthorized(conn, params)
+    end
   end
 
   def update(conn, payload = %{"id" => id,

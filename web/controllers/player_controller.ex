@@ -11,22 +11,38 @@ defmodule OrgtoolDb.PlayerController do
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
-    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, player: ~w(read)]
-    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, player: ~w(create)] when action in [:create]
-    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, player: ~w(edit)] when action in [:update]
-    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, player: ~w(delete)] when action in [:delete]
+    #plug EnsurePermissions, [handler: OrgtoolDb.SessionController, player: ~w(read)]
+    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, player: ~w(read create)] when action in [:create]
+    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, player: ~w(read edit)] when action in [:update]
+    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, player: ~w(read delete)] when action in [:delete]
   end
 
-  def index(conn, _params, _current_user, _claums) do
-    players = Repo.all(Player)
+  def index(conn, _params, current_user, {:ok, claims}) do
+    perms = Guardian.Permissions.from_claims(claims, :player)
+    players = if Guardian.Permissions.all?(perms, [:read], :player) do
+      Repo.all(Player)
+    else
+      user = current_user
+      |> Repo.preload(:player)
+      [user.player]
+    end
     render(conn, "index.json-api", data: players)
   end
+
+  def index(conn, params, _current_user, _claims) do
+    if System.get_env("NO_AUTH") == "true" do
+      players = Repo.all(Player)
+      render(conn, "index.json-api", data: players)
+    else
+      OrgtoolDb.SessionController.unauthenticated(conn, params)
+    end
+  end
+
 
   def create(conn,  payload = %{"data" => %{"attributes" => params}},
         _current_user, _claums) do
     changeset = Player.changeset(%Player{}, params)
     |> handle_rels(payload, &do_add_res/2)
-
     case Repo.insert(changeset) do
       {:ok, player} ->
         player = player |> Repo.preload(@preload)
@@ -41,10 +57,30 @@ defmodule OrgtoolDb.PlayerController do
     end
   end
 
-  def show(conn, %{"id" => id}, _current_user, _claums) do
-    player = Repo.get!(Player, id)
-    |> Repo.preload(@preload)
+  defp same_player?(user, id) do
+    user.player_id == id
+  end
+
+  def show(conn, params = %{"id" => id}, current_user, {:ok, claims}) do
+    perms = Guardian.Permissions.from_claims(claims, :player)
+    id = String.to_integer(id)
+    if Guardian.Permissions.all?(perms, [:read], :player) or same_player?(current_user, id) do
+      player = Repo.get!(Player, id)
+      |> Repo.preload(@preload)
       render(conn, "show.json-api", data: player, opts: @opts)
+    else
+      OrgtoolDb.SessionController.unauthorized(conn, params)
+    end
+  end
+
+  def show(conn, params = %{"id" => id}, _current_user, _claims) do
+    if System.get_env("NO_AUTH") == "true" do
+      player = Repo.get!(Player, id)
+      |> Repo.preload(@preload)
+      render(conn, "show.json-api", data: player, opts: @opts)
+    else
+      OrgtoolDb.SessionController.unauthenticated(conn, params)
+    end
   end
 
   def update(conn, payload = %{"id" => id, "data" => %{"attributes" => params}},
@@ -77,7 +113,6 @@ defmodule OrgtoolDb.PlayerController do
   end
 
   defp do_add_res(changeset, elements) do
-    :io.format("~p~n", [elements])
     changeset
     |> maybe_apply(User,   :user, elements)
     |> maybe_apply(Item,   "item",   "items", :items, elements)

@@ -81,7 +81,7 @@ defmodule OrgtoolDb.Web do
         |> fun.(relationships)
       end
 
-      defp handle_rels(changeset, _) do
+      defp handle_rels(changeset, _ ,_) do
         changeset
       end
 
