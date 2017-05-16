@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>Orgtool</title>
+    <meta name="description" content="Orgtool"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <%= if Guardian.Plug.current_token(@conn) do %>
+      <meta name="guardian-token" content="<%= Guardian.Plug.current_token(@conn) %>" / >
+    <% end %>
+    <meta name="csrf-token" content="<%= @csrf %>" />
+    <%=  for p <- @providers do %>
+      <meta name="oauth-provider" content="<%= p %>" />
+    <% end %>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/ui/assets/vendor.css") %>" />
+    <link rel="stylesheet" href="<%= static_path(@conn, "/ui/assets/orgtool.css") %>" />
+
+  </head>
+  <body>
+    <div id="orgtool-container">
+    </div>
+    <script src="<%= static_path(@conn, "/ui/assets/vendor.js") %>"></script>
+    <script src="<%= static_path(@conn, "/ui/assets/orgtool.js") %>"></script>
+  </body>
+</html>

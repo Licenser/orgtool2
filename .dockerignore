@@ -1,0 +1,21 @@
+_build
+deps
+.git
+priv/static
+
+# compiled output
+priv/orgtool/tmp
+
+# dependencies
+priv/orgtool/node_modules
+priv/orgtool/bower_components
+
+# misc
+priv/orgtool/.git
+priv/orgtool/.sass-cache
+priv/orgtool/connect.lock
+priv/orgtool/coverage/*
+priv/orgtool/libpeerconnection.log
+priv/orgtool/npm-debug.log*
+priv/orgtool/testem.log
+.DS_Store
