@@ -59,8 +59,8 @@ defmodule OrgtoolDb.Mixfile do
      {:oauth2, "~> 0.8", override: true},
 
      {:ueberauth, "~> 0.4"},
-     {:ueberauth_google, "~> 0.5"},
      {:ueberauth_identity, "~>0.2.3"},
+     {:ueberauth_google, "~> 0.5"},
      {:ueberauth_twitter, "~> 0.2"},
      {:ueberauth_slack, "~> 0.4"},
      {:ueberauth_facebook, "~> 0.6"},

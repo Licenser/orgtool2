@@ -20,24 +20,21 @@ copy priv/gettext /priv/gettext
 copy test /test
 copy web /web
 
+ENV MIX_ENV=prod
+
 RUN mix local.hex --force \
     && mix local.rebar --force \
     && mix deps.get \
     && npm install
 
-# RUN cd priv/orgtool \
-#     && npm install \
-#     && yarn --allow-root \
-#     && find /priv/orgtool/node_modules/bootstrap-sass \
-#     && node_modules/ember-cli/bin/ember build --prod
-
 COPY docker/prod.secret.exs config/prod.secret.exs
 
 COPY priv/orgtool/dist /priv/static/ui
 
-RUN env MIX_ENV=prod mix compile \
-    && brunch build \
-    && env MIX_ENV=prod mix phoenix.digest
+RUN brunch build \
+    && env MIX_ENV=prod mix clean \
+    && env MIX_ENV=prod mix phoenix.digest \
+    && env MIX_ENV=prod mix compile
 
 
 

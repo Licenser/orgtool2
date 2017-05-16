@@ -5,15 +5,16 @@ services:
     volumes:
       - ./db:/var/lib/postgresql/data
   orgtool:
-    image: orgtool/orgtool
+    # image: orgtool/orgtool
+    image: orgtool
     ports:
       - "4000:4000"
     environment:
         PORT: 4000
-        EXT_HOST: ${HOSTNAME}
+        EXT_HOST: localhost
         EXT_PORT: 4000
         SECRET_KEY_BASE: put_your_own_secret_here_which_needs_to_be_at_least_sixtyfour_bytes
-        TIMEOUT: 30 # timeout for start, important when starting orgtool and db at the same time
+        TIMEOUT: 10 # timeout for start, important when starting orgtool and db at the same time
         # GOOGLE_CLIENT_ID: ...
         # GOOGLE_CLIENT_SECRET: ...
         # GOOGLE_REDIRECT_URI: ...
