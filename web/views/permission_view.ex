@@ -3,19 +3,21 @@ defmodule OrgtoolDb.PermissionView do
   use JaSerializer.PhoenixView
 
   attributes [
-      :user_read, :user_create, :user_edit, :user_delete,
+    :active,
 
-      :player_read, :player_create, :player_edit, :player_delete,
+    :user_read, :user_create, :user_edit, :user_delete,
 
-      :unit_read, :unit_create, :unit_edit, :unit_delete, :unit_apply, :unit_accept, :unit_assign,
+    :player_read, :player_create, :player_edit, :player_delete,
 
-      :category_read, :category_create, :category_edit, :category_delete,
+    :unit_read, :unit_create, :unit_edit, :unit_delete, :unit_apply, :unit_accept, :unit_assign,
 
-      :template_read, :template_create, :template_edit, :template_delete,
+    :category_read, :category_create, :category_edit, :category_delete,
 
-      :item_read, :item_create, :item_edit, :item_delete,
+    :template_read, :template_create, :template_edit, :template_delete,
 
-      :reward_read, :reward_create, :reward_edit, :reward_delete
+    :item_read, :item_create, :item_edit, :item_delete,
+
+    :reward_read, :reward_create, :reward_edit, :reward_delete
   ]
 
   has_one :user,

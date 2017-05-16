@@ -8,6 +8,8 @@ defmodule OrgtoolDb.AuthController do
 
   alias OrgtoolDb.UserFromAuth
 
+  require Logger
+
   plug Ueberauth
 
   def login(conn, _params, current_user, _claims) do
@@ -29,7 +31,7 @@ defmodule OrgtoolDb.AuthController do
         conn
         |> Guardian.Plug.sign_in(user, :access, perms: perms)
         |> redirect(to: "/")
-        # |> redirect(to: private_page_path(conn, :index))
+      # |> redirect(to: private_page_path(conn, :index))
       {:error, reason} ->
         conn
         |> put_flash(:error, "Could not authenticate. Error: #{reason}")
@@ -44,8 +46,9 @@ defmodule OrgtoolDb.AuthController do
       nil ->
         %{};
       permission ->
-
-      apply_perms(%{}, :user, permission,
+        Logger.info "permissions: #{inspect permission}"
+        apply_perms(%{}, :default, permission, [:active], [:active])
+        |> apply_perms(:user, permission,
       [:user_read, :user_create, :user_edit, :user_delete],
       [:read,      :create,      :edit,      :delete])
       |> apply_perms(:player, permission,

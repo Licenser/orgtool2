@@ -4,6 +4,8 @@ defmodule OrgtoolDb.Permission do
 
   schema "permissions" do
 
+    field :active,        :boolean, default: false
+
     field :user_read,     :boolean, default: false
     field :user_create,   :boolean, default: false
     field :user_edit,     :boolean, default: false
@@ -56,6 +58,7 @@ defmodule OrgtoolDb.Permission do
     |> Repo.preload(:user)
     |> changeset(
       %{
+        active: true,
         user_read: true, user_create: true, user_edit: true, user_delete: true,
         player_read: true, player_create: true, player_edit: true, player_delete: true,
         unit_read: true, unit_create: true, unit_edit: true, unit_delete: true, unit_apply: true, unit_accept: true, unit_assign: true,
@@ -69,6 +72,7 @@ defmodule OrgtoolDb.Permission do
 
 
   @permissions [
+    :active,
     :user_read, :user_create, :user_edit, :user_delete,
     :player_read, :player_create, :player_edit, :player_delete,
     :unit_read, :unit_create, :unit_edit, :unit_delete, :unit_apply, :unit_accept, :unit_assign,

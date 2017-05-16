@@ -91,11 +91,11 @@ defmodule OrgtoolDb.UserApiController do
   end
 
   def delete(conn, %{"id" => id}, _current_user, _claums) do
-    item = Repo.get!(Item, id)
+    user = Repo.get!(User, id)
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
-    Repo.delete!(item)
+    Repo.delete!(user)
 
     send_resp(conn, :no_content, "")
   end

@@ -31,6 +31,7 @@ config :guardian, Guardian,
   hooks: GuardianDb,
   permissions: %{
     #          1      2        4      8        16       32       64
+    default:  [:active],
     user:     [:read, :create, :edit, :delete],
     player:   [:read, :create, :edit, :delete],
     unit:     [:read, :create, :edit, :delete, :assign, :accept, :apply],
