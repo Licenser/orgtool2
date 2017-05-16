@@ -13,7 +13,7 @@ defmodule OrgtoolDb.PlayerController do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
     #plug EnsurePermissions, [handler: OrgtoolDb.SessionController, player: ~w(read)]
     plug EnsurePermissions, [handler: OrgtoolDb.SessionController, player: ~w(read create)] when action in [:create]
-    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, player: ~w(read edit)] when action in [:update]
+    # plug EnsurePermissions, [handler: OrgtoolDb.SessionController, player: ~w(read edit)] when action in [:update]
     plug EnsurePermissions, [handler: OrgtoolDb.SessionController, player: ~w(read delete)] when action in [:delete]
   end
 
@@ -57,10 +57,6 @@ defmodule OrgtoolDb.PlayerController do
     end
   end
 
-  defp same_player?(user, id) do
-    user.player_id == id
-  end
-
   def show(conn, params = %{"id" => id}, current_user, {:ok, claims}) do
     perms = Guardian.Permissions.from_claims(claims, :player)
     id = String.to_integer(id)
@@ -84,22 +80,31 @@ defmodule OrgtoolDb.PlayerController do
   end
 
   def update(conn, payload = %{"id" => id, "data" => %{"attributes" => params}},
-        _current_user, _claums) do
-    player = Repo.get!(Player, id)
-    |> Repo.preload(@preload)
+        current_user, {:ok, claims}) do
+    perms = Guardian.Permissions.from_claims(claims, :player)
+    default = Guardian.Permissions.from_claims(claims, :default)
+    id = String.to_integer(id)
+    if (Guardian.Permissions.all?(perms, [:read, :update], :player) or same_player?(current_user, id))
+    # and Guardian.Permissions.all?(default, [:active], :default)
+      do
+      player = Repo.get!(Player, id)
+      |> Repo.preload(@preload)
+      changeset = Player.changeset(player, params)
+      |> handle_rels(payload, &do_add_res/2)
 
-    changeset = Player.changeset(player, params)
-    |> handle_rels(payload, &do_add_res/2)
-
-    case Repo.update(changeset) do
-      {:ok, player} ->
-        player = player |> Repo.preload(@preload)
-        render(conn, "show.json-api", data: player, opts: @opts)
-      {:error, changeset} ->
-        conn
-        |> put_status(:unprocessable_entity)
-        |> render("errors.json-api", data: changeset)
+      case Repo.update(changeset) do
+        {:ok, player} ->
+          player = player |> Repo.preload(@preload)
+          render(conn, "show.json-api", data: player, opts: @opts)
+        {:error, changeset} ->
+          conn
+          |> put_status(:unprocessable_entity)
+          |> render("errors.json-api", data: changeset)
+      end
+    else
+      OrgtoolDb.SessionController.unauthorized(conn, payload)
     end
+
   end
 
   def delete(conn, %{"id" => id}, _current_user, _claums) do
@@ -122,4 +127,9 @@ defmodule OrgtoolDb.PlayerController do
     |> maybe_apply(Unit,   "unit",   "playerships", :playerships, elements)
     |> maybe_apply(Unit,   "unit",   "applications", :applications, elements)
   end
+
+  defp same_player?(user, id) do
+    user.player_id == id
+  end
+
 end
