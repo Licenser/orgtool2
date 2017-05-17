@@ -6,12 +6,12 @@ export default DS.Model.extend({
   img: DS.attr(),
   color: DS.attr(),
 
-  unitType: DS.belongsTo('unitType', { inverse: 'units', async: true }),
-  unit: DS.belongsTo('unit', { inverse: 'units', async: true }),
+  unitType: DS.belongsTo('unitType', { inverse: 'units' }),
+  unit: DS.belongsTo('unit', { inverse: 'units' }),
 
-  items: DS.hasMany('item', { inverse: 'unit', async: true }),
-  units: DS.hasMany('unit', { inverse: 'unit', async: true }),
-  players: DS.hasMany('player', { inverse: 'playerships', async: true }),
-  leaders: DS.hasMany('player', { inverse: 'leaderships', async: true }),
-  applicants: DS.hasMany('player', { inverse: 'applications', async: true }),
+  items: DS.hasMany('item', { inverse: 'unit' }),
+  units: DS.hasMany('unit', { inverse: 'unit' }),
+  players: DS.hasMany('player', { inverse: 'playerships' }),
+  leaders: DS.hasMany('player', { inverse: 'leaderships' }),
+  applicants: DS.hasMany('player', { inverse: 'applications' }),
 });

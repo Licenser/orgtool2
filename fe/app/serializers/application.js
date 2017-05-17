@@ -11,14 +11,6 @@ import config from '../config/environment';
 
 // export default DS.JSONAPISerializer.extend(DS.EmbeddedRecordsMixin, {
 export default DS.JSONAPISerializer.extend({
-//   attrs: {
-//     permission: { embedded: 'always' }
-//   },
-
-//   keyForAttribute: function(attr) {
-//     console.debug(">DASH", attr,Ember.String.dasherize(attr) );
-//     return Ember.String.dasherize(attr);
-//   },
 
   modelNameFromPayloadKey: function(key) {
   //     Ember.Logger.log("---> model", key);
@@ -31,58 +23,42 @@ export default DS.JSONAPISerializer.extend({
 
 /*
   serialize(snapshot) {
+//     console.debug("serialize, snap", snapshot)
+//     snapshot['include'] = ['permission'];
     let serialized = this._super(...arguments);
-    let { adapterOptions } = snapshot;
-    if (adapterOptions && adapterOptions.updateRelationship === 'permission') {
-      return serialized.data.relationships.permission;
+
+    if (serialized.data.included) {
+      serialized.included = serialized.data.included;
+      delete serialized.data.included;
     }
 
+    console.debug("serialize", serialized)
     return serialized;
-  }
-*/
-/*
-  keyForAttribute: function(attr) {
-    Ember.Logger.log("---> KEY", attr);
-//     return Ember.String.underscore(attr);
-
-    if (attr === 'is_some') {
-      attr = 'is-seome';
-    }
-
-    return this._super(...arguments);
-  },
-*/
-
-  /*
-  normalizeResponse(store, primaryModelClass, payload, id, requestType) {
-//     payload.data.attributes.amount = payload.data.attributes.cost.amount;
-//     payload.data.attributes.currency = payload.data.attributes.cost.currency;
-
-    Ember.Logger.log("---> norm", primaryModelClass, "|", payload, "|", id);
-
-//     delete payload.data.attributes.cost;
-
-    return this._super(...arguments);
   },
 
-  normalizeArrayResponse(store, primaryModelClass, payload, id, requestType) {
-    let normalizedDocument = this._super(...arguments);
+  serializeBelongsTo(snapshot, json, relationship) {
+    let serialized = this._super(...arguments);
 
-    // Customize document meta
-//     normalizedDocument.meta = Ember.String.camelize(normalizedDocument.meta);
-    Ember.Logger.log("---> doc", normalizedDocument, "|", payload, "|", id);
+    var key = relationship.key;
+//     if (key == "permission") {
+      var belongsTo = snapshot.belongsTo(key);
+//       console.debug("serializeBelongsTo snap", snapshot);
+//       console.debug("serializeBelongsTo bel ", belongsTo);
 
-    return normalizedDocument;
+//       var js = {"type": key, "id": belongsTo.id, "attributes": belongsTo.record.toJSON() };
+      var js = this.serialize(belongsTo).data;
+      js["id"] = belongsTo.id;
+
+//       console.debug("--- serializeBelongsTo ", key, "=", belongsTo.record.toJSON());
+//       console.debug("--- serializeBelongsTo ", key, "=", js);
+
+      if (json.included) {
+        json.included.push(js);
+      } else {
+        json["included"] = [ js ];
+      }
+//       console.debug("--- serializeBelongsTo ", key, "=", json);
+//     }
   },
-
-  extractRelationship(relationshipHash) {
-    let normalizedRelationship = this._super(...arguments);
-
-    // Customize relationship meta
-//     normalizedRelationship.meta = Ember.String.camelize(normalizedRelationship.meta);
-    Ember.Logger.log("---> rel", normalizedRelationship.meta);
-
-    return normalizedRelationship;
-  }
 */
 });
