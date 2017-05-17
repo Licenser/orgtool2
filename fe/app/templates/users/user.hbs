@@ -70,6 +70,14 @@
       <label class="control-label">Permissions</label>
     </div>
 
+    <div class="row">
+      <label class="control-label">General</label>
+      <br/>
+      <div class="col-md-2">
+        {{check-box model=model.permission prop="active" desc="active"}}
+      </div>
+
+    </div>
     {{#each sec as |s|}}
       <div class="row">
         <label class="control-label">{{s.name}}</label>
