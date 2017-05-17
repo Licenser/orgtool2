@@ -42,17 +42,47 @@ export default Ember.Component.extend({
       });
     },
 
+    unassignFromUnit: function(unitid) {
+      var item = get(this, "item");
+      var unit = get(this, "store").peekRecord("unit", unitid);
+//       unit.
+      unit.get("items").removeObject(item);
+      unit.save().then(function(done) {
+        debug("saved....", get(done, "id"));
+      }).catch(function(err) {
+        debug("item-create save unit failed, err", err);
+      });
+//       set(item, "unit", null);
+      /*
+      item.save().then(function(done) {
+        debug("saved....", get(done, "id"));
+      }).catch(function(err) {
+        debug("item-create remove unit failed, err", err);
+      });
+      */
+    },
+
     assignToUnit: function(unitid) {
       var item = get(this, "item");
       var unit = get(this, "store").peekRecord("unit", unitid);
 
       debug("assitn item to unit", get(item, "name"), "->", unitid);
+
+      unit.get("items").pushObject(item);
+      unit.save().then(function(done) {
+        debug("saved....", get(done, "id"));
+      }).catch(function(err) {
+        debug("item-create save unit failed, err", err);
+      });
+
+/*
       set(item, "unit", unit);
       item.save().then(function(done) {
         debug("saved....", get(done, "id"));
       }).catch(function(err) {
         debug("item-create save unit failed, err", err);
       });
+      */
     },
 
     setTemplate: function(template) {

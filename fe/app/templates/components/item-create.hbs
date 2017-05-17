@@ -186,7 +186,8 @@
     <div class="row">
       {{#if session.current_user.can_modify_item}}
         {{#if item.unit}}
-            Item is in Unit: {{item.unit.name}}
+            Item is assigned to Unit: {{item.unit.name}}
+            <button class="tb txt-red" type="button" {{action 'unassignFromUnit' item.unit.id}}><i class="fa fa-close"></i></button>
         {{else}}
             {{unit-select onConfirm=(action "assignToUnit") actionName="Assign to Unit"}}
         {{/if}}
