@@ -3,6 +3,7 @@ import DS from 'ember-data';
 export default DS.Model.extend({
   name: DS.attr(),
   email: DS.attr(),
+  'unfold-level': DS.attr(),
 //   inserted_at: DS.attr(),
 //   created_at: DS.attr(),
   player: DS.belongsTo('player'),
