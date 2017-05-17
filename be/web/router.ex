@@ -5,7 +5,9 @@ defmodule OrgtoolDb.Router do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
-    plug :protect_from_forgery
+    if System.get_env("NO_AUTH") != "true" do
+      plug :protect_from_forgery
+    end
     plug :put_secure_browser_headers
   end
 
