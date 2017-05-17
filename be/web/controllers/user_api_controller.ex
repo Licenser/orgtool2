@@ -37,6 +37,8 @@ defmodule OrgtoolDb.UserApiController do
 
   def create(conn, payload = %{"data" => %{"attributes" => params}},
         _current_user, _claums) do
+    params = JaSerializer.ParamParser.parse(params)
+
     changeset = User.changeset(%User{}, params)
     |> handle_rels(payload, &do_add_res/2)
 
@@ -85,6 +87,8 @@ defmodule OrgtoolDb.UserApiController do
     user = Repo.get!(User, id)
     |> Repo.preload(@preload)
 
+    params = JaSerializer.ParamParser.parse(params)
+    
     changeset = User.changeset(user, params)
     |> handle_rels(payload, &do_add_res/2)
 
