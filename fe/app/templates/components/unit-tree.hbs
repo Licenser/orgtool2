@@ -31,32 +31,31 @@
 
 
       {{!--
-                              <div class="box-header" {{action 'toggleUnits'}}>
-                              <div class="unit-name unit-name-container" data-unitid={{unit.id}}>
-                              {{#if unit.units}}
-                              <a >
-                              <i class="fixedWidth fa {{if showUnits "fa-chevron-down" "fa-chevron-right"}}"></i>
-                              {{else}}
-                              <i class="fixedWidth fa"></i>
-                              {{/if}}
+      <div class="box-header" {{action 'toggleUnits'}}>
+        <div class="unit-name unit-name-container" data-unitid={{unit.id}}>
+          {{#if unit.units}}
+          <a >
+            <i class="fixedWidth fa {{if showUnits "fa-chevron-down" "fa-chevron-right"}}"></i>
+            {{else}}
+            <i class="fixedWidth fa"></i>
+            {{/if}}
 
-                              {{#if unit.img}}
-                              <img class="unit-img" src={{unit.img}}>
-                              {{/if}}
-                              {{unit.name}}
+            {{#if unit.img}}
+            <img class="unit-img" src={{unit.img}}>
+            {{/if}}
+            {{unit.name}}
 
-                              {{#if unit.description}}
-                              <div class="unit-desc">
-                              {{unit.description}}
-                              </div>
-                              {{/if}}
-                              {{#if unit.units}}
-                              </a>
-                              {{/if}}
-                              </div>
-
-                              </div>
-                              --}}
+            {{#if unit.description}}
+            <div class="unit-desc">
+              {{unit.description}}
+            </div>
+            {{/if}}
+            {{#if unit.units}}
+          </a>
+          {{/if}}
+        </div>
+      </div>
+      --}}
 
       <div class="box-header" {{action 'toggleUnits'}}>
 
@@ -156,7 +155,7 @@
         {{#if showItems}}
           <div class="unit-pilots">
             {{#each items as |item|}}
-              {{item-details item=item details=true tb=true}}
+            {{item.name}} / {{item.player.name}}
             {{/each}}
           </div>
         {{/if}}

@@ -42,6 +42,19 @@ export default Ember.Component.extend({
       });
     },
 
+    assignToUnit: function(unitid) {
+      var item = get(this, "item");
+      var unit = get(this, "store").peekRecord("unit", unitid);
+
+      debug("assitn item to unit", get(item, "name"), "->", unitid);
+      set(item, "unit", unit);
+      item.save().then(function(done) {
+        debug("saved....", get(done, "id"));
+      }).catch(function(err) {
+        debug("item-create save unit failed, err", err);
+      });
+    },
+
     setTemplate: function(template) {
       set(this, "item.template", template);
       set(this, "item.name", get(template, "name"));

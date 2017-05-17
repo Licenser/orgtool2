@@ -163,6 +163,8 @@
       {{input type="text" class="form-control" id="itemImg" value=item.img placeholder=item.template.img}}
     </div>
 
+
+    <hr>
     <div class="row">
       {{#if session.current_user.permission.player_edit}}
         <label class="control-label">Owner</label>
@@ -179,7 +181,19 @@
       {{/if}}
     </div>
 
+    <hr><br>
 
+    <div class="row">
+      {{#if session.current_user.can_modify_item}}
+        {{#if item.unit}}
+            Item is in Unit: {{item.unit.name}}
+        {{else}}
+            {{unit-select onConfirm=(action "assignToUnit") actionName="Assign to Unit"}}
+        {{/if}}
+      {{/if}}
+    </div>
+
+    <hr>
 
 <!--     <div class="row"  style="height: 30%;"> -->
       <div class="col-md-6" style="height: 30%;">
@@ -219,6 +233,11 @@
         <div class="row">
           <div class="col-md-4">
           </div>
+          <div class="col-md-8">
+          </div>
+
+
+          {{!--
           <div class="col-md-2">
             <button type="button" class="btn btn-check" {{action (toggle item "available")}}>
               {{#if item.available}}
@@ -231,9 +250,9 @@
           <div class="col-md-6">
             <label class="control-label">Available</label>
           </div>
+          --}}
         </div>
       </div>
-<!--     </div> -->
 
 
   {{/md.body}}
