@@ -25,7 +25,7 @@ fi
 
 if [ "${UNIT_LOGO}" != ""]
 then
-    curl -OL ${UNIT_LOGO} > /priv/static/ui/images/unit.png
+    curl -L ${UNIT_LOGO} > /priv/static/ui/images/unit.png
 fi
 
 ## Now start the server
