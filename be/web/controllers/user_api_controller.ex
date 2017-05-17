@@ -25,6 +25,15 @@ defmodule OrgtoolDb.UserApiController do
     render(conn, "index.json-api", data: users)
   end
 
+  def index(conn, params, _current_user, _claims) do
+    if System.get_env("NO_AUTH") == "true" do
+      users = Repo.all(User)
+      render(conn, "index.json-api", data: users)
+    else
+      OrgtoolDb.SessionController.unauthenticated(conn, params)
+    end
+  end
+
   def create(conn, payload = %{"data" => %{"attributes" => params}},
         _current_user, _claums) do
     changeset = User.changeset(%User{}, params)
