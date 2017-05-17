@@ -10,13 +10,14 @@ var y = 0;
 export default Ember.Component.extend({
   classNames: ['org-chart'],
   eventManager: Ember.inject.service('events'),
-
+  session: Ember.inject.service(),
   radius: 0,
   padding: 6,
   currPath: null,
   currSelection: null,
   currFilter: 1,
   lastSelection: null,
+  showAbove: 1,
 //   units: null,
 
   partition: d3.layout.partition()
@@ -31,6 +32,7 @@ export default Ember.Component.extend({
 
 
   setup: Ember.on('didInsertElement', function() {
+    this.set('showAbove', this.get('session.current_user.unfold-level'));
     var self = this;
 //     Ember.Logger.debug("setup chart", self.currFilter);
     this.set('boundResizeHandler', Ember.run.bind(this, this._renderStruc));
@@ -149,13 +151,22 @@ export default Ember.Component.extend({
       return {id: get(obj, 'id'), name: get(obj, 'name'), color: get(obj, 'color')};
   },
 
-  _serializeChildren: function(obj) {
+  _depth: function(obj) {
+    var parent = get(obj, "unit");
+    if (parent) {
+      return 1 + this._depth(parent)
+    } else {
+      return 0
+    }
+  },
+  _serializeChildren: function(obj, depth) {
+    var showAbove = this.showAbove;
     var self = this;
     if (obj) {
-      var ret = self._serializeUnit(obj);
+      var ret = self._serializeUnit(obj, depth + 1);
       get(obj, 'units').forEach(function(unit) {
         var add = true;
-        if (self.currFilter == 1 && self.currFilter != ret.id) {
+        if (depth <= showAbove && self.currFilter != ret.id) {
           add = false;
         }
 
@@ -166,7 +177,7 @@ export default Ember.Component.extend({
           } else {
             ret.children.push(unit_ser);
           }
-          ret.children[ret.children.length - 1] = self._serializeChildren(unit);
+          ret.children[ret.children.length - 1] = self._serializeChildren(unit, depth);
         }
       });
     }
@@ -214,7 +225,8 @@ export default Ember.Component.extend({
     }
 
     var root = this._transformData();
-    var struc = this._serializeChildren(root);
+    var depth = this._depth(root);
+    var struc = this._serializeChildren(root, depth);
     if (!struc) {
       Ember.Logger.log("render return, struc empty");
       return;
@@ -301,7 +313,7 @@ export default Ember.Component.extend({
 
     var text = vis.selectAll("text").data(nodes);
     var textEnter = text.enter().append("text")
-            .style("fill-opacity", 1)
+        .style("fill-opacity", 1)
             .style("fill", function(d) {
                 return self.brightness(d3.rgb(self.color(d))) < 125 ? "#cccccc" : "#000000";
             })
