@@ -166,7 +166,7 @@ defmodule OrgtoolDb.UserFromAuth do
     end
   end
 
-  defp auth_and_validate(%{provider: service} = auth, repo)  when service in [:google, :facebook, :github] do
+  defp auth_and_validate(%{provider: service} = auth, repo)  when service in [:google, :facebook, :github, :wordpress] do
     case repo.get_by(Authorization, uid: uid_from_auth(auth), provider: to_string(auth.provider)) do
       nil -> {:error, :not_found}
       authorization ->

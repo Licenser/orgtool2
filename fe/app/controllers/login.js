@@ -13,7 +13,7 @@ export default Ember.Controller.extend({
   ajax: Ember.inject.service(),
   cred: { email: "", password: "" },
   error: null,
-  supporedProviders: [ "identity", "google", "twitter", "slack", "facebook", "github", "microsoft", "discord" ],
+  supportedProviders: [ "identity", "google", "twitter", "slack", "facebook", "github", "microsoft", "discord", "wordpress" ],
   identity: false,
   providers: [],
 
@@ -33,7 +33,7 @@ export default Ember.Controller.extend({
     var providers = [];
     var self = this;
     provs.forEach(function(provider) {
-      if (self.supporedProviders.indexOf(provider) > -1) {
+      if (self.supportedProviders.indexOf(provider) > -1) {
         var icon = self.getIcon(provider);
         providers.push({name: provider, icon: icon });
       }
@@ -51,6 +51,7 @@ export default Ember.Controller.extend({
       case "twitter": return "twitter-square";
       case "microsoft": return "windows";
       case "discord": return "comments";
+      case "wordpress": return "wordpress";
     }
     return "question-circle";
   },
