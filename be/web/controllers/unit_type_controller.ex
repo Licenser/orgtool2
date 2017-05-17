@@ -10,6 +10,10 @@ defmodule OrgtoolDb.UnitTypeController do
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
     plug EnsurePermissions, default: [:active], handler: OrgtoolDb.SessionController
+    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, unit: ~w(read)]
+    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, unit: ~w(create)] when action in [:create]
+    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, unit: ~w(edit)] when action in [:update]
+    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, unit: ~w(delete)] when action in [:delete]
   end
 
   def index(conn, _params, _current_user, _claums) do
