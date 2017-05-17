@@ -23,5 +23,10 @@ else
     MIX_ENV=prod MIX_ENV=prod mix ecto.migrate
 fi
 
+if [ "${UNIT_LOGO}" != ""]
+then
+    curl -L ${UNIT_LOGO} > /priv/static/ui/images/unit.png
+fi
+
 ## Now start the server
 MIX_ENV=prod elixir --name orgtool@127.0.0.1 --cookie orgtool -S mix phoenix.server
