@@ -1,4 +1,3 @@
-
 {{#if (and tb (or session.current_user.permission.item_tb count))}}
   <div class="toolbar">
     {{#if count}}
@@ -31,14 +30,6 @@
         {{/if}}
       {{/if}}
 
-
-
-    {{#if item.player.name}}
-      <span class={{if (and item.type (eq item.type.permissions "1")) "top-left-name" "item-name"}}>
-        {{item.player.name}}
-      </span><br><span style="margin-right:34px;"/>
-    {{/if}}
-
     <span class="item-name">
       {{#if item.name}}
         {{item.name}}
@@ -46,6 +37,13 @@
         {{item.parent.name}}
       {{/if}}
     </span>
+
+    {{#if item.player.name}}
+      <br/>
+      <span class={{if (and item.type (eq item.type.permissions "1")) "top-left-name" "item-name"}}>
+        {{item.player.name}}
+      </span><!-- br><span style="margin-right:34px;"/-->
+    {{/if}}
 
 </div>
 
