@@ -24,6 +24,7 @@ defmodule OrgtoolDb.Mixfile do
                     :ueberauth,
                     :ueberauth_google, :ueberauth_identity, :ueberauth_twitter, :ueberauth_slack,
                     :ueberauth_facebook, :ueberauth_github, :ueberauth_discord, :ueberauth_microsoft,
+                    :ueberauth_wordpress,
 
                     :oauth2, :comeonin, :ja_serializer]]
   end
@@ -65,6 +66,7 @@ defmodule OrgtoolDb.Mixfile do
      {:ueberauth_slack, "~> 0.4"},
      {:ueberauth_facebook, "~> 0.6"},
      {:ueberauth_github, "~> 0.4"},
+     {:ueberauth_wordpress, git: "https://github.com/OddyseeGamers/ueberauth_wordpress.git"},
 
      {:ueberauth_discord, "~> 0.3.0"},
      {:ueberauth_microsoft, "~> 0.2.0"},

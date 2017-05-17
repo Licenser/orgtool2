@@ -58,6 +58,7 @@ config :ueberauth, Ueberauth,
     github: {Ueberauth.Strategy.Github, []},
     microsoft: {Ueberauth.Strategy.Microsoft, []},
     discord: {Ueberauth.Strategy.Discord, []},
+    wordpress: {Ueberauth.Strategy.Wordpress, []},
   ]
 
 config :ueberauth, Ueberauth.Strategy.Google.OAuth,
@@ -80,7 +81,6 @@ config :ueberauth, Ueberauth.Strategy.Github.OAuth,
   client_id: System.get_env("GITHUB_CLIENT_ID"),
   client_secret: System.get_env("GITHUB_CLIENT_SECRET")
 
-
 config :ueberauth, Ueberauth.Strategy.Microsoft.OAuth,
   client_id: System.get_env("MICROSOFT_CLIENT_ID"),
   client_secret: System.get_env("MICROSOFT_CLIENT_SECRET")
@@ -88,6 +88,12 @@ config :ueberauth, Ueberauth.Strategy.Microsoft.OAuth,
 config :ueberauth, Ueberauth.Strategy.Discord.OAuth,
   client_id: System.get_env("DISCORD_CLIENT_ID"),
   client_secret: System.get_env("DISCORD_CLIENT_SECRET")
+
+config :ueberauth, Ueberauth.Strategy.Wordpress.OAuth,
+  client_id: System.get_env("WORDPRESS_CLIENT_ID"),
+  client_secret: System.get_env("WORDPRESS_CLIENT_SECRET"),
+  host: System.get_env("WORDPRESS_HOST")
+
 
 
 config :phoenix, :format_encoders,

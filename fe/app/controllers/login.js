@@ -13,7 +13,7 @@ export default Ember.Controller.extend({
   ajax: Ember.inject.service(),
   cred: { email: "", password: "" },
   error: null,
-  supporedProviders: [ "identity", "google", "twitter", "slack", "facebook", "github", "microsoft", "discord" ],
+  supporedProviders: [ "identity", "google", "twitter", "slack", "facebook", "github", "microsoft", "discord", "wordpress" ],
   identity: false,
   providers: [],
 
@@ -51,6 +51,7 @@ export default Ember.Controller.extend({
       case "twitter": return "twitter-square";
       case "microsoft": return "windows";
       case "discord": return "comments";
+      case "wordpress": return "wordpress";
     }
     return "question-circle";
   },
