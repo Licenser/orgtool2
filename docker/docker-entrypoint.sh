@@ -23,9 +23,14 @@ else
     MIX_ENV=prod MIX_ENV=prod mix ecto.migrate
 fi
 
-if [ "${UNIT_LOGO}" != ""]
+UNIT_PATH=_build/prod/lib/orgtool_db/priv/static/images/unit.png
+if [ "${UNIT_LOGO}" != "" ]
 then
-    curl -L ${UNIT_LOGO} > /priv/static/ui/images/unit.png
+    echo "Fetching unit logo from ${UNIT_LOGO}."
+    curl -L ${UNIT_LOGO} > ${UNIT_PATH}
+
+else
+    cp /priv/static/ui/images/unit.png ${UNIT_PATH}
 fi
 
 ## Now start the server
