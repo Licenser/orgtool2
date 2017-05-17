@@ -5,9 +5,11 @@ var get = Ember.get;
 var set = Ember.set;
 
 export default Ember.Service.extend({
+  ajax: Ember.inject.service(),
+  store: Ember.inject.service(),
+
   isAdmin: false,
   isUser: false,
-  store: Ember.inject.service(),
   user: null,
   loading: true,
   statesDone: 16,
@@ -35,7 +37,7 @@ export default Ember.Service.extend({
       var src = scripts[i].src;
       if (src.indexOf(filename) > 0) {
         self.set('rootURL', src.substring(0, src.indexOf(filename)));
-        console.debug(">> ROOT URL", self.get("rootURL"));
+//         console.debug(">> ROOT URL", self.get("rootURL"));
         break;
       }
     }
@@ -55,36 +57,30 @@ export default Ember.Service.extend({
 
       self.set("csrf", csrf);
       self.set("providers", providers);
+      self.set("token", "Bearer " + token);
 
-//       console.debug("token", token);
-//       console.debug("csrf", csrf);
-//       console.debug("providers", providers);
+      var session = self.parseJwt(token);
+      if (config.environment === 'development') {
+        session = {"sub": "User:1"};
+      }
 
-      if (Ember.isEmpty(token) || Ember.isEmpty(csrf)) {
+      if (Ember.isEmpty(session)) {
         Ember.Logger.log(">>> init >>>> NO session");
         self.set('loading', false);
         resolve();
         return;
       }
 
-      self.set("token", "Bearer " + token);
-      var session = self.parseJwt(token);
-      if (config.environment === 'development') {
-        session = {"sub": "User:1"};
-      }
-
-      Ember.Logger.log(">>> init >>>> loadUser, jwt", !Ember.isEmpty(token), "csrf", !Ember.isEmpty(csrf));
+//       Ember.Logger.log(">>> init >>>> loadUser, jwt", !Ember.isEmpty(token), "csrf", !Ember.isEmpty(csrf));
 
       if (!Ember.isEmpty(session) && !Ember.isEmpty(get(session, "sub"))) {
         var userid = session.sub.split(':')[1];
         Ember.Logger.log("find user", userid);
         return self.get('store').findRecord('user', userid).then(function(user) {
           Ember.Logger.log(" user found", userid);
+          set(user, "loggedIn", true);
+          set(self, "current_user", user);
 
-          self.set("current_user", user);
-          if (!Ember.isEmpty(get(user, "player").get("id"))) {
-            set(get(user, "player"), "loggedIn", true);
-          }
           self.log("session", "logged in as user");
           self.set('loading', false);
           resolve();
@@ -100,6 +96,33 @@ export default Ember.Service.extend({
       }
     });
   },
+
+  sendRequest: function(data) {
+    var url = '/auth/identity/callback'; 
+    if (config.environment === 'development') {
+      url = config.APP.API_HOST + url;
+    }
+
+    if (Ember.isEmpty(data)) {
+      data = {};
+    }
+    data['_csrf_token'] = this.get('csrf');
+
+    var prom = this.get('ajax').request(url, {
+      method: 'POST',
+      data: data
+    });
+
+    var self = this;
+    prom.then(function() {
+      console.debug("login done");
+      window.location.href="/";
+    }).catch(function() {
+      console.debug("login error");
+      window.location.href="/";
+    });
+  },
+
 
   parseJwt: function(token) {
     if (!Ember.isEmpty(token)) {

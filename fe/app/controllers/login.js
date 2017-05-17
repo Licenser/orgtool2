@@ -57,26 +57,6 @@ export default Ember.Controller.extend({
   },
 
 
-  sendRequest: function(data) {
-    data['_csrf_token'] = this.get('session.csrf');
-    var prom = this.get('ajax').request('/auth/identity/callback', {
-      method: 'POST',
-      data: data
-    });
-
-//     var prom = raw("/auth/identity/callback", { method: 'POST', data: data });
-    // `result` is an object containing `response` and `jqXHR`, among other items
-//     return result;
-
-    var self = this;
-    prom.then(function() {
-//       console.debug("login done");
-      window.location.href="/";
-    }).catch(function(error) {
-      window.location.href="/";
-    });
-  },
-
   actions: {
     setSignup: function() {
       set(this, "sign", { name: "", email: "", password: "", password_confirmation: "" });
@@ -87,11 +67,11 @@ export default Ember.Controller.extend({
     },
 
     register: function() {
-      this.sendRequest(get(this, "sign"));
+      get(this, "session").sendRequest(get(this, "sign"));
     },
 
     login: function() {
-      this.sendRequest(get(this, "cred"));
+      get(this, "session").sendRequest(get(this, "cred"));
     },
 
     loginProvider: function(provider) {
