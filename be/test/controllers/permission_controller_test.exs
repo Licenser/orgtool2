@@ -4,6 +4,8 @@ defmodule OrgtoolDb.PermissionControllerTest do
   alias OrgtoolDb.Permission
   alias OrgtoolDb.User
   @valid_attrs %{
+    active: true,
+
     user_read: true, user_create: true, user_edit: true, user_delete: true,
 
     player_read: true, player_create: true, player_edit: true, player_delete: true,
@@ -45,6 +47,8 @@ defmodule OrgtoolDb.PermissionControllerTest do
         "user"       => %{"data" => nil},
       },
       "attributes"    => %{
+        "active"      => permission.active,
+
         "user-read"   => permission.user_read,
         "user-create" => permission.user_create,
         "user-edit"   => permission.user_edit,

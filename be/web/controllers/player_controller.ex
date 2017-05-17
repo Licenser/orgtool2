@@ -101,11 +101,33 @@ defmodule OrgtoolDb.PlayerController do
           |> put_status(:unprocessable_entity)
           |> render("errors.json-api", data: changeset)
       end
-    else
-      OrgtoolDb.SessionController.unauthorized(conn, payload)
+      else
+        OrgtoolDb.SessionController.unauthorized(conn, payload)
     end
-
   end
+
+  def update(conn, payload = %{"id" => id, "data" => %{"attributes" => params}},
+        _current_user, _claims) do
+    if System.get_env("NO_AUTH") == "true" do
+      player = Repo.get!(Player, id)
+      |> Repo.preload(@preload)
+      changeset = Player.changeset(player, params)
+      |> handle_rels(payload, &do_add_res/2)
+
+      case Repo.update(changeset) do
+        {:ok, player} ->
+          player = player |> Repo.preload(@preload)
+          render(conn, "show.json-api", data: player, opts: @opts)
+        {:error, changeset} ->
+          conn
+          |> put_status(:unprocessable_entity)
+          |> render("errors.json-api", data: changeset)
+      end
+    else
+      OrgtoolDb.SessionController.unauthenticated(conn, payload)
+    end
+  end
+
 
   def delete(conn, %{"id" => id}, _current_user, _claums) do
     player = Repo.get!(Player, id)
