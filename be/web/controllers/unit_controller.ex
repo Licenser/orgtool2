@@ -59,7 +59,7 @@ defmodule OrgtoolDb.UnitController do
   ) SELECT * FROM unit_tree
   """, ^uid_i),
       on: u.id == ut.id)
-    |> Repo.preload([:unit_type, :unit, :units, :players, :leaders, :applicants])
+    |> Repo.preload([:items, :unit_type, :unit, :units, :players, :leaders, :applicants])
     render(conn, "index.json-api", data: units, opts: @opts)
 
   end

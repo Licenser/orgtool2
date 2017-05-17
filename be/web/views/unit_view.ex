@@ -29,6 +29,11 @@ defmodule OrgtoolDb.UnitView do
     include: false,
     identifiers: :when_included
 
+  has_one :items,
+    serializer: OrgtoolDb.ItemView,
+    include: false,
+    identifiers: :when_included
+
   has_one :unit_type,
     serializer: OrgtoolDb.UnitTypeView,
     include: true,
