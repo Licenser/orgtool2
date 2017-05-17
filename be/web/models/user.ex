@@ -7,7 +7,7 @@ defmodule OrgtoolDb.User do
     field :name, :string
     field :email, :string
     field :is_admin, :boolean
-
+    field :unfold_level, :integer
     has_many :authorizations, OrgtoolDb.Authorization
     belongs_to :player, OrgtoolDb.Player
     has_one :permission, OrgtoolDb.Permission, on_replace: :update
@@ -16,7 +16,7 @@ defmodule OrgtoolDb.User do
   end
 
   @required_fields ~w(email name)a
-  @optional_fields ~w(is_admin)a
+  @optional_fields ~w(is_admin unfold_level)a
 
   def registration_changeset(template, params \\ :empty) do
     template

@@ -32,6 +32,11 @@
       {{input type="text" class="form-control" id="email" value=model.email readonly=(not session.current_user.can_modify_user)}}
     </div>
 
+    <div class="row">
+      <label class="control-label">Tree Unfold Level</label>
+      {{input type="text" class="form-control" id="unfold-level" value=model.unfold-level readonly=(not session.current_user.can_modify_user)}}
+    </div>
+
     {{!--
     <div class="row">
       <label class="control-label">Password</label>

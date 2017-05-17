@@ -29,8 +29,9 @@ export default Ember.Component.extend({
       this.set("applicants", aplicants);
       this.set("items", items);
     }
+    var showAbove = this.get('session.current_user.unfold-level');
+    this.set('showUnits', level >= showAbove);
 
-    this.set('showUnits', level > 0);
     //     this.set('showLeader', level > 0);
     //     this.set('showMembers', level > 0);
   }),

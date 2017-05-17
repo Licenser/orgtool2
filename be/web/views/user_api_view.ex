@@ -4,7 +4,7 @@ defmodule OrgtoolDb.UserApiView do
 
   def type, do: "user"
 
-  attributes [:email, :name]
+  attributes [:email, :name, :unfold_level]
 
   has_one :permission,
     serializer: OrgtoolDb.PermissionView,
