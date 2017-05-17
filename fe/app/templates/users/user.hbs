@@ -1,19 +1,12 @@
 {{#bs-modal fade=false size='l' open=true header=false body=false footer=false onHide=(action 'close') class="player-modal" as |md|}}
   {{#md.header}}
       <h4>
-        {{#if model.loggedIn}} My profile {{/if}}
+        {{#if model.loggedIn}} My user {{/if}}
         {{#if model.name}} {{model.name}} {{else}} &nbsp; {{/if}}
         {{#if model.hasDirtyAttributes}}
           <span class="text-danger">[modified]</span>
         {{/if}}
       </h4>
-
-<!--   <ul class="nav nav-tabs player-tabs"> -->
-<!--     <li class="pull-right"> {{#link-to 'players.player.items' model.id}}<i class="fa fa-cubes"></i> Items{{/link-to}} </li> -->
-<!--     <li class="pull-right"> {{#link-to 'players.player.stats' model.id}}<i class="fa fa-trophy"></i> Stats{{/link-to}} </li> -->
-<!--     <li class="pull-right"> {{#link-to 'players.player.general' model.id}}<i class="fa fa-user-o"></i> General{{/link-to}} </li> -->
-<!--   </ul> -->
-
   {{/md.header}}
 
   {{#md.body}}
@@ -25,7 +18,7 @@
         {{#each model.errors.name as |err|}}{{err.message}}{{/each}}
         </span>
       {{/if}}
-      {{input type="text" class="form-control" id="name" value=model.name}}
+      {{input type="text" class="form-control" id="name" value=model.name readonly=(not session.current_user.can_modify_user)}}
     </div>
 
 
@@ -36,9 +29,10 @@
         {{#each model.errors.email as |err|}}{{err.message}}{{/each}}
         </span>
       {{/if}}
-      {{input type="text" class="form-control" id="email" value=model.email}}
+      {{input type="text" class="form-control" id="email" value=model.email readonly=(not session.current_user.can_modify_user)}}
     </div>
 
+    {{!--
     <div class="row">
       <label class="control-label">Password</label>
       {{#if model.errors.password.length}}
@@ -57,10 +51,9 @@
       {{/if}}
       {{input disabled=true type="password" class="form-control" id="password_confirmation" value=model.password_confirmation}}
     </div>
-
+    --}}
     <div class="row">
       <label class="control-label">Player</label>
-      TODO: set player
       {{#if model.player}}
         {{player-details player=model.player}}
       {{/if}}
@@ -74,34 +67,21 @@
       <label class="control-label">General</label>
       <br/>
       <div class="col-md-2">
-        {{check-box model=model.permission prop="active" desc="active"}}
+        {{check-box model=model.permission prop="active" desc="active" readonly=(not session.current_user.permission.user_edit)}}
       </div>
-
     </div>
     {{#each sec as |s|}}
       <div class="row">
         <label class="control-label">{{s.name}}</label>
         <br>
         {{#each s.prop as |p|}}
-          <div class="col-md-2">
-<!--           {{concat-string s.name "_" p.name}} -->
-          {{check-box model=model.permission prop=(concat-string s.name "_" p.name) desc=p.name}}
-          </div>
+            <div class="col-md-2">
+              {{check-box model=model.permission prop=(concat-string s.name "_" p.name) desc=p.name readonly=(not session.current_user.permission.user_edit)}}
+            </div>
         {{/each}}
       </div>
-<!--       <div style="clear: both;"/> -->
         <br>
     {{/each}}
-<!--     </div> -->
-
-  {{!--
-      {{check-box model=model.permission prop="reward_read" desc="Readward Read"}}
-
-  <div class="tab-content">
-    {{outlet}}
-  </div>
-  --}}
-
 
   {{/md.body}}
 
@@ -110,7 +90,7 @@
       <button type="submit" class="btn btn-danger" {{action "deleteUser" model}}>{{fa-icon "user-times"}} Delete</button>
     {{/if}}
 
-    {{#if (or session.current_user.permission.user_edit)}}
+    {{#if session.current_user.can_modify_user}}
       <button type="submit" class="btn btn-primary" {{action "saveUser" model}} disabled={{if (or model.hasDirtyAttributes model.permission.hasDirtyAttributes) false true}}>{{fa-icon "save"}} Save</button>
     {{/if}}
 
@@ -119,12 +99,6 @@
   {{/md.footer}}
 {{/bs-modal}}
 
-
-{{!--
-{{#if showHandleDialog}}
-  {{handle-create handle=currHandle showDialog=showHandleDialog}}
-{{/if}}
---}}
 {{#if showConfirmDialog}}
   {{confirm-dialog showDialog=showConfirmDialog msg=msg onConfirm=(action "onConfirmed")}}
 {{/if}}

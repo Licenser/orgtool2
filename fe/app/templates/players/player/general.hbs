@@ -3,7 +3,7 @@
     <div class="player-details-name">
       {{!-- TODO: fix ie and edge
       --}}
-      {{#if (or session.current_user.permission.player_edit model.loggedIn)}}
+      {{#if session.current_user.can_modify_player}}
       <div class="toolbar">
         {{#bs-dropdown model=model closeOnMenuClick=false as |dd|}}
         {{#dd.button type="tb"}}<i class="fa fa-edit"></i>{{/dd.button}}
@@ -50,7 +50,7 @@
         <label class="control-label">Name</label>
       </div>
       <div class="col-md-3">
-        {{input type="text" class="form-control" value=model.name readonly=(not (or session.current_user.permission.player_edit model.loggedIn))}}
+        {{input type="text" class="form-control" value=model.name readonly=(not session.current_user.can_modify_player)}}
       </div>
 
       <div class="col-md-1">
@@ -79,7 +79,7 @@
         <label class="control-label">Timezone</label>
       </div>
       <div class="col-md-1">
-        {{input type="number" class="form-control" value=model.timezone readonly=(not (or session.current_user.permission.player_edit model.loggedIn))}}
+        {{input type="number" class="form-control" value=model.timezone readonly=(not session.current_user.can_modify_player)}}
       </div>
 
       <div class="col-md-1">
@@ -118,7 +118,7 @@
       </div>
 
       <div class="col-md-6">
-          {{#if (or session.current_user.permission.player_edit model.loggedIn)}}
+          {{#if session.current_user.can_modify_player}}
               <div class="toolbar">
                 <button class="tb tb-default" type="button"  {{action 'addHandle' model}}><i class="fa fa-plus"></i></button>
               </div>
@@ -163,7 +163,7 @@
                 {{hand.name}}
               </div>
               <div class="col-md-1">
-                  {{#if (or session.current_user.permission.player_edit model.loggedIn)}}
+                  {{#if session.current_user.can_modify_player}}
                     <button class="tb" type="button" {{action 'editHandle' hand}}><i class="fa fa-edit"></i></button>
                   {{else}}
                      &nbsp;

@@ -1,7 +1,7 @@
 {{#bs-modal fade=false size='xl' open=showDialog header=false body=false footer=false onHide=(action 'close') class="player-modal" as |md|}}
   {{#md.header}}
       <h4>
-        {{#if model.loggedIn}} My profile {{/if}}
+        {{#if model.user.loggedIn}} My profile {{/if}}
         {{#if model.name}} {{model.name}} {{else}} &nbsp; {{/if}}
         {{#if model.hasDirtyAttributes}}
           <span class="text-danger">[modified]</span>
@@ -31,7 +31,7 @@
       <button type="submit" class="btn btn-danger" {{action "deleteMember" model}}>{{fa-icon "user-times"}} Delete</button>
     {{/if}}
 
-    {{#if (or session.current_user.permission.user_edit model.loggedIn)}}
+    {{#if session.current_user.can_modify_player}}
       <button type="submit" class="btn btn-primary" {{action "saveMember" model}} disabled={{if model.hasDirtyAttributes false true}}>{{fa-icon "save"}} Save</button>
     {{/if}}
 

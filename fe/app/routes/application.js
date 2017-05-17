@@ -7,17 +7,19 @@ export default Ember.Route.extend({
   session: Ember.inject.service(),
 
   beforeModel: function(transition){
-    console.debug("GET SESSIN FIRST!");
+    console.debug("GET SESSION FIRST!");
     var self = this;
     return this.get('session').loadUser().then(function(result) {
       var target = transition.targetName.split(".")[0];
       if (target !== 'login' && target !== "overview") {
         const session = self.get('session');
-        console.debug("GET SESSIN RETURNED", session.current_user);
+        console.debug("GET SESSION RETURNED", session.current_user);
         if (!session.current_user) {
           self.transitionTo('overview');
         }
       }
+    }).catch(function(err) {
+        console.debug("GET SESSIN error", err);
     });
   }, 
 

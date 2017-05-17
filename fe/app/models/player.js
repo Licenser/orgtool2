@@ -19,5 +19,4 @@ export default DS.Model.extend({
   applications: DS.hasMany('unit'),
 
   logs: DS.attr(),
-  loggedIn: false,
 });

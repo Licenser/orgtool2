@@ -60,7 +60,7 @@
         <button type="button" class="tb tb-default" {{action "addTemplate"}}> <i class="fa fa-plus" ></i> Template</button>
       {{/if}}
 
-      {{#if (and session.current_user.permission.item_create (eq typeFilter 'items'))}}
+      {{#if (and session.current_user.can_modify_item (eq typeFilter 'items'))}}
         <button type="button" class="tb tb-default" {{action "addItem" player}}> <i class="fa fa-plus" ></i> Item</button>
       {{/if}}
     </div>

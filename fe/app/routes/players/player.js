@@ -20,7 +20,7 @@ export default Ember.Route.extend({
     
     var self = this;
     return this.store.findRecord('player', params.player_id).then(function(pl) {
-      console.debug("-- RELOAD HELL --", get(pl, "rewards.length"));
+//       console.debug("-- RELOAD HELL --", get(pl, "rewards.length"));
       var fetch = {
         rewardType: self.store.findAll('rewardType')
       };
@@ -28,10 +28,10 @@ export default Ember.Route.extend({
         fetch[get(reward, "id")] = reward.reload();
       });
 
-      console.debug("-- RELOAD HELL --", fetch);
+//       console.debug("-- RELOAD HELL --", fetch);
       var all = Ember.RSVP.hash(fetch);
       return all.then(function(done) {
-        Ember.Logger.log("-- HELL loaded --");
+//         Ember.Logger.log("-- HELL loaded --");
         return pl;
       });
     });

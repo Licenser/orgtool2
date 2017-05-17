@@ -20,7 +20,7 @@
               <div class="col-md-3">
               </div>
               <div class="col-md-1">
-                {{#if (or session.current_user.permission.unit_apply model.loggedIn)}}
+                {{#if (or session.current_user.permission.unit_apply model.user.loggedIn)}}
                 <button class="tb txt-red" type="button" {{action 'showConfirm' unit "leader"}}><i class="fa fa-sign-out"></i></button>
                 {{/if}}
               </div>
@@ -51,7 +51,7 @@
               <div class="col-md-3">
               </div>
               <div class="col-md-1">
-                {{#if (or session.current_user.permission.unit_apply model.loggedIn)}}
+                {{#if (or session.current_user.permission.unit_apply model.user.loggedIn)}}
                 <button class="tb txt-red" type="button" {{action 'showConfirm' unit "player"}}><i class="fa fa-sign-out"></i></button>
                 {{/if}}
               </div>
@@ -65,7 +65,7 @@
     <div class="row">
         <div class="box">
 
-          {{#if (or session.current_user.permission.unit_apply model.loggedIn)}}
+          {{#if (or session.current_user.permission.unit_apply model.user.loggedIn)}}
             <div class="toolbar">
               {{unit-select onConfirm=(action "applyMember") actionName="Apply"}}
             </div>
@@ -88,7 +88,7 @@
               <div class="col-md-3">
               </div>
               <div class="col-md-1">
-                {{#if (or session.current_user.permission.unit_apply model.loggedIn)}}
+                {{#if (or session.current_user.permission.unit_apply model.user.loggedIn)}}
                 <button class="tb txt-red" type="button" {{action 'showConfirm' unit "applicant"}}><i class="fa fa-sign-out"></i></button>
                 {{/if}}
               </div>
@@ -107,7 +107,7 @@
 <!--     {{grouped.length}} / {{model.rewards.length}} / {{rewardTypes.length}} -->
     {{#each grouped as |rt|}}
 
-    {{#if (or session.current_user.permission.reward_edit (and model.loggedIn rt.rewards.length))}}
+    {{#if (or session.current_user.permission.reward_edit (and model.user.loggedIn rt.rewards.length))}}
 
     <div class="row">
 <!--       <div class="col-md-4"> -->
@@ -161,7 +161,7 @@
                     {{unit.name}}
                   </div>
                   <div class="col-md-1">
-                    {{#if (or session.current_user.permission.unit_apply model.loggedIn)}}
+                    {{#if (or session.current_user.permission.unit_apply model.user.loggedIn)}}
                       <button class="tb txt-red" type="button" {{action 'showConfirm' unit.mu}}><i class="fa fa-sign-out"></i></button>
                     {{/if}}
                   </div>

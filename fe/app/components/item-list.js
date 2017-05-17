@@ -28,52 +28,9 @@ export default Ember.Component.extend({
   adminMode: false,
 
   setup: Ember.on('didInsertElement', function() {
-//     if (!Ember.isEmpty(get(this, "player"))) {
-//       debug(">>> list",get(this, "player") );
-//       set(this, "items", get(this, "player").get("items"));
-//     } 
-
-//     this.get('eventManager').on('deleteItem', this.deleteItem.bind(this));
-//     this.get('eventManager').on('editItem', this.editItem.bind(this));
-
-//     this.get('eventManager').on('closeConfirm', this.closeConfirm.bind(this));
-//     this.get('eventManager').on('okConfirm', this.okConfirm.bind(this));
-
-
-/*
-    if (!Ember.isEmpty(get(this, "player"))) {
-      set(this, "items", get(this, "player").get("items"));
-    } 
-
-    var self = this;
-//     get(this, 'store').findAll('itemType').then(function(types) {
-//       self.set('types', types);
-//     });
-    var itf = get(this, "itemTypeFilter");
-    get(this, 'store').findAll('itemType').then(function(types) {
-      var res;
-      if (Ember.isArray(itf)) {
-        if (itf.length > 0) {
-          res = types.filter(function(record) {
-            return itf.indexOf(record.get('id')) >= 0;
-          });
-        } else {
-          res = types;
-        }
-      } else {
-        res = types.filter(function(record){
-          return record.get('permissions') == 1;
-        });
-      }
-
-      self.set('types', res);
-    });
-*/
-
-//     Ember.Logger.log("itemTypeFilter", get(this, "itemTypeFilter"), "|adminmode:", get(this, "adminMode"));
     var self = this;
 
-    debug("has player", get(this, "player"));
+//     debug("has player", get(this, "player"));
     if (!Ember.isEmpty(get(this, "player"))) {
       set(this, "items", get(this, "player").get("items"));
     } else {
@@ -81,23 +38,6 @@ export default Ember.Component.extend({
         self.set('items', items);
       });
     }
-  
-//     if (get(this, "adminMode") {
-//       get(this, 'store').findAll('category').then(function(categories) {
-//         self.set('categories', categories);
-//       });
-//       get(this, 'store').findAll('template').then(function(templates) {
-//         self.set('templates', templates);
-//       });
-
-//       get(this, 'store').findAll('item').then(function(types) {
-//         self.set('types', types);
-//       });
-//     } else if (get(this, "player")
-
-//     get(this, 'store').findAll('itemType').then(function(types) {
-//       self.set('types', types);
-//     });
   }),
 
   hasParent: function(id, unit) {
@@ -129,72 +69,9 @@ export default Ember.Component.extend({
     }
     return [];
 
-
-//     if (!Ember.isEmpty(typeFilter)) {
-//       Ember.Logger.debug("item name", item.get("name"), "-", item.get("type").get("id"), " --- ", typeFilter.get("id"));
-//       var par = item.get("parent");
-//       if (par && par.get("type")) {
-//       Ember.Logger.debug("item name", item.get("name"), "-", par.get("type").get("id"), " --- ", typeFilter.get("id"));
-//       }
-//       return item.get("type").get("id") == typeFilter.get("id");
-
-//     }
-
-//     return get(this, "player").get("items");
-//     return get(this, "items");
-
-
-  /*
-    var typeFilter = this.get('typeFilter');
-    console.log("filter:", typeFilter)
-     if (typeFilter == "tpls") {
-      // templates
-      return get(this, 'store').findAll('template');
-    } else if (typeFilter == "items") {
-      // items
-      if (!Ember.isEmpty(get(this, "player"))) {
-        return get(this, "player").get("items");
-      } else {
-        return get(this, 'store').findAll('item');
-      }
-    } else {
-      // categories
-      return get(this, 'store').findAll('category');
-    }
-    */
   }).property('typeFilter', "items", "currItem"),
 
   sortedContent: Ember.computed.sort('filteredContent', 'sortProperties').property('filteredContent'),
-
-  /*
-  deleteItem: function(item) {
-    Ember.Logger.debug("### delete clicked");
-
-//     Ember.Logger.debug("delete ITem here", item.get("id"));
-//     set(this, "msg", { "type": "delete", "item": item, "title": "Delete Item?", "content": "Do you really wnat to delete" });
-//     Ember.Logger.debug("delete ITem here", get(this, "msg"));
-//     set(this, "showConfirmDialog", true);
-  },
-
-  editItem: function(item) {
-//     Ember.Logger.debug("edit ITem here", item.get("id"));
-    set(this, "currItem", item);
-    set(this, "showItemDialog", true);
-  },
-
-  closeConfirm: function() {
-    Ember.Logger.debug("### close clicked");
-//  
-//     set(this, "currItem", null);
-//     this.set("showConfirmDialog", false);
-//     set(this, "showItemDialog", false);
-  },
-
-  okConfirm: function(msg) {
-    Ember.Logger.debug("### ok clicked");
-
-  },
-    */
 
   resetAll: function() {
     set(this, "currItem", null);
@@ -309,20 +186,6 @@ export default Ember.Component.extend({
       }
       this.set('currItem', item);
       this.set('showItemDialog', true);
-    },
-
-    addItemType: function() {
-      var itemType = get(this, "store").createRecord('itemType');
-      get(this, "session").log("item", "new itemType created");
-      this.set('currItemType', itemType);
-      this.set('showItemTypeDialog', true);
-    },
-
-    editItemType: function(itemType) {
-//       var itemType = get(this, "store").createRecord('itemType');
-//       get(this, "session").log("item", "new itemType created");
-      this.set('currItemType', itemType);
-      this.set('showItemTypeDialog', true);
     },
   }
 
