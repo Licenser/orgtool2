@@ -239,7 +239,7 @@ export default Ember.Component.extend({
     Ember.$("filter").remove();
     Ember.$("rect").remove();
 
-    var src = root.get('img') || "https://www.oddysee.org/wp-content/plugins/orgtool-wordpress-plugin/orgtool/dist/oddysee-logo-glow.png";
+    var src = root.get('img') || "images/unit.png";
     var rootImg = svg.append("filter")
                            .attr('id', 'img1')
                            .attr('width', "100%")
@@ -248,7 +248,6 @@ export default Ember.Component.extend({
                            .attr('y', "0%")
                            .append("feImage")
                            .attr("xlink:href", src);
-      
 
     var bg = svg.append("rect").attr("id", "bgimg")
                                .attr('width', "100%")
