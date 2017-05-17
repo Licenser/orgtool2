@@ -50,7 +50,6 @@ defmodule OrgtoolDb.Router do
     if System.get_env("NO_AUTH") != "true" do
       plug Guardian.Plug.VerifyHeader, realm: "Bearer"
     end
-    # plug Guardian.Plug.VerifySession
     plug Guardian.Plug.LoadResource
   end
 

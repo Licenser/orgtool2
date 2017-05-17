@@ -12,6 +12,7 @@ defmodule OrgtoolDb.TemplateController do
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
+    plug EnsurePermissions, default: [:active], handler: OrgtoolDb.SessionController
     plug EnsurePermissions, [handler: OrgtoolDb.SessionController, template: ~w(read)]
     plug EnsurePermissions, [handler: OrgtoolDb.SessionController, template: ~w(create)] when action in [:create]
     plug EnsurePermissions, [handler: OrgtoolDb.SessionController, template: ~w(edit)] when action in [:update]

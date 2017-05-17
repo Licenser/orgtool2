@@ -9,6 +9,7 @@ defmodule OrgtoolDb.TemplatePropController do
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
+    plug EnsurePermissions, default: [:active], handler: OrgtoolDb.SessionController
   end
 
   def index(conn, _params, _current_user, _claums) do
