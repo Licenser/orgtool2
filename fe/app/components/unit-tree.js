@@ -74,6 +74,9 @@ export default Ember.Component.extend({
     toggleApplicants: function() {
       this.set('showApplicants', ! this.get('showApplicants'));
     },
+    toggleItems: function() {
+      this.set('showItems', ! this.get('showItems'));
+    },
 
     unassignMember: function(player) {
       console.log("unassign!", player)

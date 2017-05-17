@@ -155,8 +155,8 @@
 
         {{#if showItems}}
           <div class="unit-pilots">
-            {{#each items as |mem|}}
-              {{player-details player=mem draggable=true unit=unit type="item"}}
+            {{#each items as |item|}}
+              {{item-details item=item details=true tb=true}}
             {{/each}}
           </div>
         {{/if}}
