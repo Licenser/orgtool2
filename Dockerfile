@@ -5,31 +5,30 @@ RUN curl -sL https://deb.nodesource.com/setup_7.x | bash - \
 
 RUN npm install -g brunch
 
-copy LICENSE.auth /
-copy README.md /
-copy brunch-config.js /
-copy config /config
-copy lib /lib
-copy mix.exs /
-copy mix.lock /
-copy package.json /
+copy be/brunch-config.js /
+copy be/config /config
+copy be/lib /lib
+copy be/mix.exs /
+copy be/mix.lock /
+copy be/package.json /
 
-copy priv/repo /priv/repo
-copy priv/gettext /priv/gettext
+copy be/priv/repo /priv/repo
+copy be/priv/gettext /priv/gettext
 
-copy test /test
-copy web /web
+copy be/test /test
+copy be/web /web
 
 ENV MIX_ENV=prod
+
+COPY docker/prod.secret.exs config/prod.secret.exs
 
 RUN mix local.hex --force \
     && mix local.rebar --force \
     && mix deps.get \
     && npm install
 
-COPY docker/prod.secret.exs config/prod.secret.exs
 
-COPY priv/orgtool/dist /priv/static/ui
+COPY fe/dist /priv/static/ui
 
 RUN brunch build \
     && env MIX_ENV=prod mix clean \

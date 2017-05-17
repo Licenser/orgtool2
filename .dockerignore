@@ -1,21 +1,21 @@
-_build
-deps
+be/_build
+be/deps
 .git
-priv/static
+be/priv/static
 
 # compiled output
-priv/orgtool/tmp
+fe/tmp
 
 # dependencies
-priv/orgtool/node_modules
-priv/orgtool/bower_components
+fe/node_modules
+fe/bower_components
 
 # misc
-priv/orgtool/.git
-priv/orgtool/.sass-cache
-priv/orgtool/connect.lock
-priv/orgtool/coverage/*
-priv/orgtool/libpeerconnection.log
-priv/orgtool/npm-debug.log*
-priv/orgtool/testem.log
+fe/.git
+fe/.sass-cache
+fe/connect.lock
+fe/coverage/*
+fe/libpeerconnection.log
+fe/npm-debug.log*
+fe/testem.log
 .DS_Store
