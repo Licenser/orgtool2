@@ -15,13 +15,16 @@ export default DS.JSONAPISerializer.extend({
       delete serialized.data.included;
     }
 
+//     console.debug("SEND ", serialized);
     return serialized;
   },
 
   serializeBelongsTo(snapshot, json, relationship){
+    let serialized = this._super(...arguments);
     var key = relationship.key;
     var belongsTo = snapshot.belongsTo(key);
     if (belongsTo) {
+//       console.debug("--- serializeBelongsTo ", key, "-", belongsTo);
       var js = {"type": key, "id": belongsTo.id, "attributes": belongsTo.record.toJSON() };
       if (json.included) {
         json.included.push(js);
@@ -31,9 +34,11 @@ export default DS.JSONAPISerializer.extend({
     } else {
       console.debug("--- EMPTY: serializeBelongsTo ", key);
     }
+    return serialized;
   },
 
   serializeHasMany(snapshot, json, relationship){
+    let serialized = this._super(...arguments);
     var key = relationship.key;
     var hasMany = snapshot.hasMany(key);
     if (hasMany) {
@@ -50,5 +55,6 @@ export default DS.JSONAPISerializer.extend({
     } else {
       console.debug("--- EMPTY: serializeHasMany ", key);
     }
+    return serialized;
   },
 });
