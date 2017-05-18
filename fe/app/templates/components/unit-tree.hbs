@@ -146,20 +146,8 @@
           </div>
         {{/if}}
       </div>
-      <div class="player-container unit-pilots-container" data-unitid={{unit.id}} data-dest="item">
-        <a class="toggleElement" {{action 'toggleItems'}}>
-          <i class="fixedWidth fa {{if showItems "fa-chevron-circle-down" "fa-chevron-circle-right"}}"></i>
-          Items: {{items.length}}
-        </a>
 
-        {{#if showItems}}
-          <div class="unit-pilots">
-            {{#each items as |item|}}
-            {{item.name}} / {{item.player.name}}
-            {{/each}}
-          </div>
-        {{/if}}
-      </div>
+      
     </div>
 
     {{#if showUnits}}

@@ -10,7 +10,7 @@ export default Ember.Controller.extend({
   eventManager: Ember.inject.service('events'),
 
   showPlayers: false,
-  countChildren: false,
+  countChildren: true,
 
   currentUnit: null,
   currentChart: { id: 1 },
@@ -34,46 +34,83 @@ export default Ember.Controller.extend({
 //   sortProperties: ['name'],
 //   sortedContent: Ember.computed.sort('allItems', 'sortProperties').property('allItems'),
 
-  sumItems: Ember.computed("sumPlayers", function() {
-    return get(this, "currentUnit.items");
-//     return [];
-    /*
-    var items = {};
-    var mems = this.get('sumMembers');
-    mems.forEach(function(mem) {
-      mem.get("items").forEach(function(it) {
-        var par = it.get("parent");
-        if (items[par.get("id")]) {
-          items[par.get("id")].count++;
-        } else {
-          items[par.get("id")] = { itemType: par, count: 1};
-        }
-      });
-    });
 
-    var output = Object.keys(items).map(function(key) {
-       return {type: items[key].itemType, count: items[key].count};
-    });
-    
-    output.sort(function(a, b) {
-      var an = a.type.get('name');
-      var bn = b.type.get('name');
+  sumChildren: function(unit) {
+    var items = [];
+    var players = [];
 
-      if(an < bn) return -1;
-      if(an > bn) return 1;
-      return 0;
-    });
-
-    return output;
-    */
-  }),
-
-  sumPlayers: Ember.computed("currentUnit", function() {
-    if (Ember.isEmpty(this.get("currentUnit")) || Ember.isEmpty(get(this, "currentUnit.players"))) {
-      return [];
+    if (get(unit, "items")) {
+      items = get(unit, "items").mapBy("id");
     }
-    return this.get("currentUnit").get('players');
-  }),
+    if (get(unit, "leaders")) {
+      players = get(unit, "leaders").mapBy("id");
+    }
+    if (get(unit, "players")) {
+      players = players.concat(get(unit, "leaders").mapBy("id"));
+    }
+
+    if (get(this, "countChildren") && get(unit, "units")) {
+      var self = this;
+      var temp = [];
+      unit.get("units").forEach(function(cunit) {
+        var subres = self.sumChildren(cunit);
+        items = items.concat(subres.items);
+        players = players.concat(subres.players);
+      });
+    }
+
+    return {items: items, players: players};
+  },
+
+
+  sumThemAll: function() {
+    console.debug(">>> SUM THEM ALL");
+    var ids = this.sumChildren(get(this, "currentUnit"));
+    var itemids = ids.items.filter(function (item, pos) {return ids.items.indexOf(item) == pos});
+    var playerids = ids.players.filter(function (item, pos) {return ids.players.indexOf(item) == pos});
+
+
+    var store = get(this, "store");
+    var self = this;
+    // TODO: fix query so you dont have to fetch them
+    var fetch = {};
+    itemids.forEach(function(itemId) {
+      fetch[itemId] = store.findRecord('item', itemId);
+    });
+
+    var allItems = {};
+    Ember.RSVP.hash(fetch).then(function(result) {
+      console.debug(" ITEM MEGA FETCH DONE", result);
+      for (var key in result) {
+        var item = store.peekRecord('item', key);
+        var temp = item.get("template");
+        var tempId = item.get("template.id");
+        if (allItems[tempId]) {
+          allItems[tempId].count++;
+        } else {
+          allItems[tempId] = { itemTemplate: temp, count: 1};
+        }
+      }
+
+      var output = Object.keys(allItems).map(function(key) {
+        return {template: allItems[key].itemTemplate, count: allItems[key].count};
+      });
+
+      output.sort(function(a, b) {
+        var an = a.template.get('name');
+        var bn = b.template.get('name');
+        if(an < bn) return -1;
+        if(an > bn) return 1;
+        return 0;
+      });
+
+      set(self, "sumItems", output);
+    });
+
+    set(this, "sumPlayers", playerids);
+    console.debug(">>> SUM DONE ", itemids, playerids);
+
+  }.observes('currentUnit', 'countChildren'),
 
   addUnit: function(data) {
     var self = this;
@@ -130,14 +167,14 @@ export default Ember.Controller.extend({
 
     if (unitId !== undefined) {
       var self = this;
-      get(this, 'store').query('unit', { id: unitId, recursive: true })
+//       TODO: fix query
 //       get(this, 'store').queryRecord('unit', { id: unitId, recursive: true })
-      .then(function(units) {
-
+      get(this, 'store').query('unit', { id: unitId, recursive: true }).then(function(units) {
         var unit = self.get('store').peekRecord('unit', unitId);
 
-        self.set('currentUnit', unit);
         self.set('extended', extended);
+        self.set('currentUnit', unit);
+//         self.set('units', units);
         if (sync) {
           self.set('currentChart', unit);
         }

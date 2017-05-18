@@ -32,8 +32,8 @@
   <div class="info-content">
     {{#if (and (not showPlayers) currentUnit)}}
         {{#ember-collection items=sumItems cell-layout=(percentage-columns-layout sumItems.length columns itemHeight) as |item index|}}
-          {{item-details item=item.type details=false count=item.count}}
-        {{/ember-collection}}
+          {{item-details item=item.template details=false count=item.count}}
+          {{/ember-collection}}
     {{/if}}
 
     {{#if (and session.current_user.permission.unit_assign showPlayers)}}

@@ -11,7 +11,6 @@ export default Ember.Component.extend({
   showLeader: true,
   showMembers: true,
   showApplicants: true,
-  showItems: false,
 
   //   seven: Ember.computed.filterBy('unit.playerUnits.@each', 'reward', 7),
 
@@ -22,12 +21,10 @@ export default Ember.Component.extend({
       var leaders = unit.get('leaders');
       var players = unit.get('players');
       var aplicants = unit.get('applicants')
-      var items = unit.get('items')
 
       this.set("leaders", leaders);
       this.set("players", players);
       this.set("applicants", aplicants);
-      this.set("items", items);
     }
     var showAbove = this.get('session.current_user.unfold-level');
     this.set('showUnits', level >= showAbove);
@@ -74,9 +71,6 @@ export default Ember.Component.extend({
     },
     toggleApplicants: function() {
       this.set('showApplicants', ! this.get('showApplicants'));
-    },
-    toggleItems: function() {
-      this.set('showItems', ! this.get('showItems'));
     },
 
     unassignMember: function(player) {
