@@ -7,34 +7,24 @@ export default Ember.Route.extend({
   session: Ember.inject.service(),
 
   beforeModel: function(transition){
-    console.debug("GET SESSION FIRST!");
     var self = this;
     return this.get('session').loadUser().then(function(result) {
       var target = transition.targetName.split(".")[0];
       if (target !== 'login' && target !== "overview") {
         const session = self.get('session');
-        console.debug("GET SESSION RETURNED", session.current_user);
         if (!session.current_user) {
           self.transitionTo('overview');
         }
       }
     }).catch(function(err) {
-        console.debug("GET SESSIN error", err);
+        console.debug("GET SESSION error", err);
     });
   }, 
-
-//   beforeModel: function(transition) {
-//     Ember.get(this, "session");
-//   },
 
   actions: {
     willTransition(transition) {
       var target = transition.targetName.split(".")[0];
-
-      console.debug("ABBORT ?", target, Ember.isEmpty(get(this, "session.current_user")), "-",(target != "overview" || target != "login") );
       if (Ember.isEmpty(get(this, "session.current_user")) && (target == "overview" || target == "login")) {
-//        console.debug("ABBORT 1");
-//        transition.abort();
         return true;
       }
 
@@ -64,7 +54,7 @@ export default Ember.Route.extend({
           }
       }
 
-      console.debug("ABBORT !!!");
+      console.debug("permission denied for", transition.targetName ,"!!!");
       transition.abort();
     }
   }

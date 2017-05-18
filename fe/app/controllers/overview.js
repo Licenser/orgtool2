@@ -101,7 +101,6 @@ export default Ember.Controller.extend({
     var self = this;
     this.store.deleteRecord(data.unit);
     data.unit.save().then(function(nunit) {
-
       self.get('eventManager').trigger('rerender');
     }).catch(function(err) {
       Ember.Logger.debug("del err", err);
@@ -115,8 +114,6 @@ export default Ember.Controller.extend({
     if (!get(this, "session.current_user.permission.unit_read")) {
       console.debug("nope, go away");
       return;
-    } else {
-      console.debug("ok, load units");
     }
 //     Ember.Logger.log("---- set details", data);
     var unitId = data.unitid;

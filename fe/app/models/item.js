@@ -8,6 +8,7 @@ export default DS.Model.extend({
   template: DS.belongsTo('template', { inverse: 'items' }),
   unit: DS.belongsTo('unit', { inverse: 'items' }),
   player: DS.belongsTo('player'),
+
   itemProps: DS.hasMany('itemProp', { async: true }),
 
   hidden: DS.attr(),

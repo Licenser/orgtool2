@@ -44,64 +44,31 @@ export default Ember.Component.extend({
 
     unassignFromUnit: function(unitid) {
       var item = get(this, "item");
-      get(this, "store").findRecord("unit", unitid).then(function(unit) {
-        unit.get("items").removeObject(item);
-        unit.save().then(function(done) {
-          debug("saved....", get(done, "id"));
-        }).catch(function(err) {
-          debug("item-create save unit failed, err", err);
-        });
-      });
-//       set(item, "unit", null);
-      /*
+      var unit = get(this, "store").peekRecord("unit", unitid);
+      set(item, "unit", null);
+      debug("save...", get(item, "unit.name"));
       item.save().then(function(done) {
-        debug("saved....", get(done, "id"));
+        debug("......saved", get(done, "id"));
       }).catch(function(err) {
         debug("item-create remove unit failed, err", err);
       });
-      */
     },
 
     assignToUnit: function(unitid) {
       var item = get(this, "item");
       var unit = get(this, "store").peekRecord("unit", unitid);
-//       var typename = item.get('constructor.modelName');
-//       Ember.Logger.debug("element type", typename);
-
-//       debug("assitn item to unit", get(item, "name"), typename, "  -->", unitid);
-
       set(item, "unit", unit);
       item.save().then(function(done) {
-//         debug("saved....", get(done, "id"));
+        debug("saved....", get(done, "id"));
       }).catch(function(err) {
         debug("item-create save unit failed, err", err);
       });
-
-/*
-      var store = get(this, "store");
-      store.findRecord("item", get(it, "id")).then(function(item) {
-        store.findRecord("unit", unitid).then(function(unit) {
-          debug("assitn item to unit", get(item, "name"), "->", unitid, "-------", unit.get("items"));
-
-          unit.get("items").pushObject(item);
-          unit.save().then(function(done) {
-            debug("saved....", get(done, "id"));
-          }).catch(function(err) {
-            debug("item-create save unit failed, err", err);
-          });
-        });
-      });
-
-      */
     },
 
     setTemplate: function(template) {
       set(this, "item.template", template);
       set(this, "item.name", get(template, "name"));
       set(this, "item.img", get(template, "img"));
-    },
-
-    setParent: function(par) {
     },
 
     saveItem: function() {

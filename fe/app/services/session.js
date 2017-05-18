@@ -20,7 +20,7 @@ export default Ember.Service.extend({
   providers: null,
 
   init: function() {
-    Ember.Logger.log(">>> init >>>> session");
+//     Ember.Logger.log(">>> init >>>> session");
     this._super(...arguments);
 //     this.loadUser();
   },
@@ -71,13 +71,11 @@ export default Ember.Service.extend({
         return;
       }
 
-//       Ember.Logger.log(">>> init >>>> loadUser, jwt", !Ember.isEmpty(token), "csrf", !Ember.isEmpty(csrf));
-
       if (!Ember.isEmpty(session) && !Ember.isEmpty(get(session, "sub"))) {
         var userid = session.sub.split(':')[1];
-        Ember.Logger.log("find user", userid);
+//         Ember.Logger.log("find user", userid);
         return self.get('store').findRecord('user', userid).then(function(user) {
-          Ember.Logger.log(" user found", userid);
+//           Ember.Logger.log(" user found", userid);
           set(user, "loggedIn", true);
           set(self, "current_user", user);
 
@@ -85,7 +83,7 @@ export default Ember.Service.extend({
           self.set('loading', false);
           resolve();
         }).catch(function(err) {
-          Ember.Logger.log("error", err);
+          Ember.Logger.log("error, user", userid, "not found, error:", err);
           self.set('loading', false);
           reject();
         });
