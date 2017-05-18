@@ -44,7 +44,6 @@ export default Ember.Component.extend({
 
     unassignFromUnit: function(unitid) {
       var item = get(this, "item");
-      var unit = get(this, "store").peekRecord("unit", unitid);
       set(item, "unit", null);
       debug("save...", get(item, "unit.name"));
       item.save().then(function(done) {
@@ -52,6 +51,17 @@ export default Ember.Component.extend({
       }).catch(function(err) {
         debug("item-create remove unit failed, err", err);
       });
+
+
+      /*
+      var unit = get(this, "store").peekRecord("unit", unitid);
+      get(unit, "items").removeObject(item);
+      unit.save().then(function(done) {
+        debug("...... unit saved", get(done, "id"));
+      }).catch(function(err) {
+        debug("item-create remove unit failed, err", err);
+      });
+      */
     },
 
     assignToUnit: function(unitid) {

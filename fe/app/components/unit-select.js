@@ -13,17 +13,14 @@ export default Ember.Component.extend({
   setup: Ember.on('didInsertElement', function() {
       var store = get(this, "store");
       var self = this;
-//       this.store.findAll("unit")
       store.query('unit', { id: 1, recursive: true }).then(function(units) {
         var root = store.peekRecord('unit', 1);
         var data = self._serializeChildren(root);
-//         console.debug("DATA:", data);
-        if (!Ember.isEmpty(data)) {
+        if (!get(self, "isDestroyed") && !Ember.isEmpty(data)) {
           set(self, "data", data.options);
         }
       });
   }),
-
 
   _serializeChildren: function(obj) {
     var self = this;
