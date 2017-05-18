@@ -219,6 +219,8 @@
           <div class="col-md-4">
           </div>
           <div class="col-md-2">
+            {{check-box value=item.hidden iconSize="fa-2x"}}
+            {{!--
             <button type="button" class="btn btn-check" {{action (toggle item "hidden")}}>
               {{#if item.hidden}}
               <i class="fa fa-check-square-o fa-2x"></i>
@@ -226,6 +228,7 @@
               <i class="fa fa-square-o fa-2x"></i>
               {{/if}}
             </button>
+            --}}
           </div>
           <div class="col-md-6">
             <label class="control-label">Hidden</label>

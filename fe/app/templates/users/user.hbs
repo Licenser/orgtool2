@@ -72,7 +72,7 @@
       <label class="control-label">General</label>
       <br/>
       <div class="col-md-2">
-        {{check-box model=model.permission prop="active" desc="active" readonly=(not session.current_user.permission.user_edit)}}
+        {{check-box value=model.permission.active desc="active" readonly=(not session.current_user.permission.user_edit)}}
       </div>
     </div>
     {{#each sec as |s|}}
@@ -81,7 +81,7 @@
         <br>
         {{#each s.prop as |p|}}
             <div class="col-md-2">
-              {{check-box model=model.permission prop=(concat-string s.name "_" p.name) desc=p.name readonly=(not session.current_user.permission.user_edit)}}
+              {{check-box value=(get model.permission (concat s.name "_" p.name)) desc=p.name readonly=(not session.current_user.permission.user_edit)}}
             </div>
         {{/each}}
       </div>

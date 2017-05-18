@@ -9,6 +9,9 @@ export default Ember.Controller.extend({
   session: Ember.inject.service(),
   eventManager: Ember.inject.service('events'),
 
+  showPlayers: false,
+  countChildren: false,
+
   currentUnit: null,
   currentChart: { id: 1 },
   currentLevel: 1,
@@ -31,8 +34,9 @@ export default Ember.Controller.extend({
 //   sortProperties: ['name'],
 //   sortedContent: Ember.computed.sort('allItems', 'sortProperties').property('allItems'),
 
-  sumItems: Ember.computed("sumMembers", function() {
-    return {};
+  sumItems: Ember.computed("sumPlayers", function() {
+    return get(this, "currentUnit.items");
+//     return [];
     /*
     var items = {};
     var mems = this.get('sumMembers');
@@ -64,7 +68,7 @@ export default Ember.Controller.extend({
     */
   }),
 
-  sumMembers: Ember.computed("currentUnit", function() {
+  sumPlayers: Ember.computed("currentUnit", function() {
     if (Ember.isEmpty(this.get("currentUnit")) || Ember.isEmpty(get(this, "currentUnit.players"))) {
       return [];
     }

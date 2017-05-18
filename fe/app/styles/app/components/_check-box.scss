@@ -1,0 +1,40 @@
+.check-box {
+  height: 32px;
+  display: inline;
+  color: #1a80b6;
+  background: transparent;
+  outline-width: 0px !important;
+}
+
+.check-box:hover {
+  color: #fff;
+  cursor: pointer;
+
+  .btn-check {
+    color: #fff;
+  }
+
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+.btn-check {
+  width: 24px;
+  border: 0px;
+  color: #1a80b6;
+  background: transparent;
+}
+
+.btn-check:focus {
+  border: 0px;
+  outline-width: 0px !important;
+}
+
+
+//  .check-box {
+//  }
+
+//  .check-box:hover {
+//    color: #fff;
+//    cursor: pointer;
+//  }

@@ -16,26 +16,27 @@
 <div id="info">
   {{#if session.current_user.permission.unit_assign}}
     <div class="toolbar">
-      <button type="button" class="tb tb-default" {{action (toggle this "showMembers")}}> <i class="fa fa-eye" ></i> {{if showMembers "Fleet" "Members"}}</button>
+      <button type="button" class="tb tb-default" {{action (toggle this "showPlayers")}}> <i class="fa fa-eye" ></i> {{if showPlayers "Fleet" "Players"}}</button>
     </div>
 
   <div class="info-stats">
     {{#if currentUnit}}
-      Members: {{sumMembers.length}}
+      Players: {{sumPlayers.length}}
       Items: {{sumItems.length}}
+      {{check-box value=countChildren desc="Children"}}
     {{/if}}
   </div>
   {{/if}}
 
 
   <div class="info-content">
-    {{#if (and (not showMembers) currentUnit)}}
+    {{#if (and (not showPlayers) currentUnit)}}
         {{#ember-collection items=sumItems cell-layout=(percentage-columns-layout sumItems.length columns itemHeight) as |item index|}}
           {{item-details item=item.type details=false count=item.count}}
         {{/ember-collection}}
     {{/if}}
 
-    {{#if (and session.current_user.permission.unit_assign showMembers)}}
+    {{#if (and session.current_user.permission.unit_assign showPlayers)}}
       {{player-list players=players draggable=true details=false}}
     {{/if}}
   </div>
