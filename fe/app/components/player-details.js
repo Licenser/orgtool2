@@ -9,6 +9,8 @@ export default Ember.Component.extend({
   classNameBindings: ['canDrag:player-details-draggable'],
   //   classNameBindings: ['isUrgent:urgent'],
   store: Ember.inject.service(),
+  player: null,
+
   draggable: false,
   droppable: true,
   selectable: true,
@@ -31,6 +33,13 @@ export default Ember.Component.extend({
     }
     this.createDraggable();
   }),
+
+  willRender() {
+    this._super(...arguments);
+    if (Ember.isEmpty(get(this, "player.items"))) {
+      get(this, "player").reload();
+    }
+  },
 
 
   mergedUnits: function() {

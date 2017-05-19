@@ -5,7 +5,6 @@ export default DS.Model.extend({
   description: DS.attr(),
   img: DS.attr(),
 
-//   templates: DS.hasMany('template', { inverse: 'category_id', async: true }),
-  templates: DS.hasMany('template', { async: true }),
+  templates: DS.hasMany('template', { async: false }),
 
 });

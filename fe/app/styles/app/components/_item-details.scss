@@ -1,6 +1,8 @@
 $item-margin: 6px;
 $item-font: 12px;
-$item-info-bg: rgba(10, 12, 17, .80);
+//  $item-info-bg: rgba(10, 12, 17, .80);
+$item-info-bg: #000; //rgba(0, 0, 0, 1);
+$item-bg: rgba(100, 100, 100, .2);
 //  $item-info-bg: #0A0C11;
 //  $item-info-bg: #222;
 
@@ -10,7 +12,7 @@ $item-info-bg: rgba(10, 12, 17, .80);
 
   position: relative;
   overflow: hidden;
-  background-color: #000;
+  background-color: $item-bg;
 
     border-radius: 10px 10px 10px 10px;
 
@@ -24,6 +26,8 @@ $item-info-bg: rgba(10, 12, 17, .80);
 
   .top-left {
 //      color: #1a80b6;
+    padding-left: 4px;
+    line-height: 21px;
     color: #fff;
     font-size: 14px;
 
@@ -60,7 +64,7 @@ $item-info-bg: rgba(10, 12, 17, .80);
   }
 
   .top-left-img {
-    width: 24px;
+    width: 21px;
   }
 
   .top-left-img-sm {
@@ -150,6 +154,25 @@ $item-info-bg: rgba(10, 12, 17, .80);
     margin-top: 3px;
     margin-bottom: 3px;
     margin-right: 10px;
+  }
+
+  .bottom-left {
+    position: absolute;
+    height: 21px;
+    bottom: 0;
+    left: 0px;
+    color: #fff;
+    padding-right: 10px;
+    border-radius: 0px 10px 0px 0px;
+    background-color: $item-info-bg;;
+    color: #fff;
+  }
+
+  .bottom-left-text {
+    color: #fff;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    margin-left: 10px;
   }
 
   .item-sep {
