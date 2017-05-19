@@ -6,7 +6,7 @@ export default DS.Model.extend({
   img: DS.attr(),
 
   category: DS.belongsTo('category', { async: false }),
-  templateProps: DS.hasMany('templateProp', { async: false }),
 
+  templateProps: DS.hasMany('templateProp', { async: false }),
   items: DS.hasMany('item', { async: false }),
 });

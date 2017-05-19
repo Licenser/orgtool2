@@ -13,65 +13,56 @@ export default Ember.Component.extend({
   store: Ember.inject.service('store'),
 //   eventManager: Ember.inject.service('events'),
   gameFilter: null,
-  typeFilter: "cats",
+//   typeFilter: "cats",
   columns: [25, 25, 25, 25],
   itemHeight: 400,
   showFilter: true,
-  categories: [],
-  templates: [],
   items: [],
+
+  player: null,
+  currItem: null,
+
   showConfirmDialog: false,
   showItemDialog: false,
   showItemTypeDialog: false,
 
-  itemTypeFilter: [],
   adminMode: false,
+
+  loading: false,
 
   setup: Ember.on('didInsertElement', function() {
     var self = this;
-
-//     debug("has player", get(this, "player"));
-    if (!Ember.isEmpty(get(this, "player"))) {
-      set(this, "items", get(this, "player").get("items"));
-    } else {
-      get(this, 'store').findAll('item').then(function(items) {
-        self.set('items', items);
-      });
+    if (this.get('typeFilter') == null) {
+      this.set("typeFilter", "categories");
     }
   }),
 
-  hasParent: function(id, unit) {
-    try {
-      return unit.get("id") == id || unit.get('parent') && this.hasParent(id, unit.get('parent'));
-    } catch(err) {
-        Ember.Logger.debug("error", err);
-    }
-    return false;
-  },
-
-  filteredContent: Ember.computed('items', function() {
-    var gameFilter = this.get('gameFilter');
+//   sortedContent: Ember.computed.sort('filteredContent', 'sortProperties').property('filteredContent'),
+  filteredContent: Ember.computed("typeFilter", function() {
+    this.set("loading", true);
     var typeFilter = this.get('typeFilter');
-    var res = []
+    var res = [];
+    var self = this;
+//     debug("filter changed ", typeFilter);
+//     set(this, "filteredContent", null);
 
-    debug("set filter ", typeFilter);
-
-    if (get(this, "player")) {
-      return get(this, "player").get("items");
-    } else {
-      if (typeFilter == "cats") {
-        return get(this, 'store').findAll('category');
-      } else if (typeFilter == "tpls") {
-        return get(this, 'store').findAll('template');
-      } else if (typeFilter == "items") {
-        return get(this, 'store').findAll('item');
+    if (typeFilter == "items") { 
+      if (Ember.isEmpty(get(this, "player"))) {
+        res = get(this, "store").findAll("item");
+      } else {
+        res = get(this, "player.items");
       }
+    } else if (typeFilter == "templates") {
+      res = get(this, "store").findAll("template");
+    } else if (typeFilter == "categories") {
+      res = get(this, "store").findAll("category");
     }
-    return [];
 
-  }).property('typeFilter', "items", "currItem"),
-
-  sortedContent: Ember.computed.sort('filteredContent', 'sortProperties').property('filteredContent'),
+    res.then(function() {
+      self.set("loading", false);
+    });
+    return res;
+  }),
 
   resetAll: function() {
     set(this, "currItem", null);
@@ -177,15 +168,16 @@ export default Ember.Component.extend({
     },
 
     addItem: function() {
-//       debug("ADD ITEM");
+      debug("ADD ITEM");
       var item = get(this, "store").createRecord('item');
-      get(this, "session").log("item", "new item created");
+
       if (!Ember.isEmpty(get(this, "player"))) {
         item.set('player', get(this, "player"));
         get(this, "session").log("item", "added item to player " + get(this, "player").get("name"));
       }
-      this.set('currItem', item);
+
       this.set('showItemDialog', true);
+      this.set('currItem', item);
     },
   }
 
