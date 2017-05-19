@@ -1,49 +1,31 @@
-<!-- <div class="item-name"> -->
-<!--   {{#if item.name}} -->
-<!--     {{item.name}} -->
-<!--     [{{item.parent.name}}] -->
-<!--   {{/if}} -->
-<!-- </div> -->
-
-<!-- <div class="top-left"> -->
-<!--     {{#if item.parent.parent.img}} -->
-<!--       <img class="top-left-img" src={{item.parent.parent.img}}> -->
-<!--     {{/if}} -->
-<!--     <span class="top-left-name"> -->
-<!--       {{#if item.name}} -->
-<!--         {{item.name}} -->
-<!--       {{else}} -->
-<!--         {{item.parent.name}} -->
-<!--       {{/if}} -->
-<!--     </span> -->
-<!-- </div> -->
-
-
-
-<!-- <div class="item-type"> -->
-<!--     <div class="item-type-name"> -->
-<!--       {{item.type.name}}  -->
-<!--       {{#if (or session.current_user.can item.player.loggedIn)}} -->
-<!--           <button class="tb" type="button"  {{action 'editItem' item}}><i class="fa fa-gear"></i></button> -->
-<!--           <button class="tb tb-danger" type="button"  {{action 'deleteItem' item}}><i class="fa fa-close"></i></button> -->
-<!--       {{/if}} -->
-<!--     </div> -->
-<!-- </div> -->
-
-
-{{#if item.img}}
-  <img class="item-img" src={{item.img}}>
-{{else}}
-  {{#if item.template.img}}
-    <img class="item-img" src={{item.template.img}}>
-  {{/if}}
-
-  {{#if item.category.img}}
-    <img class="item-img" src={{item.category.img}}>
-  {{/if}}
+{{#if (and tb session.current_user.permission.item_tb)}}
+  <div class="toolbar">
+    {{#if session.current_user.permission.item_edit}}
+      <button class="tb tb-default" type="button" {{action 'editItem' item}}><i class="fa fa-gear"></i></button>
+    {{/if}}
+    {{#if session.current_user.permission.item_delete}}
+      <button class="tb tb-danger" type="button" {{action 'deleteItem' item}}><i class="fa fa-close"></i></button>
+    {{/if}}
+  </div>
 {{/if}}
 
-{{!--
+<div class="top-left">
+    {{#if item.template.category.img}}
+      <img class="top-left-img" src={{item.template.category.img}}>
+    {{/if}}
+
+    {{!--
+    {{#if item.player.avatar}}
+      <img class="top-left-img" src={{item.player.avatar}}>
+    {{else}}
+    {{/if}}
+    --}}
+
+    <span class="top-left-name">
+      {{item.name}}
+    </span>
+</div>
+
 {{#if item.img}}
   <img class="item-img" src={{item.img}}>
 {{else}}
@@ -52,18 +34,48 @@
   {{/if}}
 {{/if}}
 
-<div class="bottom-right">
-  <div class="bottom-right-text">
-    {{get-item-prop item.template "class"}}
+<div class="bottom-left">
+
+  <div class="bottom-left-text">
+    {{#if item.player.avatar}}
+      <img class="top-left-img" src={{item.player.avatar}}>
+    {{else}}
+      <i class="fa fa-user-o"></i>
+    {{/if}}
+
+    {{item.player.name}}
   </div>
 </div>
---}}
-<!--
-<div class="ship-class">
-  {{#if details}}
-    &nbsp;
-  {{else}}
-    {{get-item-prop item "class"}}
-  {{/if}}
+
+{{!--
+<div class={{if count "top-left-sm" "top-left"}}>
+    {{#if item.category.img}}
+      {{#if item.category.img}}
+        <img class="top-left-img" src={{item.category.img}}>
+      {{/if}}
+    {{/if}}
+
+      {{#if item.player.avatar}}
+        <img class="top-left-img" src={{item.player.avatar}}>
+      {{else}}
+        {{#if item.template.category.img}}
+          <img class="top-left-img" src={{item.template.category.img}}>
+        {{/if}}
+      {{/if}}
+
+    <span class="item-name">
+      {{#if item.name}}
+        {{item.name}}
+      {{else}}
+        {{item.template.name}}
+      {{/if}}
+    </span>
+
+    {{#if item.player.name}}
+      <span class="top-left-name" "item-name">
+        {{item.player.name}}
+      </span>
+    {{/if}}
 </div>
--->
+--}}
+
