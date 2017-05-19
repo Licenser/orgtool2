@@ -14,7 +14,6 @@ then
     MIX_ENV=prod mix ecto.migrate
     MIX_ENV=prod mix run priv/repo/rewards.exs
     MIX_ENV=prod mix run priv/repo/units.exs
-    MIX_ENV=prod mix run priv/repo/ships.exs
     MIX_ENV=prod mix run priv/repo/seeds.exs
 else
     echo "Migrating to ensure database is up to date."
@@ -22,6 +21,10 @@ else
     ## the db already existing
     MIX_ENV=prod MIX_ENV=prod mix ecto.migrate
 fi
+
+echo "Importing/updating data"
+MIX_ENV=prod mix run priv/repo/ships.exs
+
 
 UNIT_PATH=_build/prod/lib/orgtool_db/priv/static/images/unit.png
 if [ "${UNIT_LOGO}" != "" ]

@@ -23,6 +23,6 @@ config :orgtool_db, OrgtoolDb.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "",
-  database: "orgtool",
+  database: System.get_env("DB_NAME"),
   hostname: "db",
   pool_size: 20

@@ -4,6 +4,7 @@ alias OrgtoolDb.Template
 alias OrgtoolDb.TemplateProp
 require Logger
 require Ecto.Query
+import Ecto.Query, only: [from: 2]
 
 import SweetXml
 
@@ -42,7 +43,9 @@ for %{
       length: length,
       mass: mass
 }  <- element do
-  parent = case Repo.one(Ecto.Query.from(m in Category, where: m.name == ^category, limit: 1)) do
+  parent = case Repo.one(from m in Category,
+                 where: m.name == ^category,
+                 limit: 1) do
              nil ->
                Repo.insert! %Category{
                  name: category,
@@ -50,35 +53,44 @@ for %{
              parent ->
                parent
            end
-  Repo.insert! %Template{
-    name: "#{name}",
-    img: "#{img_pfx}#{img}",
-    category: parent,
-    template_props: [
-      %TemplateProp{
-        name: "ship_id",
-        value: ship_id
-      },
-      %TemplateProp{
-        name: "name",
-        value: name
-      },
-      %TemplateProp{
-        name: "class",
-        value: class
-      },
-      %TemplateProp{
-        name: "crew",
-        value: crew
-      },
-      %TemplateProp{
-        name: "length",
-        value: length
-      },
-      %TemplateProp{
-        name: "mass",
-        value: mass
-      }
-    ]
-  }
+
+  case Repo.one(from t in TemplateProp,
+        where: t.name == "ship_id" and t.value == ^ship_id,
+        limit: 1) do
+    nil ->
+      Logger.info("Adding ship #{name}")
+      Repo.insert! %Template{
+        name: "#{name}",
+        img: "#{img_pfx}#{img}",
+        category: parent,
+        template_props: [
+          %TemplateProp{
+            name: "ship_id",
+            value: ship_id
+          },
+          %TemplateProp{
+            name: "name",
+            value: name
+          },
+          %TemplateProp{
+            name: "class",
+            value: class
+          },
+          %TemplateProp{
+            name: "crew",
+            value: crew
+          },
+          %TemplateProp{
+            name: "length",
+            value: length
+          },
+          %TemplateProp{
+            name: "mass",
+            value: mass
+          }
+        ]}
+    _ ->
+      Logger.info("Ship #{name} already exists")
+      :ok
+  end
 end

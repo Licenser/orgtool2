@@ -14,6 +14,7 @@ services:
         EXT_HOST: localhost
         EXT_PORT: 4000
         SECRET_KEY_BASE: put_your_own_secret_here_which_needs_to_be_at_least_sixtyfour_bytes
+        DB_NAME: orgtool
         TIMEOUT: 10 # timeout for start, important when starting orgtool and db at the same time
         # UNIT_LOGO: https://i.imgur.com/c36sFer.png
         # GOOGLE_CLIENT_ID: ...
