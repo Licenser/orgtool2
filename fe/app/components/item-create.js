@@ -8,9 +8,11 @@ export default Ember.Component.extend({
   classNames: ['item-create'],
   store: Ember.inject.service(),
   session: Ember.inject.service('session'),
+  item: null,
 
   setup: Ember.on('init', function() {
     var self = this;
+
     get(this, 'store').findAll('category').then(function(categories) {
       debug("categories: ", get(categories, "length"));
       self.set('categories', categories);
@@ -21,12 +23,12 @@ export default Ember.Component.extend({
       self.set('templates', templates);
     });
 
-    if (get(this, "item.id")) {
-      get(this, 'store').findRecord('item', get(this, "item.id")).then(function(nitem) {
-        debug("imte: ", get(nitem, "name"));
+//     if (get(this, "item.id")) {
+//       get(this, 'store').findRecord('item', get(this, "item.id")).then(function(nitem) {
+//         debug("imte: ", get(nitem, "name"));
 //         self.set('item', categories);
-      });
-    }
+//       });
+//     }
   }),
 
   actions: {
@@ -34,30 +36,23 @@ export default Ember.Component.extend({
       var item = get(this, "item");
       set(item, "player", owner);
 //       debug("change owner", get(owner, "name"));
+      /*
       item.save().then(function(done) {
         debug("saved....", get(done, "id"));
       }).catch(function(err) {
         debug("item-create save failed, err", err);
 //         item.rollbackAttributes();
       });
+      */
     },
 
     unassignFromUnit: function(unitid) {
       var item = get(this, "item");
       set(item, "unit", null);
+      /*
       debug("save...", get(item, "unit.name"));
       item.save().then(function(done) {
         debug("......saved", get(done, "id"));
-      }).catch(function(err) {
-        debug("item-create remove unit failed, err", err);
-      });
-
-
-      /*
-      var unit = get(this, "store").peekRecord("unit", unitid);
-      get(unit, "items").removeObject(item);
-      unit.save().then(function(done) {
-        debug("...... unit saved", get(done, "id"));
       }).catch(function(err) {
         debug("item-create remove unit failed, err", err);
       });
@@ -68,11 +63,13 @@ export default Ember.Component.extend({
       var item = get(this, "item");
       var unit = get(this, "store").peekRecord("unit", unitid);
       set(item, "unit", unit);
+      /*
       item.save().then(function(done) {
         debug("saved....", get(done, "id"));
       }).catch(function(err) {
         debug("item-create save unit failed, err", err);
       });
+      */
     },
 
     setTemplate: function(template) {
@@ -84,23 +81,12 @@ export default Ember.Component.extend({
     saveItem: function() {
       var item = get(this, "item");
       if (item) {
-        //         Ember.Logger.debug("save item", item.get("name"), item.get("parent").get("name"), "-", item.get("type").get("name"), "-", item.get("player").get("id"));
         var self = this;
-        var mem = get(item, 'player');
-        var memid = get(mem, 'id');
-        //         self.set('showDialog', false);
         item.save().then(function(nitem) {
-          //           self.get('eventManager').trigger('success', 'ship added to player: ' + memid);
-          //           Ember.Logger.debug(">>>>", nitem.get("id"), "-", mem.get("items")); //.get("length"));
-//           mem.get("items").pushObject(nitem);
           self.set('item', null);
           self.set('showDialog', false);
-
-          Ember.Logger.log("save ok ", nitem , " |" , get(nitem, "player"));
           get(self, "session").log("item", "item " + nitem.get("name") + " saved");
-          //           Ember.Logger.debug(">>>> SAVED!", nitem.get("id"), "-", mem.get("items")); //.get("length"));
         }).catch(function(err) {
-          //           self.get('eventManager').trigger('failure', 'counld not add ship to player: ' + memid);
           get(self, "session").log("error", "could not save item " + item.get("name"));
           Ember.Logger.log("error saving", err);
           self.set('showDialog', true);
@@ -110,6 +96,7 @@ export default Ember.Component.extend({
     close: function() {
       var item = get(this, 'item');
       if (!Ember.isEmpty(item)) {
+
         if (!Ember.isEmpty(item.get("id"))) {
           item.reload();
         } else if (item.get("isNew")) {
@@ -121,14 +108,9 @@ export default Ember.Component.extend({
             Ember.Logger.debug("error deleteing item", err);
           });
         }
-
-//         if (!Ember.isEmpty(item.get("player")) && !Ember.isEmpty(item.get("player").get("items"))) {
-          //         Ember.Logger.debug(">>> RELOAD  MEMBER");
-          //           item.get("player").get("items").reload();
-//         }
       }
-      this.set('showDialog', false);
       this.set('item', null);
+      this.set('showDialog', false);
     },
   }
 
