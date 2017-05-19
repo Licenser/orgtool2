@@ -34,12 +34,17 @@ export default Ember.Component.extend({
     this.createDraggable();
   }),
 
-  willRender() {
-    this._super(...arguments);
-    if (Ember.isEmpty(get(this, "player.items"))) {
-      get(this, "player").reload();
-    }
-  },
+  // This breaks everything:
+  // * sometimes get() returns a promise, othertimse it returns a
+  // value.
+  // * when the player has (for good reasons) no items this will go
+  // totally bananas and keep reloading as fast as possible.
+  // willRender() {
+  //   this._super(...arguments);
+  //   if (Ember.isEmpty(get(this, "player.items"))) {
+  //     get(this, "player").reload();
+  //   }
+  // },
 
 
   mergedUnits: function() {
