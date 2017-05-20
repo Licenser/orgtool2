@@ -8,6 +8,8 @@ defmodule OrgtoolDb.ItemController do
   alias OrgtoolDb.ItemProp
 
   @opts [include: "player,template,unit,item_props"]
+  @list_opts [include: "item_props"]
+  @list_preload [:item_props]
   @preload [:player, :template, :unit, :item_props]
 
   if System.get_env("NO_AUTH") != "true" do
@@ -24,7 +26,8 @@ defmodule OrgtoolDb.ItemController do
 
   def index(conn, _params, _current_user, _claums) do
     items = Repo.all(Item)
-    render(conn, "index.json-api", data: items)
+    |> Repo.preload(@list_preload)
+    render(conn, "index.json-api", data: items, opts: @list_opts)
   end
 
 
