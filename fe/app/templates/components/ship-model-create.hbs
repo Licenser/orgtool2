@@ -1,0 +1,83 @@
+{{#if showDialog}}
+  {{#bs-modal open=showDialog size='m' header=false body=false footer=false autoClose=false onHide=(action 'close') as |md|}}
+    {{#md.header}}
+      <h4 class="modal-title">
+        Add Model
+      </h4>
+    {{/md.header}}
+    {{#md.body}}
+
+
+      <div class="row">
+        <label class="control-label">
+          Name
+        </label>
+        {{#if ship_model.errors.name.length}}
+          <span class="text-danger">
+            {{#each ship_model.errors.name as |err|}}{{err.message}}{{/each}}
+          </span>
+        {{/if}}
+        {{input type="text" class="form-control" value=ship_model.name}}
+      </div>
+
+      <div class="row">
+        <label class="control-label">Manufacturer</label>
+        <div class="input-group ship-model-modal">
+          <input type="text" class="form-control" id="itemTypeParent" value={{ship_model.manufacturer}} readonly>
+          <div class="input-group-btn">
+            {{#bs-dropdown as |dd|}}
+              {{#dd.button}}<span class="caret"></span>{{/dd.button}}
+              {{#dd.menu align="right"}}
+                <li {{action "setManufacturer" null}}><a href="#" class={{if (not ship_model.manufacturer) "active"}} >None</a></li>
+                {{#each manufacturers as |manufacturer|}}
+                  <li {{action "setManufacturer" manufacturer}}><a href="#" class={{if (eq manufacturer ship_model.manufacturer) "active"}} >{{manufacturer}}</a></li>
+                {{/each}}
+              {{/dd.menu}}
+            {{/bs-dropdown}}
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <label class="control-label">Description</label>
+        {{#if ship_model.errors.description.length}}
+          <span class="text-danger">
+            {{#each ship_model.errors.description as |err|}}{{err.message}}{{/each}}
+          </span>
+        {{/if}}
+        {{input type="text" class="form-control" value=ship_model.description}}
+      </div>
+
+      <div class="row">
+        <label class="control-label">Image</label>
+        {{#if ship_model.errors.img.length}}
+          <span class="text-danger">
+            {{#each ship_model.errors.img as |err|}}{{err.message}}{{/each}}
+          </span>
+        {{/if}}
+        {{input type="text" class="form-control" value=ship_model.img}}
+      </div>
+
+      <div class="row" style="height: 30%;">
+        <br>
+        <div class="item-img-box">
+          {{#if ship_model.img}}
+            {{ship-model-details ship_model=ship_model details=false tb=false}}
+          {{/if}}
+        </div>
+      </div>
+
+    {{/md.body}}
+    {{#md.footer}}
+      {{#if session.current_user.permission.ship_model_delete}}
+        <button type="submit" class="btn btn-danger" {{action "deleteModel" ship_model}} disabled={{ship_model.isSaving}}>{{fa-icon "trash-o"}} Delete </button>
+      {{/if}}
+      {{#if session.current_user.permission.ship_model_edit}}
+        <button type="submit" class="btn btn-primary" {{action "saveModel" ship_model}} disabled={{if (or (not requiredFields) (not ship_model.hasDirtyAttributes)) true false}} >
+          {{fa-icon "save"}} Save
+        </button>
+      {{/if}}
+      <button type="button" class="btn btn-default" {{action "close"}}>Close</button>
+    {{/md.footer}}
+  {{/bs-modal}}
+{{/if}}

@@ -31,16 +31,13 @@ export default Ember.Controller.extend({
     this.setDetails({ "unitid": 1, "extended": true, "sync": true }); 
   }),
 
-//   sortProperties: ['name'],
-//   sortedContent: Ember.computed.sort('allItems', 'sortProperties').property('allItems'),
-
 
   sumChildren: function(unit) {
-    var items = [];
+    var ships = [];
     var players = [];
 
-    if (get(unit, "items")) {
-      items = get(unit, "items").mapBy("id");
+    if (get(unit, "ships")) {
+      ships = get(unit, "ships").mapBy("id");
     }
     if (get(unit, "leaders")) {
       players = get(unit, "leaders").mapBy("id");
@@ -54,61 +51,58 @@ export default Ember.Controller.extend({
       var temp = [];
       unit.get("units").forEach(function(cunit) {
         var subres = self.sumChildren(cunit);
-        items = items.concat(subres.items);
+        ships = ships.concat(subres.ships);
         players = players.concat(subres.players);
       });
     }
 
-    return {items: items, players: players};
+    return {ships: ships, players: players};
   },
 
 
   sumThemAll: function() {
     console.debug(">>> SUM THEM ALL");
     var ids = this.sumChildren(get(this, "currentUnit"));
-    var itemids = ids.items.filter(function (item, pos) {return ids.items.indexOf(item) == pos});
-    var playerids = ids.players.filter(function (item, pos) {return ids.players.indexOf(item) == pos});
+    var shipids = ids.ships.filter(function (ship, pos) {return ids.ships.indexOf(ship) == pos});
+    var playerids = ids.players.filter(function (player, pos) {return ids.players.indexOf(player) == pos});
 
 
     var store = get(this, "store");
     var self = this;
     // TODO: fix query so you dont have to fetch them
     var fetch = {};
-    itemids.forEach(function(itemId) {
-      fetch[itemId] = store.findRecord('item', itemId);
+    shipids.forEach(function(shipId) {
+      fetch[shipId] = store.findRecord('ship', shipId);
     });
-
-    var allItems = {};
+    var allShips = {};
     Ember.RSVP.hash(fetch).then(function(result) {
-      console.debug(" ITEM MEGA FETCH DONE", result);
+      console.debug(" SHIP MEGA FETCH DONE", result);
       for (var key in result) {
-        var item = store.peekRecord('item', key);
-        var temp = item.get("template");
-        var tempId = item.get("template.id");
-        if (allItems[tempId]) {
-          allItems[tempId].count++;
+        var ship = store.peekRecord('ship', key);
+        var model = ship.get("ship-model");
+        var modelId = ship.get("ship-model.id");
+        if (allShips[modelId]) {
+          allShips[modelId].count++;
         } else {
-          allItems[tempId] = { itemTemplate: temp, count: 1};
+          allShips[modelId] = { model: model, count: 1};
         }
       }
-
-      var output = Object.keys(allItems).map(function(key) {
-        return {template: allItems[key].itemTemplate, count: allItems[key].count};
+      var output = Object.keys(allShips).map(function(key) {
+        return {model: allShips[key].model, count: allShips[key].count};
       });
 
       output.sort(function(a, b) {
-        var an = a.template.get('name');
-        var bn = b.template.get('name');
+        var an = a.model.get('name');
+        var bn = b.model.get('name');
         if(an < bn) return -1;
         if(an > bn) return 1;
         return 0;
       });
-
-      set(self, "sumItems", output);
+      set(self, "sumShips", output);
     });
 
     set(this, "sumPlayers", playerids);
-    console.debug(">>> SUM DONE ", itemids, playerids);
+    console.debug(">>> SUM DONE ", shipids, playerids);
 
   }.observes('currentUnit', 'countChildren'),
 

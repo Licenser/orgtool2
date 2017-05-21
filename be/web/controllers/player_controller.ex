@@ -6,8 +6,8 @@ defmodule OrgtoolDb.PlayerController do
   alias OrgtoolDb.Handle
   alias OrgtoolDb.Reward
 
-  @preload [:rewards, :user, :handles, :leaderships, :playerships, :applications, :items]
-  @opts [include: "user,rewards,handles,playerships,applications,leaderships,items"]
+  @preload [:rewards, :user, :handles, :leaderships, :playerships, :applications, :ships]
+  @opts [include: "user,rewards,handles,playerships,applications,leaderships,ships"]
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
@@ -82,7 +82,7 @@ defmodule OrgtoolDb.PlayerController do
   def update(conn, payload = %{"id" => id, "data" => %{"attributes" => params}},
         current_user, {:ok, claims}) do
     perms = Guardian.Permissions.from_claims(claims, :player)
-    default = Guardian.Permissions.from_claims(claims, :default)
+    #default = Guardian.Permissions.from_claims(claims, :default)
     id = String.to_integer(id)
     if (Guardian.Permissions.all?(perms, [:read, :update], :player) or same_player?(current_user, id))
     # and Guardian.Permissions.all?(default, [:active], :default)
@@ -142,7 +142,7 @@ defmodule OrgtoolDb.PlayerController do
   defp do_add_res(changeset, elements) do
     changeset
     |> maybe_apply(User,   :user, elements)
-    |> maybe_apply(Item,   "item",   "items", :items, elements)
+    |> maybe_apply(Ship,   "ship",   "ships", :ships, elements)
     |> maybe_apply(Reward, "reward", "rewards", :rewards, elements)
     |> maybe_apply(Handle, "handle", "handles", :handles, elements)
     |> maybe_apply(Unit,   "unit",   "leaderships", :leaderships, elements)

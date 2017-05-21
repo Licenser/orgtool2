@@ -29,8 +29,8 @@ defmodule OrgtoolDb.UnitView do
     include: false,
     identifiers: :when_included
 
-  has_one :items,
-    serializer: OrgtoolDb.ItemView,
+  has_one :ships,
+    serializer: OrgtoolDb.ShipView,
     include: false,
     identifiers: :when_included
 

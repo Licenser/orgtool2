@@ -110,10 +110,8 @@ defmodule OrgtoolDb.Router do
     resources "/reward-types", RewardTypeController, except: [:new, :edit]
 
     resources "/categories", CategoryController, except: [:new, :edit]
-    resources "/templates", TemplateController, except: [:new, :edit]
-    resources "/template-props", TemplatePropController, except: [:new, :edit]
-    resources "/items", ItemController, except: [:new, :edit]
-    resources "/item-props", ItemPropController, except: [:new, :edit]
+    resources "/ship-models", ShipModelController, except: [:new, :edit]
+    resources "/ships", ShipController, except: [:new, :edit]
 
 
     resources "/permissions", PermissionController, except: [:new, :edit]

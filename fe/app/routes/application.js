@@ -36,8 +36,12 @@ export default Ember.Route.extend({
           if (get(perms, "player_read")) {
             return true;
           }
-        case "items":
-          if (get(perms, "item_read")) {
+        case "ship-models":
+          if (get(perms, "ship_model_read")) {
+            return true;
+          }
+        case "ships":
+          if (get(perms, "ship_read")) {
             return true;
           }
         case "rewards":

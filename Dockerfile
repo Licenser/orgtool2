@@ -20,7 +20,7 @@ COPY be/web /web
 
 COPY docker/prod.secret.exs config/prod.secret.exs
 
-COPY fe/dist /priv/static/ui
+COPY be/priv/static/ui /priv/static/ui
 
 ENV MIX_ENV=prod
 

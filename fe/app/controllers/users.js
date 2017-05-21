@@ -13,22 +13,6 @@ export default Ember.Controller.extend({
   columns: [100],
   itemHeight: 42,
 
-  setup: Ember.on('init', function() {
-//     this.get('eventManager').on('createMember', this.createMember.bind(this));
-//     this.get('eventManager').on('saveMember', this.saveMember.bind(this));
-//     this.get('eventManager').on('deleteMember', this.deleteMember.bind(this));
-
-//     var self = this;
-//     get(this, 'store').findRecord('unit', 1).then(function(unit) {
-//       self.set('rootUnit', unit);
-//     });
-
-//     get(this, 'store').findAll('player').then(function(players) {
-//       self.set('players', players);
-//     });
-  }),
-
-
 /////////////////////////////////////
 //
 //
@@ -74,8 +58,8 @@ export default Ember.Controller.extend({
 
     if (!Ember.isEmpty(unitFilter)) {
       var self = this;
-      res = player.get('units').filter(function(item, index, enumerable){
-        return self.hasParent(unitFilter.get("id"), item.id);
+      res = player.get('units').filter(function(unit, index, enumerable){
+        return self.hasParent(unitFilter.get("id"), unit.id);
       });
       if (Ember.isEmpty(res)) {
         return false;

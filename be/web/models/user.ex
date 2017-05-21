@@ -18,20 +18,20 @@ defmodule OrgtoolDb.User do
   @required_fields ~w(email name)a
   @optional_fields ~w(is_admin unfold_level)a
 
-  def registration_changeset(template, params \\ :empty) do
-    template
+  def registration_changeset(ship_model, params \\ :empty) do
+    ship_model
     |>cast(params, ~w(email name)a)
     |> validate_required(@required_fields)
   end
 
   @doc """
-  Creates a changeset based on the `template` and `params`.
+  Creates a changeset based on the `ship_model` and `params`.
 
   If no params are provided, an invalid changeset is returned
   with no validation performed.
   """
-  def changeset(template, params \\ :empty) do
-    template
+  def changeset(ship_model, params \\ :empty) do
+    ship_model
     |> cast(params, @required_fields ++ @optional_fields)
     |> cast_assoc(:permission)
     |> cast_assoc(:player)

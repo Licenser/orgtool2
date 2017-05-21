@@ -1,12 +1,12 @@
 {{#bs-modal fade=false size='l' open=true header=false body=false footer=false onHide=(action 'close') class="player-modal" as |md|}}
   {{#md.header}}
-      <h4>
-        {{#if model.loggedIn}} My user {{/if}}
-        {{#if model.name}} {{model.name}} {{else}} &nbsp; {{/if}}
-        {{#if model.hasDirtyAttributes}}
-          <span class="text-danger">[modified]</span>
-        {{/if}}
-      </h4>
+    <h4>
+      {{#if model.loggedIn}} My user {{/if}}
+      {{#if model.name}} {{model.name}} {{else}} &nbsp; {{/if}}
+      {{#if model.hasDirtyAttributes}}
+        <span class="text-danger">[modified]</span>
+      {{/if}}
+    </h4>
   {{/md.header}}
 
   {{#md.body}}
@@ -15,7 +15,7 @@
       <label class="control-label">Name</label>
       {{#if model.errors.name.length}}
         <span class="text-danger">
-        {{#each model.errors.name as |err|}}{{err.message}}{{/each}}
+          {{#each model.errors.name as |err|}}{{err.message}}{{/each}}
         </span>
       {{/if}}
       {{input type="text" class="form-control" id="name" value=model.name readonly=(not session.current_user.can_modify_user)}}
@@ -26,7 +26,7 @@
       <label class="control-label">E-Mail</label>
       {{#if model.errors.email.length}}
         <span class="text-danger">
-        {{#each model.errors.email as |err|}}{{err.message}}{{/each}}
+          {{#each model.errors.email as |err|}}{{err.message}}{{/each}}
         </span>
       {{/if}}
       {{input type="text" class="form-control" id="email" value=model.email readonly=(not session.current_user.can_modify_user)}}
@@ -38,25 +38,25 @@
     </div>
 
     {{!--
-    <div class="row">
-      <label class="control-label">Password</label>
-      {{#if model.errors.password.length}}
-        <span class="text-danger">
-        {{#each model.errors.password as |err|}}{{err.message}}{{/each}}
-        </span>
-      {{/if}}
-      {{input disabled=true type="password" class="form-control" id="password" value=model.password}}
-    </div>
-    <div class="row">
-      <label class="control-label">Password Confirmation</label>
-      {{#if model.errors.password_confirmation.length}}
-        <span class="text-danger">
-        {{#each model.errors.password_confirmation as |err|}}{{err.message}}{{/each}}
-        </span>
-      {{/if}}
-      {{input disabled=true type="password" class="form-control" id="password_confirmation" value=model.password_confirmation}}
-    </div>
-    --}}
+         <div class="row">
+         <label class="control-label">Password</label>
+         {{#if model.errors.password.length}}
+         <span class="text-danger">
+         {{#each model.errors.password as |err|}}{{err.message}}{{/each}}
+         </span>
+         {{/if}}
+         {{input disabled=true type="password" class="form-control" id="password" value=model.password}}
+         </div>
+         <div class="row">
+         <label class="control-label">Password Confirmation</label>
+         {{#if model.errors.password_confirmation.length}}
+         <span class="text-danger">
+         {{#each model.errors.password_confirmation as |err|}}{{err.message}}{{/each}}
+         </span>
+         {{/if}}
+         {{input disabled=true type="password" class="form-control" id="password_confirmation" value=model.password_confirmation}}
+         </div>
+         --}}
     <div class="row">
       <label class="control-label">Player</label>
       {{#if model.player}}
@@ -80,12 +80,12 @@
         <label class="control-label">{{s.name}}</label>
         <br>
         {{#each s.prop as |p|}}
-            <div class="col-md-2">
-              {{check-box value=(get model.permission (concat s.name "_" p.name)) desc=p.name readonly=(not session.current_user.permission.user_edit)}}
-            </div>
+          <div class="col-md-2">
+            {{check-box value=(get model.permission (concat s.name "_" p.name)) desc=p.name readonly=(not session.current_user.permission.user_edit)}}
+          </div>
         {{/each}}
       </div>
-        <br>
+      <br>
     {{/each}}
 
   {{/md.body}}
@@ -107,4 +107,3 @@
 {{#if showConfirmDialog}}
   {{confirm-dialog showDialog=showConfirmDialog msg=msg onConfirm=(action "onConfirmed")}}
 {{/if}}
-

@@ -11,7 +11,7 @@ export default DS.Model.extend({
   user: DS.belongsTo('user'),
 
   handles: DS.hasMany('handle'),
-  items: DS.hasMany('items'),
+  ships: DS.hasMany('ships'),
   rewards: DS.hasMany('reward'),
 
   leaderships: DS.hasMany('unit'),

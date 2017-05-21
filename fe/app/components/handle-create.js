@@ -63,29 +63,7 @@ export default Ember.Component.extend({
       }
     },
 
-
     close: function() {
-      /*
-      var item = get(this, 'item');
-      if (!Ember.isEmpty(item)) {
-        if (!Ember.isEmpty(item.get("id"))) {
-          item.reload();
-        } else if (item.get("isNew")) {
-          var self = this;
-          item.destroyRecord().then(function(nitem) {
-            get(self, "session").log("item", "item " + nitem.get("name") + " deleted");
-          }).catch(function(err) {
-            get(self, "session").log("error", "could not save item " + nitem.get("name"));
-            Ember.Logger.debug("error melting", err);
-          });
-        }
-
-        if (!Ember.isEmpty(item.get("player")) && !Ember.isEmpty(item.get("player").get("items"))) {
-//         Ember.Logger.debug(">>> RELOAD  MEMBER");
-//           item.get("player").get("items").reload();
-        } 
-
-      }*/
       this.set('showDialog', false);
       this.set('handle', null);
     },

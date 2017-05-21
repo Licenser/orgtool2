@@ -32,9 +32,8 @@ export default Ember.Controller.extend({
       { name: "user", prop: this.def },
       { name: "player", prop: this.def },
       { name: "unit", prop: this.def.concat(this.un) },
-      { name: "category", prop: this.def },
-      { name: "template", prop: this.def },
-      { name: "item", prop: this.def },
+      { name: "ship_model", prop: this.def },
+      { name: "ship", prop: this.def },
       { name: "reward", prop: this.def }
     ]);
   }),

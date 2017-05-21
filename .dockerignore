@@ -1,7 +1,6 @@
 be/_build
 be/deps
 .git
-be/priv/static
 
 # compiled output
 fe/tmp

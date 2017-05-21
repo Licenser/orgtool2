@@ -12,9 +12,8 @@ defmodule OrgtoolDb.PermissionControllerTest do
 
     unit_read: true, unit_create: true, unit_edit: true, unit_delete: true, unit_apply: true, unit_accept: true, unit_assign: true,
 
-    category_read: true, category_create: true, category_edit: true, category_delete: true,
-    template_read: true, template_create: true, template_edit: true, template_delete: true,
-    item_read: true, item_create: true, item_edit: true, item_delete: true,
+    ship_model_read: true, ship_model_create: true, ship_model_edit: true, ship_model_delete: true,
+    ship_read: true, ship_create: true, ship_edit: true, ship_delete: true,
 
     reward_read: true, reward_create: true, reward_edit: true, reward_delete: true
   }
@@ -67,20 +66,15 @@ defmodule OrgtoolDb.PermissionControllerTest do
         "unit-accept" => permission.unit_accept,
         "unit-assign" => permission.unit_assign,
 
-        "category-read"   => permission.category_read,
-        "category-create" => permission.category_create,
-        "category-edit"   => permission.category_edit,
-        "category-delete" => permission.category_delete,
+        "ship_model-read"   => permission.ship_model_read,
+        "ship_model-create" => permission.ship_model_create,
+        "ship_model-edit"   => permission.ship_model_edit,
+        "ship_model-delete" => permission.ship_model_delete,
 
-        "template-read"   => permission.template_read,
-        "template-create" => permission.template_create,
-        "template-edit"   => permission.template_edit,
-        "template-delete" => permission.template_delete,
-
-        "item-read"   => permission.item_read,
-        "item-create" => permission.item_create,
-        "item-edit"   => permission.item_edit,
-        "item-delete" => permission.item_delete,
+        "ship-read"   => permission.ship_read,
+        "ship-create" => permission.ship_create,
+        "ship-edit"   => permission.ship_edit,
+        "ship-delete" => permission.ship_delete,
 
         "reward-read"   => permission.reward_read,
         "reward-create" => permission.reward_create,

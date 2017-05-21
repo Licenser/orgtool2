@@ -24,7 +24,7 @@ defmodule OrgtoolDb.ErrorHelpers do
     # in the errors.po file.
     # Ecto will pass the :count keyword if the error message is
     # meant to be pluralized.
-    # On your own code and templates, depending on whether you
+    # On your own code and ship_models, depending on whether you
     # need the message to be pluralized or not, this could be
     # written simply as:
     #

@@ -19,13 +19,13 @@ defmodule OrgtoolDb.Authorization do
   @optional_fields ~w(refresh_token expires_at)a
 
   @doc """
-  Creates a changeset based on the `template` and `params`.
+  Creates a changeset based on the `ship_model` and `params`.
 
   If no params are provided, an invalid changeset is returned
   with no validation performed.
   """
-  def changeset(template, params \\ :empty) do
-    template
+  def changeset(ship_model, params \\ :empty) do
+    ship_model
     |> cast(params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
     |> foreign_key_constraint(:user_id)

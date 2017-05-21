@@ -1,10 +1,10 @@
-defmodule OrgtoolDb.TemplateCase do
+defmodule OrgtoolDb.ShipModelCase do
   @moduledoc """
   This module defines the test case to be used by
-  template tests.
+  ship_model tests.
 
   You may define functions here to be used as helpers in
-  your template tests. See `errors_on/2`'s definition as reference.
+  your ship_model tests. See `errors_on/2`'s definition as reference.
 
   Finally, if the test case interacts with the database,
   it cannot be async. For this reason, every test runs
@@ -12,7 +12,7 @@ defmodule OrgtoolDb.TemplateCase do
   of the test unless the test case is marked as async.
   """
 
-  use ExUnit.CaseTemplate
+  use ExUnit.CaseShipModel
 
   using do
     quote do
@@ -21,7 +21,7 @@ defmodule OrgtoolDb.TemplateCase do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import OrgtoolDb.TemplateCase
+      import OrgtoolDb.ShipModelCase
     end
   end
 

@@ -15,8 +15,8 @@ export default DS.Model.extend({
     return this.can_modify("player");
   }),
 
-  can_modify_item: Ember.computed('permission', 'loggedIn', function() {
-    return this.can_modify("item");
+  can_modify_ship: Ember.computed('permission', 'loggedIn', function() {
+    return this.can_modify("ship");
   }),
 
   can_modify_user: Ember.computed('permission', 'loggedIn', function() {

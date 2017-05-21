@@ -159,7 +159,6 @@ export default Ember.Component.extend({
   },
 
   getElementId: function(item) {
-    //     var id = $(item.toElement).data('unitid');
     var id;
     var dest = "";
 

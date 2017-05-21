@@ -5,7 +5,7 @@ defmodule OrgtoolDb.ChannelCase do
 
   Such tests rely on `Phoenix.ChannelTest` and also
   import other functionality to make it easier
-  to build and query templates.
+  to build and query ship_models.
 
   Finally, if the test case interacts with the database,
   it cannot be async. For this reason, every test runs
@@ -13,7 +13,7 @@ defmodule OrgtoolDb.ChannelCase do
   of the test unless the test case is marked as async.
   """
 
-  use ExUnit.CaseTemplate
+  use ExUnit.CaseShipModel
 
   using do
     quote do

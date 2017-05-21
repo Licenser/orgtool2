@@ -47,11 +47,13 @@
       <li class="pull-right">{{#link-to 'rewards'}}<i class="fa fa-trophy"></i> Rewards{{/link-to}}</li>
     {{/if}}
 
-    {{#if session.current_user.permission.item_read}}
-      <li class="pull-right">{{#link-to 'items'}}<i class="fa fa-cubes"></i> Items{{/link-to}}</li>
+    {{#if session.current_user.permission.ship_model_read}}
+      <li class="pull-right">{{#link-to 'ship-models'}}<i class="fa fa-cubes"></i> Models{{/link-to}}</li>
     {{/if}}
 
-
+    {{#if session.current_user.permission.ship_read}}
+      <li class="pull-right">{{#link-to 'ships'}}<i class="fa fa-cubes"></i> Ships{{/link-to}}</li>
+    {{/if}}
 
 <!--       <li class="pull-right" >{{#link-to 'log'}}<i class="fa fa-history"></i> Log{{/link-to}}</li> -->
 <!--       <li class="pull-right" >{{#link-to 'settings'}}<i class="fa fa-gear"></i> Settings{{/link-to}}</li> -->

@@ -66,24 +66,3 @@
     {{/if}}
   </div>
 </div>
-
-
-
-{{!--
-      {{item-details item=item details=details onConfirm=(action "showConfirm") onEdit=(action "showEdit")}}
-
-            {{#power-select-multiple
-              searchField="name"
-              selected=unitFilter
-              options=rootUnit.units
-              onchange=(action (mut unitFilter))
-              as |unit|
-            }}
-            {{#if unit.img}}
-              <img class="root-item-img" style="height:16px;" src={{unit.img}}>
-            {{else}}
-              <img class="root-item-img" style="height:16px;" src={{rootUnit.img}}>
-            {{/if}}
-            {{unit.name}}
-            {{/power-select-multiple}}
-    --}}

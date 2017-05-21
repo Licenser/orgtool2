@@ -1,0 +1,153 @@
+{{#if showDialog}}
+  {{#bs-modal open=showDialog size='l' header=false body=false footer=false autoClose=false onHide=(action 'close') class="item-create" as |md|}}
+    {{#md.header}}
+      <h4 class="modal-title">
+        {{#if ship.isNew}} Create {{else}} Edit {{/if}}
+        Model {{ship.ship_model.name}}
+      </h4>
+    {{/md.header}}
+    {{#md.body}}
+
+      <div class="row">
+        {{#if ship.isNew}}
+          <label class="control-label">
+            Model
+            {{#unless ship.ship_model}}
+              <span class="text-danger">(required)</span>
+            {{/unless}}
+          </label>
+          <div class="input-group ship-model-modal">
+            <input type="text" class="form-control" value={{ship.ship_model.name}} readonly>
+            <div class="input-group-btn">
+              {{#bs-dropdown as |dd|}}
+                {{#dd.button}}<span class="caret"></span>{{/dd.button}}
+                {{#dd.menu align="right"}}
+                  {{#each manufacturers as |manufacturer|}}
+                    <li class="ship-manu">
+                      <img class="manu-img" src="/images/manufacturer/{{manufacturer}}.png">
+                      {{manufacturer}}
+                    </li>
+                    {{#each ship_models as |temp|}}
+                      {{#if (eq temp.manufacturer manufacturer)}}
+                        <li {{action "setModel" temp}}><a href="#" >{{temp.name}}</a></li>
+                      {{/if}}
+                    {{/each}}
+                  {{/each}}
+                {{/dd.menu}}
+              {{/bs-dropdown}}
+            </div>
+          </div>
+
+          <br>
+        {{/if}}
+      </div>
+
+
+      <div class="row">
+        <label class="control-label">Name</label>
+        {{#if ship.errors.name.length}}
+          <span class="text-danger">
+            {{#each ship.errors.name as |err|}}{{err.message}}{{/each}}
+          </span>
+        {{/if}}
+        {{input type="text" class="form-control" id="itemParentName" value=ship.name placeholder=ship.ship_model.name}}
+      </div>
+
+      <div class="row">
+        <label class="control-label">Image</label>
+        {{#if ship.errors.img.length}}
+          <span class="text-danger">
+            {{#each ship.errors.img as |err|}}{{err.message}}{{/each}}
+          </span>
+        {{/if}}
+
+        {{input type="text" class="form-control" id="itemImg" value=ship.img placeholder=ship.ship_model.img}}
+      </div>
+
+
+      <hr>
+
+      <div class="row">
+        {{#if session.current_user.permission.player_edit}}
+          <label class="control-label">Owner</label>
+          <div class="row">
+            <div class="col-md-5">
+              {{#if ship.player}}
+                {{player-details player=ship.player details=false}}
+              {{/if}}
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-6 mem-sel">
+              {{player-select onConfirm=(action "changeOwner") actionName="Change"}}
+            </div>
+          </div>
+        {{/if}}
+      </div>
+
+      <hr><br>
+
+      <div class="row">
+        {{#if session.current_user.can_modify_ship}}
+          {{#if ship.unit}}
+            ship is assigned to Unit: {{ship.unit.name}}
+            <button class="tb txt-red" type="button" {{action 'unassignFromUnit' ship.unit.id}}><i class="fa fa-close"></i></button>
+          {{else}}
+            {{unit-select onConfirm=(action "assignToUnit") actionName="Assign to Unit"}}
+          {{/if}}
+        {{/if}}
+      </div>
+
+      <hr>
+
+      <!--     <div class="row"  style="height: 30%;"> -->
+      <div class="col-md-6" style="height: 30%;">
+        <br>
+        <div class="item-img-box">
+
+          {{#if ship.img}}
+            {{ship-details ship=ship details=false tb=false}}
+          {{else}}
+            {{#if ship.ship_model}}
+              {{ship-model-details ship_model=ship.ship_model details=false tb=false}}
+            {{/if}}
+          {{/if}}
+        </div>
+      </div>
+      <div class="col-md-6 checklist">
+
+        <div class="row">
+          <div class="col-md-4">
+          </div>
+          <div class="col-md-2">
+            {{check-box value=ship.hidden iconSize="fa-2x"}}
+          </div>
+          <div class="col-md-6">
+            <label class="control-label">Hidden</label>
+          </div>
+        </div>
+        {{!--
+        <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-8">
+        </div>
+        </div>
+        --}}
+      </div>
+
+
+    {{/md.body}}
+    {{#md.footer}}
+      {{#if session.current_user.permission.ship_edit}}
+        <button type="submit" class="btn btn-primary" {{action "saveShip"}} disabled={{cannotSave}} >
+          {{fa-icon "save"}} Save
+        </button>
+      {{/if}}
+      <button type="button" class="btn btn-default" {{action "close"}}>{{fa-icon "close"}} Close</button>
+
+    {{/md.footer}}
+  {{/bs-modal}}
+
+
+{{/if}}

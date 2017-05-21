@@ -1,0 +1,41 @@
+{{#if (and tb session.current_user.permission.ship_tb)}}
+  <div class="toolbar">
+    {{#if session.current_user.permission.ship_edit}}
+      <button class="tb tb-default" type="button" {{action 'editShip' ship}}><i class="fa fa-gear"></i></button>
+    {{/if}}
+    {{#if session.current_user.permission.ship_delete}}
+      <button class="tb tb-danger" type="button" {{action 'deleteShip' ship}}><i class="fa fa-close"></i></button>
+    {{/if}}
+  </div>
+{{/if}}
+
+<div class="top-left">
+  {{#if ship.ship_model}}
+    <img class="top-left-img" src="images/manafacturers/{{ship.ship_model.manafacturers}}.png">
+  {{/if}}
+
+  <span class="top-left-name">
+    {{ship.name}}
+  </span>
+</div>
+
+{{#if ship.img}}
+  <img class="item-img" src={{ship.img}}>
+{{else}}
+  {{#if ship.ship_model.img}}
+    <img class="item-img" src={{ship.ship_model.img}}>
+  {{/if}}
+{{/if}}
+
+<div class="bottom-left">
+
+  <div class="bottom-left-text">
+    {{#if ship.player.avatar}}
+      <img class="top-left-img" src={{ship.player.avatar}}>
+    {{else}}
+      <i class="fa fa-user-o"></i>
+    {{/if}}
+
+    {{ship.player.name}}
+  </div>
+</div>

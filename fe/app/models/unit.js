@@ -9,7 +9,7 @@ export default DS.Model.extend({
   unitType: DS.belongsTo('unitType', { inverse: 'units' }),
   unit: DS.belongsTo('unit', { inverse: 'units' }),
 
-  items: DS.hasMany('item', { inverse: 'unit' }),
+  ships: DS.hasMany('ship', { inverse: 'unit' }),
   units: DS.hasMany('unit', { inverse: 'unit' }),
   players: DS.hasMany('player', { inverse: 'playerships' }),
   leaders: DS.hasMany('player', { inverse: 'leaderships' }),

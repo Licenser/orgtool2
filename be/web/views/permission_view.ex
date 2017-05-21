@@ -4,19 +4,11 @@ defmodule OrgtoolDb.PermissionView do
 
   attributes [
     :active,
-
     :user_read, :user_create, :user_edit, :user_delete,
-
     :player_read, :player_create, :player_edit, :player_delete,
-
     :unit_read, :unit_create, :unit_edit, :unit_delete, :unit_apply, :unit_accept, :unit_assign,
-
-    :category_read, :category_create, :category_edit, :category_delete,
-
-    :template_read, :template_create, :template_edit, :template_delete,
-
-    :item_read, :item_create, :item_edit, :item_delete,
-
+    :ship_model_read, :ship_model_create, :ship_model_edit, :ship_model_delete,
+    :ship_read, :ship_create, :ship_edit, :ship_delete,
     :reward_read, :reward_create, :reward_edit, :reward_delete
   ]
 

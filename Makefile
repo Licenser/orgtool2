@@ -11,5 +11,5 @@ docker: ui db
 	docker build -t orgtool .
 
 publish: docker
-	docker tag orgtool orgtool/orgtool
-	docker push orgtool/orgtool
+	docker tag orgtool orgtool/orgtool:sc
+	docker push orgtool/orgtool:sc

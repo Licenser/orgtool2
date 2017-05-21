@@ -10,8 +10,8 @@ defmodule OrgtoolDb.ErrorView do
   end
 
   # In case no render clause matches or no
-  # template is found, let's render it as 500
-  def template_not_found(_template, assigns) do
+  # ship_model is found, let's render it as 500
+  def ship_model_not_found(_ship_model, assigns) do
     render "500.html", assigns
   end
 end

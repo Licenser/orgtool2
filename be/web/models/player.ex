@@ -7,7 +7,7 @@ defmodule OrgtoolDb.Player do
     field :timezone, :integer
 
     has_many :handles, OrgtoolDb.Handle
-    has_many :items, OrgtoolDb.Item
+    has_many :ships, OrgtoolDb.Ship
     has_one :user, OrgtoolDb.User
 
     many_to_many :playerships, OrgtoolDb.Unit, join_through: OrgtoolDb.PlayerUnit, on_replace: :delete

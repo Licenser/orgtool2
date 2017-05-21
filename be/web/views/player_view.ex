@@ -14,8 +14,8 @@ defmodule OrgtoolDb.PlayerView do
     include: false,
     identifiers: :when_included
 
-  has_many :items,
-    serializer: OrgtoolDb.ItemView,
+  has_many :ships,
+    serializer: OrgtoolDb.ShipView,
     include: false,
     identifiers: :when_included
 

@@ -24,20 +24,15 @@ export default DS.Model.extend({
   unit_accept: DS.attr(),
   unit_assign: DS.attr(),
 
-  category_read: DS.attr(),
-  category_create: DS.attr(),
-  category_edit: DS.attr(),
-  category_delete: DS.attr(),
+  ship_model_read: DS.attr(),
+  ship_model_create: DS.attr(),
+  ship_model_edit: DS.attr(),
+  ship_model_delete: DS.attr(),
 
-  template_read: DS.attr(),
-  template_create: DS.attr(),
-  template_edit: DS.attr(),
-  template_delete: DS.attr(),
-
-  item_read: DS.attr(),
-  item_create: DS.attr(),
-  item_edit: DS.attr(),
-  item_delete: DS.attr(),
+  ship_read: DS.attr(),
+  ship_create: DS.attr(),
+  ship_edit: DS.attr(),
+  ship_delete: DS.attr(),
 
   reward_read: DS.attr(),
   reward_create: DS.attr(),
@@ -48,15 +43,15 @@ export default DS.Model.extend({
   //   created_at: DS.attr(),
 
 
-  settings: Ember.computed('user_read', 'item_read', 'reward_read', function() {
-    return this.get('user_read') || this.get('item_read') || this.get('reward_read');
+  settings: Ember.computed('user_read', 'ship_read', 'reward_read', function() {
+    return this.get('user_read') || this.get('ship_read') || this.get('reward_read');
   }),
 
-  item_list_filter: Ember.computed('category_read', 'template_read', 'item_read', function() {
-    return this.get('user_read') || this.get('item_read') || this.get('reward_read');
+  ship_list_filter: Ember.computed('ship_model_read', 'ship_read', function() {
+    return this.get('user_read') || this.get('ship_read') || this.get('reward_read');
   }),
 
-  item_tb: Ember.computed('item_edit', 'item_delete', function() {
-    return this.get('item_edit') || this.get('item_delete');
+  ship_tb: Ember.computed('ship_edit', 'ship_delete', function() {
+    return this.get('ship_edit') || this.get('ship_delete');
   }),
 });
