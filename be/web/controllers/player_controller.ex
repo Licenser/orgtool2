@@ -150,8 +150,4 @@ defmodule OrgtoolDb.PlayerController do
     |> maybe_apply(Unit,   "unit",   "applications", :applications, elements)
   end
 
-  defp same_player?(user, id) do
-    user.player_id == id
-  end
-
 end

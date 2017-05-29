@@ -139,7 +139,8 @@
 
     {{/md.body}}
     {{#md.footer}}
-      {{#if session.current_user.permission.ship_edit}}
+      {{#if (or session.current_user.permission.ship_edit
+         (eq session.current_user.player.id ship.player.id))}}
         <button type="submit" class="btn btn-primary" {{action "saveShip"}} disabled={{cannotSave}} >
           {{fa-icon "save"}} Save
         </button>

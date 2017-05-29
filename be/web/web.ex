@@ -57,6 +57,10 @@ defmodule OrgtoolDb.Web do
       import OrgtoolDb.Router.Helpers
       import OrgtoolDb.Controller.Helpers
 
+      defp same_player?(user, id) do
+        user.player_id == id
+      end
+
       defp id_int(b) when is_binary(b) do
         String.to_integer(b)
       end

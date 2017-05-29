@@ -1,9 +1,11 @@
-{{#if (and tb session.current_user.permission.ship_tb)}}
+{{#if (and tb (or session.current_user.permission.ship_tb (eq session.current_user.player.id ship.player.id)))}}
   <div class="toolbar">
-    {{#if session.current_user.permission.ship_edit}}
+    {{#if (or session.current_user.permission.ship_edit
+       (eq session.current_user.player.id ship.player.id))}}
       <button class="tb tb-default" type="button" {{action 'editShip' ship}}><i class="fa fa-gear"></i></button>
     {{/if}}
-    {{#if session.current_user.permission.ship_delete}}
+    {{#if (or session.current_user.permission.ship_delete
+       (eq session.current_user.player.id ship.player.id))}}
       <button class="tb tb-danger" type="button" {{action 'deleteShip' ship}}><i class="fa fa-close"></i></button>
     {{/if}}
   </div>

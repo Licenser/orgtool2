@@ -78,6 +78,7 @@ export default Ember.Service.extend({
 //           Ember.Logger.log(" user found", userid);
           set(user, "loggedIn", true);
           set(self, "current_user", user);
+          console.log("current_user", user.get("player.id"));
 
           self.log("session", "logged in as user");
           self.set('loading', false);
