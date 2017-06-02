@@ -18,6 +18,11 @@
 
   <span class="top-left-name">
     {{ship.name}}
+    {{#if (not ship.unit_id)}}
+      <i class="fa fa-square-o"></i>
+    {{else}}
+      <i class="fa fa-check-square-o"></i>
+    {{/if}}
   </span>
 </div>
 

@@ -4,6 +4,7 @@ export default DS.Model.extend({
   name: DS.attr(),
   description: DS.attr(),
   img: DS.attr(),
+  unit_id: DS.attr(),
 
   'ship-model': DS.belongsTo('ship-model', { inverse: 'ships', async: false }),
   unit: DS.belongsTo('unit', { inverse: 'ships', async: false }),

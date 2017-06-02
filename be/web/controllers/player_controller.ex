@@ -82,11 +82,10 @@ defmodule OrgtoolDb.PlayerController do
   def update(conn, payload = %{"id" => id, "data" => %{"attributes" => params}},
         current_user, {:ok, claims}) do
     perms = Guardian.Permissions.from_claims(claims, :player)
-    #default = Guardian.Permissions.from_claims(claims, :default)
     id = String.to_integer(id)
-    if (Guardian.Permissions.all?(perms, [:read, :update], :player) or same_player?(current_user, id))
-    # and Guardian.Permissions.all?(default, [:active], :default)
-      do
+    read_and_update = Guardian.Permissions.all?(perms, [:read, :edit], :player)
+    same_player = same_player?(current_user, id)
+    if read_and_update or same_player do
       player = Repo.get!(Player, id)
       |> Repo.preload(@preload)
       changeset = Player.changeset(player, params)
