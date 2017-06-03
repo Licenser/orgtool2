@@ -44,14 +44,27 @@ export default Ember.Component.extend({
   }),
   sortedShips: Ember.computed.sort('ships', function(a, b) {
     var crew_a = a.get('ship_model.crew'),
-        crew_b = b.get('ship_model.crew');
+        crew_b = b.get('ship_model.crew'),
+        man_a = a.get('ship_model.manufacturer'),
+        man_b = b.get('ship_model.manufacturer'),
+        mname_a = a.get('ship_model.name'),
+        mname_b = b.get('ship_model.name'),
+        name_a = a.get('name'),
+        name_b = b.get('name');
+
     // Note: 1 and -1 flipped to get reverse sort order aka
     // largest ship first.
-    if (crew_a > crew_b) {
-      return -1;
-    } else if (crew_a < crew_b) {
-      return 1;
-    }
+    if (crew_a > crew_b) return -1;
+    if (crew_a < crew_b) return 1;
+    // sort by manufacturer second
+    if (man_a > man_b) return 1;
+    if (man_a < man_b) return -1;
+    // last we sort by name
+    if (mname_a > mname_b) return 1;
+    if (mname_a < mname_b) return -1;
+    // last we sort by name
+    if (name_a > name_b) return 1;
+    if (name_a < name_b) return -1;
     return 0;
   }),
   //sortDefinition: ['ship_model.crew'],
