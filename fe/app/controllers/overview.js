@@ -94,10 +94,10 @@ export default Ember.Controller.extend({
       output.sort(function(a, b) {
         var crew_a = a.model.get('crew'),
             crew_b = b.model.get('crew'),
-            man_a = a.model.get('manui'),
-            man_b = b.model.get('crew'),
-            crew_a = a.model.get('crew'),
-            crew_b = b.model.get('crew');
+            man_a = a.get('manufacturer'),
+            man_b = b.get('manufacturer'),
+            name_a = a.get('name'),
+            name_b = b.get('name');
         // Note: 1 and -1 flipped to get reverse sort order aka
         // largest ship first.
         if (crew_a > crew_b) return -1;
