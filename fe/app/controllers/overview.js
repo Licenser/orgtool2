@@ -92,11 +92,22 @@ export default Ember.Controller.extend({
       });
 
       output.sort(function(a, b) {
-        var an = a.model.get('crew');
-        var bn = b.model.get('crew');
-        // note 1 and  -1 are swapped to show the largest ship first 
-        if(an < bn) return 1;
-        if(an > bn) return -1;
+        var crew_a = a.model.get('crew'),
+            crew_b = b.model.get('crew'),
+            man_a = a.model.get('manui'),
+            man_b = b.model.get('crew'),
+            crew_a = a.model.get('crew'),
+            crew_b = b.model.get('crew');
+        // Note: 1 and -1 flipped to get reverse sort order aka
+        // largest ship first.
+        if (crew_a > crew_b) return -1;
+        if (crew_a < crew_b) return 1;
+        // sort by manufacturer second
+        if (man_a > man_b) return 1;
+        if (man_a < man_b) return -1;
+        // last we sort by name
+        if (name_a > name_b) return 1;
+        if (name_a < name_b) return -1;
         return 0;
       });
       set(self, "sumShips", output);

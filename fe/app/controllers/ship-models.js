@@ -43,25 +43,16 @@ export default Ember.Controller.extend({
         name_a = a.get('name'),
         name_b = b.get('name');
     // sort by manufacturer first
-    if (man_a > man_b) {
-      return 1;
-    an} else if (man_a < man_b) {
-      return -1;
-    }
+    if (man_a > man_b) return 1;
+    if (man_a < man_b) return -1;
     // sort by crew second
     // Note: 1 and -1 flipped to get reverse sort order aka
     // largest ship first.
-    if (crew_a > crew_b) {
-      return -1;
-    } else if (crew_a < crew_b) {
-      return 1;
-    }
+    if (crew_a > crew_b) return -1;
+    if (crew_a < crew_b) return 1;
     // last we sort by name
-    if (name_a > name_b) {
-      return 1;
-    an} else if (name_a < name_b) {
-      return -1;
-    }
+    if (name_a > name_b) return 1;
+    if (name_a < name_b) return -1;
     return 0;
   }),
 
