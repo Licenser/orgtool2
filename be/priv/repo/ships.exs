@@ -66,6 +66,20 @@ for %{
   crew = to_i.(crew)
   length = to_f.(length)
   mass = to_f.(mass)
+  # This is a hack, but there are a few ships that have
+  # known bad crew requirements so we set them to 'something'
+  # more sensible so they fit into the grand scheme i.e.
+  # Jav > Idris > Polaris
+  crew = cond do
+    name == "Javelin-class Destroyer" ->
+      35
+    name == "Idris-M" ->
+      30
+    name == "Idris-P" ->
+      30
+    true ->
+      crew
+  end
   case Repo.one(from m in ShipModel,
         where: m.ship_id == ^ship_id,
         limit: 1) do

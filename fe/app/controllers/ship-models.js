@@ -28,11 +28,41 @@ export default Ember.Controller.extend({
     this.set("loading", true);
     var res;
 
-    res = get(this, "store").findAll("ship_model");
+    res = get(this, "store").findAll("ship-model");
 
     this.set("loading", false);
 
     return res;
+  }),
+
+  sortedModels: Ember.computed.sort('models', function(a, b) {
+    var crew_a = a.get('crew'),
+        crew_b = b.get('crew'),
+        man_a = a.get('manufacturer'),
+        man_b = b.get('manufacturer'),
+        name_a = a.get('name'),
+        name_b = b.get('name');
+    // sort by manufacturer first
+    if (man_a > man_b) {
+      return 1;
+    an} else if (man_a < man_b) {
+      return -1;
+    }
+    // sort by crew second
+    // Note: 1 and -1 flipped to get reverse sort order aka
+    // largest ship first.
+    if (crew_a > crew_b) {
+      return -1;
+    } else if (crew_a < crew_b) {
+      return 1;
+    }
+    // last we sort by name
+    if (name_a > name_b) {
+      return 1;
+    an} else if (name_a < name_b) {
+      return -1;
+    }
+    return 0;
   }),
 
   showConfirm: function(model) {

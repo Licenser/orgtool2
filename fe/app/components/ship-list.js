@@ -42,8 +42,19 @@ export default Ember.Component.extend({
 
     return res;
   }),
-  sortedShips: Ember.computed.sort('ships', 'sortDefinition'),
-  sortDefinition: ['ship_model_id'],
+  sortedShips: Ember.computed.sort('ships', function(a, b) {
+    var crew_a = a.get('ship_model.crew'),
+        crew_b = b.get('ship_model.crew');
+    // Note: 1 and -1 flipped to get reverse sort order aka
+    // largest ship first.
+    if (crew_a > crew_b) {
+      return -1;
+    } else if (crew_a < crew_b) {
+      return 1;
+    }
+    return 0;
+  }),
+  //sortDefinition: ['ship_model.crew'],
 
   resetAll: function() {
     set(this, "currShip", null);

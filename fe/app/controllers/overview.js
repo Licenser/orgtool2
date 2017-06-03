@@ -92,10 +92,11 @@ export default Ember.Controller.extend({
       });
 
       output.sort(function(a, b) {
-        var an = a.model.get('name');
-        var bn = b.model.get('name');
-        if(an < bn) return -1;
-        if(an > bn) return 1;
+        var an = a.model.get('crew');
+        var bn = b.model.get('crew');
+        // note 1 and  -1 are swapped to show the largest ship first 
+        if(an < bn) return 1;
+        if(an > bn) return -1;
         return 0;
       });
       set(self, "sumShips", output);
