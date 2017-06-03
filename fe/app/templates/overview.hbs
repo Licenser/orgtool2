@@ -32,7 +32,7 @@
     <div class="info-content">
       {{#if (and (not showPlayers) currentUnit)}}
         {{#ember-collection items=sumShips cell-layout=(percentage-columns-layout sumShips.length columns itemHeight) as |group index|}}
-          {{ship-model-details ship_model=group.model details=false count=ship.count}}
+          {{ship-model-details ship_model=group.model details=false count=group.count}}
           {{ship.ship_model}}
         {{/ember-collection}}
       {{/if}}
