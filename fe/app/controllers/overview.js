@@ -79,8 +79,8 @@ export default Ember.Controller.extend({
       console.debug(" SHIP MEGA FETCH DONE", result);
       for (var key in result) {
         var ship = store.peekRecord('ship', key);
-        var model = ship.get("ship-model");
-        var modelId = ship.get("ship-model.id");
+        var model = ship.get("ship_model");
+        var modelId = ship.get("ship_model.id");
         if (allShips[modelId]) {
           allShips[modelId].count++;
         } else {

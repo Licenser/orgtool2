@@ -15,7 +15,7 @@ export default Ember.Component.extend({
   setup: Ember.on('init', function() {
     var self = this;
 
-    get(this, 'store').findAll('ship_model').then(function(ship_models) {
+    get(this, 'store').findAll('ship-model').then(function(ship_models) {
       debug("ship_models: ", get(ship_models, "length"));
       self.set('ship_models', ship_models);
     });
@@ -39,6 +39,7 @@ export default Ember.Component.extend({
     },
 
     setModel: function(model) {
+      console.log(model);
       console.log(get(model, "name"));
       console.log(get(model, "img"));
       set(this, "ship.ship_model", model);

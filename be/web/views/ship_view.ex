@@ -2,7 +2,8 @@ defmodule OrgtoolDb.ShipView do
   use OrgtoolDb.Web, :view
   use JaSerializer.PhoenixView
 
-  attributes [:available, :description, :hidden, :img, :name, :unit_id]
+  attributes [:available, :description, :hidden, :img, :name, :unit_id,
+              :ship_model_id]
 
   has_one :player,
     serializer: OrgtoolDb.PlayerView,

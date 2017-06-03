@@ -1,6 +1,6 @@
 <div class="item-menu">
   <div class="item-stat-menu">
-    Ships: {{ships.length}}
+    Ships: {{sortedShips.length}}
   </div>
 
   {{#if session.current_user.permission.ship_list_filter}}
@@ -13,8 +13,8 @@
 </div>
 
 <div class="item-list">
-  {{#if ships.length}}
-    {{#ember-collection items=ships cell-layout=(percentage-columns-layout ships.length columns itemHeight) as |ship index|}}
+  {{#if sortedShips.length}}
+    {{#ember-collection items=sortedShips cell-layout=(percentage-columns-layout sortedShips.length columns itemHeight) as |ship index|}}
       {{ship-details ship=ship details=details onConfirm=(action "showConfirm") onEdit=(action "showEdit")}}
     {{/ember-collection}}
   {{else}}

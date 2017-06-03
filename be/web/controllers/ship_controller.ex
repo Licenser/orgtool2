@@ -7,8 +7,11 @@ defmodule OrgtoolDb.ShipController do
   alias OrgtoolDb.Unit
   alias Ecto.Changeset
 
+  @idx_opts [include: "ship_model,player"]
+  @idx_preload [:ship_model, :player]
   @opts [include: "player,ship_model,unit"]
-  @preload [:player, :ship_model, :unit]
+  @preload [:unit] ++ @idx_preload
+
 
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
@@ -24,7 +27,8 @@ defmodule OrgtoolDb.ShipController do
 
   def index(conn, _params, _current_user, _claums) do
     ships = Repo.all(Ship)
-    render(conn, "index.json-api", data: ships)
+    |> Repo.preload(@idx_preload)
+    render(conn, "index.json-api", data: ships, opts: @idx_opts)
   end
 
 
@@ -116,7 +120,7 @@ defmodule OrgtoolDb.ShipController do
 
   defp maybe_add_rels(changeset, %{"relationships" => relationships}) do
     changeset
-    |> maybe_apply(ShipModel, :ship_model, relationships)
+    |> maybe_apply(ShipModel, "ship-model", :ship_model, relationships)
     |> maybe_apply(Player,   :player, relationships)
     |> maybe_apply(Unit,     :unit, relationships)
   end

@@ -42,6 +42,8 @@ export default Ember.Component.extend({
 
     return res;
   }),
+  sortedShips: Ember.computed.sort('ships', 'sortDefinition'),
+  sortDefinition: ['ship_model_id'],
 
   resetAll: function() {
     set(this, "currShip", null);
