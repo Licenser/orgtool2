@@ -38,7 +38,9 @@ defmodule OrgtoolDb.Endpoint do
     key: "_orgtool_db_key",
     signing_salt: "CR41uPgp"
 
-  #plug CORSPlug, origin: ["http://localhost:4200", "http://127.0.0.1:4200"]
+  if System.get_env("NO_AUTH") == "true" do
+    plug CORSPlug, origin: ["http://localhost:4200", "http://127.0.0.1:4200"]
+  end
 
   plug OrgtoolDb.Router
 end
