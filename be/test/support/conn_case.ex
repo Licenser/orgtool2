@@ -5,7 +5,7 @@ defmodule OrgtoolDb.ConnCase do
 
   Such tests rely on `Phoenix.ConnTest` and also
   import other functionality to make it easier
-  to build and query ship_models.
+  to build and query templates.
 
   Finally, if the test case interacts with the database,
   it cannot be async. For this reason, every test runs
@@ -13,7 +13,8 @@ defmodule OrgtoolDb.ConnCase do
   of the test unless the test case is marked as async.
   """
 
-  use ExUnit.CaseShipModel
+  use ExUnit.CaseTemplate
+
 
   using do
     quote do

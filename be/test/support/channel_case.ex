@@ -13,7 +13,8 @@ defmodule OrgtoolDb.ChannelCase do
   of the test unless the test case is marked as async.
   """
 
-  use ExUnit.CaseShipModel
+  use ExUnit.CaseTemplate
+
 
   using do
     quote do

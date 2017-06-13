@@ -1,9 +1,9 @@
-defmodule OrgtoolDb.TemplateControllerTest do
+defmodule OrgtoolDb.ShipModelControllerTest do
   use OrgtoolDb.ConnCase
 
-  alias OrgtoolDb.Template
-  @valid_attrs %{description: "some content", img: "some content", name: "some content"}
-  @valid_data = %{attributes: @valid_attrs,}
+  alias OrgtoolDb.ShipModel
+  @valid_attrs %{description: "some content", img: "some content", name: "some content", ship_id: 42}
+  @valid_data %{attributes: @valid_attrs}
 
   @invalid_attrs %{}
   @invalid_data %{attributes: @invalid_attrs}
@@ -13,64 +13,67 @@ defmodule OrgtoolDb.TemplateControllerTest do
   end
 
   test "lists all entries on index", %{conn: conn} do
-    conn = get conn, template_path(conn, :index)
+    conn = get conn, ship_model_path(conn, :index)
     assert json_response(conn, 200)["data"] == []
   end
 
   test "shows chosen resource", %{conn: conn} do
-    template = Repo.insert! %Template{}
-    conn = get conn, template_path(conn, :show, template)
+    ship_model = Repo.insert! %ShipModel{}
+    conn = get conn, ship_model_path(conn, :show, ship_model)
     assert json_response(conn, 200)["data"] == %{
-      "id"            => Integer.to_string(template.id),
-      "type"          => "template",
-      "relationships" => %{
-        "template-props" => %{"data" => []},
-      },
+      "id"            => Integer.to_string(ship_model.id),
+      "type"          => "ship-model",
       "attributes"    => %{
-        "name" => template.name,
-        "img" => template.img,
-        "description" => template.description
+        "name" => ship_model.name,
+        "img" => ship_model.img,
+        "description" => ship_model.description,
+        "class" => ship_model.class,
+        "crew" => ship_model.crew,
+        "length" => ship_model.length,
+        "manufacturer" => ship_model.manufacturer,
+        "mass" => ship_model.mass,
+        "ship-id" => ship_model.ship_id
       }
     }
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
     assert_error_sent 404, fn ->
-      get conn, template_path(conn, :show, -1)
+      get conn, ship_model_path(conn, :show, -1)
     end
   end
 
   test "creates and renders resource when data is valid", %{conn: conn} do
-    conn = post conn, template_path(conn, :create), data: @valid_data
+    conn = post conn, ship_model_path(conn, :create), data: @valid_data
     response = json_response(conn, 201)
     assert response["data"]["id"]
-    assert Repo.get_by(Template, @valid_attrs)
+    assert Repo.get_by(ShipModel, @valid_attrs)
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
-    conn = post conn, template_path(conn, :create), data: @invalid_data
+    conn = post conn, ship_model_path(conn, :create), data: @invalid_data
     assert json_response(conn, 422)["errors"] != %{}
   end
 
   test "updates and renders chosen resource when data is valid", %{conn: conn} do
-    template = Repo.insert! %Template{}
-    conn = put conn, template_path(conn, :update, template), id: template.id, data: @valid_data
+    ship_model = Repo.insert! %ShipModel{}
+    conn = put conn, ship_model_path(conn, :update, ship_model), id: ship_model.id, data: @valid_data
     response = json_response(conn, 200)
     assert response["data"]["id"]
 
-    assert Repo.get_by(Template, @valid_attrs)
+    assert Repo.get_by(ShipModel, @valid_attrs)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
-    template = Repo.insert! %Template{}
-    conn = put conn, template_path(conn, :update, template), id: template.id, data: @invalid_data
+    ship_model = Repo.insert! %ShipModel{}
+    conn = put conn, ship_model_path(conn, :update, ship_model), id: ship_model.id, data: @invalid_data
     assert json_response(conn, 422)["errors"] != %{}
   end
 
   test "deletes chosen resource", %{conn: conn} do
-    template = Repo.insert! %Template{}
-    conn = delete conn, template_path(conn, :delete, template)
+    ship_model = Repo.insert! %ShipModel{}
+    conn = delete conn, ship_model_path(conn, :delete, ship_model)
     assert response(conn, 204)
-    refute Repo.get(Template, template.id)
+    refute Repo.get(ShipModel, ship_model.id)
   end
 end

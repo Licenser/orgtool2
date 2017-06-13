@@ -1,4 +1,4 @@
-defmodule OrgtoolDb.ShipModelCase do
+defmodule OrgtoolDb.TemplateCase do
   @moduledoc """
   This module defines the test case to be used by
   ship_model tests.
@@ -12,7 +12,7 @@ defmodule OrgtoolDb.ShipModelCase do
   of the test unless the test case is marked as async.
   """
 
-  use ExUnit.CaseShipModel
+  use ExUnit.CaseTemplate
 
   using do
     quote do
@@ -21,7 +21,7 @@ defmodule OrgtoolDb.ShipModelCase do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import OrgtoolDb.ShipModelCase
+      import OrgtoolDb.TemplateCase
     end
   end
 

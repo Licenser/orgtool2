@@ -44,6 +44,7 @@ defmodule OrgtoolDb.UnitControllerTest do
         "leaders" => %{"data" => []},
         "players" => %{"data" => []},
         "unit" => %{"data" => nil},
+        "ships" => %{"data" => []},
         "unit-type" => %{"data" => nil},
         "units" => %{"data" => []}}
     }

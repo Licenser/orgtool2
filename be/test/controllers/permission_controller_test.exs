@@ -66,10 +66,10 @@ defmodule OrgtoolDb.PermissionControllerTest do
         "unit-accept" => permission.unit_accept,
         "unit-assign" => permission.unit_assign,
 
-        "ship_model-read"   => permission.ship_model_read,
-        "ship_model-create" => permission.ship_model_create,
-        "ship_model-edit"   => permission.ship_model_edit,
-        "ship_model-delete" => permission.ship_model_delete,
+        "ship-model-read"   => permission.ship_model_read,
+        "ship-model-create" => permission.ship_model_create,
+        "ship-model-edit"   => permission.ship_model_edit,
+        "ship-model-delete" => permission.ship_model_delete,
 
         "ship-read"   => permission.ship_read,
         "ship-create" => permission.ship_create,

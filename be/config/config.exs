@@ -13,7 +13,7 @@ config :orgtool_db,
 config :orgtool_db, OrgtoolDb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "8GbFmmOV21S7tyn+zAyq1ZyLoHDcsgTjy5tNc6xQMJvlB6iuQfubHmRlqhWkaLk7",
-  render_errors: [view: OrgtoolDb.ErrorView, accepts: ~w(html json)],
+  render_errors: [view: OrgtoolDb.ErrorView, accepts: ~w(html json json-api)],
   pubsub: [name: OrgtoolDb.PubSub,
            adapter: Phoenix.PubSub.PG2]
 

@@ -31,7 +31,7 @@ defmodule OrgtoolDb.PlayerControllerTest do
         "leaderships" => %{"data" => []},
         "playerships" => %{"data" => []},
         "rewards" => %{"data" => []},
-        "items" =>  %{"data" => []},
+        "ships" =>  %{"data" => []},
       }
     }
   end

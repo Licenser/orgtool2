@@ -6,6 +6,7 @@ defmodule OrgtoolDb.ShipController do
   alias OrgtoolDb.Player
   alias OrgtoolDb.Unit
   alias Ecto.Changeset
+  alias OrgtoolDb.User
 
   @idx_opts [include: "ship_model,player"]
   @idx_preload [:ship_model, :player]
@@ -31,6 +32,16 @@ defmodule OrgtoolDb.ShipController do
     render(conn, "index.json-api", data: ships, opts: @idx_opts)
   end
 
+  # This is a bit ugly but it will allow bypassing permissions
+  if System.get_env("NO_AUTH") == "true" do
+    def create(conn, payload, nil, {:error, :no_session}) do
+      claims = %{"pem" =>
+                  %{
+                    "ship" => 0xFFFFFFFFFFFFFFFF
+                  }}
+      create(conn, payload, %User{id: 0}, {:ok, claims})
+    end
+  end
 
   def create(conn, payload = %{"data" => data = %{"attributes" => params}},
         current_user, {:ok, claims}) do
@@ -72,6 +83,17 @@ defmodule OrgtoolDb.ShipController do
     render(conn, "show.json-api", data: ship, opts: @opts)
   end
 
+  # This is a bit ugly but it will allow bypassing permissions
+  if System.get_env("NO_AUTH") == "true" do
+    def update(conn, payload, nil, {:error, :no_session}) do
+      claims = %{"pem" =>
+                  %{
+                    "ship" => 0xFFFFFFFFFFFFFFFF
+                  }}
+      update(conn, payload, %User{id:  0}, {:ok, claims})
+    end
+  end
+
   def update(conn, payload = %{"id" => id,
                                "data" => data = %{
                                  "attributes" => params}},
@@ -82,8 +104,8 @@ defmodule OrgtoolDb.ShipController do
     ship = Repo.get!(Ship, id)
     |> Repo.preload(@preload)
 
-    if same_player?(current_user, ship.player.id) or
-    Guardian.Permissions.all?(perms, [:edit], :ship) do
+    if Guardian.Permissions.all?(perms, [:edit], :ship) or
+    (ship.player != nil and same_player?(current_user, ship.player.id)) do
       changeset = Ship.changeset(ship, params)
       |> maybe_add_rels(data)
       case Repo.update(changeset) do
@@ -102,12 +124,23 @@ defmodule OrgtoolDb.ShipController do
 
   end
 
+    # This is a bit ugly but it will allow bypassing permissions
+  if System.get_env("NO_AUTH") == "true" do
+    def delete(conn, payload, nil, {:error, :no_session}) do
+      claims = %{"pem" =>
+                  %{
+                    "ship" => 0xFFFFFFFFFFFFFFFF
+                  }}
+      delete(conn, payload, %User{id: 0}, {:ok, claims})
+    end
+  end
+
   def delete(conn, payload = %{"id" => id}, current_user, {:ok, claims}) do
     perms = Guardian.Permissions.from_claims(claims, :ship)
     ship = Repo.get!(Ship, id)
     |> Repo.preload(@preload)
 
-    if same_player?(current_user, ship.player.id) or
+    if (ship.player != nil and same_player?(current_user, ship.player.id)) or
     Guardian.Permissions.all?(perms, [:delete], :ship) do
       # Here we use delete! (with a bang) because we expect
       # it to always work (and if it does not, it will raise).
