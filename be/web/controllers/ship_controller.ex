@@ -33,9 +33,10 @@ defmodule OrgtoolDb.ShipController do
 
 
   def create(conn, payload = %{"data" => data = %{"attributes" => params}},
-        current_user, {:ok, claims}) do
+        _current_user, _claims) do
+#          current_user, {:ok, claims}) do
 
-    perms = Guardian.Permissions.from_claims(claims, :ship)
+#      perms = Guardian.Permissions.from_claims(claims, :ship)
 
     changeset = Ship.changeset(%Ship{}, params)
     |> maybe_add_rels(data)
@@ -45,8 +46,8 @@ defmodule OrgtoolDb.ShipController do
                   player ->
                     Map.get(player, :id)
                 end
-    if same_player?(current_user, player_id) or
-    Guardian.Permissions.all?(perms, [:create], :ship) do
+#      if same_player?(current_user, player_id) or
+#      Guardian.Permissions.all?(perms, [:create], :ship) do
       case Repo.insert(changeset) do
         {:ok, ship} ->
           ship = ship
@@ -60,9 +61,9 @@ defmodule OrgtoolDb.ShipController do
           |> put_status(:unprocessable_entity)
           |> render("errors.json-api", data: changeset)
       end
-    else
-      OrgtoolDb.SessionController.unauthorized(conn, payload)
-    end
+#      else
+#        OrgtoolDb.SessionController.unauthorized(conn, payload)
+#      end
 
   end
 
