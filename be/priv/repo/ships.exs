@@ -21,6 +21,7 @@ element = html |> xpath(~x'//li[@class="ship-item"]'l,
     String.replace(name, ~r/.* - /, "")
   end),
   mname: ~x"./div[last()]/span/img/@src"s |> transform_by(fn name -> :filename.rootname(:filename.basename(name)) end),
+  mimg: ~x"./div[last()]/span/img/@src"s,
   crew: ~x"./div[last()]/span[@class='crew spec']/span/text()"s,
   length: ~x"./div[last()]/span[@class='length spec']/span/text()"s,
   mass: ~x"./div[last()]/span[@class='mass spec']/span/text()"s
@@ -57,15 +58,19 @@ for %{
       img: img,
       ship_id: ship_id,
       class: class,
-      mname: category,
+      mimg: mimg,
+      mname: mname,
       crew: crew,
       length: length,
       mass: mass
-}  <- element do
+  }  <- element do
 
+  mimg = "#{img_pfx}#{mimg}"
   crew = to_i.(crew)
   length = to_f.(length)
   mass = to_f.(mass)
+
+
   # This is a hack, but there are a few ships that have
   # known bad crew requirements so we set them to 'something'
   # more sensible so they fit into the grand scheme i.e.
@@ -80,15 +85,21 @@ for %{
     true ->
       crew
   end
-  case Repo.one(from m in ShipModel,
-        where: m.ship_id == ^ship_id,
-        limit: 1) do
+
+  mimgpath = "../fe/public/images/manufacturers/#{mname}.png"
+  if ! File.regular?(mimgpath) do
+    Logger.info("Download #{mimg} -> #{mimgpath}")
+    %HTTPoison.Response{body: body} = HTTPoison.get!(mimg)
+    File.write!(mimgpath, body)
+  end
+
+  case Repo.one(from m in ShipModel, where: m.ship_id == ^ship_id, limit: 1) do
     nil ->
       Logger.info("Adding ship #{name}")
       Repo.insert! %ShipModel{
         name: "#{name}",
         img: "#{img_pfx}#{img}",
-        manufacturer: category,
+        manufacturer: mname,
         ship_id: ship_id,
         class: class,
         crew: crew,
@@ -96,9 +107,10 @@ for %{
         mass: mass
       }
     tpl ->
+      Logger.info("Updating ship #{name}")
       changes = %{name: "#{name}",
                   img: "#{img_pfx}#{img}",
-                  manufacturer: category,
+                  manufacturer: mname,
                   ship_id: ship_id,
                   class: class,
                   crew: crew,
@@ -108,4 +120,5 @@ for %{
       ShipModel.changeset(tpl, changes)
       |> Repo.update!
   end
+
 end
