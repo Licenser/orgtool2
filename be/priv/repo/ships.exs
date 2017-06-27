@@ -87,11 +87,6 @@ for %{
   end
 
   mimgpath = "../fe/public/images/manufacturers/#{mname}.png"
-  if ! File.regular?(mimgpath) do
-    Logger.info("Download #{mimg} -> #{mimgpath}")
-    %HTTPoison.Response{body: body} = HTTPoison.get!(mimg)
-    File.write!(mimgpath, body)
-  end
 
   case Repo.one(from m in ShipModel, where: m.ship_id == ^ship_id, limit: 1) do
     nil ->
