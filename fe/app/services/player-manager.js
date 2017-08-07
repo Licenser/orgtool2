@@ -7,6 +7,7 @@ var set = Ember.set;
 export default Ember.Service.extend({
   ajax: Ember.inject.service(),
   store: Ember.inject.service(),
+  onePositionPerUnit: true,
 
   init: function() {
     this._super(...arguments);
@@ -33,22 +34,24 @@ export default Ember.Service.extend({
           return;
         }
 
-        var rmDest = "";
-        if (leaders) {
-          rmDest = "leaders";
-        }
+        if (get(self, "onePositionPerUnit")) {
+          var rmDest = "";
+          if (leaders) {
+            rmDest = "leaders";
+          }
 
-        if (players) {
-          rmDest = "players";
-        }
+          if (players) {
+            rmDest = "players";
+          }
 
-        if (applicants) {
-          rmDest = "applicants";
-        }
+          if (applicants) {
+            rmDest = "applicants";
+          }
 
-        if (rmDest) {
-          unit.get(rmDest).removeObject(player);
-        } 
+          if (rmDest) {
+            unit.get(rmDest).removeObject(player);
+          } 
+        }
 
         unit.get(data.destType).pushObject(player).save().then(function(un) {
         }).catch(function(err) {

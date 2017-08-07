@@ -20,6 +20,13 @@ $player-width: 128px;
 $player-header-height: 70px;
 $player-menu-height: 34px;
 
+.player-details-name {
+  position: relative;
+  //      right: -5px;
+  width: 100%;
+  height: 100%;
+}
+
 
 .modal-header {
   h4 {

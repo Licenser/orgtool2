@@ -4,24 +4,16 @@
 @import "ember-bootstrap/bootstrap";
 @import "ember-power-select";
 
-
-//  ol, ul {
-//      margin-bottom: 0px;
-//  }
-
 @import 'theme';
 @import 'app/application/style.scss';
 
 @import 'app/overview/style.scss';
-
 @import 'app/players/style.scss';
 @import 'app/players/player/style.scss';
-
 @import 'app/login/style.scss';
 @import 'app/loader/style.scss';
 @import 'app/ships/style.scss';
 @import 'app/rewards/style.scss';
-
 
 @import 'app/components/player-details/style.scss';
 @import 'app/components/player-select/style.scss';

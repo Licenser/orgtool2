@@ -1,3 +1,9 @@
+$pilot-width: 25%;
+$info-width: 25%;
+$overview-width: calc(100% - #{($pilot-width + $info-width)});
+
+
+
 #units {
   width: $pilot-width;
   height: 100%;
@@ -17,10 +23,6 @@
   position: relative;
 }
 
-$filter-height: 80px;
-$pager-height: 35px;
-//  $result-height: calc(100% - #{$filter-height} - #{$pager-height});
-$result-height: calc(100% - #{$filter-height});
 
 #info {
   width: $info-width;
