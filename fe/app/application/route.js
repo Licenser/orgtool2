@@ -6,7 +6,7 @@ var set = Ember.set;
 export default Ember.Route.extend({
   session: Ember.inject.service(),
 
-  beforeModel: function(transition){
+  beforeModel: function(transition) {
     var self = this;
     return this.get('session').loadUser().then(function(result) {
       var target = transition.targetName.split(".")[0];

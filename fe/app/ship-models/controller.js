@@ -113,7 +113,7 @@ export default Ember.Controller.extend({
       debug("ADD Model");
       var model = get(this, "store").createRecord('ship_model');
 
-      this.set('showModelmDialog', true);
+      this.set('showModelDialog', true);
       this.set('currModel', model);
     },
   },
