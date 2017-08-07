@@ -6,22 +6,11 @@ var debug = Ember.Logger.log;
 
 export default Ember.Component.extend({
   classNames: ['player-details'],
-//   classNameBindings: ['canDrag:player-details-draggable'],
-  classNameBindings: ['compClasses'], // either 'left' or 'right'
-  compClasses: function() {
-    if (this.get('canDrag')) {
-      return "player-details-draggable";
-    } else if (this.get('details')) {
-      return "player-details-selectable";
-    }
-    return "";
-  }.property('details', "canDrag"),
-
-  //
-  //
-  //
-  //   classNameBindings: ['isUrgent:urgent'],
+  classNameBindings: ['compClasses'],
   store: Ember.inject.service(),
+  playerManager: Ember.inject.service('player-manager'),
+  session: Ember.inject.service('session'),
+
   player: null,
 
   draggable: false,
@@ -36,8 +25,15 @@ export default Ember.Component.extend({
   canDrag: Ember.computed.and('draggable', 'session.current_user.permission.unit_assign'),
   canUnassign: Ember.computed.and('unit', 'session.current_user.permission.unit_assign'),
 
-  eventManager: Ember.inject.service('events'),
-  session: Ember.inject.service('session'),
+
+  compClasses: function() {
+    if (this.get('canDrag')) {
+      return "player-details-draggable";
+    } else if (this.get('details')) {
+      return "player-details-selectable";
+    }
+    return "";
+  }.property('details', "canDrag"),
 
   setup: Ember.on('didInsertElement', function() {
 //     debug(">> init", Ember.get(this, "player.id"));
@@ -82,7 +78,7 @@ export default Ember.Component.extend({
   }.observes('session.current_user.permission.unit_assign'),
 
   createDraggable: function() {
-  /*
+
     this.$().draggable({
       tolerance: 'pointer',
       helper: 'clone',
@@ -97,43 +93,37 @@ export default Ember.Component.extend({
       drag: Ember.$.proxy(this.onDrag, this),
       stop: Ember.$.proxy(this.onDropped, this),
     });
-    */
+
   },
 
   onDrag: function(e) {
     var el = this.getElementId(e);
     var matches = el.unitid !== undefined;
-//     debug("drag", matches);
-    this.$('body').css("cursor", function() {
-      return (matches) ? "copy" : "move";
-    });
-    //     var last = this.get('lastElement');
-//     debug("dest", el);
     if (matches && el.dest == "path") {
       this.setLast(e.toElement);
     } else {
       this.resetLast();
     }
-    /*
     this.$(e.target).draggable("option","revertDuration",(matches) ? 0 : 100)
-    */
   },
 
   onDropped: function (event, ui) {
     this.resetLast();
-    // Dropped on a non-matching target.
     var elm = this.getElementId(event);
     var unitid = elm.unitid;
-//     debug("DROP", unitid);
     if (!unitid) {
-      //       Ember.Logger.debug("no match");
       return;
     }
 
     var id = parseInt(this.$(event.target).data('playerid'));
     debug("assign", id);
-    this.get('eventManager').trigger('assign', { 'id': id, 'type': 'player', 'dest': unitid, 'destType': elm.dest } );
+
+    if (elm.dest == "path") {
+      elm.dest = "players";
+    }
+
     this.$("body").css("cursor","");
+    this.get('playerManager').assign({ 'id': id, 'type': 'player', 'dest': unitid, 'destType': elm.dest } );
   },
 
   resetLast: function() {
@@ -185,16 +175,10 @@ export default Ember.Component.extend({
     }
 
     if (!id) {
-      id = this.$(item.originalEvent.target).closest( ".unit-name-container" ).data('unitid');
-      dest = "player";
-    }
-
-    if (!id) {
       id = this.$(item.originalEvent.target).closest( ".unit-pilots-path" ).data('unitid');
       dest = "path";
     }
 
-    //     Ember.Logger.debug(">>> ret", id, dest);
     return {unitid: id, dest: dest};
   },
 
@@ -206,7 +190,7 @@ export default Ember.Component.extend({
 
   actions: {
     unassignMember: function(player, unit, type) {
-      this.get('eventManager').trigger('unassign', { 'player': player, 'unit': unit, 'type': type } );
+      this.get('playerManager').unassign({ 'player': player, 'unit': unit, 'type': type });
     },
-  }
+  },
 });

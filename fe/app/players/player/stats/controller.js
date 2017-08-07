@@ -7,7 +7,7 @@ var debug = Ember.Logger.log;
 
 export default Ember.Controller.extend({
   store: Ember.inject.service(),
-  eventManager: Ember.inject.service('events'),
+  playerManager: Ember.inject.service('player-manager'),
   session: Ember.inject.service('session'),
 
   grouped: Ember.computed('model', 'model.rewards', function() {
@@ -56,7 +56,7 @@ export default Ember.Controller.extend({
 
     applyMember: function(unit) {
 //       Ember.Logger.debug("apply mem to unit", get(this, "model.name"), unit);
-      this.get('eventManager').trigger('assign', { 'id': get(this, "model.id"), 'type': 'player', 'dest': unit, 'destType': "applicant" } );
+      this.get('playerManager').assign( { 'id': get(this, "model.id"), 'type': 'player', 'dest': unit, 'destType': "applicants" });
     },
 
     unassignMember: function(player, unit) {
@@ -69,35 +69,12 @@ export default Ember.Controller.extend({
     },
 
     onConfirmed: function(msg) {
-//       Ember.Logger.debug("on confirm");
       var struct = get(msg, "item");
       var element = struct.unit
       var typename = element.get('constructor.modelName');
-      Ember.Logger.debug("element", typename, "===", element);
-
-      this.get('eventManager').trigger('unassign', { 'player': get(this, "model"), 'unit': element, 'type': struct.type } );
-
-//       this.get('eventManager').trigger('unassign', { 'id': get(this, "model.id"), 'dest': get(element, "id") } );
+//       Ember.Logger.debug("element", typename, "===", element);
+      this.get('playerManager').unassign({ 'player': get(this, "model"), 'unit': element, 'type': struct.type });
       set(this, "showConfirmDialog", false);
-
-/*
-      if (element && typename) {
-        if (get(msg, "type") == "delete") {
-          var self = this;
-
-          element.destroyRecord().then(function(nitem) {
-            get(self, "session").log(typename, element.get("id") + " deleted");
-          }).catch(function(err) {
-            get(self, "session").log("error", "could not delete " + typename + " " + element.get("name"));
-            Ember.Logger.log("error deleting", err);
-          }).finally(function() {
-            set(self, "showConfirmDialog", false);
-          });
-        }
-      } else {
-        set(this, "showConfirmDialog", false);
-      }
-      */
     },
   },
 });

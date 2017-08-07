@@ -88,15 +88,15 @@
 
       <div style="clear:both;"/>
 
-      <div class="player-container unit-pilots-container" data-unitid={{unit.id}} data-dest="leader">
+      <div class="player-container unit-pilots-container" data-unitid={{unit.id}} data-dest="leaders">
         <a class="toggleElement" {{action 'toggleLeader'}}>
           <i class="fixedWidth fa {{if showLeader "fa-chevron-circle-down" "fa-chevron-circle-right"}}"></i>
-          Leader: {{leaders.length}}
+          Leader: {{unit.leaders.length}}
         </a>
 
         {{#if showLeader}}
           <div class="unit-pilots">
-            {{#each leaders as |lead|}}
+            {{#each unit.leaders as |lead|}}
               {{player-details player=lead draggable=true unit=unit type="leader"}}
             {{/each}}
           </div>
@@ -112,35 +112,35 @@
         <div style="clear: both"/>
       </div>
 
-      <div class="player-container unit-pilots-container" data-unitid={{unit.id}} data-dest="player">
+      <div class="player-container unit-pilots-container" data-unitid={{unit.id}} data-dest="players">
         <a class="toggleElement" {{action 'toggleMembers'}}>
           <i class="fixedWidth fa {{if showMembers "fa-chevron-circle-down" "fa-chevron-circle-right"}}"></i>
-          Member: {{players.length}}
+          Member: {{unit.players.length}}
         </a>
 
         {{#if showMembers}}
           <div class="unit-pilots">
-            {{#each players as |mem|}}
+            {{#each unit.players as |mem|}}
               {{player-details player=mem draggable=true unit=unit type="player"}}
             {{/each}}
           </div>
         {{else}}
-          {{#each players as |mem|}}
+          {{#each unit.players as |mem|}}
             <img class="mem-sm" style="width:16px; height: 16px;" src={{mem.avatar}}/>
           {{/each}}
         {{/if}}
       </div>
 
 
-      <div class="player-container unit-pilots-container" data-unitid={{unit.id}} data-dest="applicant">
+      <div class="player-container unit-pilots-container" data-unitid={{unit.id}} data-dest="applicants">
         <a class="toggleElement" {{action 'toggleApplicants'}}>
           <i class="fixedWidth fa {{if showApplicants "fa-chevron-circle-down" "fa-chevron-circle-right"}}"></i>
-          Applications: {{applicants.length}}
+          Applications: {{unit.applicants.length}}
         </a>
 
         {{#if showApplicants}}
           <div class="unit-pilots">
-            {{#each applicants as |mem|}}
+            {{#each unit.applicants as |mem|}}
               {{player-details player=mem draggable=true unit=unit type="applicant"}}
             {{/each}}
           </div>

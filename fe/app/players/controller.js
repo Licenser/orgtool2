@@ -7,7 +7,7 @@ export default Ember.Controller.extend({
   sortProperties: ['numericID'],
   store: Ember.inject.service(),
   session: Ember.inject.service(),
-  eventManager: Ember.inject.service('events'),
+  myEvents: Ember.inject.service('events'),
   details: false,
   searchFilter: '',
 
@@ -15,9 +15,9 @@ export default Ember.Controller.extend({
   itemHeight: 42,
 
   setup: Ember.on('init', function() {
-//     this.get('eventManager').on('createMember', this.createMember.bind(this));
-    this.get('eventManager').on('saveMember', this.saveMember.bind(this));
-    this.get('eventManager').on('deleteMember', this.deleteMember.bind(this));
+//     this.get('myEvents').on('createMember', this.createMember.bind(this));
+    this.get('myEvents').on('saveMember', this.saveMember.bind(this));
+    this.get('myEvents').on('deleteMember', this.deleteMember.bind(this));
 
     var self = this;
     get(this, 'store').findRecord('unit', 1).then(function(unit) {
@@ -49,7 +49,6 @@ export default Ember.Controller.extend({
   filteredContent: Ember.computed.filter('model', function(player, index, array) {
     var searchFilter = this.get('searchFilter');
     var unitFilter = this.get('unitFilter');
-    var res = []
 
     if (Ember.isEmpty(searchFilter) && Ember.isEmpty(unitFilter)) {
       return true;
@@ -80,7 +79,7 @@ export default Ember.Controller.extend({
         return false;
       }
 
-      res = units.filter(function(item, index, enumerable){
+      var res = units.filter(function(item, index, enumerable){
         return self.hasParent(unitFilter.get("id"), item.id);
       });
       if (Ember.isEmpty(res)) {

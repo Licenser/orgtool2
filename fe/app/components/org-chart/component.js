@@ -9,7 +9,7 @@ var y = 0;
 
 export default Ember.Component.extend({
   classNames: ['org-chart'],
-  eventManager: Ember.inject.service('events'),
+  myEvents: Ember.inject.service('events'),
   session: Ember.inject.service(),
   radius: 0,
   padding: 6,
@@ -37,14 +37,14 @@ export default Ember.Component.extend({
 //     Ember.Logger.debug("setup chart", self.currFilter);
     this.set('boundResizeHandler', Ember.run.bind(this, this._renderStruc));
     Ember.$(window).on('resize', this.get('boundResizeHandler'));
-    this.get('eventManager').on('rerender', this._renderStruc.bind(this));
+    this.get('myEvents').on('rerender', this._renderStruc.bind(this));
     self._renderStruc();
   }),
 
   willDestroy: function() {
 //     Ember.Logger.debug("free chart", this.currFilter, "-", this);
     Ember.$(window).off('resize', this.get('boundResizeHandler'));
-    this.get('eventManager').off('rerender');
+    this.get('myEvents').off('rerender');
 //     $('#to-remove *').unbind('click');
 //     Ember.$("#org_group").remove();
   },
@@ -125,7 +125,7 @@ export default Ember.Component.extend({
     var id = Ember.$(d.target).data('unitid');
     if (id !== undefined) {
       if (this.get('currFilter') == "1") {
-        this.get('eventManager').trigger('setDetails', { unitid: id, extended: true, sync: true});
+        this.get('myEvents').trigger('setDetails', { unitid: id, extended: true, sync: true});
       } else {
         var $sel = this.get('currSelection');
         if ($sel) {
@@ -135,7 +135,7 @@ export default Ember.Component.extend({
         $path.attr("class", "unit-pilots-path selected");
         this.set('currSelection', $path);
 
-        this.get('eventManager').trigger('setDetails', { unitid: id, extended: true, sync: false});
+        this.get('myEvents').trigger('setDetails', { unitid: id, extended: true, sync: false});
       }
     }
   },
@@ -346,7 +346,7 @@ export default Ember.Component.extend({
     goBack: function() {
 //       set(this, 'currFilter', 1);
 //       this._renderStruc();
-      this.get('eventManager').trigger('setDetails', { unitid: 1, extended: false, sync: true});
+      this.get('myEvents').trigger('setDetails', { unitid: 1, extended: false, sync: true});
     },
   }
 });

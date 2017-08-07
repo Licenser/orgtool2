@@ -4,7 +4,7 @@ var debug = Ember.Logger.debug;
 
 export default Ember.Component.extend({
   session: Ember.inject.service(),
-  eventManager: Ember.inject.service('events'),
+  myEvents: Ember.inject.service('events'),
   level: null,
 
   showUnits: false,
@@ -18,24 +18,17 @@ export default Ember.Component.extend({
     var level = this.get('level');
     var unit = this.get('unit');
     if (unit) {
-      var leaders = unit.get('leaders');
-      var players = unit.get('players');
-      var aplicants = unit.get('applicants')
-
-      this.set("leaders", leaders);
-      this.set("players", players);
-      this.set("applicants", aplicants);
+      unit.reload();
     }
     var showAbove = this.get('session.current_user.unfold-level');
     this.set('showUnits', level >= showAbove);
-
     //     this.set('showLeader', level > 0);
     //     this.set('showMembers', level > 0);
   }),
 
   setupDrops: Ember.on('didInsertElement', function() {
     var unit = this.get('unit');
-    /*
+
     if (unit) {
       this.$(".unit-pilots-container").droppable({
         tolerance: 'pointer',
@@ -51,7 +44,7 @@ export default Ember.Component.extend({
         hoverClass: 'hovered',
       });
     }
-    */
+
   }),
 
   onNodeDropped: function(event, ui) {
@@ -75,24 +68,19 @@ export default Ember.Component.extend({
       this.set('showApplicants', ! this.get('showApplicants'));
     },
 
-    unassignMember: function(player) {
-      console.log("unassign!", player)
-      this.get('eventManager').trigger('unassign', { 'id': player.get('id'), 'type': 'player', 'dest': this.get('unit.id'), 'destType': "unit" } );
-    },
-
 
     addUnit: function() {
         Ember.Logger.log("ADD UNNIT ");
-      this.get('eventManager').trigger('addUnit', { 'id': this.get('unit.id'), 'type': 'unit', 'unitType': 6 } );
+      this.get('myEvents').trigger('addUnit', { 'id': this.get('unit.id'), 'type': 'unit', 'unitType': 6 } );
     },
     addGame: function() {
-      this.get('eventManager').trigger('addGame', { 'id': this.get('unit.id'), 'type': 'game', 'unitType': 2 } );
+      this.get('myEvents').trigger('addGame', { 'id': this.get('unit.id'), 'type': 'game', 'unitType': 2 } );
     },
     editUnit: function() {
-      this.get('eventManager').trigger('editUnit', { 'id': this.get('unit.id'), 'type': "unit", 'unit': this.get('unit') } );
+      this.get('myEvents').trigger('editUnit', { 'id': this.get('unit.id'), 'type': "unit", 'unit': this.get('unit') } );
     },
     deleteUnit: function() {
-      this.get('eventManager').trigger('deleteUnit', { 'id': this.get('unit.id'), 'type': "unit", 'unit': this.get('unit') } );
+      this.get('myEvents').trigger('deleteUnit', { 'id': this.get('unit.id'), 'type': "unit", 'unit': this.get('unit') } );
     }
   }
 });

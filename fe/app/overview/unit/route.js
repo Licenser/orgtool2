@@ -4,10 +4,6 @@ var get = Ember.get;
 var set = Ember.set;
 
 export default Ember.Route.extend({
-//   eventManager: Ember.inject.service('events'),
-//   unit: null,
-
-
   model: function(params) {
     return this.store.findRecord('unit', params.unit_id);
   },

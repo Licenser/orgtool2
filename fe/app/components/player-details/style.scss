@@ -1,5 +1,6 @@
 .player-details {
-  height: 100%;
+//    height: 100%;
+  height: 42px;
 
   border: 1px solid transparent;
   border-top: 1px solid #333;
@@ -12,7 +13,7 @@
   }
 
   .player-detail > div {
-    line-height: 42px;
+    line-height: 36px;
   }
 
   .active {

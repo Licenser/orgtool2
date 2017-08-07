@@ -2,7 +2,7 @@
     color: #fff;
     font-size: 12px;
     font-weight: bold;
-    background-color: $gray5;
+    background-color: $nav-el-bg;
     margin-right: 0px;
 
     /*     font-weight: bold; */
@@ -11,6 +11,7 @@
 //      font-family: 'Antic Slab', Arial, Helvetica, sans-serif;
     letter-spacing: 1px;
     line-height: 12px;
+
     transition: background .3s ease-in-out;
     /*     margin-right: 2px; */
     /*     line-height: 1.42857143; */
@@ -23,7 +24,8 @@
 
 .nav-tabs li a:hover, .nav-tabs li a:focus, .nav-tabs li a.active {
     outline: 0;
-    color: #1a80b6;
+    color: $blue;
+    background-color: $nav-el-bg;
     /*    background-color: rgba(255,255,255,.3);*/
 //      background-color: #242424;
 //    background-color: $gray4;
@@ -40,7 +42,8 @@
 
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
     /*     color: #fff; */
-    color: #1a80b6;
+    color: $blue;
+    background-color: $nav-el-bg;
 //      background-color: #242424;
     /*    background-color: rgba(255,255,255,.3);*/
 //    border: 1px solid transparent;
@@ -91,7 +94,7 @@
     /*     outline: 0; */
     /*     background-color: #2C3539; */
 //    background-color: rgba(255,255,255,.3);
-    background-color: $gray5;
+    background-color: $nav-el-bg;
     border: 0px;
 }
 
@@ -148,9 +151,9 @@ ul#set-menu li > a {
 .nav-tabs>li>a:hover {
 //      border-color: $menu-blue;
     border-color: transparent;
-    background-color: transparent;
+    background-color: $nav-el-bg;
 }
 .nav>li>a:focus, .nav>li>a:hover {
     text-decoration: none;
-    background-color: transparent;
+    background-color: $nav-el-bg;
 }

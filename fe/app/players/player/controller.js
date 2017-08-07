@@ -6,7 +6,7 @@ var set = Ember.set;
 
 export default Ember.Controller.extend({
   store: Ember.inject.service(),
-  eventManager: Ember.inject.service('events'),
+  myEvents: Ember.inject.service('events'),
   session: Ember.inject.service('session'),
   showDialog: true,
 
@@ -15,7 +15,7 @@ export default Ember.Controller.extend({
     },
 
     saveMember: function(player) {
-      this.get('eventManager').trigger('saveMember', player);
+      this.get('myEvents').trigger('saveMember', player);
 
 //         Ember.Logger.debug("save player", player.get('id'));
 
@@ -27,7 +27,7 @@ export default Ember.Controller.extend({
     },
 
     deleteMember: function(player) {
-//       this.get('eventManager').trigger('deleteMember', player);
+//       this.get('myEvents').trigger('deleteMember', player);
 //
       Ember.Logger.debug("delete user now", player);
       set(this, "msg", { "type": "delete", "item": player, "title": "Delete Member!", "content": "Do you really want to delete player " + player.get("id") + " | " + player.get("name") + "?" });

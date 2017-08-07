@@ -6,7 +6,7 @@ var set = Ember.set;
 
 export default Ember.Controller.extend({
   store: Ember.inject.service(),
-  eventManager: Ember.inject.service('events'),
+  myEvents: Ember.inject.service('events'),
   session: Ember.inject.service('session'),
   showDialog: false,
 
@@ -25,7 +25,7 @@ export default Ember.Controller.extend({
     },
 
     saveMember: function(player) {
-      this.get('eventManager').trigger('saveMember', player);
+      this.get('myEvents').trigger('saveMember', player);
 
       player.save().then(function(mem) {
         Ember.Logger.debug("save ok", mem);
@@ -93,15 +93,15 @@ export default Ember.Controller.extend({
       if (ship) {
         var self = this;
         var memid = get(ship, 'player.id');
-        self.get('eventManager').trigger('log', 'adding ship to player: ' + memid);
-        self.get('eventManager').trigger('setLoading', true);
+        self.get('myEvents').trigger('log', 'adding ship to player: ' + memid);
+        self.get('myEvents').trigger('setLoading', true);
         self.set('showDialog', false);
         ship.save().then(function(nship) {
-          self.get('eventManager').trigger('success', 'ship added to player: ' + memid);
+          self.get('myEvents').trigger('success', 'ship added to player: ' + memid);
           self.set('currShip', null);
           self.set('showDialog', false);
         }).catch(function(err) {
-          self.get('eventManager').trigger('failure', 'counld not add ship to player: ' + memid);
+          self.get('myEvents').trigger('failure', 'counld not add ship to player: ' + memid);
           Ember.Logger.debug("error saving", err);
           self.set('showDialog', true);
         });
@@ -111,12 +111,12 @@ export default Ember.Controller.extend({
       if (ship) {
         var self = this;
         var memid = get(ship, 'player.id');
-        self.get('eventManager').trigger('log', 'melting ship of player: ' + memid);
-        self.get('eventManager').trigger('setLoading', true);
+        self.get('myEvents').trigger('log', 'melting ship of player: ' + memid);
+        self.get('myEvents').trigger('setLoading', true);
         ship.destroyRecord().then(function(nship) {
-          self.get('eventManager').trigger('success', 'ship melted of player: ' + memid);
+          self.get('myEvents').trigger('success', 'ship melted of player: ' + memid);
         }).catch(function(err) {
-          self.get('eventManager').trigger('failure', 'counld not melt ship of player: ' + memid);
+          self.get('myEvents').trigger('failure', 'counld not melt ship of player: ' + memid);
           Ember.Logger.debug("error melting", err);
         });
       }

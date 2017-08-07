@@ -7,7 +7,7 @@ var debug = Ember.Logger.log;
 export default Ember.Controller.extend({
   store: Ember.inject.service(),
   session: Ember.inject.service(),
-  eventManager: Ember.inject.service('events'),
+  myEvents: Ember.inject.service('events'),
 
   showPlayers: false,
   countChildren: true,
@@ -20,13 +20,13 @@ export default Ember.Controller.extend({
   itemHeight: 80,
 
   setup: Ember.on('init', function() {
-    this.get('eventManager').on('addUnit', this.addUnit.bind(this));
-    this.get('eventManager').on('addGame', this.addUnit.bind(this));
+    this.get('myEvents').on('addUnit', this.addUnit.bind(this));
+    this.get('myEvents').on('addGame', this.addUnit.bind(this));
 
-    this.get('eventManager').on('editUnit', this.editUnit.bind(this));
-    this.get('eventManager').on('deleteUnit', this.deleteUnit.bind(this));
+    this.get('myEvents').on('editUnit', this.editUnit.bind(this));
+    this.get('myEvents').on('deleteUnit', this.deleteUnit.bind(this));
 
-    this.get('eventManager').on('setDetails', this.setDetails.bind(this));
+    this.get('myEvents').on('setDetails', this.setDetails.bind(this));
 
     this.setDetails({ "unitid": 1, "extended": true, "sync": true }); 
   }),
@@ -130,7 +130,7 @@ export default Ember.Controller.extend({
         unit.save().then(function(done) {
           debug("done saving", done);
 //           self.set('unit', done);
-          self.get('eventManager').trigger('rerender');
+          self.get('myEvents').trigger('rerender');
           self.transitionToRoute('overview.unit', done.get('id'));
         }).catch(function(err) {
           debug("error saving", err);
@@ -148,11 +148,11 @@ export default Ember.Controller.extend({
     var self = this;
     this.store.deleteRecord(data.unit);
     data.unit.save().then(function(nunit) {
-      self.get('eventManager').trigger('rerender');
+      self.get('myEvents').trigger('rerender');
     }).catch(function(err) {
       Ember.Logger.debug("del err", err);
       data.unit.rollback();
-      self.get('eventManager').trigger('rerender');
+      self.get('myEvents').trigger('rerender');
     });
   },
 

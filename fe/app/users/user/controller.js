@@ -8,7 +8,6 @@ var debug = Ember.Logger.debug;
 
 export default Ember.Controller.extend({
   store: Ember.inject.service(),
-  eventManager: Ember.inject.service('events'),
   session: Ember.inject.service('session'),
   showDialog: false,
   def: [

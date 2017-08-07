@@ -1,0 +1,6 @@
+{
+  "name": "orgtool",
+  "dependencies": {
+    "jquery-ui": "^1.12.1"
+  }
+}

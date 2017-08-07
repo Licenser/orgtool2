@@ -5,7 +5,7 @@ var set = Ember.set;
 
 export default Ember.Controller.extend({
   store: Ember.inject.service(),
-  eventManager: Ember.inject.service('events'),
+  myEvents: Ember.inject.service('events'),
   session: Ember.inject.service('session'),
 //   showDialog: true,
 //  currShip: null,
@@ -22,14 +22,14 @@ export default Ember.Controller.extend({
       unit.save().then(function(nunit) {
         self.set('model', null);
         self.set('showDialog', false);
-        self.get('eventManager').trigger('rerender');
+        self.get('myEvents').trigger('rerender');
         self.transitionToRoute('overview');
 
       }).catch(function(err) {
         Ember.Logger.log("save err", err);
         self.set('showDialog',true);
 //         unit.rollback();
-        self.get('eventManager').trigger('rerender');
+        self.get('myEvents').trigger('rerender');
       });
     },
 
