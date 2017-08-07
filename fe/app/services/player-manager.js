@@ -14,7 +14,6 @@ export default Ember.Service.extend({
   },
 
   assign: function(data) {
-    console.log("DO IT data", data)
     var store = Ember.get(this, "store");
     var self = this;
     store.findRecord('player', data.id).then(function(player) {

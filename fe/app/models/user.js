@@ -25,7 +25,6 @@ export default DS.Model.extend({
 
   can_modify: function(target) {
     var perm = this.get('permission');
-      console.debug("perms", perm)
     if (Ember.isEmpty(perm)) {
       console.debug("!!!! no perms")
       return false;

@@ -50,7 +50,7 @@ export default Ember.Controller.extend({
   actions: {
     deleteUser:function(user) {
 //       get(this, 'onConfirm')(user);
-      Ember.Logger.debug("delete user now", user);
+//       Ember.Logger.debug("delete user now", user);
       set(this, "msg", { "type": "delete", "item": user, "title": "Delete User!", "content": "Do you really want to delete user " + user.get("id") + ", " + user.get("name") + "?" });
       set(this, "showConfirmDialog", true);
 
@@ -61,7 +61,7 @@ export default Ember.Controller.extend({
       if (!msg || !msg.item) {
         return;
       }
-      Ember.Logger.debug("delete user");
+//       Ember.Logger.debug("delete user");
       var self = this;
       msg.item.destroyRecord().then(function(done) {
         set(self, "showConfirmDialog", false);

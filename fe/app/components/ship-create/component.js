@@ -16,7 +16,7 @@ export default Ember.Component.extend({
     var self = this;
 
     get(this, 'store').findAll('ship-model').then(function(ship_models) {
-      debug("ship_models: ", get(ship_models, "length"));
+//       debug("ship_models: ", get(ship_models, "length"));
       self.set('ship_models', ship_models);
     });
   }),

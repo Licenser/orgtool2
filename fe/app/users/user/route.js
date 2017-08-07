@@ -5,7 +5,7 @@ var set = Ember.set;
 
 export default Ember.Route.extend({
   model: function(params) {
-    Ember.Logger.debug("get user", params.user_id);
+//     Ember.Logger.debug("get user", params.user_id);
     return this.store.findRecord('user', params.user_id);
   },
 
