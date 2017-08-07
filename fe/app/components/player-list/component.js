@@ -27,12 +27,10 @@ export default Ember.Component.extend({
   filteredContent: Ember.computed.filter('players', function(player, index, array) {
     var searchFilter = this.get('searchFilter');
     var unitFilter = this.get('unitFilter');
-    var res = []
 
     if (Ember.isEmpty(searchFilter) && Ember.isEmpty(unitFilter)) {
       return true;
     }
-
 
     if (!Ember.isEmpty(searchFilter)) {
       var regex = new RegExp(searchFilter, 'i');
@@ -52,18 +50,22 @@ export default Ember.Component.extend({
       return false;
     }
 
+    if (!Ember.isEmpty(unitFilter)) {
+      var self = this;
+      var units = player.get("units");
+      if (Ember.isEmpty(units)) {
+        return false;
+      }
 
-    // if (!Ember.isEmpty(unitFilter)) {
-    //   var self = this;
-    //   res = player.get('playerUnits').filter(function(item, index, enumerable){
-    //     return self.hasParent(unitFilter.get("id"), item.get('unit'));
-    //   });
-    //   if (Ember.isEmpty(res)) {
-    //     return false;
-    //   }
-    //}
+      var res = units.filter(function(item, index, enumerable){
+        return self.hasParent(unitFilter.get("id"), item.id);
+      });
+      if (Ember.isEmpty(res)) {
+        return false;
+      }
+    }
 
-    return res;
+    return true;
   }).property('searchFilter', 'players.length', 'unitFilter'),
 
   sortedContent: Ember.computed.sort('filteredContent', 'sortProperties').property('filteredContent'),

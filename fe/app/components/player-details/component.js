@@ -6,7 +6,20 @@ var debug = Ember.Logger.log;
 
 export default Ember.Component.extend({
   classNames: ['player-details'],
-  classNameBindings: ['canDrag:player-details-draggable'],
+//   classNameBindings: ['canDrag:player-details-draggable'],
+  classNameBindings: ['compClasses'], // either 'left' or 'right'
+  compClasses: function() {
+    if (this.get('canDrag')) {
+      return "player-details-draggable";
+    } else if (this.get('details')) {
+      return "player-details-selectable";
+    }
+    return "";
+  }.property('details', "canDrag"),
+
+  //
+  //
+  //
   //   classNameBindings: ['isUrgent:urgent'],
   store: Ember.inject.service(),
   player: null,

@@ -75,7 +75,12 @@ export default Ember.Controller.extend({
 
     if (!Ember.isEmpty(unitFilter)) {
       var self = this;
-      res = player.get('units').filter(function(item, index, enumerable){
+      var units = player.get("units");
+      if (Ember.isEmpty(units)) {
+        return false;
+      }
+
+      res = units.filter(function(item, index, enumerable){
         return self.hasParent(unitFilter.get("id"), item.id);
       });
       if (Ember.isEmpty(res)) {
@@ -83,7 +88,7 @@ export default Ember.Controller.extend({
       }
     }
 
-    return res;
+    return true;
   }).property('model.length', 'searchFilter', 'unitFilter'),
 
   sortedContent: Ember.computed.sort('filteredContent', 'sortProperties').property('filteredContent'),

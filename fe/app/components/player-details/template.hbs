@@ -1,16 +1,10 @@
 {{#if details}}
-{{!--
-  {{items-hack player}}
-  --}}
-  {{#link-to 'players.player' player.id tagName="div" class="player-detail select"}}
-    <!--     <div class="col-md-1"> -->
-    <!--     </div> -->
-
+  {{#link-to 'players.player' player.id tagName="div" class="player-detail"}}
     <div class="col-md-3">
       {{#if player.avatar}}
         <img class="player-avatar" src={{player.avatar}} onerror={{action loadError}}>
       {{else}}
-        <div class="player-avatar text-center" style="padding-top: 6px;">
+        <div class="player-avatar text-center">
           <i class="fa fa-user-o fa-2x" style="color:#666;"></i>
         </div>
       {{/if}}
@@ -38,15 +32,6 @@
         {{/if}}
     </div>
 
-      {{!--
-      <div class="col-md-4">
-          {{#if player.wp_id}}
-            <i class="fa fa-check text-success"></i>
-          {{/if}}
-      </div>
-    </div>
-      --}}
-
   {{/link-to}}
 {{else}}
   <div class="player-detail">
@@ -54,7 +39,7 @@
     {{#if player.avatar}}
       <img class="player-avatar" src={{player.avatar}} onerror={{action loadError}}>
     {{else}}
-      <div class="player-avatar text-center" style="padding-top: 6px;">
+      <div class="player-avatar text-center">
         <i class="fa fa-user-o fa-2x" style="color:#666;"></i>
       </div>
     {{/if}}
