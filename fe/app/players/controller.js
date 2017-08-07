@@ -9,6 +9,7 @@ export default Ember.Controller.extend({
   session: Ember.inject.service(),
   eventManager: Ember.inject.service('events'),
   details: false,
+  searchFilter: '',
 
   columns: [100],
   itemHeight: 42,
@@ -83,7 +84,7 @@ export default Ember.Controller.extend({
     }
 
     return res;
-  }).property('searchFilter', 'model', 'unitFilter'),
+  }).property('model.length', 'searchFilter', 'unitFilter'),
 
   sortedContent: Ember.computed.sort('filteredContent', 'sortProperties').property('filteredContent'),
 

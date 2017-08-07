@@ -45,7 +45,7 @@ export default DS.JSONAPIAdapter.extend({
   },
 
 
-/*
+
   shouldReloadRecord: function(store, snapshot) {
     return true;
   },
@@ -61,5 +61,5 @@ export default DS.JSONAPIAdapter.extend({
   shouldBackgroundReloadAll: function(store, snapshot) {
     return false;
   }
-*/
+
 });
