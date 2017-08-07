@@ -7,5 +7,6 @@
 
   */
   "disableAnalytics": true,
+  "usePods": true,
   "output-path": "../be/priv/static/ui"
 }

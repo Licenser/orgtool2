@@ -1,44 +1,11 @@
 /* eslint-env node */
+'use strict';
+
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function(defaults) {
-  var app = new EmberApp(defaults, {
+  let app = new EmberApp(defaults, {
     // Add options here
-    storeConfigInMeta: false,
-
-    hinting: false,
-
-    //     minifyCSS: {
-    //       options: {
-    //         processImport: false
-    //       }
-    //     },
-
-    //     'ember-cli-bootstrap': {
-    //       'importBootstrapCSS': false
-    //     },
-    //     vendorFiles: {
-    //       development: false,
-    //       production: false,
-    //       'bootstrap.less': false,
-    //       'vendor-prefixes.less': false,
-    //       'vendor-prefixes.css': false,
-    //       'vendor-prefixes.sass': false,
-    //     },
-    //     'ember-bootstrap': {
-    //       'bootstrapVersion': 3,
-    //       'importBootstrapFont': true,
-    //       'importBootstrapCSS': false
-    //     }
-    fingerprint: {
-      enabled: false,
-    },
-
-    'ember-bootstrap': {
-      'bootstrapVersion': 3,
-      'importBootstrapFont': true,
-      'importBootstrapCSS': false
-    }
   });
 
   // Use `app.import` to add additional libraries to the generated

@@ -1,6 +1,5 @@
 <div id="myheader" class="clearfix">
   <ul class="nav nav-tabs">
-
     <li>
       {{#if session.current_user}}
         {{#if session.current_user.player}}
@@ -54,18 +53,6 @@
     {{#if session.current_user.permission.ship_read}}
       <li class="pull-right">{{#link-to 'ships'}}<i class="fa fa-cubes"></i> Ships{{/link-to}}</li>
     {{/if}}
-
-<!--       <li class="pull-right" >{{#link-to 'log'}}<i class="fa fa-history"></i> Log{{/link-to}}</li> -->
-<!--       <li class="pull-right" >{{#link-to 'settings'}}<i class="fa fa-gear"></i> Settings{{/link-to}}</li> -->
-<!--       <li class="pull-right" >{{#link-to 'lfg'}}<i class="fa fa-gamepad"></i> LFG{{/link-to}}</li> -->
-
-    {{!--
-    {{#if session.current_user.permission.settings}}
-      <li class="pull-right" >
-        {{partial 'application/settings-menu'}}
-      </li>
-    {{/if}}
-    --}}
 
     {{#if session.current_user.permission.player_read}}
       <li class="pull-right" >{{#link-to 'players'}}<i class="fa fa-users"></i> Players{{/link-to}}</li>

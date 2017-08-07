@@ -1,15 +1,14 @@
-/* jshint node: true */
+/* eslint-env node */
+'use strict';
 
 module.exports = function(environment) {
-  var ENV = {
+  let ENV = {
     modulePrefix: 'orgtool',
-    environment: environment,
-//     baseURL: '/',
-//     locationType: 'auto',
-//     locationType: 'none',
-//     baseURL: null,
-    rootURL: null,
-    locationType: 'hash',
+    podModulePrefix: 'orgtool',
+    environment,
+    rootURL: '/',
+    locationType: 'auto',
+
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
