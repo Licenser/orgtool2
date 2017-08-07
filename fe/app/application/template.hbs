@@ -1,9 +1,5 @@
 {{fancy-background showBG=showBG}}
-{{#if session.loading}}
-  {{partial "application/loader"}}
-{{else}}
-  <div id="maincontainer">
-    {{partial 'application/header'}}
-    {{partial 'application/content'}}
-  </div>
-{{/if}}
+<div id="maincontainer">
+  {{partial 'application/header'}}
+  {{partial 'application/content'}}
+</div>

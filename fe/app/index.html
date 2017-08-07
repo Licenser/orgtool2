@@ -6,6 +6,7 @@
     <title>Orgtool</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="https://www.oddysee.org/wp-content/uploads/2015/06/Oddysee-logo-web-e1433314735135.png" />
 
     {{content-for "head"}}
 
@@ -15,6 +16,15 @@
     {{content-for "head-footer"}}
   </head>
   <body>
+    <div id="loader" class="loader-screen">
+      <div class="loader-box">
+        <div>
+          <i class="loader-spinner fa fa-download fa-pulse"></i>
+        </div>
+        loading
+      </div>
+    </div>
+
     {{content-for "body"}}
 
     <script src="{{rootURL}}assets/vendor.js"></script>
