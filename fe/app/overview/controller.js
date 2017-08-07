@@ -43,7 +43,7 @@ export default Ember.Controller.extend({
       players = get(unit, "leaders").mapBy("id");
     }
     if (get(unit, "players")) {
-      players = players.concat(get(unit, "leaders").mapBy("id"));
+      players = players.concat(get(unit, "players").mapBy("id"));
     }
 
     if (get(this, "countChildren") && get(unit, "units")) {
@@ -61,7 +61,7 @@ export default Ember.Controller.extend({
 
 
   sumThemAll: function() {
-    console.debug(">>> SUM THEM ALL");
+//     console.debug(">>> SUM THEM ALL");
     var ids = this.sumChildren(get(this, "currentUnit"));
     var shipids = ids.ships.filter(function (ship, pos) {return ids.ships.indexOf(ship) == pos});
     var playerids = ids.players.filter(function (player, pos) {return ids.players.indexOf(player) == pos});
@@ -76,7 +76,7 @@ export default Ember.Controller.extend({
     });
     var allShips = {};
     Ember.RSVP.hash(fetch).then(function(result) {
-      console.debug(" SHIP MEGA FETCH DONE", result);
+//       console.debug(" SHIP MEGA FETCH DONE", result);
       for (var key in result) {
         var ship = store.peekRecord('ship', key);
         var model = ship.get("ship_model");
@@ -114,7 +114,7 @@ export default Ember.Controller.extend({
     });
 
     set(this, "sumPlayers", playerids);
-    console.debug(">>> SUM DONE ", shipids, playerids);
+//     console.debug(">>> SUM DONE ", shipids, playerids);
 
   }.observes('currentUnit', 'countChildren'),
 
