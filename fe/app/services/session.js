@@ -8,29 +8,22 @@ export default Ember.Service.extend({
   ajax: Ember.inject.service(),
   store: Ember.inject.service(),
 
-  isAdmin: false,
-  isUser: false,
-  user: null,
   loading: true,
-  statesDone: 16,
-  state: Ember.A(),
+  rootURL: 'ui',
   current_user: null,
   jwt: null,
   csrf: null,
   providers: null,
 
   init: function() {
-//     Ember.Logger.log(">>> init >>>> session");
     this._super(...arguments);
-//     this.loadUser();
   },
 
   loadUser: function() {
     var self = this;
     self.set('current_user', null);
 
-
-      // fix path to assets in wordpress
+      // fix path to assets for backend
     var scripts = document.getElementsByTagName("script");
     var filename = "assets/orgtool.js";
     for (var i = 0; i < scripts.length; i++) {
@@ -59,6 +52,9 @@ export default Ember.Service.extend({
       self.set("providers", providers);
       self.set("token", "Bearer " + token);
 
+//       Ember.Logger.log(">>> csrf ", csrf);
+//       Ember.Logger.log(">>> token", token);
+
       var session = self.parseJwt(token);
       if (config.environment === 'development') {
         session = {"sub": "User:1"};
@@ -78,9 +74,8 @@ export default Ember.Service.extend({
 //           Ember.Logger.log(" user found", userid);
           set(user, "loggedIn", true);
           set(self, "current_user", user);
-//           console.log("current_user", user.get("player.id"));
-
-          self.log("session", "logged in as user");
+//           console.log("--------------- current_user", user.get("player.id"));
+          self.log("session", "logged in as user" + get(user, "name"));
           self.set('loading', false);
           resolve();
         }).catch(function(err) {
@@ -112,12 +107,14 @@ export default Ember.Service.extend({
       data: data
     });
 
+//     Ember.Logger.log(">>> send", data);
+
     var self = this;
     prom.then(function() {
-      console.debug("login done");
+//       console.debug("login done");
       window.location.href="/";
     }).catch(function() {
-      console.debug("login error");
+//       console.debug("login error");
       window.location.href="/";
     });
   },

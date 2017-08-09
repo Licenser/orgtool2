@@ -42,6 +42,7 @@ export default Ember.Component.extend({
 
     return res;
   }),
+
   sortedShips: Ember.computed.sort('ships', function(a, b) {
     var crew_a = a.get('ship_model.crew'),
         crew_b = b.get('ship_model.crew'),

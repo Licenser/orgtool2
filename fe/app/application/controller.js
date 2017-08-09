@@ -10,9 +10,11 @@ export default Ember.Controller.extend({
   store: Ember.inject.service(),
   showBG: true,
 
+/*
   setup: Ember.on('init', function() {
     this.get("session").log("init", "");
   }),
+*/
 
   actions: {
     logout: function() {

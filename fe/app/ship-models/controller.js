@@ -57,7 +57,7 @@ export default Ember.Controller.extend({
   }),
 
   showConfirm: function(model) {
-    Ember.Logger.debug("show confirm", get(model, "name"));
+//     Ember.Logger.debug("show confirm", get(model, "name"));
 
     set(this, "msg", { "type": "delete", "item": model, "title": "Delete model!", "content": "Do you really want to delete the model " + model.get("name") + "?" });
     set(this, "showConfirmDialog", true);
@@ -79,7 +79,7 @@ export default Ember.Controller.extend({
     },
 
     showConfirm: function(model) {
-      Ember.Logger.debug("show confirm", get(model, "name"));
+//       Ember.Logger.debug("show confirm", get(model, "name"));
 
       set(this, "msg", { "type": "delete", "item": model, "title": "Delete model!", "content": "Do you really want to delete the model " + model.get("name") + "?" });
       set(this, "showConfirmDialog", true);
@@ -110,7 +110,7 @@ export default Ember.Controller.extend({
     },
 
     addModel: function() {
-      debug("ADD Model");
+//       debug("ADD Model");
       var model = get(this, "store").createRecord('ship_model');
 
       this.set('showModelDialog', true);
