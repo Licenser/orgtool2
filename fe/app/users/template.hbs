@@ -1,17 +1,16 @@
 <div class="players">
   <div class="panel panel-default panel-player-filter">
 
-  <div class="panel-body">
-    <div class="col-md-12">
-      Name
-      <div class="input-group">
-        {{input type="text" class="form-control" value=searchFilter}}
-        <span class="input-group-btn">
-          <button class="btn btn-default" type="button"  {{action 'clearFilter'}}><i class="fa fa-eraser"></i></button>
-        </span>
-      </div><!-- /input-group -->
-    </div>
-<!--       <hr> -->
+    <div class="panel-body">
+      <div class="col-md-12">
+        Name / Email
+        <div class="input-group">
+          {{input type="text" class="form-control" value=searchFilter}}
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button"  {{action 'clearFilter'}}><i class="fa fa-eraser"></i></button>
+          </span>
+        </div>
+      </div>
 
       <div class="col-md-12">
         <div class="filter-stats">
@@ -37,7 +36,7 @@
       
     </div>
     <div class="player-list-result">
-      {{#each model as |user|}}
+      {{#each filteredContent as |user|}}
         {{#link-to "users.user" user.id tagName='div' class='row row-select'}}
         <div class="col-md-3">
           {{user.name}}
@@ -57,13 +56,3 @@
 </div>
 
 {{outlet}}
-
-
-{{!--
-
-      {{#if filteredContent}}
-      {{#ember-collection items=sortedContent cell-layout=(percentage-columns-layout filteredContent.length columns itemHeight) as |player index|}}
-        {{player-details player=player draggable=draggable details=true}}
-      {{/ember-collection}}
-      {{/if}}
- --}}
