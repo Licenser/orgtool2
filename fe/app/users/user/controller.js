@@ -28,40 +28,27 @@ export default Ember.Controller.extend({
 //     var perms = get(this, 'mo.current_user.permission');
 
     set(this, "sec", [
-      { name: "user", prop: this.def },
-      { name: "player", prop: this.def },
-      { name: "unit", prop: this.def.concat(this.un) },
-      { name: "ship_model", prop: this.def },
-      { name: "ship", prop: this.def },
-      { name: "reward", prop: this.def }
+      { title: "Units", name: "unit", prop: this.def.concat(this.un) },
+      { title: "Players", name: "player", prop: this.def },
+      { title: "Ships", name: "ship", prop: this.def },
+      { title: "Ship Models", name: "ship_model", prop: this.def },
+      { title: "Rewards", name: "reward", prop: this.def },
+      { title: "Users", name: "user", prop: this.def }
     ]);
   }),
 
-//   changed: function() {
-//     console.debug(">>> user changed", get(this, "model"), get(this, "model.length"));
-
-//     var self = this;
-//     get(this, "store").findRecord("permission", get(this, "model.permission.id")).then(function(perm) {
-//       debug("--- set permi fix");
-//       self.set("perm", perm);
-//     });
-//   }.observes('model'),
-
   actions: {
     deleteUser:function(user) {
-//       get(this, 'onConfirm')(user);
-//       Ember.Logger.debug("delete user now", user);
       set(this, "msg", { "type": "delete", "item": user, "title": "Delete User!", "content": "Do you really want to delete user " + user.get("id") + ", " + user.get("name") + "?" });
       set(this, "showConfirmDialog", true);
 
     },
 
     onConfirmed: function(msg) {
-//       Ember.Logger.debug("on confirm del mem", msg, " - ", get(msg, "item"));
       if (!msg || !msg.item) {
         return;
       }
-//       Ember.Logger.debug("delete user");
+
       var self = this;
       msg.item.destroyRecord().then(function(done) {
         set(self, "showConfirmDialog", false);
@@ -82,10 +69,27 @@ export default Ember.Controller.extend({
     },
 
     close: function() {
-//       Ember.Logger.debug("the other close...");
       this.set('showDialog', false);
-        this.transitionToRoute('users');
-//       this.transitionToRoute('players');
-    }
+      this.transitionToRoute('users');
+    },
+
+    checkThemAll: function(state) {
+      var perms = get(this, "model").get("permission");
+      get(this, "sec").forEach(function(cat) {
+        cat.prop.forEach(function(p) {
+          var propname = cat.name + "_" + p.name;
+          set(perms, propname, state);
+        });
+      });
+      set(perms, "active", state);
+    },
+
+    checkAll: function(cat, state) {
+      var perms = get(this, "model").get("permission");
+      cat.prop.forEach(function(p) {
+        var propname = cat.name + "_" + p.name;
+        set(perms, propname, state);
+      });
+    },
   }
 });

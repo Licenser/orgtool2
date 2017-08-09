@@ -65,27 +65,47 @@
     </div>
 
     <div class="row">
-      <label class="control-label">Permissions</label>
+      <div class="col-md-2">
+        <label class="control-label">Permissions</label>
+      </div>
+      <div class="col-md-10">
+        <button type="button" class="btn btn-default" {{action "checkThemAll" true}}>{{fa-icon "fa-check-square-o"}} All</button>
+        <button type="button" class="btn btn-danger" {{action "checkThemAll" false}}>{{fa-icon "fa-square-o"}} None</button>
+      </div>
+    </div>
+
+    <hr>
+    <div class="row">
+      <div class="col-md-2">
+        <label class="control-label">General</label>
+      </div>
     </div>
 
     <div class="row">
-      <label class="control-label">General</label>
-      <br/>
       <div class="col-md-2">
         {{check-box value=model.permission.active desc="active" readonly=(not session.current_user.permission.user_edit)}}
       </div>
     </div>
+
     {{#each sec as |s|}}
+      <hr>
       <div class="row">
-        <label class="control-label">{{s.name}}</label>
-        <br>
+        <div class="col-md-2">
+          <label class="control-label">{{s.title}}</label> 
+        </div>
+        <div class="col-md-10">
+          <button type="button" class="btn btn-default" {{action "checkAll" s true}}>{{fa-icon "fa-check-square-o"}} All</button>
+          <button type="button" class="btn btn-danger" {{action "checkAll" s false}}>{{fa-icon "fa-square-o"}} None</button>
+        </div>
+      </div>
+      <div class="row">
         {{#each s.prop as |p|}}
-          <div class="col-md-2">
+          <div class="col-md-3">
             {{check-box value=(get model.permission (concat s.name "_" p.name)) desc=p.name readonly=(not session.current_user.permission.user_edit)}}
           </div>
         {{/each}}
       </div>
-      <br>
+
     {{/each}}
 
   {{/md.body}}
