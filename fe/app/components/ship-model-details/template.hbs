@@ -14,7 +14,7 @@
 {{/if}}
 
 <div class={{if count "top-left-sm" "top-left"}}>
-  <img class="top-left-img" src="/images/manufacturers/{{ship_model.manufacturer}}.png">
+  <img class="top-left-img" src="{{session.rootURL}}/images/manufacturers/{{ship_model.manufacturer}}.png">
   <span class="item-name">
     {{ship_model.name}}
   </span>
@@ -23,7 +23,7 @@
 {{#if ship_model.img}}
   <img class="item-img" src={{ship_model.img}}>
 {{else}}
-  <img class="item-img" src="/images/manufacturers/{{ship_model.manufacturer}}.png">
+  <img class="item-img" src="{{session.rootURL}}/images/manufacturers/{{ship_model.manufacturer}}.png">
 {{/if}}
 
 

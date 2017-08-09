@@ -251,7 +251,7 @@ export default Ember.Component.extend({
     Ember.$("filter").remove();
     Ember.$("rect").remove();
 
-    var src = root.get('img') || "images/unit.png";
+    var src = root.get('img') || get(this, "session.rootURL") + "/images/unit.png";
     var rootImg = svg.append("filter")
                            .attr('id', 'img1')
                            .attr('width', "100%")
