@@ -7,7 +7,7 @@ module.exports = function(environment) {
     podModulePrefix: 'orgtool',
     environment,
     rootURL: '/',
-    locationType: 'auto',
+    locationType: 'hash',
 
     EmberENV: {
       FEATURES: {
