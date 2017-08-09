@@ -24,14 +24,17 @@
   <div class="panel panel-player-list">
     <div class="player-list-header">
      
-      <div class="col-md-3 player-list-header-name">
+      <div class="col-md-3">
         Name
       </div>
-      <div class="col-md-5">
+      <div class="col-md-4">
         Email
       </div>
       <div class="col-md-4">
         Player
+      </div>
+      <div class="col-md-1 text-right">
+        Active
       </div>
       
     </div>
@@ -42,12 +45,24 @@
           {{user.name}}
         </div>
 
-        <div class="col-md-5">
+        <div class="col-md-4">
           {{user.email}}
         </div>
 
         <div class="col-md-4">
           {{user.player.name}}
+        </div>
+
+        <div class="col-md-1 text-right">
+          {{#if user.permission.active}}
+            <div class="text-success">
+              {{fa-icon "check"}}
+            </div>
+          {{else}}
+            <div class="text-danger">
+              {{fa-icon "times"}}
+            </div>
+          {{/if}}
         </div>
         {{/link-to}}
       {{/each}}
