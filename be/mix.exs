@@ -19,7 +19,7 @@ defmodule OrgtoolDb.Mixfile do
   def application do
     [mod: {OrgtoolDb, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :phoenix_ecto,
-                    :cowboy, :logger, :gettext, :postgrex, :httpotion, :sweet_xml,
+                    :cowboy, :logger, :gettext, :postgrex, :httpotion, :sweet_xml, :ssl,
 
                     :ueberauth,
                     :ueberauth_google, :ueberauth_identity, :ueberauth_twitter, :ueberauth_slack,
