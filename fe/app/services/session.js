@@ -69,7 +69,7 @@ export default Ember.Service.extend({
 
       if (!Ember.isEmpty(session) && !Ember.isEmpty(get(session, "sub"))) {
         var userid = session.sub.split(':')[1];
-//         Ember.Logger.log("find user", userid);
+        Ember.Logger.log("find user", userid);
         return self.get('store').findRecord('user', userid).then(function(user) {
 //           Ember.Logger.log(" user found", userid);
           set(user, "loggedIn", true);

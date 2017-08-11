@@ -1,5 +1,7 @@
 <div class="item-filtered-list">
   <div class="item-menu">
+    <button type="button" class="tb tb-normal" {{action setListView false}}> {{fa-icon "th"}}  </button>
+    <button type="button" class="tb tb-normal" {{action setListView true}}> {{fa-icon "list"}}  </button>
     <div class="item-stat-menu">
       Models: {{sortedModels.length}}
     </div>
@@ -16,7 +18,7 @@
   <div class="item-list">
     {{#if sortedModels}}
       {{#ember-collection items=sortedModels cell-layout=(percentage-columns-layout sortedModels.length columns itemHeight) as |model index|}}
-        {{ship-model-details ship_model=model details=details tb=true onConfirm=(action "showConfirm") onEdit=(action "showEdit")}}
+        {{ship-model-details ship_model=model listView=listView tb=true onConfirm=(action "showConfirm") onEdit=(action "showEdit")}}
       {{/ember-collection}}
     {{else}}
       {{#if loading}}

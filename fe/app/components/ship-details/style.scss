@@ -121,6 +121,18 @@ $item-bg: rgba(100, 100, 100, .2);
             transform: translate(-50%,-50%);
   }
 
+  .item-img-sm {
+    position: absolute;
+//      left: 50%;
+//      top: 50%;
+
+    height: 42px;
+    width:  auto;
+//      -webkit-transform: translate(-50%,-50%);
+//          -ms-transform: translate(-50%,-50%);
+//              transform: translate(-50%,-50%);
+  }
+
   .item-type-img {
     position: absolute;
     left: 35%;
