@@ -104,7 +104,7 @@ defmodule OrgtoolDb.UserApiController do
     end
   end
 
-  def delete(conn, params = %{"id" => id}, current_user, claims) do
+  def delete(conn, params = %{"id" => id}, current_user, {ok, claims}) do
     perms = Guardian.Permissions.from_claims(claims, :player)
     id = String.to_integer(id)
     if Guardian.Permissions.all?(perms, [:read, :delete], :player) or current_user.id == id do
@@ -112,7 +112,23 @@ defmodule OrgtoolDb.UserApiController do
 
       # Here we use delete! (with a bang) because we expect
       # it to always work (and if it does not, it will raise).
-      # Repo.delete!(user)
+
+      Repo.delete!(user)
+
+      send_resp(conn, :no_content, "")
+    else
+      OrgtoolDb.SessionController.unauthorized(conn, params)
+    end
+  end
+
+  def delete(conn, params = %{"id" => id}, _current_user, _claims) do
+    if System.get_env("NO_AUTH") == "true" do
+      user = Repo.get!(User, id)
+
+      # Here we use delete! (with a bang) because we expect
+      # it to always work (and if it does not, it will raise).
+
+      Repo.delete!(user)
 
       send_resp(conn, :no_content, "")
     else
