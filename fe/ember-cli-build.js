@@ -7,10 +7,18 @@ module.exports = function(defaults) {
   let app = new EmberApp(defaults, {
     // Add options here
     storeConfigInMeta: false,
+
     hinting: true,
+
     fingerprint: {
       enabled: false,
     },
+
+    'ember-bootstrap': {
+      'bootstrapVersion': 3,
+      'importBootstrapFont': true,
+      'importBootstrapCSS': false
+    }
   });
 
   // Use `app.import` to add additional libraries to the generated

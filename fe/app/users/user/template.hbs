@@ -100,9 +100,9 @@
       </div>
       <div class="row">
         {{#each s.prop as |p|}}
-          <div class="col-md-3">
-            {{check-box value=(get model.permission (concat s.name "_" p.name)) desc=p.name readonly=(not session.current_user.permission.user_edit)}}
-          </div>
+            <div class="col-md-3">
+                {{check-box value=(get model.permission (concat s.name "_" p.name)) desc=p.name readonly=(not session.current_user.permission.user_edit)}}
+            </div>
         {{/each}}
       </div>
 
@@ -111,9 +111,9 @@
   {{/md.body}}
 
   {{#md.footer}}
-    {{#if session.current_user.permission.user_delete}}
-      <button type="submit" class="btn btn-danger" {{action "deleteUser" model}}>{{fa-icon "user-times"}} Delete</button>
-    {{/if}}
+      {{#if (or session.current_user.permission.user_delete  (eq session.current_user.id model.id))}}
+          <button type="submit" class="btn btn-danger" {{action "deleteUser" model}}>{{fa-icon "user-times"}} Delete</button>
+      {{/if}}
 
     {{#if session.current_user.can_modify_user}}
       <button type="submit" class="btn btn-primary" {{action "saveUser" model}} disabled={{if (or model.hasDirtyAttributes model.permission.hasDirtyAttributes) false true}}>{{fa-icon "save"}} Save</button>

@@ -10,10 +10,10 @@ defmodule OrgtoolDb.UserApiController do
   if System.get_env("NO_AUTH") != "true" do
     plug Guardian.Plug.EnsureAuthenticated, handler: OrgtoolDb.SessionController, typ: "access"
     plug EnsurePermissions, default: [:active], handler: OrgtoolDb.SessionController
-    # plug EnsurePermissions, [handler: OrgtoolDb.SessionController, user: ~w(read)] when action in [:index, :show]
+    # plug EnsurePermissions, [handler: OrgtoolDb.SessionController, user: ~w(read)] when action in [:index, :show] # handled inline
     plug EnsurePermissions, [handler: OrgtoolDb.SessionController, user: ~w(read create)] when action in [:create]
     plug EnsurePermissions, [handler: OrgtoolDb.SessionController, user: ~w(read edit)] when action in [:update]
-    plug EnsurePermissions, [handler: OrgtoolDb.SessionController, user: ~w(read delete)] when action in [:delete]
+    # plug EnsurePermissions, [handler: OrgtoolDb.SessionController, user: ~w(read delete)] when action in [:delete] # handled inline
   end
 
   def index(conn, _params, current_user, {:ok, claims}) do
@@ -88,7 +88,7 @@ defmodule OrgtoolDb.UserApiController do
     |> Repo.preload(@preload)
 
     params = JaSerializer.ParamParser.parse(params)
-    
+
     changeset = User.changeset(user, params)
     |> handle_rels(payload, &do_add_res/2)
 
@@ -104,14 +104,20 @@ defmodule OrgtoolDb.UserApiController do
     end
   end
 
-  def delete(conn, %{"id" => id}, _current_user, _claums) do
-    user = Repo.get!(User, id)
+  def delete(conn, params = %{"id" => id}, current_user, claims) do
+    perms = Guardian.Permissions.from_claims(claims, :player)
+    id = String.to_integer(id)
+    if Guardian.Permissions.all?(perms, [:read, :delete], :player) or current_user.id == id do
+      user = Repo.get!(User, id)
 
-    # Here we use delete! (with a bang) because we expect
-    # it to always work (and if it does not, it will raise).
-    Repo.delete!(user)
+      # Here we use delete! (with a bang) because we expect
+      # it to always work (and if it does not, it will raise).
+      # Repo.delete!(user)
 
-    send_resp(conn, :no_content, "")
+      send_resp(conn, :no_content, "")
+    else
+      OrgtoolDb.SessionController.unauthorized(conn, params)
+    end
   end
 
   def new(conn, _params, current_user, _claims) do
