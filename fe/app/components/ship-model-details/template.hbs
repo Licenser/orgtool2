@@ -1,40 +1,70 @@
-{{#if (and tb session.current_user.permission.ship_model_edit)}}
-  <div class="toolbar">
-    {{#if count}}
-      <div class="text-default">{{count}}x</div>
-    {{else}}
-      {{#if session.current_user.permission.ship_model_edit}}
-        <button class="tb tb-default" type="button" {{action 'editModel' ship_model}}><i class="fa fa-gear"></i></button>
+{{#if listView}}
+  <div class="row">
+    <div class="col-md-1">
+      {{#if ship_model.img}}
+        <img class="item-img-sm" src={{ship_model.img}}>
+      {{else}}
+        <img class="item-img-sm" src="{{session.rootURL}}/images/manufacturers/{{ship_model.manufacturer}}.png">
       {{/if}}
-      {{#if session.current_user.permission.ship_model_delete}}
-        <button class="tb tb-danger" type="button" {{action 'deleteModel' ship_model}}><i class="fa fa-close"></i></button>
-      {{/if}}
-    {{/if}}
-  </div>
-{{/if}}
-
-<div class={{if count "top-left-sm" "top-left"}}>
-  <img class="top-left-img" src="{{session.rootURL}}/images/manufacturers/{{ship_model.manufacturer}}.png">
-  <span class="item-name">
-    {{ship_model.name}}
-  </span>
-</div>
-
-{{#if ship_model.img}}
-  <img class="item-img" src={{ship_model.img}}>
-{{else}}
-  <img class="item-img" src="{{session.rootURL}}/images/manufacturers/{{ship_model.manufacturer}}.png">
-{{/if}}
-
-
-{{#unless count}}
-  <div class="bottom-right">
-    <div class="bottom-right-text">
-      c: <span class="item-stat">{{ship_model.crew}}</span>
-      <span class="item-sep">|</span>
-      l: <span class="item-stat">{{ship_model.length}}</span>
-      <span class="item-sep">|</span>
-      m: <span class="item-stat">{{ship_model.mass}}</span>
+    </div>
+    <div class="col-md-1">
+      {{ship_model.manufacturer}}
+    </div>
+    <div class="col-md-2">
+      {{ship_model.name}}
+    </div>
+    <div class="col-md-2">
+      {{ship_model.class}}
+    </div>
+    <div class="col-md-2">
+      {{ship_model.crew}}
+    </div>
+    <div class="col-md-2">
+      {{ship_model.length}}
+    </div>
+    <div class="col-md-2">
+      {{ship_model.mass}}
     </div>
   </div>
-{{/unless}}
+{{else}}
+  {{#if (and tb session.current_user.permission.ship_model_edit)}}
+    <div class="toolbar">
+      {{#if count}}
+        <div class="text-default">{{count}}x</div>
+      {{else}}
+        {{#if session.current_user.permission.ship_model_edit}}
+          <button class="tb tb-default" type="button" {{action 'editModel' ship_model}}><i class="fa fa-gear"></i></button>
+        {{/if}}
+        {{#if session.current_user.permission.ship_model_delete}}
+          <button class="tb tb-danger" type="button" {{action 'deleteModel' ship_model}}><i class="fa fa-close"></i></button>
+        {{/if}}
+      {{/if}}
+    </div>
+  {{/if}}
+
+  <div class={{if count "top-left-sm" "top-left"}}>
+    <img class="top-left-img" src="{{session.rootURL}}/images/manufacturers/{{ship_model.manufacturer}}.png">
+    <span class="item-name">
+      {{ship_model.name}}
+    </span>
+  </div>
+
+  {{#if ship_model.img}}
+    <img class="item-img" src={{ship_model.img}}>
+  {{else}}
+    <img class="item-img" src="{{session.rootURL}}/images/manufacturers/{{ship_model.manufacturer}}.png">
+  {{/if}}
+
+
+  {{#unless count}}
+    <div class="bottom-right">
+      <div class="bottom-right-text">
+        c: <span class="item-stat">{{ship_model.crew}}</span>
+        <span class="item-sep">|</span>
+        l: <span class="item-stat">{{ship_model.length}}</span>
+        <span class="item-sep">|</span>
+        m: <span class="item-stat">{{ship_model.mass}}</span>
+      </div>
+    </div>
+  {{/unless}}
+{{/if}}

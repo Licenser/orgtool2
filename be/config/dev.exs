@@ -11,6 +11,10 @@ config :orgtool_db, OrgtoolDb.Endpoint,
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
+#    https: [port: 4443,
+#            otp_app: :orgtool_db,
+#            keyfile: "priv/ssl/localhost.key",
+#            certfile: "priv/ssl/localhost.key"],
   watchers: [node: ["node_modules/brunch/bin/brunch", "watch", "--stdin",
                     cd: Path.expand("../", __DIR__)]]
 

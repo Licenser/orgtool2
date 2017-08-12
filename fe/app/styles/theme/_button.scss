@@ -119,7 +119,7 @@
 
 /*
 .btn:hover, .btn:focus, .btn.focus {
-    color: #1a80b6;
+    color: $blue;
 }
 
 .btn-default {
@@ -260,7 +260,7 @@
 .tb, .btn-tb {
   font-size: 14px;
 //    padding: 2px;
-  color: #1a80b6;
+  color: $blue;
 //    color: #000;
   background: transparent;
   border: 0;
@@ -272,8 +272,21 @@
   margin: 0;
 }
 
-.btn-tb {
-  color: #000;
+.tb, .tb-normal {
+  font-size: 14px;
+  color: #fff;
+  background: transparent;
+  border: 0;
+
+  padding-left: 2px;
+  padding-right: 2px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin: 0;
+}
+
+.tb, .tb-normal:hover {
+  color: $blue;
 }
 
 
@@ -310,7 +323,7 @@
 
 
   border-radius: 0px 0px 0px 10px;
-  background-color: #1a80b6;
+  background-color: $blue;
   color: #000;
   font-size: 14px;
   vertical-align: middle;

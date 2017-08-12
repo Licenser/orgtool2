@@ -7,12 +7,13 @@ var debug = Ember.Logger.log;
 
 export default Ember.Controller.extend({
   classNames: ['item-filtered-list'],
+  session: Ember.inject.service(),
+  store: Ember.inject.service(),
+
   sortProperties: ['numericID'],
   details: false,
   showEdit: false,
-  session: Ember.inject.service('session'),
-
-  store: Ember.inject.service(),
+  listView: false,
 
   columns: [16.6, 16.6, 16.6, 16.6, 16.6, 16.6],
   itemHeight: 140,
@@ -116,6 +117,17 @@ export default Ember.Controller.extend({
       this.set('showModelDialog', true);
       this.set('currModel', model);
     },
+  },
+
+  setListView: function(listView) {
+    if (listView) {
+      set(this, "columns", [100]);
+      set(this, "itemHeight", 42);
+    } else {
+      set(this, "columns", [16.6, 16.6, 16.6, 16.6, 16.6, 16.6]);
+      set(this, "itemHeight", 140);
+    }
+    set(this, "listView", listView);
   },
 
 });
