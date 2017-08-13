@@ -53,7 +53,11 @@ export default Ember.Controller.extend({
 
     close: function() {
       set(this, "showDialog", false);
-      this.transitionToRoute('players');
+      if (get(this, 'session.current_user.permission.player_read')) {
+        this.transitionToRoute('players');
+      } else {
+        this.transitionToRoute('index');
+      }
     },
   }
 

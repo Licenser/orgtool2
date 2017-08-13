@@ -8,60 +8,47 @@ export default Ember.Route.extend({
 
   beforeModel: function(transition) {
     var self = this;
-
-    return this.get('session').loadUser().then(function(result) {
-      var target = transition.targetName.split(".")[0];
-      if (target !== 'login' && target !== "overview") {
-        const session = self.get('session');
-        if (!session.current_user) {
-          self.transitionTo('overview');
-        }
+    var session = this.get('session');
+    return session.loadUser().then(function() {
+      if (!self.checkTransition(transition)) {
+        self.transitionTo('index');
       }
     }).catch(function(err) {
         console.debug("GET SESSION error", err);
     });
   }, 
 
+  checkTransition(transition) {
+    var target = transition.targetName.split(".")[0];
+    if (target == 'login') {
+      return true;
+    }
+
+    if (!get(this, "session").loggedInAndActive()) {
+      return false
+    }
+
+    var perms = get(this, "session.current_user.permission");
+    switch(target) {
+      case "index":       return true;
+      case "overview":    return get(perms, "unit_read");
+      case "players":     return true; //get(perms, "player_read");
+      case "ship-models": return get(perms, "ship_model_read");
+      case "ships":       return get(perms, "ship_read");
+      case "rewards":     return get(perms, "reward_read");
+      case "users":       return get(perms, "user_read");
+      case "log":         return get(perms, "log_read");
+    }
+
+    console.debug("Unknown route", transition.targetName ,"!!!");
+    return false;
+  },
+
   actions: {
     willTransition(transition) {
-      var target = transition.targetName.split(".")[0];
-      if (Ember.isEmpty(get(this, "session.current_user")) && (target == "overview" || target == "login")) {
-        return true;
+      if (!this.checkTransition(transition)) {
+        transition.abort();
       }
-
-      var perms = get(this, "session.current_user.permission");
-      switch(target) {
-        case "overview":
-            return true;
-        case "players":
-          if (get(perms, "player_read")) {
-            return true;
-          }
-        case "ship-models":
-          if (get(perms, "ship_model_read")) {
-            return true;
-          }
-        case "ships":
-          if (get(perms, "ship_read")) {
-            return true;
-          }
-        case "rewards":
-          if (get(perms, "reward_read")) {
-            return true;
-          }
-        case "users":
-          if (get(perms, "user_read")) {
-            return true;
-          }
-        case "log":
-          if (get(perms, "settings")) {
-            return true;
-          }
-      }
-
-      console.debug("permission denied for", transition.targetName ,"!!!");
-      transition.abort();
     }
   }
-
 });

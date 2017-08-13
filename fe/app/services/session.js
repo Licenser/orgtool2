@@ -19,6 +19,14 @@ export default Ember.Service.extend({
     this._super(...arguments);
   },
 
+  loggedInAndActive: function() {
+    var user = get(this, 'current_user');
+    if (!user || !get(user, "permission.active")) {
+      return false;
+    }
+    return true;
+  },
+
   loadUser: function() {
     var self = this;
     self.set('current_user', null);
@@ -123,6 +131,25 @@ export default Ember.Service.extend({
     });
   },
 
+  logout: function() {
+    var csrf = this.get("csrf");
+    var prom = this.get('ajax').request('/logout', {
+      method: 'POST',
+      data: {
+        _method: 'delete',
+        _csrf_token: csrf
+      }
+    });
+
+    var self = this;
+    prom.then(function(done) {
+      console.debug("logout done");
+      window.location.href="/";
+    }).catch(function(err) {
+      console.debug("logout err", err);
+      window.location.href="/";
+    });
+  },
 
   parseJwt: function(token) {
     if (!Ember.isEmpty(token)) {

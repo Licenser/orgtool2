@@ -43,8 +43,8 @@ export default DS.Model.extend({
   //   created_at: DS.attr(),
 
 
-  settings: Ember.computed('user_read', 'ship_read', 'reward_read', function() {
-    return this.get('user_read') || this.get('ship_read') || this.get('reward_read');
+  log_read: Ember.computed('unit_edit', 'user_edit', 'ship_edit', 'reward_edit', function() {
+    return this.get('unit_edit') && this.get('user_edit') && this.get('ship_edit') && this.get('reward_edit');
   }),
 
   ship_list_filter: Ember.computed('ship_model_read', 'ship_read', function() {

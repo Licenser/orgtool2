@@ -1,0 +1,22 @@
+<div class="loader-screen">
+  <div class="loader-box">
+    <div class="loader-text">
+      <i class="text-danger fa fa-ban fa-3x"></i>
+      <br>
+      Permission denied
+      <br>
+
+      {{#if session.current_user.permission.active}}
+          Please contect an administrator to setup your read permissions
+      {{else}}
+        {{#if session.current_user}}
+          Please contect an administrator to activate your account
+        {{else}}
+          You are not logged in<br>
+          {{#link-to 'login'}}Login{{/link-to}}
+        {{/if}}
+      {{/if}}
+
+    </div>
+  </div>
+</div>

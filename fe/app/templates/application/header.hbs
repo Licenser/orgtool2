@@ -4,10 +4,10 @@
       {{#if session.current_user}}
         {{#if session.current_user.player}}
           {{#link-to 'players.player' session.current_user.player}}
-            <i class={{if session.current_user.permission.settings "fa fa-user" "fa fa-user"}}></i> {{session.current_user.name}}
+            <i class={{if session.current_user.permission.log_read "fa fa-user" "fa fa-user"}}></i> {{session.current_user.name}}
           {{/link-to}}
         {{else}}
-          <i class={{if session.current_user.permission.settings "fa fa-user" "fa fa-user"}}></i> {{session.current_user.name}}
+          <i class={{if session.current_user.permission.log_read "fa fa-user" "fa fa-user"}}></i> {{session.current_user.name}}
         {{/if}}
 
         <button type="button" class="btn btn-tb danger" {{action "logout"}}> <i class="fa fa-sign-out"></i> </button>
@@ -33,7 +33,7 @@
       </button> Fancy Background
     </li>
 
-    {{#if session.current_user.permission.settings}}
+    {{#if session.current_user.permission.log_read}}
       <li class="pull-right">{{#link-to 'log'}}<i class="fa fa-history"></i> Log{{/link-to}}</li>
     {{/if}}
 

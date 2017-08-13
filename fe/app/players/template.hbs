@@ -1,5 +1,5 @@
+{{#if session.current_user.permission.player_read}}
 <div class="players">
-
   <div class="panel panel-player-list">
     <div class="player-list-header">
 
@@ -94,29 +94,7 @@
 
     </div>
   </div>
-
-
-</div>
-
-{{outlet}}
-
-
-{{!--
-<!-- <div class="pull-left"> -->
-{{player-list players=models.players details=true showEdit=true}}
-<!-- </div> -->
-
-{{outlet}}
---}}
-
-{{!--
-<div class="pull-left" style="position: relative;">
-{{#if session.current_user.permission.player_edit}}
-<div class="context-toolbar">
-<button type="button" class="btn btn-success" style="" {{action 'createMember'}}>{{fa-icon "plus"}} Add Member</button>
 </div>
 {{/if}}
-</div>
 
 {{outlet}}
---}}
