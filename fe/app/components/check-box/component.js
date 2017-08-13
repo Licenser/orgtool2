@@ -6,6 +6,7 @@ var set = Ember.set;
 export default Ember.Component.extend({
 //   classNames: ['check-box'],
   classNameBindings: ['compClasses'],
+  canedit: true,
 
   compClasses: function() {
     if (!this.get('canedit')) {
