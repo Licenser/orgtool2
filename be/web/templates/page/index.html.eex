@@ -10,8 +10,6 @@
 
     <%= if Guardian.Plug.current_token(@conn) do %>
         <meta name="guardian-token" content="<%= Guardian.Plug.current_token(@conn) %>" / >
-    <% else %>
-        <pre> <%= Guardian.Plug.current_token(@conn) %></pre>
     <% end %>
     <meta name="csrf-token" content="<%= @csrf %>" />
     <%=  for p <- @providers do %>
