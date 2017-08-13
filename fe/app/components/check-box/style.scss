@@ -4,6 +4,14 @@
   color: #1a80b6;
   background: transparent;
   outline-width: 0px !important;
+
+  .btn-check {
+    width: 24px;
+    border: 0px;
+    color: #1a80b6;
+    background: transparent;
+  }
+
 }
 
 .check-box:hover {
@@ -12,29 +20,34 @@
 
   .btn-check {
     color: #fff;
+    background: transparent;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
   }
-
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
 }
 
-.btn-check {
-  width: 24px;
-  border: 0px;
-  color: #1a80b6;
+.check-box-disabled {
+  height: 32px;
+  display: inline;
+  color: #fff;
   background: transparent;
+  outline-width: 0px !important;
+
+  .btn-check {
+    width: 24px;
+    border: 0px;
+    color: #fff;
+    background: transparent;
+  }
+
+  .btn-check:hover {
+    i {
+      cursor: pointer;
+    }
+  }
 }
 
 .btn-check:focus {
   border: 0px;
-  outline-width: 0px !important;
+  outline: 0px !important;
 }
-
-
-//  .check-box {
-//  }
-
-//  .check-box:hover {
-//    color: #fff;
-//    cursor: pointer;
-//  }

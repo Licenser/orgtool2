@@ -6,11 +6,9 @@
       Models: {{sortedModels.length}}
     </div>
 
-    {{#if session.current_user.permission.ship_list_filter}}
+    {{#if session.current_user.permission.ship_model_create}}
       <div class="toolbar">
-        {{#if session.current_user.permission.ship_model_create}}
-          <button type="button" class="tb tb-default" {{action "addModel"}}> <i class="fa fa-plus" ></i> Model</button>
-        {{/if}}
+        <button type="button" class="tb tb-default" {{action "addModel"}}> <i class="fa fa-plus" ></i> Model</button>
       </div>
     {{/if}}
   </div>

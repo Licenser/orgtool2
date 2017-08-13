@@ -4,9 +4,19 @@ var get = Ember.get;
 var set = Ember.set;
 
 export default Ember.Component.extend({
-  classNames: ['check-box'],
+//   classNames: ['check-box'],
+  classNameBindings: ['compClasses'],
+
+  compClasses: function() {
+    if (!this.get('canedit')) {
+      return "check-box-disabled";
+    }
+    return "check-box";
+  }.property("canedit"),
 
   click: function() {
-    set(this, "value", !get(this, "value"));
+    if (this.get('canedit')) {
+      set(this, "value", !get(this, "value"));
+    }
   },
 });

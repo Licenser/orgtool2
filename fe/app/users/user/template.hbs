@@ -1,4 +1,4 @@
-{{#bs-modal fade=false size='l' open=true header=false body=false footer=false onHide=(action 'close') class="player-modal" as |md|}}
+{{#bs-modal fade=false size='l' open=showDialog header=false body=false footer=false onHide=(action 'close') class="player-modal" as |md|}}
   {{#md.header}}
     <h4>
       {{#if model.loggedIn}} My user {{/if}}
@@ -18,7 +18,7 @@
           {{#each model.errors.name as |err|}}{{err.message}}{{/each}}
         </span>
       {{/if}}
-      {{input type="text" class="form-control" id="name" value=model.name readonly=(not session.current_user.can_modify_user)}}
+      {{input type="text" class="form-control" id="name" value=model.name readonly=(not (or session.current_user.can_user_edit (eq session.current_user.id model.id)))}}
     </div>
 
 
@@ -29,12 +29,12 @@
           {{#each model.errors.email as |err|}}{{err.message}}{{/each}}
         </span>
       {{/if}}
-      {{input type="text" class="form-control" id="email" value=model.email readonly=(not session.current_user.can_modify_user)}}
+      {{input type="text" class="form-control" id="email" value=model.email readonly=(not (or session.current_user.can_user_edit (eq session.current_user.id model.id)))}}
     </div>
 
     <div class="row">
       <label class="control-label">Tree Unfold Level</label>
-      {{input type="text" class="form-control" id="unfold-level" value=model.unfold-level readonly=(not session.current_user.can_modify_user)}}
+      {{input type="number" class="form-control" id="unfold-level" value=model.unfold-level readonly=(not (or session.current_user.can_user_edit (eq session.current_user.id model.id)))}}
     </div>
 
     {{!--
@@ -68,10 +68,12 @@
       <div class="col-md-2">
         <label class="control-label">Permissions</label>
       </div>
-      <div class="col-md-10">
-        <button type="button" class="btn btn-default" {{action "checkThemAll" true}}>{{fa-icon "fa-check-square-o"}} All</button>
-        <button type="button" class="btn btn-danger" {{action "checkThemAll" false}}>{{fa-icon "fa-square-o"}} None</button>
-      </div>
+      {{#if canedit}}
+        <div class="col-md-10">
+          <button type="button" class="btn btn-default" {{action "checkThemAll" true}}>{{fa-icon "fa-check-square-o"}} All</button>
+          <button type="button" class="btn btn-danger" {{action "checkThemAll" false}}>{{fa-icon "fa-square-o"}} None</button>
+        </div>
+      {{/if}}
     </div>
 
     <hr>
@@ -83,25 +85,27 @@
 
     <div class="row">
       <div class="col-md-2">
-        {{check-box value=model.permission.active desc="active" readonly=(not session.current_user.permission.user_edit)}}
+        {{check-box value=model.permission.active desc="active" canedit=canedit}}
       </div>
     </div>
 
-    {{#each sec as |s|}}
+    {{#each filterdPermissions as |s|}}
       <hr>
       <div class="row">
         <div class="col-md-2">
           <label class="control-label">{{s.title}}</label> 
         </div>
-        <div class="col-md-10">
-          <button type="button" class="btn btn-default" {{action "checkAll" s true}}>{{fa-icon "fa-check-square-o"}} All</button>
-          <button type="button" class="btn btn-danger" {{action "checkAll" s false}}>{{fa-icon "fa-square-o"}} None</button>
-        </div>
+        {{#if canedit}}
+          <div class="col-md-10">
+            <button type="button" class="btn btn-default" {{action "checkAll" s true}}>{{fa-icon "fa-check-square-o"}} All</button>
+            <button type="button" class="btn btn-danger" {{action "checkAll" s false}}>{{fa-icon "fa-square-o"}} None</button>
+          </div>
+        {{/if}}
       </div>
       <div class="row">
-        {{#each s.prop as |p|}}
+        {{#each s.props as |p|}}
             <div class="col-md-3">
-                {{check-box value=(get model.permission (concat s.name "_" p.name)) desc=p.name readonly=(not session.current_user.permission.user_edit)}}
+                {{check-box value=(get model.permission p.propname) desc=p.name canedit=canedit}}
             </div>
         {{/each}}
       </div>
@@ -111,11 +115,11 @@
   {{/md.body}}
 
   {{#md.footer}}
-      {{#if (or session.current_user.permission.user_delete  (eq session.current_user.id model.id))}}
-          <button type="submit" class="btn btn-danger" {{action "deleteUser" model}}>{{fa-icon "user-times"}} Delete</button>
-      {{/if}}
+    {{#if (or session.current_user.permission.user_delete (eq session.current_user.id model.id))}}
+        <button type="submit" class="btn btn-danger" {{action "deleteUser" model}}>{{fa-icon "user-times"}} Delete</button>
+    {{/if}}
 
-    {{#if session.current_user.can_modify_user}}
+    {{#if (or canedit (eq session.current_user.id model.id))}}
       <button type="submit" class="btn btn-primary" {{action "saveUser" model}} disabled={{if (or model.hasDirtyAttributes model.permission.hasDirtyAttributes) false true}}>{{fa-icon "save"}} Save</button>
     {{/if}}
 

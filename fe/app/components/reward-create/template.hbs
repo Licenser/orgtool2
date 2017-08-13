@@ -64,9 +64,11 @@
 
   <div class="reward-mu-list">
     {{#if (and (not reward.isNew) (not-eq reward.rewardType.id "2"))}}
-      <div class="toolbar">
-        {{player-select onConfirm=(action "rewardMember") actionName="Reward"}}
-      </div>
+      {{#if session.current_user.permission.reward_edit}}
+        <div class="toolbar">
+          {{player-select onConfirm=(action "rewardMember") actionName="Reward"}}
+        </div>
+      {{/if}}
     {{/if}}
 
     {{#ember-collection items=merged cell-layout=(percentage-columns-layout merged.length columns itemHeight) as |player index|}}
