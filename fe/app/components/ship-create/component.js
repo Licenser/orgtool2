@@ -10,7 +10,7 @@ export default Ember.Component.extend({
   session: Ember.inject.service('session'),
   ship: null,
 
-  manufacturers: ["Anvil", "Kruger", "Aegis", "Drake", "RSI", "Crusader", "Origin", "MISC", "Consolidated_outland", "Banu", "Argo_Blue", "Xian", "Vanduul"],
+  manufacturers: ["Anvil", "Kruger", "Aegis", "Drake", "RSI", "Crusader", "Origin", "MISC", "Consolidated_outland", "Banu", "Argo_Blue", "Xian", "Vanduul", "Tumbril_logo"],
 
   setup: Ember.on('init', function() {
     var self = this;

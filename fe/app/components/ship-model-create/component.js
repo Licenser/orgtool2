@@ -12,7 +12,7 @@ export default Ember.Component.extend({
   showDialog: false,
 
   requiredFields: true,
-  manufacturers: ["Anvil", "Kruger", "Aegis", "Drake", "RSI", "Crusader", "Origin", "MISC", "Consolidated_outland", "Banu", "Argo_Blue", "Xian", "Vanduul"],
+  manufacturers: ["Anvil", "Kruger", "Aegis", "Drake", "RSI", "Crusader", "Origin", "MISC", "Consolidated_outland", "Banu", "Argo_Blue", "Xian", "Vanduul", "Tumbril_logo"],
 
   actions: {
     setManufacturer: function(cat) {
