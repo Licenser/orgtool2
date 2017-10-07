@@ -40,6 +40,7 @@ defmodule OrgtoolDb.Endpoint do
 
   if System.get_env("NO_AUTH") == "true" do
     plug CORSPlug, origin: ["http://localhost:4200", "http://127.0.0.1:4200"]
+#      plug CORSPlug
   else
     plug CORSPlug, origin: ["http://#{System.get_env("EXT_HOST")}:#{System.get_env("EXT_PORT")}",
                             "http://localhost:#{System.get_env("EXT_PORT")}",

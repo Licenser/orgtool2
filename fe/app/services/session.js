@@ -38,7 +38,6 @@ export default Ember.Service.extend({
       var src = scripts[i].src;
       if (src.indexOf(filename) > 0) {
         self.set('rootURL', src.substring(0, src.indexOf(filename)));
-//         console.debug(">> ROOT URL", self.get("rootURL"));
         break;
       }
     }
@@ -60,13 +59,10 @@ export default Ember.Service.extend({
       self.set("providers", providers);
       self.set("token", "Bearer " + token);
 
-//       Ember.Logger.log(">>> csrf ", csrf);
-//       Ember.Logger.log(">>> token", token);
-
       var session = self.parseJwt(token);
-      if (config.environment === 'development') {
-        session = {"sub": "User:1"};
-      }
+//       if (config.environment === 'development') {
+//         session = {"sub": "User:1"};
+//       }
 
       if (Ember.isEmpty(session)) {
         Ember.Logger.log(">>> init >>>> NO session");
@@ -77,23 +73,24 @@ export default Ember.Service.extend({
 
       if (!Ember.isEmpty(session) && !Ember.isEmpty(get(session, "sub"))) {
         var userid = session.sub.split(':')[1];
-//         Ember.Logger.log("find user", userid, "|", session);
         return self.get('store').findRecord('user', userid).then(function(user) {
-//           Ember.Logger.log(" user found", userid);
           set(user, "loggedIn", true);
           set(self, "current_user", user);
-//           console.log("--------------- current_user", user.get("player.id"));
           self.log("session", "logged in as user " + get(user, "name"));
           self.set('loading', false);
           resolve();
         }).catch(function(err) {
-          Ember.Logger.log("error, user ", userid, " not found, error:", err);
-          var user = Ember.get(self, "store").createRecord('user');
-          Ember.set(user, "name", get(session, "sub"));
-          set(self, "current_user", user);
-          resolve();
-//           self.set('loading', false);
-//           reject();
+          if (Ember.isEmpty(get(session, "sub"))) {
+            self.set('loading', false);
+            reject();
+          } else {
+            Ember.Logger.log("error, user ", userid, " not found, error:", err);
+            var user = Ember.get(self, "store").createRecord('user');
+            Ember.set(user, "name", get(session, "sub"));
+            set(self, "current_user", user);
+            self.set('loading', false);
+            resolve();
+          }
         });
       } else {
         Ember.Logger.log(">>> init >>>> broken token");
