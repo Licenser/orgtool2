@@ -24,7 +24,7 @@
                 {{#dd.menu align="right"}}
                   {{#each manufacturers as |manufacturer|}}
                     <li class="ship-manu">
-                      <img class="manu-img" src="/images/manufacturers/{{manufacturer}}.png">
+                      <img class="manu-img" src="{{session.rootURL}}/images/manufacturers/{{manufacturer}}.png">
                       {{manufacturer}}
                     </li>
                     {{#each ship_models as |temp|}}
