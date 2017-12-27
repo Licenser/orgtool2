@@ -1,7 +1,7 @@
-{{#bs-dropdown closeOnMenuClick=false as |dd|}}
-  {{#dd.button type="trans"}}
+{{#bs-dropdown as |dd|}}
+  {{#dd.button}}
     {{#if session.current_user.player.avatar}}
-      <img class="" style="width:32px;height:32px;" src={{session.current_user.player.avatar}} />
+      <img class="" style="width:16px;height:16px;" src={{session.current_user.player.avatar}} />
     {{else}}
       <i class="fa fa-user"></i>
     {{/if}}
@@ -10,25 +10,29 @@
   {{#dd.menu}}
     {{#if session.current_user.permission.player_read}}
       <li>
-        {{#link-to session.current_user.player}}
+        {{#link-to 'players.player' session.current_user.player.id}}
         <i class="fa fa-user"></i> Profile
         {{/link-to}}
       </li>
     {{/if}}
 
-    {{#if session.current_user.permission.user_read}}
       <li>
-        {{#link-to session.current_user.user}}
+        {{#link-to 'users.user' session.current_user.id}}
         <i class="fa fa-gear"></i> User Settings
         {{/link-to}}
       </li>
-    {{/if}}
 
     <li>
-      {{check-box value=showBG desc="Fancy"}}
+      <a href="#" style="margin-left: -8px;">
+        {{check-box value=showBG desc="Fancy"}}
+      </a>
     </li>
 
-    <li style="padding-left: 8px;" {{action "logout"}}> <i class="fa fa-sign-out"></i> Logout</li>
+    <li>
+      <a href="#" class="text-danger" {{action "logout"}}>
+        <i class="fa fa-sign-out text-danger"></i> Logout
+      </a>
+    </li>
 
   {{/dd.menu}}
 {{/bs-dropdown}}
