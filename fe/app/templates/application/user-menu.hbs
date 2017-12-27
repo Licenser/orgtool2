@@ -1,0 +1,34 @@
+{{#bs-dropdown closeOnMenuClick=false as |dd|}}
+  {{#dd.button type="trans"}}
+    {{#if session.current_user.player.avatar}}
+      <img class="" style="width:32px;height:32px;" src={{session.current_user.player.avatar}} />
+    {{else}}
+      <i class="fa fa-user"></i>
+    {{/if}}
+    {{session.current_user.player.name}}
+  {{/dd.button}}
+  {{#dd.menu}}
+    {{#if session.current_user.permission.player_read}}
+      <li>
+        {{#link-to session.current_user.player}}
+        <i class="fa fa-user"></i> Profile
+        {{/link-to}}
+      </li>
+    {{/if}}
+
+    {{#if session.current_user.permission.user_read}}
+      <li>
+        {{#link-to session.current_user.user}}
+        <i class="fa fa-gear"></i> User Settings
+        {{/link-to}}
+      </li>
+    {{/if}}
+
+    <li>
+      {{check-box value=showBG desc="Fancy"}}
+    </li>
+
+    <li style="padding-left: 8px;" {{action "logout"}}> <i class="fa fa-sign-out"></i> Logout</li>
+
+  {{/dd.menu}}
+{{/bs-dropdown}}
