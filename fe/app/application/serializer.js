@@ -14,7 +14,6 @@ export default DS.JSONAPISerializer.extend({
       serialized.included = serialized.data.included;
       delete serialized.data.included;
     }
-
     return serialized;
   },
 
@@ -22,6 +21,15 @@ export default DS.JSONAPISerializer.extend({
     let serialized = this._super(...arguments);
     var key = relationship.key;
     var belongsTo = snapshot.belongsTo(key);
+
+    if (key == "unit") {
+      json.attributes['unit_id'] = (json.relationships.unit && json.relationships.unit.data) ? json.relationships.unit.data.id : null;
+      delete json.attributes['unit-id'];
+    } else if (key == "ship_model") {
+//       json.attributes['ship_model_id'] = json.attributes['ship-model-id'];
+//       delete json.attributes['ship-model-id'];
+    }
+
     if (belongsTo) {
       var js = {"type": key, "id": belongsTo.id, "attributes": belongsTo.record.toJSON() };
       if (json.included) {
