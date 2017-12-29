@@ -70,8 +70,11 @@
       </div>
       {{#if canedit}}
         <div class="col-md-10">
-          <button type="button" class="btn btn-default" {{action "checkThemAll" true}}>{{fa-icon "fa-check-square-o"}} All</button>
-          <button type="button" class="btn btn-danger" {{action "checkThemAll" false}}>{{fa-icon "fa-square-o"}} None</button>
+          <div class="mylabel">
+            <a class="text-green perm-check" href="#" {{action "checkThemAll" "default"}}>{{fa-icon "fa-toggle-off"}} Default</a> 
+            <a class="text-red perm-check" href="#" {{action "checkThemAll" true}}>{{fa-icon "fa-toggle-on"}} All</a>
+            <a class="text-bright perm-check" href="#" {{action "checkThemAll" false}}>{{fa-icon "fa-toggle-off"}} None</a> 
+          </div>
         </div>
       {{/if}}
     </div>
@@ -89,23 +92,26 @@
       </div>
     </div>
 
-    {{#each filterdPermissions as |s|}}
+    {{#each filterdPermissions as |perm|}}
       <hr>
       <div class="row">
         <div class="col-md-2">
-          <label class="control-label">{{s.title}}</label> 
+          <label class="control-label">{{perm.title}}</label> 
         </div>
         {{#if canedit}}
           <div class="col-md-10">
-            <button type="button" class="btn btn-default" {{action "checkAll" s true}}>{{fa-icon "fa-check-square-o"}} All</button>
-            <button type="button" class="btn btn-danger" {{action "checkAll" s false}}>{{fa-icon "fa-square-o"}} None</button>
+            <div class="mylabel">
+              <a class="text-grey perm-check" href="#" {{action "checkAll" perm "default"}}>{{fa-icon "fa-toggle-off"}} Default</a> 
+              <a class="text-grey perm-check" href="#" {{action "checkAll" perm true}}>{{fa-icon "fa-toggle-on"}} All</a>
+              <a class="text-grey perm-check" href="#" {{action "checkAll" perm false}}>{{fa-icon "fa-toggle-off"}} None</a> 
+            </div>
           </div>
         {{/if}}
       </div>
       <div class="row">
-        {{#each s.props as |p|}}
+        {{#each perm.props as |prop|}}
             <div class="col-md-3">
-                {{check-box value=(get model.permission p.propname) desc=p.name canedit=canedit}}
+                {{check-box value=(get model.permission prop.propname) desc=prop.name canedit=canedit}}
             </div>
         {{/each}}
       </div>

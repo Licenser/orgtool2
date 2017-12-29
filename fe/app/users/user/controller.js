@@ -26,6 +26,36 @@ export default Ember.Controller.extend({
   ],
   sec: [],
 
+  defaultMap: {
+    "unit_read": true,
+    "unit_create": false,
+    "unit_edit": false,
+    "unit_delete": false,
+    "unit_apply": true,
+    "unit_accept": false,
+    "unit_assign": false,
+    "player_read": true,
+    "player_create": false,
+    "player_edit": false,
+    "player_delete": false,
+    "ship_read": true,
+    "ship_create": false,
+    "ship_edit": false,
+    "ship_delete": false,
+    "ship_model_read": true,
+    "ship_model_create": false,
+    "ship_model_edit": false,
+    "ship_model_delete": false,
+    "reward_read": false,
+    "reward_create": false,
+    "reward_edit": false,
+    "reward_delete": false,
+    "user_read": false,
+    "user_create": false,
+    "user_edit": false,
+    "user_delete": false,
+  },
+
   setup: Ember.on('init', function() {
     set(this, "sec", [
       { title: "Units", name: "unit", props: this.def.concat(this.un) },
@@ -99,20 +129,34 @@ export default Ember.Controller.extend({
 
     checkThemAll: function(state) {
       var perms = get(this, "model").get("permission");
+      var def = get(this, "defaultMap");
       get(this, "sec").forEach(function(cat) {
         cat.props.forEach(function(p) {
           var propname = cat.name + "_" + p.name;
-          set(perms, propname, state);
+
+          var toSet = state;
+          if (state == "default") {
+            toSet = def[propname];
+          }
+
+          set(perms, propname, toSet);
         });
       });
-      set(perms, "active", state);
+
+      set(perms, "active", (state == "default") ? true : state);
     },
 
     checkAll: function(cat, state) {
       var perms = get(this, "model").get("permission");
+      var def = get(this, "defaultMap");
       cat.props.forEach(function(p) {
         var propname = cat.name + "_" + p.name;
-        set(perms, propname, state);
+
+        var toSet = state;
+        if (state == "default") {
+          toSet = def[propname];
+        }
+        set(perms, propname, toSet);
       });
     },
 
