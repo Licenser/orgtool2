@@ -22,7 +22,19 @@
       height: calc(100vh - 180px);
       overflow-y: auto;
   }
+}
 
+.modal-m {
+    width: 60%;
+    height: calc(100vh - 160px);
+//    .modal-content {
+//      height: 100%;
+//    }
+
+  .modal-body {
+      height: calc(100vh - 320px);
+      overflow-y: auto;
+  }
 }
 
 .modal-sm {
@@ -43,7 +55,7 @@
 .modal-content {
 //    background-color: #fff;
 //    background-color: #0A0C11;
-  background-color: rgba(10, 12, 17, .9);
+  background-color: rgba(10, 12, 17, .99);
 }
 
 .modal {

@@ -2,6 +2,7 @@
   padding-top: 8px;
 
   .box {
+    background: #000;
     margin-bottom: 0px;
 //      width: calc(100% - 24px);
   }
@@ -132,7 +133,7 @@
 
   .box-header:hover,  .box-header:focus {
 //        border: 1px solid #fff;
-      border-radius: 10px 10px 0px 0px;
+//        border-radius: 10px 10px 0px 0px;
 //      color: #f00 !important;
 //      background-color: rgba(34, 50, 72, 0.1);
 //      background-color: rgba(100, 100, 100, 0.5);

@@ -75,7 +75,7 @@
 }
 
 .btn.disabled, .btn[disabled], fieldset[disabled] .btn {
-    color: #000;
+    color: #333;
     background-color: #000;
     box-shadow: none;
     opacity: 0.25;
@@ -302,6 +302,17 @@
   color: #000;
 }
 
+.tb-filter {
+  color: #fff;
+}
+.tb-filter:hover {
+  color: #1a80b6;
+}
+
+.tb-selected {
+  color: #1a80b6;
+}
+
 .context-toolbar {
   position:absolute;
   bottom:14px;
@@ -362,4 +373,41 @@
 }
 .btn-group > .btn, .btn-group-vertical > .btn {
   height: 24px;
+}
+
+.perm-check {
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+.text-bright {
+  color: #fff;
+}
+
+.text-grey {
+  color: #bbb;
+}
+
+.text-red {
+  color: #f00;
+}
+
+.text-green {
+  color: #0f0;
+}
+
+.text-yellow {
+  color: #fff;
+}
+
+.text-orange {
+  color: #fff;
+}
+
+.text-odblue {
+  color: #fff;
+}
+
+.text-blue {
+  color: #fff;
 }

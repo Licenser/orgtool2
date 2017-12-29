@@ -1,3 +1,13 @@
+*:focus {
+    outline: none;
+}
+
+.mylabel {
+    margin-top: 6px;
+    margin-bottom: 6px;
+    display: inline-block;
+}
+
 .list-group-item {
 //    background-color: #2C3539;
    background-color: #242424;
@@ -8,6 +18,7 @@
 //      background-color: transparent;
     width: 100% !important;
     background-color: #000;
+    border-radius: 0px;
     border: 1px solid #219ab3;
     color: #fff;
     height: 24px !important;
