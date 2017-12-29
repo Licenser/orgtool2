@@ -86,32 +86,40 @@ for %{
       crew
   end
 
-  case Repo.one(from m in ShipModel, where: m.ship_id == ^ship_id, limit: 1) do
-    nil ->
-      Logger.info("Adding ship #{name}")
-      Repo.insert! %ShipModel{
-        name: "#{name}",
-        img: "#{img_pfx}#{img}",
-        manufacturer: mname,
-        ship_id: ship_id,
-        class: class,
-        crew: crew,
-        length: length,
-        mass: mass
-      }
-    tpl ->
-      Logger.info("Updating ship #{name}")
-      changes = %{name: "#{name}",
-                  img: "#{img_pfx}#{img}",
-                  manufacturer: mname,
-                  ship_id: ship_id,
-                  class: class,
-                  crew: crew,
-                  length: length,
-                  mass: mass
-                 }
-      ShipModel.changeset(tpl, changes)
-      |> Repo.update!
+  mimgpath = "../fe/public/images/manufacturers/#{mname}.png"
+
+  if ! File.regular?(mimgpath) do
+    Logger.info("Download #{mimg} -> #{mimgpath}")
+    %HTTPoison.Response{body: body} = HTTPoison.get!(mimg)
+    File.write!(mimgpath, body)
   end
+
+#    case Repo.one(from m in ShipModel, where: m.ship_id == ^ship_id, limit: 1) do
+#      nil ->
+#        Logger.info("Adding ship #{name}")
+#        Repo.insert! %ShipModel{
+#          name: "#{name}",
+#          img: "#{img_pfx}#{img}",
+#          manufacturer: mname,
+#          ship_id: ship_id,
+#          class: class,
+#          crew: crew,
+#          length: length,
+#          mass: mass
+#        }
+#      tpl ->
+#        Logger.info("Updating ship #{name}")
+#        changes = %{name: "#{name}",
+#                    img: "#{img_pfx}#{img}",
+#                    manufacturer: mname,
+#                    ship_id: ship_id,
+#                    class: class,
+#                    crew: crew,
+#                    length: length,
+#                    mass: mass
+#                   }
+#        ShipModel.changeset(tpl, changes)
+#        |> Repo.update!
+#    end
 
 end

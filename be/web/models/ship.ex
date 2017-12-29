@@ -8,8 +8,8 @@ defmodule OrgtoolDb.Ship do
     field :img, :string
     field :name, :string
 
-    belongs_to :player, OrgtoolDb.Player
-    belongs_to :unit, OrgtoolDb.Unit
+    belongs_to :player, OrgtoolDb.Player, on_replace: :nilify
+    belongs_to :unit, OrgtoolDb.Unit, on_replace: :nilify
     belongs_to :ship_model, OrgtoolDb.ShipModel
 
     timestamps()
@@ -20,7 +20,7 @@ defmodule OrgtoolDb.Ship do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:available, :description, :hidden, :img, :name])
+    |> cast(params, [:available, :description, :hidden, :img, :name, :unit_id])
     |> cast_assoc(:ship_model)
     |> cast_assoc(:player)
     |> cast_assoc(:unit)

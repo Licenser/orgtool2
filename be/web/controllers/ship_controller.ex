@@ -11,7 +11,7 @@ defmodule OrgtoolDb.ShipController do
   @idx_opts [include: "ship_model,player"]
   @idx_preload [:ship_model, :player]
   @opts [include: "player,ship_model,unit"]
-  @preload [:unit] ++ @idx_preload
+  @preload [:unit, :player] ++ @idx_preload
 
 
   if System.get_env("NO_AUTH") != "true" do
