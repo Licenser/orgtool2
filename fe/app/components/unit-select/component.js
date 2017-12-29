@@ -51,13 +51,12 @@ export default Ember.Component.extend({
       this.set("showSelect", !this.get("showSelect"));
     },
 
-    applyMember: function(num) {
-      var uid = this.get("lookup")[num];
-//       this.set("showSelect", false);
+    applyMember: function(val) {
+      var uid = this.get("lookup")[val];
       if(this.get('onConfirm')) {
         this.get('onConfirm')(uid);
       }
-      this.set("selVal", null);
+      this.set("selVal", val);
     },
   }
 });

@@ -32,11 +32,18 @@ export default Ember.Component.extend({
       this.set("showSelect", !this.get("showSelect"));
     },
 
-    applyMember: function(player) {
+    applyMember: function(val) {
       if(this.get('onConfirm')) {
-        this.get('onConfirm')(player);
+        this.get('onConfirm')(val);
       }
-      this.set("selVal", null);
+      this.set("selVal", val);
     },
+
+//     applyMember: function(player) {
+//       if(this.get('onConfirm')) {
+//         this.get('onConfirm')(player);
+//       }
+//       this.set("selVal", null);
+//     },
   }
 });
