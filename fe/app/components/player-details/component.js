@@ -183,8 +183,8 @@ export default Ember.Component.extend({
   },
 
   loadError(img) {
-    Ember.$(img.target).attr("src", Ember.get(this, "session").rootURL + "/player.png");
-    //     set(img, "src", get(this, "session").rootURL + "/player.png");
+    Ember.$(img.target).attr("src", Ember.get(this, "session").rootURL + "/member.png");
+    //     set(img, "src", get(this, "session").rootURL + "/member.png");
     return true;
   },
 
