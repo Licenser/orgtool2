@@ -6,7 +6,7 @@ defmodule OrgtoolDb.Handle do
     field :handle, :string
     field :img, :string
     field :login, :string
-    field :type, :string
+    field :typename, :string
 
     belongs_to :player, OrgtoolDb.Player
 
@@ -18,7 +18,7 @@ defmodule OrgtoolDb.Handle do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :handle, :img, :login, :type])
+    |> cast(params, [:name, :handle, :img, :login, :typename])
     |> cast_assoc(:player)
     |> validate_required([:name, :handle])
   end

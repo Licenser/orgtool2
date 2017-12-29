@@ -14,10 +14,16 @@ export default Ember.Component.extend({
       { type: "rsi", desc: "RSI", img: "https://robertsspaceindustries.com/media/tb6ui8j38wwscr/icon/RSI.png" },
       { type: "discord", desc: "Discord", img: "http://vignette3.wikia.nocookie.net/siivagunner/images/9/9f/Discord_icon.svg" },
       { type: "steam", desc: "Steam", img: "http://icons.iconarchive.com/icons/martz90/circle/24/steam-icon.png" },
-      { type: "custom", desc: "", img: "" },
+      { type: "custom", desc: "Custom", img: "" },
   ],
 
   setup: Ember.on('init', function() {
+  }),
+
+  canModify: Ember.computed('model', function() {
+      Ember.Logger.debug("CAM N Nw  CAN MODIFY");
+      return (get(this, 'session.current_user.permission.player_edit') ||
+              (get(this, 'session.current_user.id') && get(this, 'model.user.id')));
   }),
 
   actions: {
@@ -26,7 +32,7 @@ export default Ember.Component.extend({
       if (handle) {
         Ember.Logger.debug("set type", type.type, "-", type);
   //       Ember.Logger.debug("set type", type);
-        set(handle, "type", type.type);
+        set(handle, "typename", type.type);
       }
     },
 

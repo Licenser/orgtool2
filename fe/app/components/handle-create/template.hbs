@@ -13,24 +13,26 @@
 
     <label class="control-label">
       Type
-      {{#unless handle.type}}
+      {{#unless handle.typename}}
       <span class="text-danger">(required)</span>
       {{/unless}}
     </label>
-    {{#if handle.errors.type.length}}
+    {{#if handle.errors.typename.length}}
     <span class="text-danger">
-      {{#each handle.errors.type as |err|}}{{err.message}}{{/each}}
+      {{#each handle.errors.typename as |err|}}{{err.message}}{{/each}}
     </span>
     {{/if}}
     <div class="input-group ship-model-modal">
-      <input type="text" class="form-control" value={{handle.type}}>
+      <input type="text" class="form-control" value={{handle.typename}}>
       <div class="input-group-btn">
         {{#bs-dropdown as |dd|}}
           {{#dd.button}}<span class="caret"></span>{{/dd.button}}
           {{#dd.menu align="right"}}
 
             {{#each types as |ty|}}
-              <li {{action "setType" ty}}><a href="#" >{{ty.desc}}</a></li>
+            <li {{action "setType" ty}}>
+              <a href="#" ><img src={{ty.img}} style="width: 24px;height:24px;"/> {{ty.desc}}</a>
+            </li>
             {{/each}}
 
           {{/dd.menu}}
@@ -82,7 +84,7 @@
 
   {{/md.body}}
   {{#md.footer}}
-    {{#if session.current_user.permission.player_edit}}
+    {{#if canModify}}
       <button type="submit" class="btn btn-danger" {{action "deleteHandle"}} disabled={{handle.isSaving}}>{{fa-icon "trash-o"}} Delete </button>
       <button type="submit" class="btn btn-primary" {{action "saveHandle"}} disabled={{if handle.hasDirtyAttributes false true}} >  
         {{fa-icon "save"}} Save
