@@ -14,8 +14,13 @@ export default Ember.Controller.extend({
 
   sortProperties: ['name:asc'],
   sortedShipModels: Ember.computed.sort('shipModels', 'sortProperties'),
-  columns: [25, 25, 25, 25],
-  itemHeight: 120,
+//   columns: [25, 25, 25, 25],
+//   itemHeight: 120,
+  columns: [16.6, 16.6, 16.6, 16.6, 16.6, 16.6],
+  itemHeight: 140,
+
+  listView: false,
+  currentListFilter: "Player",
 
   actions: {
     submit: function() {
@@ -35,10 +40,11 @@ export default Ember.Controller.extend({
     },
 
     deleteMember: function(player) {
-      Ember.Logger.debug("delete user now", player);
+      Ember.Logger.debug("delete player NOT HERE!!!!", player);
+      /*
       set(this, "msg", { "type": "delete", "item": player, "title": "Delete Member!", "content": "Do you really want to delete player " + player.get("id") + " | " + player.get("name") + "?" });
       set(this, "showConfirmDialog", true);
-
+*/
     },
 
     onConfirmed: function(msg) {

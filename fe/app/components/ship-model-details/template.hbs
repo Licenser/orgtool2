@@ -1,14 +1,11 @@
+<div class={{classlist}} {{action 'editModel' ship_model}}>
 {{#if listView}}
-  <div class="row">
-    <div class="col-md-1">
+    <div class="col-md-2 text-center">
       {{#if ship_model.img}}
         <img class="item-img-sm" src={{ship_model.img}}>
       {{else}}
         <img class="item-img-sm" src="{{session.rootURL}}/images/manufacturers/{{ship_model.manufacturer}}.png">
       {{/if}}
-    </div>
-    <div class="col-md-1">
-      {{ship_model.manufacturer}}
     </div>
     <div class="col-md-2">
       {{ship_model.name}}
@@ -16,30 +13,24 @@
     <div class="col-md-2">
       {{ship_model.class}}
     </div>
-    <div class="col-md-2">
+    <div class="col-md-1 text-right">
       {{ship_model.crew}}
     </div>
-    <div class="col-md-2">
+    <div class="col-md-2 text-right">
       {{ship_model.length}}
     </div>
-    <div class="col-md-2">
-      {{ship_model.mass}}
+    <div class="col-md-2 text-right">
+      {{fmt-float ship_model.mass}}
     </div>
-  </div>
+    <div class="col-md-1">
+    </div>
 {{else}}
-  {{#if (and tb session.current_user.permission.ship_model_edit)}}
+  {{#if (and tb session.current_user.permission.ship_model_read)}}
+    {{#if count}}
     <div class="toolbar">
-      {{#if count}}
         <div class="text-default">{{count}}x</div>
-      {{else}}
-        {{#if session.current_user.permission.ship_model_edit}}
-          <button class="tb tb-default" type="button" {{action 'editModel' ship_model}}><i class="fa fa-gear"></i></button>
-        {{/if}}
-        {{#if session.current_user.permission.ship_model_delete}}
-          <button class="tb tb-danger" type="button" {{action 'deleteModel' ship_model}}><i class="fa fa-close"></i></button>
-        {{/if}}
-      {{/if}}
     </div>
+      {{/if}}
   {{/if}}
 
   <div class={{if count "top-left-sm" "top-left"}}>
@@ -59,12 +50,15 @@
   {{#unless count}}
     <div class="bottom-right">
       <div class="bottom-right-text">
-        c: <span class="item-stat">{{ship_model.crew}}</span>
+        <span class="item-stat">{{ship_model.crew}}</span> <i class="fa fa-group"></i> 
         <span class="item-sep">|</span>
-        l: <span class="item-stat">{{ship_model.length}}</span>
+        <span class="item-stat">{{ship_model.length}}</span> <i class="fa fa-arrows-h"></i> 
         <span class="item-sep">|</span>
-        m: <span class="item-stat">{{ship_model.mass}}</span>
+        <span class="item-stat">{{fmt-float ship_model.mass}}</span> <i class="fa fa-balance-scale"></i> 
       </div>
     </div>
   {{/unless}}
+
 {{/if}}
+
+</div>

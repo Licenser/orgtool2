@@ -1,215 +1,25 @@
-$item-margin: 6px;
-$item-font: 12px;
-//  $item-info-bg: background-color: rgba(10, 12, 17, .75);
-$item-info-bg: #0A0C11;
 
-.ship-model-details {
-//    width: 300px;
-//    height: 400px;
+.ship-model-listview {
+  height: 64px;
+  line-height: 52px;
+}
 
-//    padding: 10px;
+.ship-model-gridview {
+  width:100%;
+  height:100%;
+}
 
-//    padding-top: 10px;
-//    padding-bottom: 10px;
+.selectable:hover > .top-left {
+  color: #000;
+  background-color: #1a80b6;
+}
 
-//    position: relative;
-
-
-//    .manu-img {
-//      width: 20px;
-//    }
-
-  .ship-manu {
-//      float: left;
-    position: absolute;
-    left: 0px;
-    padding-right: 10px;
-    border-radius: 0 0 10px 0px;
-    background-color: $item-info-bg;
-    color: #fff;
-    font-size: 10px;
-    vertical-align: middle;
-  }
-
-  .manu-img {
-    height: 20px;
-  }
-
-  .ship-manu-name {
-//      height: 20px;
-//      margin-left: -2px;
-//      vertical-align: middle;
-
-    margin-top: 3px;
-    margin-bottom: 3px;
-    margin-left: $item-margin;
-//      margin-right: $item-margin;
-  }
-
-  .ship-img {
-    width: 100%;
-//      width: 200px;
-//      height: 74px;
-//      height: 66px;
-//      float: left;
-  }
-
-  .shipfix {
-//      height: 100%;
-  }
-
-
-  .ship {
-//      margin-bottom: 10px;
-  }
-
-
-//    .ship-details {
-//      position: relative;
-//      width: 100%;
-//      height: 100px;
-//      padding-bottom: 100px;
-//      float: left;
-//      font-size: 12px;
-//    }
-
-
-  .ship-name {
+.def-table-header {
+    height: 34px;
+    font-size: 14px;
+    line-height: 34px;
+    font-weight: bold;
+    background-color: #000;
     color: #1a80b6;
-    font-size: 16px;
-//      font-weight: bold;
-  }
-
-
-//    .ship-model {
-//      color: #1a80b6;
-//      color: #555;
-//      height: 12px;
-//      font-size: 12px;
-//    }
-
-
-  .ship-sep {
-    color: #660000;
-//      color: #1a80b6;
-//      color: #555;
-//      font-weight: 900;
-  }
-
-  .ship-stat {
-//      color: #ff3333;
-    color: #1a80b6;
-//      color: #555;
-//      font-weight: 900;
-  }
-
-  .ship-model {
-    position: absolute;
-    height: 20px;
-    bottom: 19px;
-//      float: right;
-//      bottom: 100px;
-    right: 0px;
-    color: #fff;
-    padding-left: 10px;
-//      padding-bottom: -10px;
-    border-radius: 10px 0px 0px 0px;
-    background-color: $item-info-bg;;
-    color: #fff;
-//      font-size: 10px;
-//      vertical-align: middle;
-
-//      color: #555;
-  }
-
-  .ship-model-name {
-//      height: 20px;
-//      bottom: 20px;
-//      margin-top: 4px;
-//      margin-right: 4px;
-
-    margin-top: 3px;
-    margin-bottom: 3px;
-    margin-right: 10px;
-//      vertical-align: middle;
-  }
-
-  .ship-class {
-//      bottom: 27px;
-//      display: inline;
-//      float: left;
-    color: #555;
-    font-size: 12px;
-  }
-
-  .ship-class-top {
-//      height: 20px;
-//      padding-left: 6px;
-//      margin-left: 2px;
-//      vertical-align: middle;
-    font-size: 12px;
-
-//      height: 20px;
-//      margin-left: -2px;
-//      vertical-align: middle;
-
-    margin-top: 3px;
-    margin-bottom: 3px;
-    margin-left: 10px;
-  }
-
-//    .item-type {
-//      height: 20px;
-//      padding-right: 6px;
-//      margin-left: 2px;
-//      vertical-align: middle;
-//      font-size: 12px;
-
-//      height: 20px;
-//      margin-right: -2px;
-//      vertical-align: middle;
-//    }
-
-//    .ship-manu {
-  .item-type {
-//      float: left;
-    position: absolute;
-//      top: 0px;
-    right: 0px;
-    padding-left: 10px;
-    border-radius: 0px 0px 0px 10px;
-    background-color: $item-info-bg;
-    color: #fff;
-    font-size: 12px;
-//      margin-right: 2px;
-    vertical-align: middle;
-  }
-
-  .item-type-name {
-    margin-top: 3px;
-    margin-bottom: 3px;
-    margin-right: 10px;
-  }
-
-/*
-  .ship-specs {
-    display: inline;
-    float: right;
-    bottom: 0px;
-    color: #555;
-    font-size: 10px;
-//      margin-top: 6px;
-//      font-size: 12px;
-  }
-  */
-  .ship-specs {
-//      height: 26px;
-//      padding-left: 6px;
-//      margin-left: 2px;
-//      margin-bottom: -10px;
-//      vertical-align: middle;
-//      font-size: 13px;
-  }
-
-
+    border-bottom: 1px solid #219ab3;
 }

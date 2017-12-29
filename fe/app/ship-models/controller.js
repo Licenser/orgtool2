@@ -13,28 +13,61 @@ export default Ember.Controller.extend({
   sortProperties: ['numericID'],
   details: false,
   showEdit: false,
-  listView: false,
+//   listView: false,
 
   columns: [16.6, 16.6, 16.6, 16.6, 16.6, 16.6],
   itemHeight: 140,
 
   showFilter: true,
 
-
   showConfirmDialog: false,
   showModelDialog: false,
   showModelTypeDialog: false,
 
+  setup: Ember.on('init', function() {
+    var self = this;
+    get(this, 'store').findAll('ship-model').then(function(ship_models) {
+        self.set('ship_models', ship_models);
+    });
+  }),
+
+  shipListStyle: Ember.computed('height', function(num) {
+    /* Note: You must implement #escapeCSS. */
+//     var height = escapeCSS(this.get('height'));
+    return Ember.String.htmlSafe("height: " + num + "px");
+  }),
+
+  manufacturers: Ember.computed('ship_models', 'listView', function() {
+    var loockup = {};
+    var res = Ember.A();
+
+    if (!get(this, "ship_models")) {
+      return res;
+    }
+    var self = this;
+    get(this, 'ship_models').forEach(function(ship) {
+        var mname = get(ship, "manufacturer");
+        if (!loockup[mname]) {
+          loockup[mname] = {name: mname, idx: get(res, "length")};
+          res.pushObject({name: mname, height: 0, ships: Ember.A()});
+        }
+        res.objectAt(loockup[mname].idx).ships.pushObject(ship);
+        res.objectAt(loockup[mname].idx).height = Math.ceil(res.objectAt(loockup[mname].idx).ships.length / self.get("columns").length) * self.get("itemHeight"); 
+    });
+
+    $('.item-list').focus();
+    return res;
+  }),
+
+/*
   models: Ember.computed(function() {
     this.set("loading", true);
     var res;
-
     res = get(this, "store").findAll("ship-model");
-
     this.set("loading", false);
-
     return res;
   }),
+
 
   sortedModels: Ember.computed.sort('models', function(a, b) {
     var crew_a = a.get('crew'),
@@ -56,7 +89,7 @@ export default Ember.Controller.extend({
     if (name_a < name_b) return -1;
     return 0;
   }),
-
+*/
   showConfirm: function(model) {
 //     Ember.Logger.debug("show confirm", get(model, "name"));
 
@@ -117,17 +150,17 @@ export default Ember.Controller.extend({
       this.set('showModelDialog', true);
       this.set('currModel', model);
     },
-  },
 
-  setListView: function(listView) {
-    if (listView) {
-      set(this, "columns", [100]);
-      set(this, "itemHeight", 42);
-    } else {
-      set(this, "columns", [16.6, 16.6, 16.6, 16.6, 16.6, 16.6]);
-      set(this, "itemHeight", 140);
-    }
-    set(this, "listView", listView);
-  },
+    setListView: function(listView) {
+      if (listView) {
+        set(this, "columns", [100]);
+        set(this, "itemHeight", 52);
+      } else {
+        set(this, "columns", [16.6, 16.6, 16.6, 16.6, 16.6, 16.6]);
+        set(this, "itemHeight", 140);
+      }
+      set(this, "listView", listView);
+    },
 
+  },
 });

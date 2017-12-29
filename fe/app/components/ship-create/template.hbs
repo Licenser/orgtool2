@@ -1,5 +1,5 @@
 {{#if showDialog}}
-  {{#bs-modal open=showDialog size='l' header=false body=false footer=false autoClose=false onHide=(action 'close') class="item-create" as |md|}}
+  {{#bs-modal open=showDialog size='m' header=false body=false footer=false autoClose=false onHide=(action 'close') class="item-create" as |md|}}
     {{#md.header}}
       <h4 class="modal-title">
         {{#if ship.isNew}} Create {{else}} Edit {{/if}}
@@ -68,39 +68,38 @@
       <hr>
 
       <div class="row">
-        {{#if session.current_user.permission.player_edit}}
+        <div class="col-md-6">
           <label class="control-label">Owner</label>
           <div class="row">
-            <div class="col-md-5">
-              {{#if ship.player}}
-                {{player-details player=ship.player details=false}}
-              {{/if}}
-            </div>
-            <div class="col-md-1">
-            </div>
-            <div class="col-md-6 mem-sel">
-              {{player-select onConfirm=(action "changeOwner") actionName="Change"}}
-            </div>
+            {{#if ship.player}}
+              {{player-details player=ship.player details=false}}
+            {{/if}}
           </div>
-        {{/if}}
+          <div class="row mem-sel">
+            {{#if canModify}}
+              {{player-select onConfirm=(action "changeOwner") actionName="Assign Owner"}}
+            {{/if}}
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <label class="control-label">Unit</label>
+          <div class="row"  style="height: 42px;">
+            {{#if ship.unit}}
+              {{ship.unit.name}}
+              <button class="tb txt-red" type="button" {{action 'unassignFromUnit' ship.unit.id}}><i class="fa fa-close"></i></button>
+            {{/if}}
+          </div>
+          <div class="row mem-sel">
+            {{#if canModify}}
+              {{unit-select onConfirm=(action "assignToUnit") actionName="Assign Unit"}}
+            {{/if}}
+          </div>
+        </div>
       </div>
 
       <hr><br>
 
-      <div class="row">
-        {{#if session.current_user.can_modify_ship}}
-          {{#if ship.unit}}
-            ship is assigned to Unit: {{ship.unit.name}}
-            <button class="tb txt-red" type="button" {{action 'unassignFromUnit' ship.unit.id}}><i class="fa fa-close"></i></button>
-          {{else}}
-            {{unit-select onConfirm=(action "assignToUnit") actionName="Assign to Unit"}}
-          {{/if}}
-        {{/if}}
-      </div>
-
-      <hr>
-
-      <!--     <div class="row"  style="height: 30%;"> -->
       <div class="col-md-6" style="height: 30%;">
         <br>
         <div class="item-img-box">
@@ -137,23 +136,15 @@
             <label class="control-label">Hidden</label>
           </div>
         </div>
-
-        {{!--
-        <div class="row">
-        <div class="col-md-4">
-        </div>
-        <div class="col-md-8">
-        </div>
-        </div>
-        --}}
       </div>
 
 
     {{/md.body}}
     {{#md.footer}}
-      {{#if (or session.current_user.permission.ship_edit
-         (eq session.current_user.player.id ship.player.id))}}
-        <button type="submit" class="btn btn-primary" {{action "saveShip"}} disabled={{cannotSave}} >
+
+      {{#if canModify}}
+        <button type="submit" class="btn btn-danger" {{action "deleteShip"}} disabled={{ship.isSaving}}>{{fa-icon "trash-o"}} Delete </button>
+        <button type="submit" class="btn btn-primary" {{action "saveShip"}} disabled={{if isModified false true}}>
           {{fa-icon "save"}} Save
         </button>
       {{/if}}

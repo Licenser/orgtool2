@@ -12,13 +12,17 @@ $item-bg: rgba(100, 100, 100, .2);
 
   position: relative;
   overflow: hidden;
-  background-color: $item-bg;
+//    background-color: $item-bg;
 
-    border-radius: 10px 10px 10px 10px;
+//      border-radius: 10px 10px 10px 10px;
 
 //    border-top: 1px solid #222;
 
-      border: 2px solid rgba(0, 0, 0, 0);
+    border: 1px solid transparent;
+    border-top: 1px solid #333;
+    border-left: 1px solid #333;
+
+//        border: 2px solid rgba(0, 0, 0, 0);
     -webkit-background-clip: padding-box; /* for Safari */
     background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
 
@@ -26,15 +30,16 @@ $item-bg: rgba(100, 100, 100, .2);
 
   .top-left {
 //      color: #1a80b6;
-    padding-left: 4px;
-    line-height: 21px;
+    padding-left: 2px;
+    line-height: 22px;
     color: #fff;
     font-size: 14px;
 
     position: absolute;
+    top: 0px;
     left: 0px;
     padding-right: 10px;
-    border-radius: 0 0 10px 0px;
+//      border-radius: 0 0 10px 0px;
     background-color: $item-info-bg;
 //      color: #fff;
 //      font-size: 10px;
@@ -50,7 +55,7 @@ $item-bg: rgba(100, 100, 100, .2);
     position: absolute;
     left: 0px;
     padding-right: 10px;
-    border-radius: 0 0 10px 0px;
+//      border-radius: 0 0 10px 0px;
     background-color: $item-info-bg;
     vertical-align: middle;
     z-index: 2;
@@ -64,7 +69,7 @@ $item-bg: rgba(100, 100, 100, .2);
   }
 
   .top-left-img {
-    width: 21px;
+    width: 22px;
   }
 
   .top-left-img-sm {
@@ -78,7 +83,7 @@ $item-bg: rgba(100, 100, 100, .2);
     position: absolute;
     left: 0px;
     padding-right: 10px;
-    border-radius: 0 0 10px 0px;
+//      border-radius: 0 0 10px 0px;
     background-color: $item-info-bg;
     color: #fff;
     font-size: 10px;
@@ -91,7 +96,7 @@ $item-bg: rgba(100, 100, 100, .2);
     top: 0px;
     right: 0px;
     padding-left: 10px;
-    border-radius: 0px 0px 0px 10px;
+//      border-radius: 0px 0px 0px 10px;
     background-color: $item-info-bg;
     color: #fff;
     font-size: 14px;
@@ -115,14 +120,14 @@ $item-bg: rgba(100, 100, 100, .2);
     top: 50%;
 
     height: auto;
-    width:100%;
+    width: calc(100% - 4px);
     -webkit-transform: translate(-50%,-50%);
         -ms-transform: translate(-50%,-50%);
             transform: translate(-50%,-50%);
   }
 
   .item-img-sm {
-    position: absolute;
+//      position: absolute;
 //      left: 50%;
 //      top: 50%;
 
@@ -153,13 +158,26 @@ $item-bg: rgba(100, 100, 100, .2);
   .bottom-right {
     position: absolute;
     height: 20px;
-    bottom: 0;
-    right: 0px;
+    bottom: 0px;
+    right: 1px;
     color: #fff;
     padding-left: 10px;
-    border-radius: 10px 0px 0px 0px;
+//      border-radius: 10px 0px 0px 0px;
     background-color: $item-info-bg;;
     color: #fff;
+  }
+
+  .hl0 {
+    background-color: #1a80b6;
+    color: #000;
+    font-weight: bold;
+  }
+
+  .hl1 {
+    background-color: #000;
+    color: #fff;
+    font-weight: bold;
+    border: 1px solid #1a80b6;
   }
 
   .bottom-right-text {
@@ -170,25 +188,33 @@ $item-bg: rgba(100, 100, 100, .2);
 
   .bottom-left {
     position: absolute;
-    height: 21px;
-    bottom: 0;
-    left: 0px;
+//      height: 22px;
+    line-height: 22px;
+    bottom: 0px;
+    left: 1px;
     color: #fff;
     padding-right: 10px;
-    border-radius: 0px 10px 0px 0px;
+//      border-radius: 0px 10px 0px 0px;
     background-color: $item-info-bg;;
     color: #fff;
   }
 
   .bottom-left-text {
     color: #fff;
-    margin-top: 3px;
-    margin-bottom: 3px;
-    margin-left: 10px;
+//      margin-top: 3px;
+//      margin-bottom: 1px;
+//      margin-left: 1px;
+
+    top: 1px;
+    position: relative;
+//      margin-bottom: 3px;
+//      margin-left: 10px;
   }
 
   .item-sep {
 //      color: #660000;
+    margin-left: 6px;
+    margin-right: 6px;
     color: #777;
   }
 

@@ -1,0 +1,26 @@
+.ship-manu {
+  background-color: #000000;
+  height: 10px;
+}
+.ship-manu-img {
+  margin-top: 2px;
+  margin-left: 2px;
+  float:left;
+  height: 36px;
+  width: auto;
+  position: absolute;
+}
+.ship-manu-name {
+  position: absolute;
+//    margin-top: 4px;
+    color: #1a80b6;
+//    float:left;
+  line-height: 32px;
+  font-size: 18px;
+  padding-left: 48px;
+}
+
+.ship-list {
+  position: relative;
+  margin-bottom: 32px;
+}

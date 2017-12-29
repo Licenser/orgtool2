@@ -1,37 +1,79 @@
 <div class="item-menu">
+  <span style="padding-right:4px;"> Group by: </span>
+  {{#each listFilter as |filter|}}
+    <button type="button" class={{if (eq currentListFilter filter) "tb tb-filter tb-selected" "tb tb-filter"}}
+      {{action 'setListFilter' filter}}>
+      {{filter}}
+    </button>
+  {{/each}}
+
+
+  <span style="padding-right:4px; padding-left:12px;"> View: </span>
+  <button type="button" class={{if listView "tb tb-filter" "tb tb-filter tb-selected"}} {{action 'setListView' false}}> {{fa-icon "th"}}  </button>
+  <button type="button" class={{if listView "tb tb-filter tb-selected" "tb tb-filter"}} {{action 'setListView' true}}> {{fa-icon "list"}}  </button>
+
+
+  <span style="padding-right:4px; padding-left:12px;"> Available: </span>
+  {{check-box value=showAvailable}}
+
+
   <div class="item-stat-menu">
-    Ships: {{sortedShips.length}}
+    Ships: {{filterGroup.count}}
   </div>
 
-  {{#if session.current_user.permission.ship_list_filter}}
+
+  {{#if canModify}}
     <div class="toolbar">
-      {{#if session.current_user.can_modify_ship}}
         <button type="button" class="tb tb-default" {{action "addShip" player}}> <i class="fa fa-plus" ></i> Ship</button>
-      {{/if}}
     </div>
   {{/if}}
 </div>
 
-<div class="item-list">
-  {{#if sortedShips.length}}
-    {{#ember-collection items=sortedShips cell-layout=(percentage-columns-layout sortedShips.length columns itemHeight) as |ship index|}}
-      {{ship-details ship=ship details=details onConfirm=(action "showConfirm") onEdit=(action "showEdit")}}
-    {{/ember-collection}}
-  {{else}}
-    {{#if loading}}
-      <div class="loader-screen">
-        <div class="loader-box">
-          <div class="loader-text">
-            <i class="loader-spinner fa fa-download fa-pulse"></i>
-          </div>
+
+<div tabindex="0" class="item-list">
+  {{#each filterGroup.list as |group|}}
+    <div class="ship-manu">
+      <img class="ship-manu-img" src="{{group.img}}">
+      <span class="ship-manu-name">
+        {{group.name}} [ {{group.ships.length}} ]
+      </span>
+    </div>
+
+    <div class="row def-table-header">
+      {{#if listView}}
+        <div class="col-md-2">
         </div>
-      </div>
-    {{/if}}
-  {{/if}}
+        <div class="col-md-2">
+          Name
+        </div>
+        <div class="col-md-2">
+          Player
+        </div>
+        <div class="col-md-2">
+          Unit
+        </div>
+        <div class="col-md-1 text-right">
+          Available
+        </div>
+        <div class="col-md-2 text-right">
+          ???
+        </div>
+        <div class="col-md-1">
+        </div>
+      {{/if}}
+    </div>
+
+    <div class="ship-list" style={{get-height group.height}}>
+      {{#ember-collection items=group.ships cell-layout=(percentage-columns-layout group.ships.length columns itemHeight) as |ship index|}}
+        {{ship-details ship=ship listView=listView onConfirm=(action "showConfirm") onEdit=(action "showEdit")}}
+      {{/ember-collection}}
+    </div>
+
+  {{/each}}
 </div>
 
 {{#if showShipDialog}}
-  {{ship-create ship=currShip showDialog=showShipDialog}}
+  {{ship-create ship=currShip showDialog=showShipDialog onConfirm=(action "showConfirm") onDiscard=(action "showDiscard")}}
 {{/if}}
 
 {{#if showConfirmDialog}}

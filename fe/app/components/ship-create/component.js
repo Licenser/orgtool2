@@ -16,9 +16,25 @@ export default Ember.Component.extend({
     var self = this;
 
     get(this, 'store').findAll('ship-model').then(function(ship_models) {
-//       debug("ship_models: ", get(ship_models, "length"));
       self.set('ship_models', ship_models);
     });
+  }),
+
+  isEmpty: function(obj) {
+    return Object.keys(obj).length === 0;
+  },
+
+  isModified: Ember.computed('ship.hasDirtyAttributes', 'ship.player', 'ship.unit', function() {
+    return get(this, 'ship.hasDirtyAttributes') || !this.isEmpty(get(this, 'ship').changedAttributes());
+  }),
+
+  canModify: Ember.computed('currentListFilter', function() {
+    var ret = get(this, 'session.current_user.can_modify_ship');
+    if (!ret && get(this, 'ship')) {
+      ret = ret || (get(this, 'session.current_user.permission.player_edit') ||
+                    (get(this, 'session.current_user.id') && get(this, 'ship.player.user.id')));
+    }
+    return ret;
   }),
 
   actions: {
@@ -29,7 +45,7 @@ export default Ember.Component.extend({
 
     unassignFromUnit: function(unitid) {
       var ship = get(this, "ship");
-      set(ship, "unit", null);
+      ship.set("unit", null);
     },
 
     assignToUnit: function(unitid) {
@@ -47,6 +63,13 @@ export default Ember.Component.extend({
       set(this, "ship.img", get(model, "img"));
     },
 
+    deleteShip: function() {
+      var ship = get(this, "ship");
+      if (ship) {
+        this.get('onConfirm')(ship);
+      }
+    },
+
     saveShip: function() {
       var ship = get(this, "ship");
       if (ship) {
@@ -55,6 +78,7 @@ export default Ember.Component.extend({
           self.set('ship', null);
           self.set('showDialog', false);
           get(self, "session").log("ship", "ship " + nship.get("name") + " saved");
+          ship.reload();
         }).catch(function(err) {
           get(self, "session").log("error", "could not save ship " + ship.get("name"));
           Ember.Logger.log("error saving", err);
@@ -64,22 +88,38 @@ export default Ember.Component.extend({
     },
     close: function() {
       var ship = get(this, 'ship');
-      if (!Ember.isEmpty(ship)) {
-
-        if (!Ember.isEmpty(ship.get("id"))) {
-          ship.reload();
-        } else if (ship.get("isNew")) {
-          var self = this;
-          ship.destroyRecord().then(function() {
-            get(self, "session").log("ship", "ship " + ship.get("name") + " deleted");
-          }).catch(function(err) {
-            get(self, "session").log("error", "could not save ship " + ship.get("name"));
-            Ember.Logger.debug("error deleteing ship", err);
-          });
+      var doit = true;
+      if (ship) {
+//         console.debug(">>> CHECK 2",  get(this, 'ship.hasDirtyAttributes'),  " || ", !this.isEmpty(get(this, 'ship').changedAttributes()));
+//         console.debug(">>>>", ship.get("hasDirtyAttributes"), " | ", ship.changedAttributes(), "===", this.get("isModified"));
+        if (ship.get("hasDirtyAttributes") || !this.isEmpty(ship.changedAttributes())) {
+          console.debug("ask tbefore close");
+          this.get('onDiscard')(ship);
+          doit = false;
+        } else {
         }
       }
-      this.set('ship', null);
-      this.set('showDialog', false);
+
+      if (doit) {
+        this.set('ship', null);
+        this.set('showDialog', false);
+      }
+
+
+//         if (!Ember.isEmpty(ship.get("id"))) {
+//           ship.reload();
+//         } else if (ship.get("isNew")) {
+//           var self = this;
+//           ship.destroyRecord().then(function() {
+//             get(self, "session").log("ship", "ship " + ship.get("name") + " deleted");
+//           }).catch(function(err) {
+//             get(self, "session").log("error", "could not save ship " + ship.get("name"));
+//             Ember.Logger.debug("error deleteing ship", err);
+//           });
+//         }
+//       }
+//       this.set('ship', null);
+//       this.set('showDialog', false);
     },
   }
 

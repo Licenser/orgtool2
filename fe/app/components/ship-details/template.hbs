@@ -1,29 +1,40 @@
-{{#if (and tb (or session.current_user.permission.ship_tb (eq session.current_user.player.id ship.player.id)))}}
-  <div class="toolbar">
-    {{#if (or session.current_user.permission.ship_edit
-       (eq session.current_user.player.id ship.player.id))}}
-      <button class="tb tb-default" type="button" {{action 'editShip' ship}}><i class="fa fa-gear"></i></button>
-    {{/if}}
-    {{#if (or session.current_user.permission.ship_delete
-       (eq session.current_user.player.id ship.player.id))}}
-      <button class="tb tb-danger" type="button" {{action 'deleteShip' ship}}><i class="fa fa-close"></i></button>
-    {{/if}}
-  </div>
-{{/if}}
+<div class={{classlist}} {{action 'editShip' ship}}>
+{{#if listView}}
+    <div class="col-md-2 text-center">
+      {{#if ship.img}}
+        <img class="item-img-sm" src={{ship.img}}>
+      {{else}}
+        <img class="item-img-sm" src="{{session.rootURL}}/images/manufacturers/{{ship.ship_model.manufacturer}}.png">
+      {{/if}}
+    </div>
+    <div class="col-md-2">
+      {{ship.name}}
+    </div>
+    <div class="col-md-2">
+      {{ship.player.name}}
+    </div>
+    <div class="col-md-2">
+      {{ship.unit.name}}
+    </div>
+    <div class="col-md-1 text-right text-success">
+      {{#if ship.available}}
+        <i class="fa fa-check"></i>
+      {{/if}}
+    </div>
+    <div class="col-md-2 text-right">
+    </div>
+    <div class="col-md-1">
+    </div>
+{{else}}
 
 <div class="top-left">
   {{#if ship.ship_model}}
-  <img class="top-left-img" src="{{session.rootURL}}/images/manufacturers/{{ship.ship_model.manufacturer}}.png">
+    <img class="top-left-img" src="{{session.rootURL}}/images/manufacturers/{{ship.ship_model.manufacturer}}.png">
+    <span class="item-name">
+      {{ship.name}}
+    </span>
   {{/if}}
 
-  <span class="top-left-name">
-    {{ship.name}}
-    {{#if (not ship.unit_id)}}
-      <i class="fa fa-square-o"></i>
-    {{else}}
-      <i class="fa fa-check-square-o"></i>
-    {{/if}}
-  </span>
 </div>
 
 {{#if ship.img}}
@@ -35,14 +46,35 @@
 {{/if}}
 
 <div class="bottom-left">
-
-  <div class="bottom-left-text">
+<!--   <div class="bottom-left-img"> -->
     {{#if ship.player.avatar}}
-      <img class="top-left-img" src={{ship.player.avatar}}>
+    <img class="top-left-img" src={{ship.player.avatar}}>
     {{else}}
-      <i class="fa fa-user-o"></i>
+    <i class="fa fa-user-o"></i>
     {{/if}}
+<!--   </div> -->
 
+  <span class="bottom-left-text">
     {{ship.player.name}}
-  </div>
+  </span>
+</div>
+
+{{#if ship.unit}}
+    <div class="bottom-right hl0">
+      <div class="bottom-right-text">
+        {{ship.unit.name}}
+      </div>
+    </div>
+{{else}}
+  {{#if ship.available}}
+    <div class="bottom-right hl1">
+      <div class="bottom-right-text">
+        Available
+      </div>
+    </div>
+  {{/if}}
+{{/if}}
+
+{{/if}}
+
 </div>
