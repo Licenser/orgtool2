@@ -1,7 +1,7 @@
-<button type="button" class="btn-check">
+<button type="button" class={{isSet}}>
   {{#if value}}
-    <i class="fa fa-check-square-o {{iconSize}}"></i>
+    <i class="fa fa-toggle-on {{iconSize}}"></i>
   {{else}}
-    <i class="fa fa-square-o {{iconSize}}"></i>
+    <i class="fa fa-toggle-off {{iconSize}}"></i>
   {{/if}}
 </button> {{desc}}
