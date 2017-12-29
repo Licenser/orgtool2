@@ -28,6 +28,11 @@ export default Ember.Route.extend({
       return false
     }
 
+    if (transition.targetName == "players.player.ships" &&
+        (get(this, "session.current_user.player.id") != transition.params["players.player"].player_id)) {
+      target = "ships";
+    }
+
     var perms = get(this, "session.current_user.permission");
     switch(target) {
       case "index":       return true;
