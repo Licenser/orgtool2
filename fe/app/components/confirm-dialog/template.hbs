@@ -8,45 +8,62 @@
   {{#md.body}}
 
 <div class="loader-screen" style="min-height: 175px;">
-  <div class="loader-box">
-<!--     <div class="loader-text"> -->
-
-          {{#if msg.item.isSaving}}
-            {{#if (eq msg.type "delete")}}
-                  <div class="text-danger">
-<!--                     <button class="btn loader-spinner btn-only-trans fa fa-gear fa-spin"></button> -->
-                    <i class="loader-spinner fa fa-trash-o fa-pulse"></i>
-                  </div>
-            {{else}}
-                  <div class="loader-text">
-                    <button class="btn loader-spinner btn-only-trans fa fa-gear fa-spin"></button>
-                    <i class="loader-spinner fa fa-download fa-pulse"></i>
-                  </div>
-            {{/if}}
-          {{else}}
-            {{msg.content}}
-          {{/if}}
-<!--     </div> -->
-
-
-  </div>
+  {{#if msg.item.isSaving}}
+    <div class="content-box content-box-big">
+      {{#if (eq msg.type "delete")}}
+        <div class="text-danger">
+          <i class="loader-spinner fa fa-trash-o fa-pulse"></i>
+        </div>
+      {{else}}
+        <div class="loader-text">
+          <button class="btn loader-spinner btn-only-trans fa fa-gear fa-spin"></button>
+          <i class="loader-spinner fa fa-download fa-pulse"></i>
+        </div>
+      {{/if}}
+    </div>
+  {{else}}
+    <div class="content-box">
+      {{msg.content}}
+      {{#if (eq msg.type "discard")}}
+        {{#if changelist.length}}
+        <div class="row">
+          <div class="col-md-2">
+          </div>
+          <div class="col-md-8 text-left">
+            Changes: {{changelist.length}}
+          </div>
+          <div class="col-md-2">
+          </div>
+        </div>
+        {{#each changelist as |at|}}
+          <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-8 text-left">
+            <span class="text-danger">{{at.name}}</span> changed from '{{at.was}}' to '{{at.is}}'<br>
+            </div>
+            <div class="col-md-2">
+            </div>
+          </div>
+        {{/each}}
+        {{/if}}
+      {{/if}}
+    </div>
+  {{/if}}
 </div>
 
-
-<!--       <div class="loader-screen"> -->
-<!--         <div class="loader-box" style="height: 120px;"> -->
-<!--         </div> -->
-<!--       </div> -->
   {{/md.body}}
   {{#md.footer}}
-    <button type="button" class="btn btn-default" {{action "close"}} disabled={{msg.item.isSaving}}>Close</button>
+    <button type="button" class="btn btn-default" {{action "close"}} disabled={{msg.item.isSaving}}>Abort</button>
     {{#if (eq msg.type "delete")}}
       <button type="submit" class="btn btn-danger" {{action "submitConfirm"}} disabled={{msg.item.isSaving}}> Do it!</button>
     {{else}}
-      <button type="submit" class="btn btn-primary" {{action "submitConfirm"}} disabled={{msg.item.isSaving}}> Ok</button>
+      {{#if (eq msg.type "discard")}}
+        <button type="submit" class="btn btn-danger" {{action "submitConfirm"}} disabled={{msg.item.isSaving}}> Discard</button>
+      {{else}}
+        <button type="submit" class="btn btn-primary" {{action "submitConfirm"}} disabled={{msg.item.isSaving}}> Ok</button>
+      {{/if}}
     {{/if}}
-
-
   {{/md.footer}}
 {{/bs-modal}}
 
