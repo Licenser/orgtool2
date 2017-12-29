@@ -16,11 +16,13 @@
       </li>
     {{/if}}
 
+    {{#if session.current_user.permission.user_read}}
       <li>
         {{#link-to 'users.user' session.current_user.id}}
         <i class="fa fa-gear"></i> User Settings
         {{/link-to}}
       </li>
+    {{/if}}
 
     <li>
       <a href="#" style="margin-left: -8px;">

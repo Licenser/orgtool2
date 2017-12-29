@@ -13,6 +13,11 @@ export default Ember.Controller.extend({
     return get(reward, "rewardType.id") == 1;
   }),
 
+  canModify: Ember.computed('model', function() {
+      return (get(this, 'session.current_user.permission.player_edit') ||
+              (get(this, 'session.current_user.id') && get(this, 'model.user.id')));
+  }),
+
   actions: {
     saveAvatar: function() {
       Ember.Logger.debug("save", get(this, "model").get("avatar"));

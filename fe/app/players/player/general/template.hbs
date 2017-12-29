@@ -3,10 +3,10 @@
     <div class="player-details-name">
       {{!-- TODO: fix ie and edge
       --}}
-      {{#if session.current_user.can_modify_player}}
+      {{#if canModify}}
       <div class="toolbar">
         {{#bs-dropdown model=model closeOnMenuClick=false as |dd|}}
-        {{#dd.button type="tb"}}<i class="fa fa-edit"></i>{{/dd.button}}
+        {{#dd.button type=" tb tb-default"}}<i class="fa fa-edit"></i>{{/dd.button}}
         {{#dd.menu align="left"}}
           <li>
             {{textarea autofocus=true rows=3 wrap=true form=true required=true value=(mut (get model "avatar")) enter="saveAvatar"}} 
@@ -50,7 +50,7 @@
         <label class="control-label">Name</label>
       </div>
       <div class="col-md-3">
-        {{input type="text" class="form-control" value=model.name readonly=(not session.current_user.can_modify_player)}}
+        {{input type="text" class="form-control" value=model.name readonly=(not canModify)}}
       </div>
 
       <div class="col-md-1">
@@ -79,7 +79,7 @@
         <label class="control-label">Timezone</label>
       </div>
       <div class="col-md-1">
-        {{input type="number" class="form-control" value=model.timezone readonly=(not session.current_user.can_modify_player)}}
+        {{input type="number" class="form-control" value=model.timezone readonly=(not canModify)}}
       </div>
 
       <div class="col-md-1">
@@ -118,7 +118,7 @@
       </div>
 
       <div class="col-md-6">
-          {{#if session.current_user.can_modify_player}}
+          {{#if canModify}}
               <div class="toolbar">
                 <button class="tb tb-default" type="button"  {{action 'addHandle' model}}><i class="fa fa-plus"></i></button>
               </div>
@@ -140,30 +140,34 @@
 
           <div class="handle-list">
             {{#each model.handles as |hand|}}
-            <div class="row">
+
+              <div class="row" {{action 'editHandle' hand}}>
             <div class="col-md-3">
-                  {{#if (eq hand.type "rsi")}}
+                  {{#if (eq hand.typename "rsi")}}
                     <img src="https://robertsspaceindustries.com/media/tb6ui8j38wwscr/icon/RSI.png" style="width:20px;height:20px">
                     <b>RSI</b>
                   {{/if}}
-                  {{#if (eq hand.type "discord")}}
+                  {{#if (eq hand.typename "discord")}}
                     <img src="http://vignette3.wikia.nocookie.net/siivagunner/images/9/9f/Discord_icon.svg" style="width:20px;height:20px">
                     <b>Discord</b>
                   {{/if}}
-                  {{#if (eq hand.type "steam")}}
+                  {{#if (eq hand.typename "steam")}}
                     <img src="http://icons.iconarchive.com/icons/martz90/circle/24/steam-icon.png" style="width:20px;height:20px">
                     <b>Steam</b>
                   {{/if}}
               </div>
               <div class="col-md-3">
-                <img src={{hand.img}} style="width:18px; height: 18px;"/> {{hand.handle}}
+                {{#if hand.img}}
+                  <img src={{hand.img}} style="width:18px; height: 18px;"/>
+                {{/if}}
+                {{hand.handle}}
               </div>
 
               <div class="col-md-5">
                 {{hand.name}}
               </div>
               <div class="col-md-1">
-                  {{#if session.current_user.can_modify_player}}
+                  {{#if canModify}}
                     <button class="tb" type="button" {{action 'editHandle' hand}}><i class="fa fa-edit"></i></button>
                   {{else}}
                      &nbsp;

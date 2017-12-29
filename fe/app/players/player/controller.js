@@ -10,6 +10,12 @@ export default Ember.Controller.extend({
   session: Ember.inject.service('session'),
   showDialog: true,
 
+  canModify: Ember.computed('model', function() {
+//       Ember.Logger.debug("CAM N NNNNNNNNNNNNNN  CAN MODIFY");
+      return (get(this, 'session.current_user.permission.player_edit') ||
+              (get(this, 'session.current_user.id') && get(this, 'model.user.id')));
+  }),
+
   actions: {
     saveAvatar: function() {
     },
@@ -30,7 +36,7 @@ export default Ember.Controller.extend({
 //       this.get('myEvents').trigger('deleteMember', player);
 //
       Ember.Logger.debug("delete user now", player);
-      set(this, "msg", { "type": "delete", "item": player, "title": "Delete Member!", "content": "Do you really want to delete player " + player.get("id") + " | " + player.get("name") + "?" });
+      set(this, "msg", { "type": "delete", "item": player, "title": "Delete Member!", "content": "Do you really want to delete player [ id: " + player.get("id") + ", name: '" + player.get("name") + "', ships: " + player.get("ships.length") + " ] ?" });
       set(this, "showConfirmDialog", true);
 
     },

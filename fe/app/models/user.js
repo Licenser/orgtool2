@@ -30,6 +30,6 @@ export default DS.Model.extend({
       return false;
     }
 
-    return perm.get(target + '_create') || perm.get(target + '_edit') || (this.get("loggedIn") && perm.get('active'));
+    return this.get("loggedIn") && perm.get('active') && (perm.get(target + '_create') || perm.get(target + '_edit'));
   },
 });

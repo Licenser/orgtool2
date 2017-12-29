@@ -2,14 +2,13 @@
   {{#md.header}}
       <h4>
         {{#if model.user.loggedIn}} My profile {{/if}}
-        {{#if model.name}} {{model.name}} {{else}} &nbsp; {{/if}}
-        {{#if model.hasDirtyAttributes}}
-          <span class="text-danger">[modified]</span>
-        {{/if}}
+        '{{model.name}}'
       </h4>
 
   <ul class="nav nav-tabs player-tabs">
+    {{#if (or session.current_user.permission.ship_read canModify)}}
     <li class="pull-right"> {{#link-to 'players.player.ships' model.id}}<i class="fa fa-cubes"></i> Ships{{/link-to}} </li>
+    {{/if}}
     <li class="pull-right"> {{#link-to 'players.player.stats' model.id}}<i class="fa fa-trophy"></i> Stats{{/link-to}} </li>
     <li class="pull-right"> {{#link-to 'players.player.general' model.id}}<i class="fa fa-user-o"></i> General{{/link-to}} </li>
   </ul>
@@ -31,7 +30,7 @@
       <button type="submit" class="btn btn-danger" {{action "deleteMember" model}}>{{fa-icon "user-times"}} Delete</button>
     {{/if}}
 
-    {{#if session.current_user.can_modify_player}}
+    {{#if canModify}}
       <button type="submit" class="btn btn-primary" {{action "saveMember" model}} disabled={{if model.hasDirtyAttributes false true}}>{{fa-icon "save"}} Save</button>
     {{/if}}
 
@@ -42,10 +41,12 @@
 
 
 {{#if showHandleDialog}}
-  {{handle-create handle=currHandle showDialog=showHandleDialog}}
+  {{handle-create handle=currHandle model=model showDialog=showHandleDialog}}
 {{/if}}
 
+{{!--
 {{#if showConfirmDialog}}
   {{confirm-dialog showDialog=showConfirmDialog msg=msg onConfirm=(action "onConfirmed")}}
-{{/if}}
+  {{/if}}
+  --}}
 

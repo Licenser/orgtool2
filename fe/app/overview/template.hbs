@@ -14,31 +14,36 @@
   </div>
 
   <div id="info">
-    {{#if session.current_user.permission.unit_assign}}
+        {{#if (and (and session.current_user.permission.unit_assign session.current_user.permission.player_read) session.current_user.permission.ship_read)}}
       <div class="toolbar">
-        <button type="button" class="tb tb-default" {{action (toggle this "showPlayers")}}> <i class="fa fa-eye" ></i> {{if showPlayers "Fleet" "Players"}}</button>
+          <button type="button" class="tb tb-default" {{action (toggle this "showPlayers")}}> <i class="fa fa-eye" ></i> {{if showPlayers "Fleet" "Players"}}</button>
       </div>
+        {{/if}}
 
       <div class="info-stats">
         {{#if currentUnit}}
-          Players: {{sumPlayers.length}}
-          Ships: {{sumShips.length}}
-          {{check-box value=countChildren desc="Children"}}
+          {{#if session.current_user.permission.player_read}}
+            Players: {{sumPlayers.length}}
+          {{/if}}
+          {{#if session.current_user.permission.ship_read}}
+            Ships: {{sumShips.length}}
+            {{check-box value=countChildren desc="Children"}}
+          {{/if}}
         {{/if}}
       </div>
-    {{/if}}
 
 
     <div class="info-content">
-      {{#if (and (not showPlayers) currentUnit)}}
-        {{#ember-collection items=sumShips cell-layout=(percentage-columns-layout sumShips.length columns itemHeight) as |group index|}}
-          {{ship-model-details ship_model=group.model details=false count=group.count}}
-          {{ship.ship_model}}
-        {{/ember-collection}}
-      {{/if}}
-
-      {{#if (and session.current_user.permission.unit_assign showPlayers)}}
-        {{player-list players=players draggable=true details=false}}
+      {{#if showPlayers}}
+        {{#if (and session.current_user.permission.unit_assign session.current_user.permission.player_read)}}
+          {{player-list players=players draggable=true details=false}}
+        {{/if}}
+      {{else}}
+        {{#if (and currentUnit session.current_user.permission.ship_read)}}
+          {{#ember-collection items=sumShips cell-layout=(percentage-columns-layout sumShips.length columns itemHeight) as |group index|}}
+            {{ship-model-details ship_model=group.model details=false count=group.count}}
+          {{/ember-collection}}
+        {{/if}}
       {{/if}}
     </div>
   </div>
