@@ -12,7 +12,7 @@ export default Ember.Component.extend({
   store: Ember.inject.service(),
   unitFilter: null,
   columns: [100],
-  itemHeight: 39,
+  itemHeight: 42,
 
   hasParent: function(id, unit) {
     try {

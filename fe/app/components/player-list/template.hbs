@@ -1,5 +1,6 @@
 <div class="panel panel-default impart-panel player-list">
   <div class="panel-heading-filter">
+    <div class="row">
     <div class="col-md-6">
       Name/Handle:
       <div class="input-group">
@@ -43,8 +44,12 @@
         </div>
       </div>
     </div>
+    </div>
 
-    <div class="filter-stats">
+<!--     <div class="filter-stats "> -->
+    <div class="row">
+      <div class="col-md-12">
+
       {{#if (or searchFilter unitFilter)}}
       {{#if filteredContent.length}}
       found: {{filteredContent.length}} of {{players.length}}
@@ -52,9 +57,11 @@
       nothing found
       {{/if}}
       {{else}}
-      Members: {{players.length}}
+      Players: {{players.length}}
       {{/if}}
     </div>
+    </div>
+<!--     </div> -->
   </div>
 
 
