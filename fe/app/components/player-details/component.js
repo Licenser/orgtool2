@@ -45,9 +45,9 @@ export default Ember.Component.extend({
 
   didRender() {
     this._super(...arguments);
-    if (this.get("reload")) {
+    if (this.get("reload") && this.get("player")) {
       this.set("reload", false);
-      get(this, "player").reload();
+      this.get("store").findRecord('player', this.get("player.id"));
     }
   },
 
