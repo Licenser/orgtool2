@@ -4,7 +4,7 @@
       {{#if player.avatar}}
         <img class="player-avatar" src={{player.avatar}} onerror={{action loadError}}>
       {{else}}
-        <div class="player-avatar text-center">
+        <div class="player-avatar player-empty-avatar text-center">
           <i class="fa fa-user-o fa-2x" style="color:#666;"></i>
         </div>
       {{/if}}
@@ -14,22 +14,26 @@
       </div>
     </div>
 
-    <div class="col-md-3">
+    <div class="col-md-2">
       {{get-uniq player.handles "handle"}}
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-2">
       {{get-uniq mergedUnits "name"}}
     </div>
 
-    <div class="col-md-1">
-        {{player.timezone}}
+    <div class="col-md-2">
+      {{get-uniq player.excitingRanks "name"}}
     </div>
 
-    <div class="col-md-1">
-        {{#if player.ships.length}}
-          {{player.ships.length}}
-        {{/if}}
+    <div class="col-md-2 text-right">
+      {{player.timezone}}
+    </div>
+
+    <div class="col-md-1 text-right">
+      {{#if (and session.current_user.permission.ship_read player.ships.length)}}
+        {{player.ships.length}}
+      {{/if}}
     </div>
 
   {{/link-to}}
@@ -39,7 +43,7 @@
     {{#if player.avatar}}
       <img class="player-avatar" src={{player.avatar}} onerror={{action loadError}}>
     {{else}}
-      <div class="player-avatar text-center">
+      <div class="player-avatar player-empty-avatar text-center">
         <i class="fa fa-user-o fa-2x" style="color:#666;"></i>
       </div>
     {{/if}}
@@ -47,18 +51,23 @@
     <div class="player-box">
       <div class="player-info">
         <div class="player-name">
-          {{player.name}}
+          {{player.name}}<br>
+
+          <span class="player-rank">
+            {{get-uniq player.excitingRanks "name"}}
+          </span>
         </div>
 
         <div class="player-remove">
           <div class="player-stats">
+            {{!--
             {{#if player.ships.length}}
               i: {{player.ships.length}}
             {{/if}}
             {{#if player.playerUnits.length}}
               u: {{player.playerUnits.length}}
             {{/if}}
-
+            --}}
             {{#bs-dropdown class="player-options" as |dd|}}
               {{#dd.toggle}}
                 {{fa-icon "caret-down"}}
@@ -76,9 +85,7 @@
             {{/bs-dropdown}}
           </div>
         </div>
-      </div>
-      <div class="player-rank">
-        {{player.rank}}
+
       </div>
     </div>
   </div>

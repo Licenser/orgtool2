@@ -2,25 +2,29 @@
 <div class="players">
   <div class="panel panel-player-list">
     <div class="player-list-header">
-
       <div class="col-md-3">
         <div class="player-list-header-name">
           Name
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-2">
         Handles
       </div>
-      <div class="col-md-4">
+      <div class="col-md-2">
         Units
       </div>
-      <div class="col-md-1">
+      <div class="col-md-2">
+        Rank
+      </div>
+      <div class="col-md-2 text-right">
         Timezone
       </div>
-      <div class="col-md-1">
-        Ships
-      </div>
 
+      <div class="col-md-1 text-right">
+      {{#if session.current_user.permission.ship_read}}
+        Ships
+      {{/if}}
+      </div>
     </div>
     <div class="player-list-result">
       {{#if filteredContent}}

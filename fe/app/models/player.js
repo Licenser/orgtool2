@@ -19,4 +19,15 @@ export default DS.Model.extend({
   applications: DS.hasMany('unit'),
 
   logs: DS.attr(),
+
+  excitingRanks: Ember.computed('rewards', function() {
+    var ret;
+    ret = this.get('rewards').forEach(function(reward) {
+      if (reward.get("rewardType.id") == 1) {
+        return reward;
+      }
+    });
+
+    return ret;
+  }),
 });

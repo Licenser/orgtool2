@@ -10,37 +10,53 @@
   .player-detail {
     width: 100%;
     height: 100%;
+    line-height: 40px;
   }
 
-  .player-detail > div {
-    line-height: 36px;
-  }
+//    .player-detail > div {
+//      line-height: 36px;
+//    }
 
   .active {
     color: #337ab7;
     background: rgba(0, 0, 0, 0.5);
   }
 
+
+
   .player-avatar {
-    padding-top: 4px;
-    width: 34px;
+    width: 40px;
+    height: 40px;
     float: left;
   }
 
+  .player-empty-avatar {
+    padding-top: 4px;
+    padding-left: 0px;
+//      line-height: 40px;
+  }
+
   .player-box {
-    height:34px;
+    height:40px;
     vertical-align: middle;
-    margin-left: 34px;
+    margin-left: 40px;
   }
 
 
   .player-info {
     width: 100%;
+    height: 100%;
+    line-height: 16px;
+    padding-top: 10px;
   }
 
   .player-name {
+    height: 100%;
     padding-left: 6px;
     display: inline;
+    br {
+      line-height: 6px;
+    }
   }
 
   .player-stats {
@@ -67,7 +83,12 @@
   }
 
   .player-rank {
-    font-size: 14px;
+    display: inline;
+    position: relative;
+    bottom: 0px;
+    left: 7px;
+    line-height: 10px;
+    font-size: 10px;
     color: #555;
   }
 }
