@@ -36,25 +36,20 @@ export default Ember.Component.extend({
   }.property('details', "canDrag"),
 
   setup: Ember.on('didInsertElement', function() {
-//     debug(">> init", Ember.get(this, "player.id"));
+    this.set("reload", true);
     if (!this.get('canDrag')) {
       return;
     }
     this.createDraggable();
   }),
 
-  // This breaks everything:
-  // * sometimes get() returns a promise, othertimse it returns a
-  // value.
-  // * when the player has (for good reasons) no items this will go
-  // totally bananas and keep reloading as fast as possible.
-  // willRender() {
-  //   this._super(...arguments);
-  //   if (Ember.isEmpty(get(this, "player.items"))) {
-  //     get(this, "player").reload();
-  //   }
-  // },
-
+  didRender() {
+    this._super(...arguments);
+    if (this.get("reload")) {
+      this.set("reload", false);
+      get(this, "player").reload();
+    }
+  },
 
   mergedUnits: function() {
 //     Ember.Logger.log(">>> player cachanged" );
