@@ -12,29 +12,43 @@
   {{#md.body}}
 
     <div class="row">
-      <label class="control-label">Name</label>
-      {{#if model.errors.name.length}}
-        <span class="text-danger">
-          {{#each model.errors.name as |err|}}{{err.message}}{{/each}}
-        </span>
-      {{/if}}
-      {{input type="text" class="form-control" id="name" value=model.name readonly=(not (or session.current_user.can_user_edit (eq session.current_user.id model.id)))}}
+      
+      <div class="col-md-6">
+
+        <label class="control-label">Name</label>
+        {{#if model.errors.name.length}}
+          <span class="text-danger">
+            {{#each model.errors.name as |err|}}{{err.message}}{{/each}}
+          </span>
+        {{/if}}
+        {{input type="text" class="form-control" id="name" value=model.name readonly=(not (or session.current_user.can_user_edit (eq session.current_user.id model.id)))}}
+      </div>
+
+      <div class="col-md-6">
+        <label class="control-label">E-Mail</label>
+        {{#if model.errors.email.length}}
+          <span class="text-danger">
+            {{#each model.errors.email as |err|}}{{err.message}}{{/each}}
+          </span>
+        {{/if}}
+        {{input type="text" class="form-control" id="email" value=model.email readonly=(not (or session.current_user.can_user_edit (eq session.current_user.id model.id)))}}
+      </div>
     </div>
 
 
-    <div class="row">
-      <label class="control-label">E-Mail</label>
-      {{#if model.errors.email.length}}
-        <span class="text-danger">
-          {{#each model.errors.email as |err|}}{{err.message}}{{/each}}
-        </span>
-      {{/if}}
-      {{input type="text" class="form-control" id="email" value=model.email readonly=(not (or session.current_user.can_user_edit (eq session.current_user.id model.id)))}}
-    </div>
 
     <div class="row">
-      <label class="control-label">Tree Unfold Level</label>
-      {{input type="number" class="form-control" id="unfold-level" value=model.unfold-level readonly=(not (or session.current_user.can_user_edit (eq session.current_user.id model.id)))}}
+      <div class="col-md-6">
+        <label class="control-label">Tree Unfold Level</label>
+        {{input type="number" class="form-control" id="unfold-level" value=model.unfold-level readonly=(not (or session.current_user.can_user_edit (eq session.current_user.id model.id)))}}
+      </div>
+
+      <div class="col-md-6">
+        <label class="control-label">Player</label>
+        {{#if model.player}}
+          {{player-details player=model.player}}
+        {{/if}}
+      </div>
     </div>
 
     {{!--
@@ -57,13 +71,8 @@
          {{input disabled=true type="password" class="form-control" id="password_confirmation" value=model.password_confirmation}}
          </div>
          --}}
-    <div class="row">
-      <label class="control-label">Player</label>
-      {{#if model.player}}
-        {{player-details player=model.player}}
-      {{/if}}
-    </div>
 
+    <hr>
     <div class="row">
       <div class="col-md-2">
         <label class="control-label">Permissions</label>
@@ -79,21 +88,15 @@
       {{/if}}
     </div>
 
-    <hr>
-    <div class="row">
-      <div class="col-md-2">
-        <label class="control-label">General</label>
-      </div>
-    </div>
-
     <div class="row">
       <div class="col-md-2">
         {{check-box value=model.permission.active desc="active" canedit=canedit}}
       </div>
     </div>
+    <br>
+    <br>
 
     {{#each filterdPermissions as |perm|}}
-      <hr>
       <div class="row">
         <div class="col-md-2">
           <label class="control-label">{{perm.title}}</label> 
@@ -115,7 +118,7 @@
             </div>
         {{/each}}
       </div>
-
+    <br>
     {{/each}}
 
   {{/md.body}}
