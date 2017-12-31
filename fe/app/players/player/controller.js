@@ -11,7 +11,6 @@ export default Ember.Controller.extend({
   showDialog: true,
 
   canModify: Ember.computed('model', function() {
-//       Ember.Logger.debug("CAM N NNNNNNNNNNNNNN  CAN MODIFY");
       return (get(this, 'session.current_user.permission.player_edit') ||
               (get(this, 'session.current_user.id') && get(this, 'model.user.id')));
   }),
@@ -23,8 +22,6 @@ export default Ember.Controller.extend({
     saveMember: function(player) {
       this.get('myEvents').trigger('saveMember', player);
 
-//         Ember.Logger.debug("save player", player.get('id'));
-
       player.save().then(function(mem) {
         Ember.Logger.debug("save ok", mem);
       }).catch(function(err) {
@@ -33,8 +30,6 @@ export default Ember.Controller.extend({
     },
 
     deleteMember: function(player) {
-//       this.get('myEvents').trigger('deleteMember', player);
-//
       Ember.Logger.debug("delete user now", player);
       set(this, "msg", { "type": "delete", "item": player, "title": "Delete Member!", "content": "Do you really want to delete player [ id: " + player.get("id") + ", name: '" + player.get("name") + "', ships: " + player.get("ships.length") + " ] ?" });
       set(this, "showConfirmDialog", true);
@@ -47,7 +42,6 @@ export default Ember.Controller.extend({
         return;
       }
       Ember.Logger.debug("delete user");
-//       player.deleteRecord('player'); //this.store.createRecord('player');
       var self = this;
       msg.item.destroyRecord().then(function(done) {
         set(self, "showConfirmDialog", false);

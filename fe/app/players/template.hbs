@@ -29,7 +29,7 @@
     <div class="player-list-result">
       {{#if filteredContent}}
         {{#ember-collection items=sortedContent cell-layout=(percentage-columns-layout filteredContent.length columns itemHeight) as |player index|}}
-          {{player-details player=player draggable=draggable details=true}}
+          {{player-details player=player draggable=draggable details=true selectable=true}}
         {{/ember-collection}}
       {{/if}}
     </div>

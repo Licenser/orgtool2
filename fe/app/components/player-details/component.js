@@ -7,7 +7,6 @@ var debug = Ember.Logger.log;
 
 export default Drag.extend({
   classNames: ['player-details'],
-  classNameBindings: ['compClasses'],
   store: Ember.inject.service(),
   playerManager: Ember.inject.service('player-manager'),
   session: Ember.inject.service('session'),
@@ -18,15 +17,6 @@ export default Drag.extend({
 
   unit: null,
   type: null,
-
-  compClasses: function() {
-    if (this.get('canDrag')) {
-      return "player-details-draggable";
-    } else if (this.get('selectable')) {
-      return "player-details-selectable";
-    }
-    return "";
-  }.property('selectable', "canDrag"),
 
   didRender() {
     this._super(...arguments);

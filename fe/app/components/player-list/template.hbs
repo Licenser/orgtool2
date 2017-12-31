@@ -68,7 +68,7 @@
   <div class="panel-body result-list">
     {{#if filteredContent}}
     {{#ember-collection items=sortedContent cell-layout=(percentage-columns-layout filteredContent.length columns itemHeight) as |player index|}}
-      {{player-details player=player draggable=draggable details=details}}
+      {{player-details player=player draggable=draggable selectable=selectable}}
     {{/ember-collection}}
     {{/if}}
   </div>

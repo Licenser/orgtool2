@@ -6,7 +6,6 @@ var set = Ember.set;
 export default Ember.Component.extend({
   classNames: ['player-filtered-list'],
   sortProperties: ['numericID'],
-  details: false,
   showEdit: false,
   session: Ember.inject.service('session'),
   store: Ember.inject.service(),
