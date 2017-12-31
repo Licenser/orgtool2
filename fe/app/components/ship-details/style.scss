@@ -223,6 +223,12 @@ $item-bg: rgba(100, 100, 100, .2);
   }
 }
 
+.item-details.ui-draggable-dragging {
+  width: 200px;
+  height: 80px;
+}
+
+
 //  .item-details:hover {
 //        border: 2px solid rgba(255, 0, 0, 1);
 //  }

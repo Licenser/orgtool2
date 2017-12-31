@@ -1,15 +1,17 @@
 import Ember from 'ember';
-
+import Drag from 'orgtool/components/drag/component';
 var get = Ember.get;
 var set = Ember.set;
 
-export default Ember.Component.extend({
+export default Drag.extend({
   classNames: ['item-details'],
-  store: Ember.inject.service('session'),
-  session: Ember.inject.service('session'),
+//   store: Ember.inject.service('session'),
+//   session: Ember.inject.service('session'),
   details: false,
   listView: false,
   tb: true,
+  item: Ember.computed.alias('ship'),
+  itemtype: "ship",
 
   classlist: Ember.computed('ship', 'ship.unit', 'listView', function() {
     var cls = [];
@@ -19,7 +21,7 @@ export default Ember.Component.extend({
       cls.push("ship-model-gridview");
     }
 
-    if (this.canModify()) {
+    if (this.canModify() && !this.canDrag) {
       cls.push("selectable");
     }
 

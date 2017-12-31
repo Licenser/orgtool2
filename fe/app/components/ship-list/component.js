@@ -27,6 +27,7 @@ export default Ember.Component.extend({
 
   listView: false,
   loading: false,
+  compact: false,
 
   listFilter: ["Player", "Unit", "Manufacturer", "Model"],
 //   currentListFilterResult: 0,
@@ -58,6 +59,9 @@ export default Ember.Component.extend({
 //         });
       });
     });
+
+    this.set("defcols", this.get("columns"))
+    this.set("defhi", this.get("itemHeight"))
   }),
 
   filterGroup: Ember.computed('ships.length', 'listView', 'currentListFilter', 'showAvailable', function() {
@@ -221,7 +225,7 @@ export default Ember.Component.extend({
       }
     },
 
-    showEdit: function(ship) {
+    setEdit: function(ship) {
       this.set('currShip', ship);
       this.set('showShipDialog', true);
     },
@@ -244,8 +248,8 @@ export default Ember.Component.extend({
         set(this, "columns", [100]);
         set(this, "itemHeight", 52);
       } else {
-        set(this, "columns", [16.6, 16.6, 16.6, 16.6, 16.6, 16.6]);
-        set(this, "itemHeight", 140);
+        set(this, "columns", this.get("defcols"));
+        set(this, "itemHeight", this.get("defhi"));
       }
       set(this, "listView", listView);
     },

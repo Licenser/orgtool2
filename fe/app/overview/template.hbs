@@ -16,31 +16,49 @@
   <div id="info">
         {{#if (and (and session.current_user.permission.unit_assign session.current_user.permission.player_read) session.current_user.permission.ship_read)}}
       <div class="toolbar">
-          <button type="button" class="tb tb-default" {{action (toggle this "showPlayers")}}> <i class="fa fa-eye" ></i> {{if showPlayers "Fleet" "Players"}}</button>
+          <button type="button" class="tb tb-default" {{action "setShowAssign" false}}> <i class="fa fa-space-shuttle" ></i> </button>
+          <button type="button" class="tb tb-default" {{action "setShowPlayers" true}}> <i class="fa fa-users" ></i> </button>
+          <button type="button" class="tb tb-default" {{action "setShowPlayers" false}}> <i class="fa fa-cube" ></i> </button>
       </div>
         {{/if}}
 
       <div class="info-stats">
+
+      {{#if showAssign}}
+      <span class="text-red">
+        {{#if showPlayers}}
+          Assign Player
+        {{else}}
+          Assign Ship
+        {{/if}}
+      </span>
+      {{else}}
         {{#if currentUnit}}
           {{#if session.current_user.permission.player_read}}
             Players: {{sumPlayers.length}}
           {{/if}}
           {{#if session.current_user.permission.ship_read}}
             Ships: {{sumShips.length}}
-            {{check-box value=countChildren desc="Children"}}
+            Recursive: {{check-box value=countChildren}}
           {{/if}}
-        {{/if}}
+
+          {{/if}}
+      {{/if}}
       </div>
 
 
     <div class="info-content">
-      {{#if showPlayers}}
-        {{#if (and session.current_user.permission.unit_assign session.current_user.permission.player_read)}}
-          {{player-list players=players draggable=true details=false}}
+      {{#if showAssign}}
+        {{#if showPlayers}}
+          {{#if (and session.current_user.permission.unit_assign session.current_user.permission.player_read)}}
+            {{player-list players=players draggable=true details=false}}
+          {{/if}}
+        {{else}}
+            {{ship-list listView=listView currentListFilter=currentListFilter showAvailable=showAvailable columns=columns itemHeight=itemHeight draggable=true compact=true}}
         {{/if}}
       {{else}}
         {{#if (and currentUnit session.current_user.permission.ship_read)}}
-          {{#ember-collection items=sumShips cell-layout=(percentage-columns-layout sumShips.length columns itemHeight) as |group index|}}
+          {{#ember-collection items=sumShips cell-layout=(percentage-columns-layout sumShips.length columns2 itemHeight2) as |group index|}}
             {{ship-model-details ship_model=group.model details=false count=group.count}}
           {{/ember-collection}}
         {{/if}}

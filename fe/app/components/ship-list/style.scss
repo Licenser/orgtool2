@@ -9,6 +9,11 @@ $result-height-filter: calc(100% - #{$menu-height});
 .item-filtered-list {
   height: 100%;
 
+  .filter-select {
+//      display: inline;
+    width: 160px;
+  }
+
   .item-menu {
     height: $menu-height;
 

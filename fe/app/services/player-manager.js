@@ -14,6 +14,28 @@ export default Ember.Service.extend({
   },
 
   assign: function(data) {
+    if (data.type == "player") {
+      this.assignPlayer(data);
+    } else if (data.type == "ship") {
+      this.assignShip(data);
+    }
+  },
+
+  assignShip: function(data) {
+    var store = Ember.get(this, "store");
+    var self = this;
+    store.findRecord('ship', data.id).then(function(ship) {
+      store.findRecord('unit', data.dest).then(function(unit) {
+        ship.set('unit', unit);
+        ship.save().then(function(un) {
+        }).catch(function(err) {
+          console.debug("ERROR", err);
+        });
+      });
+    });
+  },
+
+  assignPlayer: function(data) {
     var store = Ember.get(this, "store");
     var self = this;
     store.findRecord('player', data.id).then(function(player) {
@@ -60,7 +82,6 @@ export default Ember.Service.extend({
       });
     });
   },
-
 
   unassign: function(data) {
     var player = data.player;

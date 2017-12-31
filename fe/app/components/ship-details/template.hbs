@@ -1,5 +1,21 @@
 <div class={{classlist}} {{action 'editShip' ship}}>
 {{#if listView}}
+  {{#if compact}}
+    <div class="col-md-4 text-center">
+      {{#if ship.img}}
+        <img class="item-img-sm" src={{ship.img}}>
+      {{else}}
+        <img class="item-img-sm" src="{{session.rootURL}}/images/manufacturers/{{ship.ship_model.manufacturer}}.png">
+      {{/if}}
+    </div>
+    <div class="col-md-4">
+      {{ship.name}}
+    </div>
+    <div class="col-md-4">
+      {{ship.player.name}}
+    </div>
+
+  {{else}}
     <div class="col-md-2 text-center">
       {{#if ship.img}}
         <img class="item-img-sm" src={{ship.img}}>
@@ -25,6 +41,7 @@
     </div>
     <div class="col-md-1">
     </div>
+  {{/if}}
 {{else}}
 
 <div class="top-left">

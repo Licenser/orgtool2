@@ -16,8 +16,14 @@ export default Ember.Controller.extend({
   currentChart: { id: 1 },
   currentLevel: 1,
 
+  listView: false,
+  currentListFilter: "Player",
+  showAvailable: true,
   columns: [50, 50],
   itemHeight: 80,
+
+  columns2: [50, 50],
+  itemHeight2: 80,
 
   setup: Ember.on('init', function() {
     this.get('myEvents').on('addUnit', this.addUnit.bind(this));
@@ -199,5 +205,20 @@ export default Ember.Controller.extend({
     } else {
       this.set('currentLevel', 5);
     }
+  },
+
+  actions: {
+    setShowPlayers: function(show) {
+      if (!show) {
+        this.set("itemHeight", 80);
+        this.set("columns", [50, 50]);
+        this.set("listView", false);
+      }
+      this.set("showAssign", true);
+      this.set("showPlayers", show);
+    },
+    setShowAssign: function(show) {
+      this.set("showAssign", show);
+    },
   },
 });

@@ -5,62 +5,42 @@ var set = Ember.set;
 var debug = Ember.Logger.log;
 
 export default Ember.Component.extend({
-  classNames: ['player-details'],
+  classNames: ['drag-item'],
   classNameBindings: ['compClasses'],
-  store: Ember.inject.service(),
   playerManager: Ember.inject.service('player-manager'),
+  store: Ember.inject.service(),
   session: Ember.inject.service('session'),
 
-  player: null,
+  item: null,
+  itemtype: "drag",
 
   draggable: false,
   droppable: true,
   selectable: true,
-  unit: null,
-  type: null,
-  attributeBindings: ["playerid:data-playerid"],
-  playerid: Ember.computed.alias('player.id'),
+
+  attributeBindings: ["itemid:data-itemid", "itemtype:data-itemtype"],
+  itemid: Ember.computed.alias('item.id'),
+
   lastElement: null,
   lastColor: null,
   canDrag: Ember.computed.and('draggable', 'session.current_user.permission.unit_assign'),
   canUnassign: Ember.computed.and('unit', 'session.current_user.permission.unit_assign'),
 
-
   compClasses: function() {
     if (this.get('canDrag')) {
-      return "player-details-draggable";
+      return "drag-item-draggable";
     } else if (this.get('selectable')) {
-      return "player-details-selectable";
+      return "drag-item-selectable";
     }
     return "";
   }.property('selectable', "canDrag"),
 
   setup: Ember.on('didInsertElement', function() {
-    this.set("reload", true);
     if (!this.get('canDrag')) {
       return;
     }
     this.createDraggable();
   }),
-
-  didRender() {
-    this._super(...arguments);
-    if (this.get("reload") && this.get("player")) {
-      this.set("reload", false);
-      this.get("store").findRecord('player', this.get("player.id"));
-    }
-  },
-
-  mergedUnits: function() {
-//     Ember.Logger.log(">>> player cachanged" );
-    var res = Ember.A();
-    res.pushObjects(get(this, 'player.leaderships').toArray());
-    res.pushObjects(get(this, 'player.playerships').toArray());
-    res.pushObjects(get(this, 'player.applications').toArray());
-    return res;
-  }.property('player.leaderships', 'player.playerships', 'player.applications'),
-//   }.property('player'),
-
 
   reinit: function() {
 //     Ember.Logger.log(">>> reinit" );
@@ -110,15 +90,26 @@ export default Ember.Component.extend({
       return;
     }
 
-    var id = parseInt(this.$(event.target).data('playerid'));
-    debug("assign", id);
+    var id = parseInt(this.$(event.target).data('itemid'));
+    var itemtype = this.$(event.target).data('itemtype');
+    debug("assign", id, "=", itemtype);
 
-    if (elm.dest == "path") {
-      elm.dest = "players";
+
+    if (itemtype == "ship") {
+        elm.dest = "unit";
+    } else if (itemtype == "player") {
+      if (elm.dest == "path") {
+        elm.dest = "players";
+      }
+    } else {
+      return;
     }
 
+    debug(" DEST>>>> >", elm);
     this.$("body").css("cursor","");
-    this.get('playerManager').assign({ 'id': id, 'type': 'player', 'dest': unitid, 'destType': elm.dest } );
+    this.get('playerManager').assign({ 'id': id, 'type': itemtype, 'dest': unitid, 'destType': elm.dest } );
+
+    return;
   },
 
   resetLast: function() {
@@ -183,9 +174,9 @@ export default Ember.Component.extend({
     return true;
   },
 
-  actions: {
-    unassignMember: function(player, unit, type) {
-      this.get('playerManager').unassign({ 'player': player, 'unit': unit, 'type': type });
-    },
-  },
+//   actions: {
+//     unassignMember: function(player, unit, type) {
+//       this.get('playerManager').unassign({ 'player': player, 'unit': unit, 'type': type });
+//     },
+//   },
 });
