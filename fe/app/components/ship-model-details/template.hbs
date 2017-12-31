@@ -25,13 +25,6 @@
     <div class="col-md-1">
     </div>
 {{else}}
-  {{#if (and tb session.current_user.permission.ship_model_read)}}
-    {{#if count}}
-    <div class="toolbar">
-        <div class="text-default">{{count}}x</div>
-    </div>
-      {{/if}}
-  {{/if}}
 
   <div class={{if count "top-left-sm" "top-left"}}>
     <img class="top-left-img" src="{{session.rootURL}}/images/manufacturers/{{ship_model.manufacturer}}.png">
@@ -47,17 +40,19 @@
   {{/if}}
 
 
-  {{#unless count}}
     <div class="bottom-right">
       <div class="bottom-right-text">
-        <span class="item-stat">{{ship_model.crew}}</span> <i class="fa fa-group"></i> 
-        <span class="item-sep">|</span>
-        <span class="item-stat">{{ship_model.length}}</span> <i class="fa fa-arrows-h"></i> 
-        <span class="item-sep">|</span>
-        <span class="item-stat">{{fmt-float ship_model.mass}}</span> <i class="fa fa-balance-scale"></i> 
+        {{#if count}}
+          {{count}}x
+        {{else}}
+          <span class="item-stat">{{ship_model.crew}}</span> <i class="fa fa-group"></i> 
+          <span class="item-sep">|</span>
+          <span class="item-stat">{{ship_model.length}}</span> <i class="fa fa-arrows-h"></i> 
+          <span class="item-sep">|</span>
+          <span class="item-stat">{{fmt-float ship_model.mass}}</span> <i class="fa fa-balance-scale"></i> 
+        {{/if}}
       </div>
     </div>
-  {{/unless}}
 
 {{/if}}
 

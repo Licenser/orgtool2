@@ -90,14 +90,15 @@ $item-bg: rgba(100, 100, 100, .2);
     vertical-align: middle;
   }
 
-  .item-type {
+  .top-right {
 //      float: left;
     position: absolute;
     top: 0px;
     right: 0px;
     padding-left: 10px;
+    padding-right: 10px;
 //      border-radius: 0px 0px 0px 10px;
-    background-color: $item-info-bg;
+//      background-color: $item-info-bg;
     color: #fff;
     font-size: 14px;
     z-index: 1;
