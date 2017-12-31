@@ -64,9 +64,10 @@ export default Ember.Component.extend({
     this.set("defhi", this.get("itemHeight"))
   }),
 
-  filterGroup: Ember.computed('ships.length', 'listView', 'currentListFilter', 'showAvailable', function() {
+  filterGroup: Ember.computed('ships.length', 'listView', 'currentListFilter', 'showAvailable', 'showAssigned', function() {
     var filter = get(this, "currentListFilter");
     var showAvailable = get(this, "showAvailable");
+    var showAssigned = get(this, "showAssigned");
 
     var res = Ember.A();
     if (get(this, 'listView') == undefined) {
@@ -79,7 +80,7 @@ export default Ember.Component.extend({
 
     if (get(this, 'ships')) {
       get(this, 'ships').forEach(function(ship) {
-        if (!showAvailable || (showAvailable && get(ship, "available"))) {
+        if ( !( (showAvailable && !get(ship, "available")) || (showAssigned && Ember.isEmpty(ship.get("unit"))) ) ) {
           if (filter == "Player") {
             self.groupBy(loockup, ship, res, "player", "name", "avatar");
             count += 1;
@@ -96,10 +97,9 @@ export default Ember.Component.extend({
             count += 1;
           }
         }
-    });
+      });
     }
 
-//     console.debug("  >> FILTER CHNAGED ship-list done ", get(this, 'listView'), "---", count);
     this.$('.item-list').focus();
     return {list: res, count: count};
   }),

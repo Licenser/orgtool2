@@ -22,9 +22,8 @@
     </div>
 
     <div class="col-md-4">
-<!--       <button type="button" class={{if listView "tb tb-filter" "tb tb-filter tb-selected"}} {{action 'setListView' false}}> {{fa-icon "th"}}  </button> -->
-<!--       <button type="button" class={{if listView "tb tb-filter tb-selected" "tb tb-filter"}} {{action 'setListView' true}}> {{fa-icon "list"}}  </button> -->
-      Available: {{check-box value=showAvailable}}
+      Av: {{check-box value=showAvailable}}
+      As: {{check-box value=showAssigned}}
     </div>
     <div class="col-md-3">
       Ships: {{filterGroup.count}}
@@ -46,6 +45,8 @@
 
   <span style="padding-right:4px; padding-left:12px;"> Available: </span>
   {{check-box value=showAvailable}}
+  <span style="padding-right:4px; padding-left:12px;"> Assigned: </span>
+  {{check-box value=showAssigned}}
 
   <div class="item-stat-menu">
     Ships: {{filterGroup.count}}
