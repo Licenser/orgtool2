@@ -2,7 +2,6 @@ import Ember from 'ember';
 
 var get = Ember.get;
 var set = Ember.set;
-var debug = Ember.Logger.log;
 
 export default Ember.Component.extend({
   classNames: ['drag-item'],
@@ -43,7 +42,6 @@ export default Ember.Component.extend({
   }),
 
   reinit: function() {
-//     Ember.Logger.log(">>> reinit" );
     if (!this.get('canDrag')) {
       return;
     }
@@ -92,8 +90,6 @@ export default Ember.Component.extend({
 
     var id = parseInt(this.$(event.target).data('itemid'));
     var itemtype = this.$(event.target).data('itemtype');
-    debug("assign", id, "=", itemtype);
-
 
     if (itemtype == "ship") {
         elm.dest = "unit";
@@ -105,7 +101,6 @@ export default Ember.Component.extend({
       return;
     }
 
-    debug(" DEST>>>> >", elm);
     this.$("body").css("cursor","");
     this.get('playerManager').assign({ 'id': id, 'type': itemtype, 'dest': unitid, 'destType': elm.dest } );
 
@@ -141,7 +136,6 @@ export default Ember.Component.extend({
     this.set('lastColor', this.$(element).css('fill'));
     this.$(element).removeAttr("style");
     var classes = this.$(element).attr("class");
-    //     Ember.Logger.debug(">>> classes", classes);
     if (classes) {
       classes = classes.split(" ");
     } else {
