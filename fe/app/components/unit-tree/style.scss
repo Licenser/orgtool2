@@ -24,26 +24,14 @@
 
 
   .box-header {
-//      padding-left: 10px;
-//      min-height: 35px;
-
-//      line-height: 14px;
-
     .unit-name {
       position: relative;
-//        color: #1a80b6;
-//        font-size: 16px;
-//        min-height: 40px;
       vertical-align: middle;
-//        line-height:40px;
-//        border-bottom: 1px solid #444;
-        color: #fff;
       font-weight: normal;
 
       a {
-        color: #fff;
         text-decoration: none;
-      font-weight: bold;
+        font-weight: bold;
       }
 
 //        a:hover, a:focus {
@@ -61,17 +49,10 @@
     .unit-desc {
       line-height: 10px;
       height: 10px;
-//        float: right;
-//      text-align: right;
       position: absolute;
-//        display: inline;
       font-size: 10px;
-      color: #444;
-//        vertical-align: bottom;
-//        right: -10px;
-//        top: -22px;
-        right: 0px;
-        bottom: 0px;
+      right: 0px;
+      bottom: 0px;
     }
 
     .unit-menu {

@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import UnitColor from 'orgtool/mixins/unit-color';
 
 var debug = Ember.Logger.debug;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(UnitColor, {
   session: Ember.inject.service(),
   myEvents: Ember.inject.service('events'),
   level: null,
@@ -24,6 +25,10 @@ export default Ember.Component.extend({
     this.set('showUnits', level >= showAbove);
     //     this.set('showLeader', level > 0);
     //     this.set('showMembers', level > 0);
+  }),
+
+  unitStyle: Ember.computed('unit', 'unit.color', function() {
+    return this.getColor(this.get("unit"));
   }),
 
   setupDrops: Ember.on('didInsertElement', function() {

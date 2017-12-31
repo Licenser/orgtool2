@@ -105,7 +105,7 @@ export default Ember.Component.extend({
     }
 
     if (d.parent && d.parent.depth == 0) {
-      return d.color || "#fff";
+      return d.color || "#000";
     }
 
     if (d.children) {
@@ -117,7 +117,7 @@ export default Ember.Component.extend({
       return d3.hsl((a.h + b.h) / 2, a.s * 1.2, a.l / 1.2);
     }
 
-    return d.color || "#fff";
+    return d.color || "#000";
   },
 
 

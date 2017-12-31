@@ -1,17 +1,21 @@
 import Ember from 'ember';
 import Drag from 'orgtool/components/drag/component';
+import UnitColor from 'orgtool/mixins/unit-color';
+
 var get = Ember.get;
 var set = Ember.set;
 
-export default Drag.extend({
+export default Drag.extend(UnitColor, {
   classNames: ['item-details'],
-//   store: Ember.inject.service('session'),
-//   session: Ember.inject.service('session'),
   details: false,
   listView: false,
   tb: true,
   item: Ember.computed.alias('ship'),
   itemtype: "ship",
+
+  unitStyle: Ember.computed('ship.unit', 'ship.unit.color', function() {
+    return this.getColor(this.get("ship.unit"));
+  }),
 
   classlist: Ember.computed('ship', 'ship.unit', 'listView', function() {
     var cls = [];

@@ -57,17 +57,17 @@
       </div>
       --}}
 
-      <div class="box-header unit-pilots-container" data-unitid={{unit.id}} data-dest="players" {{action 'toggleUnits'}}>
+      <div class="box-header unit-pilots-container" style={{unitStyle}} data-unitid={{unit.id}} data-dest="players" {{action 'toggleUnits'}}>
 
         <div class="unit-name unit-name-container" data-unitid={{unit.id}}>
           {{#if unit.units}}
-            <a >
+<!--             <a > -->
               <i class="fixedWidth fa {{if showUnits "fa-chevron-down" "fa-chevron-right"}}"></i>
               {{#if unit.img}}
                 <img class="unit-img" src={{unit.img}}>
               {{/if}}
               {{unit.name}}
-            </a>
+<!--             </a> -->
           {{else}}
             <i class="fixedWidth fa"></i>
             {{#if unit.img}}
