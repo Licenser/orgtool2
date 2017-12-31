@@ -150,8 +150,8 @@ export default Ember.Component.extend({
     var dest = "";
 
     if (!id) {
-      id = this.$(item.originalEvent.target).closest( ".unit-pilots-container" ).data('unitid');
-      dest = this.$(item.originalEvent.target).closest( ".unit-pilots-container" ).data('dest');
+      id = this.$(item.originalEvent.target).closest( ".drop-target" ).data('unitid');
+      dest = this.$(item.originalEvent.target).closest( ".drop-target" ).data('dest');
     }
 
     if (!id) {

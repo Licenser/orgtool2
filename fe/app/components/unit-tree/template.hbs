@@ -1,11 +1,6 @@
 {{#if unit}}
   <div class="unit-tree">
-    {{!-- DEPRICATED:
-       <div class="unit-info" style="background-color: {{hex-to-rgba unit.color ".2"}}">
-       --}}
-    <!--   <div class="unit-info"> -->
     <div class="box">
-
       {{#if (or (or session.current_user.permission.unit_create session.current_user.permission.unit_edit)  session.current_user.permission.unit_delete)}}
         <div class="toolbar">
           {{#bs-dropdown class="unit-menu" as |dd|}}
@@ -30,44 +25,14 @@
       {{/if}}
 
 
-      {{!--
-      <div class="box-header" {{action 'toggleUnits'}}>
-        <div class="unit-name unit-name-container" data-unitid={{unit.id}}>
+      <div class="box-header drop-target" style={{unitStyle}} data-unitid={{unit.id}} data-dest="players" {{action 'toggleUnits'}}>
+        <div class="unit-name">
           {{#if unit.units}}
-          <a >
-            <i class="fixedWidth fa {{if showUnits "fa-chevron-down" "fa-chevron-right"}}"></i>
-            {{else}}
-            <i class="fixedWidth fa"></i>
-            {{/if}}
-
-            {{#if unit.img}}
-            <img class="unit-img" src={{unit.img}}>
-            {{/if}}
-            {{unit.name}}
-
-            {{#if unit.description}}
-            <div class="unit-desc">
-              {{unit.description}}
-            </div>
-            {{/if}}
-            {{#if unit.units}}
-          </a>
-          {{/if}}
-        </div>
-      </div>
-      --}}
-
-      <div class="box-header unit-pilots-container" style={{unitStyle}} data-unitid={{unit.id}} data-dest="players" {{action 'toggleUnits'}}>
-
-        <div class="unit-name unit-name-container" data-unitid={{unit.id}}>
-          {{#if unit.units}}
-<!--             <a > -->
               <i class="fixedWidth fa {{if showUnits "fa-chevron-down" "fa-chevron-right"}}"></i>
               {{#if unit.img}}
                 <img class="unit-img" src={{unit.img}}>
               {{/if}}
               {{unit.name}}
-<!--             </a> -->
           {{else}}
             <i class="fixedWidth fa"></i>
             {{#if unit.img}}
@@ -82,17 +47,14 @@
           </div>
         {{/if}}
         </div>
-
-
-
       </div>
 
       <div style="clear:both;"/>
 
-      <div class="player-container unit-pilots-container" data-unitid={{unit.id}} data-dest="leaders">
+      <div class="player-container drop-target" data-unitid={{unit.id}} data-dest="leaders">
         <a class="toggleElement" {{action 'toggleLeader'}}>
           <i class="fixedWidth fa {{if showLeader "fa-chevron-circle-down" "fa-chevron-circle-right"}}"></i>
-          Leader: {{#if unit.leaders.length}}{{unit.leaders.length}}{{/if}}
+          Leader{{#if unit.leaders.length}}: [ {{unit.leaders.length}} ]{{/if}}
         </a>
 
         {{#if showLeader}}
@@ -113,10 +75,10 @@
         <div style="clear: both"/>
       </div>
 
-      <div class="player-container unit-pilots-container" data-unitid={{unit.id}} data-dest="players">
+      <div class="player-container drop-target" data-unitid={{unit.id}} data-dest="players">
         <a class="toggleElement" {{action 'toggleMembers'}}>
           <i class="fixedWidth fa {{if showMembers "fa-chevron-circle-down" "fa-chevron-circle-right"}}"></i>
-          Member: {{#if unit.players.length}}{{unit.players.length}}{{/if}}
+          Member{{#if unit.players.length}}: [ {{unit.players.length}} ]{{/if}}
         </a>
 
         {{#if showMembers}}
@@ -133,10 +95,10 @@
       </div>
 
 
-      <div class="player-container unit-pilots-container" data-unitid={{unit.id}} data-dest="applicants">
+      <div class="player-container drop-target" data-unitid={{unit.id}} data-dest="applicants">
         <a class="toggleElement" {{action 'toggleApplicants'}}>
           <i class="fixedWidth fa {{if showApplicants "fa-chevron-circle-down" "fa-chevron-circle-right"}}"></i>
-          Applications: {{#if unit.applicants.length}}{{unit.applicants.length}}{{/if}}
+          Applications{{#if unit.applicants.length}}: [ {{unit.applicants.length}} ]{{/if}}
         </a>
 
         {{#if showApplicants}}

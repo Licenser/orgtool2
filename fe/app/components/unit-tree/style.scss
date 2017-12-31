@@ -86,12 +86,6 @@
     font-weight: bold;
   }
 
-  .unit-leader-container {
-  }
-
-  .unit-pilots-container {
-  }
-
   .player-container {
 //      padding-top: 10px;
     font-size: 13px;
@@ -142,7 +136,7 @@
   .hovered, .hovered > div {
     cursor: copy;
     background-color: rgb(34, 50, 72);
-    border-radius: 4px;
+//      border-radius: 4px;
   }
 }
 

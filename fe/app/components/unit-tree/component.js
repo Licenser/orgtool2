@@ -35,21 +35,11 @@ export default Ember.Component.extend(UnitColor, {
     var unit = this.get('unit');
 
     if (unit) {
-      this.$(".unit-pilots-container").droppable({
-        tolerance: 'pointer',
-        hoverClass: 'hovered',
-      });
-
-      this.$(".unit-leader-container").droppable({
-        tolerance: 'pointer',
-        hoverClass: 'hovered',
-      });
-      this.$(".unit-name-container").droppable({
+      this.$(".drop-target").droppable({
         tolerance: 'pointer',
         hoverClass: 'hovered',
       });
     }
-
   }),
 
   onNodeDropped: function(event, ui) {
